@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2002/12/19 17:00:50  aarvesen
+ * remove getTrace from the driver level
+ *
  * Revision 1.4  2002/12/19 16:32:05  aarvesen
  * Removed the checkReload call
  *
@@ -146,9 +149,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             return passthru.execute(p0);
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
         }
     }
     
@@ -161,9 +162,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             return passthru.execute(p0, p1);
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
         }
     }
     
@@ -176,9 +175,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             return passthru.execute(p0, p1);
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
         }
     }
     
@@ -191,9 +188,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             return passthru.execute(p0, p1);
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
         }
     }
     
@@ -205,9 +200,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             return getP6Factory().getResultSet(passthru.executeQuery(p0), this, "", p0);
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
         }
     }
     
@@ -219,9 +212,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             return(passthru.executeUpdate(p0));
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
         }
     }
     
@@ -234,9 +225,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             return(passthru.executeUpdate(p0, p1));
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
         }
     }
     
@@ -249,9 +238,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             return(passthru.executeUpdate(p0, p1));
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
         }
     }
     
@@ -264,9 +251,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             return(passthru.executeUpdate(p0, p1));
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
         }
     }
     
@@ -278,9 +263,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             passthru.addBatch(p0);
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "batch", "", p0);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "batch", "", p0);
         }
     }
     
@@ -291,9 +274,7 @@ public class P6LogStatement extends P6Statement implements Statement {
             return(passthru.executeBatch());
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", statementQuery);
-            }
+	    P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", statementQuery);
         }
     }
 }

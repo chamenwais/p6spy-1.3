@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2002/12/19 16:59:08  aarvesen
+ * remove getTrace from the driver level
+ *
  * Revision 1.4  2002/12/19 16:30:50  aarvesen
  * Removed the checkReload call
  *
@@ -138,9 +141,7 @@ public class P6LogConnection extends P6Connection implements java.sql.Connection
             passthru.commit();
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.getId(), startTime, "commit", "", "");
-            }
+	    P6LogQuery.logElapsed(this.getId(), startTime, "commit", "", "");
         }
     }
     
@@ -151,9 +152,7 @@ public class P6LogConnection extends P6Connection implements java.sql.Connection
             passthru.rollback();
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.getId(), startTime, "rollback", "", "");
-            }
+	    P6LogQuery.logElapsed(this.getId(), startTime, "rollback", "", "");
         }
     }
     
@@ -164,9 +163,7 @@ public class P6LogConnection extends P6Connection implements java.sql.Connection
             passthru.rollback(p0);
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(this.getId(), startTime, "rollback", "", "");
-            }
+	    P6LogQuery.logElapsed(this.getId(), startTime, "rollback", "", "");
         }
     }
 }

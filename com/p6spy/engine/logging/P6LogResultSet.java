@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2002/12/19 17:00:12  aarvesen
+ * remove getTrace from the driver level
+ *
  * Revision 1.4  2002/12/19 16:31:43  aarvesen
  * Removed the checkReload call
  *
@@ -122,10 +125,8 @@ public class P6LogResultSet extends P6ResultSet implements ResultSet {
             return passthru.next();
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
-                P6Connection p6connection = (P6Connection)this.statement.getConnection();
-                P6LogQuery.logElapsed(p6connection.getId(), startTime, "result", preparedQuery, query);
-            }
+	    P6Connection p6connection = (P6Connection)this.statement.getConnection();
+	    P6LogQuery.logElapsed(p6connection.getId(), startTime, "result", preparedQuery, query);
         }
     }
     
