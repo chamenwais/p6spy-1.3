@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2003/01/08 18:11:13  aarvesen
+ * Trap the no more element exception to avoid a stupid crashing bug.
+ *
  * Revision 1.3  2003/01/03 21:14:54  aarvesen
  * added the (unused) removeDots method
  * added the (widely used) forName method to implement better class loading
@@ -256,10 +259,16 @@ public class P6Util {
                 while ((line = reader.readLine()) != null) {
                     if (line.startsWith(prefix)) {
                         StringTokenizer st = new StringTokenizer(line, "=");
-                        String name = st.nextToken();
-                        String value = st.nextToken();
-                        KeyValue kv = new KeyValue(name, value);
-                        props.add(kv);
+			try {
+			    String name = st.nextToken();
+			    String value = st.nextToken();
+			    KeyValue kv = new KeyValue(name, value);
+			    props.add(kv);
+			} catch (NoSuchElementException e) {
+			    // ignore; means that you have 
+			    // something like:
+			    // realdriver2=
+			}
                     }
                 }
             }
