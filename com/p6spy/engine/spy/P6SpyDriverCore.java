@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.6  2003/01/15 22:11:52  aarvesen
+ * do some stronger error trapping and die on error
+ *
  * Revision 1.5  2003/01/10 21:40:11  jeffgoke
  * changed to use new error handling facility
  *
@@ -144,7 +147,7 @@ public abstract class P6SpyDriverCore implements Driver {
      * (1) it acts as a bootstap class the first time
      * it is invoked and it loads not itself, but the first driver on the stack.  This is
      * important because P6SpyDriver, P6SpyDriver2, etc. extend this class and performs
-     * the initial bootstrap.
+     * the initial bootstrap
      * 
      * (2) when connect or acceptURL are invoked it ensures it has a passthru driver.
      * 
@@ -163,15 +166,18 @@ public abstract class P6SpyDriverCore implements Driver {
 	    return;
 	}
 
-	ArrayList driverNames = P6SpyOptions.allDriverNames();
-	ArrayList modules = P6SpyOptions.allModules();
-
 	String className = "no class";
 	String classType  = "driver";
-	boolean hasModules = modules.size() > 0;
-
-	Iterator i = null;
 	try {
+	    ArrayList driverNames = null;
+	    ArrayList modules = null;
+
+	    driverNames = P6SpyOptions.allDriverNames();
+	    modules = P6SpyOptions.allModules();
+
+	    boolean hasModules = modules.size() > 0;
+
+	    Iterator i = null;
 
 	    // register drivers and wrappers
 	    classType = "driver";
@@ -205,14 +211,10 @@ public abstract class P6SpyDriverCore implements Driver {
 	    }
 
 	    initialized = true;
-	} catch (ClassNotFoundException e1) {
-	    P6LogQuery.logError("Error registering " + classType + "  " + className + " " + e1);
-	} catch (SQLException e2) {
-	    P6LogQuery.logError("Error registering " + classType + "  " + className + " " + e2);
-	} catch (InstantiationException e3) {
-	    P6LogQuery.logError("Error registering " + classType + "  " + className + " " + e3);
-	} catch (IllegalAccessException e4) {
-	    P6LogQuery.logError("Error registering " + classType + "  " + className + " " + e4);
+	} catch (Exception e) {
+	    String err = "Error registering " + classType + "  " + className + " " + e;
+	    P6LogQuery.logError(err);
+	    throw new Error(err, e);
 	}
 	
     }
