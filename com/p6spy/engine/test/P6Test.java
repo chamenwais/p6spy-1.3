@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.6  2003/01/22 00:00:30  jeffgoke
+ * removed P6Options reference
+ *
  * Revision 1.5  2002/12/19 23:44:21  aarvesen
  * Added TestDriver
  *
@@ -113,7 +116,6 @@ public class P6Test extends TestCase {
     
     public static Test suite() {
         TestSuite suite = new TestSuite();
-        suite.addTestSuite(P6TestOptions.class);
         suite.addTestSuite(P6TestBasics.class);
         suite.addTestSuite(P6TestStatement.class);
         suite.addTestSuite(P6TestCallableStatement.class);
