@@ -26,7 +26,7 @@
 </tr>
 </table>
 <br>
-	<!-- #BeginEditable "body" --> 
+<!-- #BeginEditable "body" --> 
 <div align="center"> 
   <p><a name="modules"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>P6Spy 
     Modules</b></font></p>
@@ -69,7 +69,15 @@
   <pre><font face="Courier New, Courier, mono" size="2">module.log=com.p6spy.engine.logging.P6LogSpyDriver<br>
 #module.outage=com.p6spy.engine.outage.P6OutageSpyDriver</font></pre>
 </blockquote>
-<p>&nbsp;</p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The following are 
+  P6Log-specific properties:</font></p>
+<ul>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>executionthreshold</b></font> 
+    <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font> <font size="2" face="Verdana, Arial, Helvetica, sans-serif">This 
+      feature only logs queries that take longer than a specified threshold to 
+      execute.</font></p>
+  </li>
+</ul>
 <p><a name="p6outage"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>P6Outage</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Outage is an 
   open-source application included in the P6Spy distribution that detects long-running 
@@ -119,8 +127,7 @@ module.outage=com.p6spy.engine.outage.P6OutageSpyDriver</font></pre>
       4, 6, 8, 10-second intervals).</font> </p>
   </li>
 </ul>
-<!-- #EndEditable --> 
-<br>
+<!-- #EndEditable --> <br>
 <table width="100%" border="0" bgcolor="black">
 <tr>
 <td>

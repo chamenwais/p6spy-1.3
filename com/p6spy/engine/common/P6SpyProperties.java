@@ -169,16 +169,32 @@ public class P6SpyProperties {
 	// so open up the file and write out the data
 	// NB I don't let you change the name of your properties... maybe
 	// in the future
-        File propertiesFile = new File(propertiesPath);
+
+        //->JAW removed this line of code -- File propertiesFile = new File(propertiesPath);
+	//since its only use was in a constructor that is only available in JDK1.4.
+    	//Also then changed the offending constructor and placed close into finally
+    	//block where it belongs.  Also fixed wording of error message.
+
+    	FileOutputStream out = null;
 	try {
-	    FileOutputStream out = new FileOutputStream(propertiesFile, false);
+	    out = new FileOutputStream(propertiesPath, false);
 	    props.store(out, "P6Spy configuration");
-	    out.close();
-	    P6LogQuery.logInfo("successfully saved properties to file " + propertiesFile);
+	    out.flush();
+	    P6LogQuery.logInfo("successfully saved properties to file " + propertiesPath);
 	    //propertiesLastModified = propertiesFile.lastModified();
 	} catch (Exception e) {
-	    P6LogQuery.logError("Could save to property file " + propertiesFile  + " because of error " + e);
-	}
+	    P6LogQuery.logError("Could not save to property file " + propertiesPath  + " because of error " + e);
+	} finally {
+          try {
+        	if (out != null) {
+                out.close();
+            }
+        }
+        catch (IOException ioe) {
+            P6LogQuery.logError("Could not close property file " + propertiesPath  + " because of error " + ioe);
+        }
+    }
+    //->JAW
     }
     
     /* this returns a refreshed version of the property file, regardless of

@@ -128,6 +128,15 @@ public class P6SpyOptions extends P6Options {
     private static String realdatasource;
     private static String realdatasourceclass;
     private static String realdatasourceproperties;
+    private static long executionThreshold;
+
+    public static void setExecutionThreshold(String _executionThreshold) {
+        executionThreshold = P6Util.parseLong(_executionThreshold, 0);
+    }
+    
+    public static long getExecutionThreshold() {
+        return executionThreshold;
+    }
     
     public static void setUsePrefix(String _usePrefix) {
         usePrefix = P6Util.isTrue(_usePrefix, false);

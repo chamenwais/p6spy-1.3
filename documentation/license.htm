@@ -126,9 +126,27 @@
   Notes </b></font></p>
 <blockquote> 
   <p><font face="Verdana, Arial, Helvetica, sans-serif" size="3"><b><font size="2">Version 
+    1.1</font></b></font></p>
+  <ul>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added a highly 
+      requested feature contributed by Jeff Wolfe that only logs queries taking 
+      longer than a specified threshold. (Jeff Wolfe)</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added a bug 
+      fix that prevented modified property files from being persisted in Java 
+      environments prior to 1.4. (Jeff Wolfe)</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added JBoss 
+      2.x JMX support, submitted by Ralph Harnden (Ralph Harnden)</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Alan Arvesen 
+      of IronGrid added a driver patch that deregisters realdrivers using the 
+      same name as the P6 driver to avoid driver order registration problems (Alan 
+      Arvesen) </font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="3"><b><font size="2">Version 
     1.0.1</font></b></font></p>
   <ul>
-    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added a bug fix to prevent a NullPointerException from being thrown when there is a  space before or after the name of the realdriver. (Paolo De Carlo)</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added a bug 
+      fix to prevent a NullPointerException from being thrown when there is a 
+      space before or after the name of the realdriver. (Paolo De Carlo)</font></li>
   </ul>
   <p><font face="Verdana, Arial, Helvetica, sans-serif" size="3"><b><font size="2">Version 
     1.0 Production Release</font></b></font></p>
@@ -394,20 +412,20 @@
 </blockquote>
 <p><a name="troubleshooting"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Troubleshooting</b></font></p>
 <ul>
-  <li>
+  <li> 
     <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Application 
       server does not start properly.&nbsp;</b>This is probably because the <b>p6spy.jar</b> 
       or <b>spy.properties</b> is not in the classpath.&nbsp;If using JBoss, look 
       at the JBoss log file for clues</font>. A message like the following usually 
       means the <b>p6spy.jar</b> file is not found.</font></div>
-    <blockquote>
+    <blockquote> 
       <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font size="2" face="Courier New, Courier, mono">[JDBC 
         provider] Initializing<br>
         [Service Control] Could not initialize DefaultDomain:service=JdbcProvider</font></font></div>
     </blockquote>
   </li>
 </ul>
-<blockquote>
+<blockquote> 
   <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Y<font face="Verdana, Arial, Helvetica, sans-serif" size="2">ou 
     may see that the driver is loaded, but a message will indicate that the <b>spy.properties</b> 
     file is not found, and will list all of the directories searched for that 
@@ -415,7 +433,7 @@
     directories listed.</font></font></div>
 </blockquote>
 <ul>
-  <li>
+  <li> 
     <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
       spy.properties cannot be found.&nbsp;&nbsp;</b>Often application servers 
       have their own classpath and ignore the standard Java classpath. Make sure 
@@ -424,12 +442,12 @@
       P6Spy is searching.</font></font></div>
   </li>
 </ul>
-<blockquote>
+<blockquote> 
   <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
     </font></font></div>
 </blockquote>
 <ul>
-  <li>
+  <li> 
     <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
       spy.log file is not written.&nbsp;</b>Searching your entire drive for <b>spy.log</b>. 
       Remember, you can specify the default location using the <b>spy.properties</b> 
@@ -437,12 +455,12 @@
       for more information. </font></font></div>
   </li>
 </ul>
-<blockquote>
+<blockquote> 
   <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
     </font></div>
 </blockquote>
 <ul>
-  <li>
+  <li> 
     <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
       spy.log file is generated, but nothing is logged. </b>P6Spy has the ability 
       to print debug statements that are very useful in determining why the driver 
@@ -451,75 +469,85 @@
       file. Also, make sure your wrapped driver is registered correctly. Set <b>useprefix=true</b> 
       in your <b>spy.properties</b> file and put<b> p6spy:</b> as a prefix for 
       your connection URL for the P6Spy driver in your application server configuration. 
-      P6Spy will fail if the prefix is not present.</font></font></div>
+      P6Spy will fail if the prefix is not present.<br>
+      </font></font></div>
   </li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
+    spy.log file is generated, but nothing is logged. </b></font>The DriverManager 
+    class sequentially tries every driver that is registered to find the right 
+    driver. In some instances, it's possible to load up the realdriver before 
+    the p6spy driver, in which case your connections will not get wrapped as the 
+    realdriver will &quot;steal&quot; the connection before p6spy sees it. Set 
+    the deregisterdrivers property to &quot;true&quot; to cause p6spy to explicitily 
+    deregister the realdrivers</font></li>
 </ul>
-<blockquote>
+<blockquote> 
   <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
     </font></div>
 </blockquote>
 <ul>
-  <li>
+  <li> 
     <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy 
       was invoked illegally. </font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">You 
-      probably specified an illegal P6Spy driver in your application configuration.</font><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-      </font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-      You most likely got this message because you did not specify com.p6spy.engine.spy.SpyDriver 
+      probably specified an illegal P6Spy driver in your application configuration.<b> 
+      </b> You most likely got this message because you did not specify com.p6spy.engine.spy.SpyDriver 
       as the driver to register in your application configuration. Specifying 
-      another class that extends P6SpyDriver is an illegal action.</font></font></div>
-  </li>
-</ul>
-<blockquote>
-  <ul>
-    <blockquote> 
-      <div align="left"></div>
-    </blockquote>
-    <div align="left"> 
-      <ul>
-      </ul>
-    </div>
-  </ul>
-</blockquote>
-<div align="left"><a name="faq"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>FAQ</b></font></div>
-<ul>
-  <li>
-    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
-      I use log4j?&nbsp;&nbsp;</b>Yes. See the <a href="other.htm#log">Log File 
-      Format</a> documentation for more information.</font></div>
-  </li>
-  <li>
-    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
-      I use regular expressions to determine what is logged?&nbsp;&nbsp;</b>Yes. 
-      See the <a href="other.htm#common">Common Property File Settings</a> documentation 
-      and refer to the stringmatcher section.</font></div>
-  </li>
-  <li>
-    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Once 
-      the application is running, can I change the properties and enable the system 
-      to use the new properties?&nbsp;&nbsp;</b>Yes. See the <a href="other.htm#common">Common 
-      Property File Settings</a> documentation and refer to the reloadproperties 
-      section.</font></div>
-  </li>
-  <li>
-    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
-      I use multiple database drivers?&nbsp;&nbsp;</b>Yes. See the <a href="other.htm#common">Common 
-      Property File Settings</a> documentation for more information. Refer specifically 
-      to sections regarding realdriver2 and realdriver3.</font></div>
-  </li>
-</ul>
-<blockquote>
-  <ul>
-    <div align="left"> 
-      <ul>
+      another class that extends P6SpyDriver is an illegal action.</font></font> 
+      <p>&nbsp;</p>
+      <blockquote> 
         <ul>
           <blockquote> 
-            <blockquote>&nbsp;</blockquote>
+            <div align="left"></div>
           </blockquote>
+          <div align="left"> 
+            <ul>
+            </ul>
+          </div>
         </ul>
+      </blockquote>
+      <div align="left"><a name="faq"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>FAQ</b></font></div>
+      <ul>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
+            I use log4j?&nbsp;&nbsp;</b>Yes. See the <a href="other.htm#log">Log 
+            File Format</a> documentation for more information.</font></div>
+        </li>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
+            I use regular expressions to determine what is logged?&nbsp;&nbsp;</b>Yes. 
+            See the <a href="other.htm#common">Common Property File Settings</a> 
+            documentation and refer to the stringmatcher section.</font></div>
+        </li>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Once 
+            the application is running, can I change the properties and enable 
+            the system to use the new properties?&nbsp;&nbsp;</b>Yes. See the 
+            <a href="other.htm#common">Common Property File Settings</a> documentation 
+            and refer to the reloadproperties section.</font></div>
+        </li>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
+            I use multiple database drivers?&nbsp;&nbsp;</b>Yes. See the <a href="other.htm#common">Common 
+            Property File Settings</a> documentation for more information. Refer 
+            specifically to sections regarding realdriver2 and realdriver3.</font></div>
+        </li>
       </ul>
+      <blockquote> 
+        <ul>
+          <div align="left"> 
+            <ul>
+              <ul>
+                <blockquote> 
+                  <blockquote>&nbsp;</blockquote>
+                </blockquote>
+              </ul>
+            </ul>
+          </div>
+        </ul>
+      </blockquote>
     </div>
-  </ul>
-</blockquote>
+  </li>
+</ul>
 <!-- #EndEditable --> <br>
 <table width="100%" border="0" bgcolor="black">
 <tr>

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.10  2003/04/09 16:43:59  jeffgoke
+ * Added Jboss JMX support.  Updated documentation.  Added execution threshold property to only log queries taking longer than a specified time.
+ *
  * Revision 1.9  2003/03/07 22:09:05  aarvesen
  * added isDebugOn convenience method
  *
@@ -459,13 +462,30 @@ public class P6LogQuery {
     }
     
     static public void logElapsed(int connectionId, long startTime, long endTime, String category, String prepared, String sql) {
-    	if (logger != null && isLoggable(sql) && isCategoryOk(category)) {
+    	if (logger != null && meetsThresholdRequirement(endTime-startTime) && isLoggable(sql) && isCategoryOk(category)) {
 		doLogElapsed(connectionId, startTime, endTime, category, prepared, sql);
 	} else if (isDebugOn()) {
 		logDebug("P6Spy intentionally did not log category: "+category+", statement: "+sql+"  Reason: logger="+logger+", isLoggable="+isLoggable(sql)+", isCategoryOk="+isCategoryOk(category));
 	}
     }
-    
+
+    //->JAW: new method that checks to see if this statement should be logged based
+    //on whether on not it has taken greater than x amount of time.
+    static private boolean meetsThresholdRequirement(long timeTaken) {
+	    long executionThreshold = P6SpyOptions.getExecutionThreshold();
+
+        if(executionThreshold <= 0) {
+            return true;
+        }
+        else if(timeTaken > executionThreshold) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    //<-JAW
+        
     static public void logInfo(String sql) {
         if (logger != null && isCategoryOk("info")) {
             doLog(-1, "info", "", sql);

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.10  2003/04/09 16:44:00  jeffgoke
+ * Added Jboss JMX support.  Updated documentation.  Added execution threshold property to only log queries taking longer than a specified time.
+ *
  * Revision 1.9  2003/02/14 22:22:58  aarvesen
  * use a define for the property file
  *
@@ -244,7 +247,8 @@ public abstract class P6TestFramework extends TestCase {
         tp.put("realdriver",realdrivername);
         tp.put("realdriver2",realdrivername2);
         tp.put("filter","false");
-        tp.put("include","");
+        tp.put("executionthreshold","");
+	tp.put("include","");
         tp.put("exclude","");
         tp.put("trace","true");
         tp.put("autoflush","true");

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2003/04/09 16:44:00  jeffgoke
+ * Added Jboss JMX support.  Updated documentation.  Added execution threshold property to only log queries taking longer than a specified time.
+ *
  * Revision 1.1  2002/05/24 07:30:46  jeffgoke
  * version 1 rewrite
  *
@@ -182,9 +185,58 @@ public class P6TestStatement extends P6TestFramework {
         }
     }
     
+    public void testExecutionThreshold() {
+        try {
+            // Add some data into the table
+            String update = "insert into stmt_test values (\'bob\', 5)";
+            Statement statement = getStatement(update);
+            statement.executeUpdate(update);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(update) != -1);
+            
+            // set the execution threshold very low
+            P6SpyOptions.setExecutionThreshold("0");
+            
+            // test a basic select
+            String query = "select count(*) from stmt_test";
+            ResultSet rs = statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            // finally just make sure the query executed!
+            rs.next();
+            assertTrue(rs.getInt(1) > 0);
+            rs.close();
+            
+            // now increase the execution threshold and make sure the query is not captured
+            P6SpyOptions.setExecutionThreshold("10000");
+            
+            // test a basic select
+            String nextQuery = "select count(1) from stmt_test where 1 = 2";
+            rs = statement.executeQuery(nextQuery);
+            // make sure the previous query is still the last query
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            // and of course that the new query isn't
+            assertTrue(P6LogQuery.getLastEntry().indexOf(nextQuery) == -1);
+            // finally just make sure the query executed!
+            rs.next();
+            assertEquals(0, rs.getInt(1));
+            rs.close();
+            
+            P6SpyOptions.setExecutionThreshold("0");
+            
+            // finally, just make sure it now works as expected
+            rs = statement.executeQuery(nextQuery);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(nextQuery) != -1);
+            rs.next();
+            assertEquals(0, rs.getInt(1));
+            rs.close();
+            
+        } catch (Exception e) {
+            fail(e.getMessage()+" due to error: "+getStackTrace(e));
+        }
+    }
+    
     protected void tearDown() {
         try {
-            super.tearDown();            
+            super.tearDown();
             Statement statement = getStatement("drop table stmt_test");
             drop(statement);
         }  catch (Exception e) {

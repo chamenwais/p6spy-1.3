@@ -91,6 +91,8 @@
   Jakarta Regexp            http://jakarta.apache.org/regexp/ 
   Gnu Regexp                http://www.cacas.org/java/gnu/regexp/
   Log4j                     http://jakarta.apache.org/log4j/
+  Jboss 2.4.6 : jboss.jar   http://sourceforge.net/project/showfiles.php?group_id=22866
+  Sun JMX libraries	    http://java.sun.com/products/JavaManagement/download.html
 
   Additionally, you will need your database driver jar in the lib
   directory to have a complete build.

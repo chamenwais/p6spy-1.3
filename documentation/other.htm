@@ -88,11 +88,36 @@
   realdriver2=<br>
   #specifies a third driver to use<br>
   realdriver3=</font></p>
-<p><font face="Courier New, Courier, mono" size="2"><br>
+<p><font face="Courier New, Courier, mono" size="2">#the DriverManager class sequentially 
+  tries every driver that is<br>
+  #registered to find the right driver. In some instances, it's possible to<br>
+  #load up the realdriver before the p6spy driver, in which case your connections<br>
+  #will not get wrapped as the realdriver will &quot;steal&quot; the connection 
+  before<br>
+  #p6spy sees it. Set the following property to &quot;true&quot; to cause p6spy 
+  to<br>
+  #explicitily deregister the realdrivers<br>
+  deregisterdrivers=false<br>
+  <br>
   ################################################################<br>
   # P6LOG SPECIFIC PROPERTIES #<br>
   ################################################################<br>
   # no properties currently available</font></p>
+<p>################################################################<br>
+  # EXECUTION THRESHOLD PROPERTIES #<br>
+  ################################################################<br>
+  # This feature applies to the standard logging of P6Spy. # <br>
+  # While the standard logging logs out every statement #<br>
+  # regardless of its execution time, this feature puts a time # <br>
+  # condition on that logging. Only statements that have taken # <br>
+  # longer than the time specified (in milliseconds) will be #<br>
+  # logged. This way it is possible to see only statements that #<br>
+  # have exceeded some high water mark. #<br>
+  # This time is reloadable. #<br>
+  #<br>
+  # executionthreshold=integer time (milliseconds)<br>
+  #<br>
+  executionthreshold=</p>
 <p><font face="Courier New, Courier, mono" size="2">################################################################<br>
   # P6OUTAGE SPECIFIC PROPERTIES #<br>
   ################################################################<br>
@@ -281,6 +306,13 @@
   and set realdriver to the real MySQL JDBC driver name. realdriver2, realdriver3 
   are only intended for use when you are connecting with two different drivers, 
   for example Oracle versus MySQL.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">deregisterdrivers</font></b></font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The DriverManager 
+  class sequentially tries every driver that is registered to find the right driver. 
+  In some instances, it's possible to load up the realdriver before the p6spy 
+  driver, in which case your connections will not get wrapped as the realdriver 
+  will &quot;steal&quot; the connection before p6spy sees it. Set the following 
+  property to &quot;true&quot; to cause p6spy to explicitily deregister the realdrivers</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">filter, 
   include, exclude</font><u> </u></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy allows you 
@@ -363,9 +395,7 @@
     The following is an example of the implementation:</font> 
     <p><font face="Courier New, Courier, mono" size="2"># Use Apache Jakarta Regex 
       Matching for Filtering<br>
-      stringmatcher =com.p6spy.engine.common.JakartaRegexMatcher</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
-      <br>
-      </font></p>
+      stringmatcher =com.p6spy.engine.common.JakartaRegexMatcher</font></p>
   </li>
 </ul>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">autoflush</font></b></font></p>
@@ -562,7 +592,7 @@
 </ul>
 <p><a name="jsp"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>The 
   JSP Application</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy now includes 
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy includes 
   a JSP application. Use this application to view P6Spy configuration information 
   and to create a demarcation in the log file. To use the JSP application, complete 
   the following steps:</font></p>
@@ -574,6 +604,23 @@
     is deployed, access the application by navigating to http://<i>machine</i>:<i>port</i>/p6spy. 
     For example, if you are running the application on your own machine, and using 
     Tomcat as the servlet engine, navigate to http://localhost:8080/p6spy.</font></li>
+</ol>
+<p><a name="jboss_jmx"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>The 
+  JBoss JMX Application</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy includes 
+  a JMX application, tested with JBoss 2.4.x, that allows the P6Spy configuration 
+  to be managed via JMX. To use this </font></p>
+<ol>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">In <strong>spy.properties</strong> 
+    set reloadproperties=true</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Open <strong>JBoss.jcml</strong> 
+    and insert the following after the &quot;JMX Adaptors&quot; section:</font></li>
+  <blockquote> 
+    <p><font face="Courier New, Courier, mono" size="2"> &lt;mbean code=&quot;com.p6spy.management.jboss.P6SpyManager&quot; 
+      name=&quot;:service=P6SpyManager&quot;/&gt;</font></p>
+  </blockquote>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Access the application 
+    by using the default JMX port (http://localhost:8082/) and clicking on &quot;service=P6SpyManager&quot;.</font></li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="build" id="faq"></a>Building 
   the Source </b></font></p>
