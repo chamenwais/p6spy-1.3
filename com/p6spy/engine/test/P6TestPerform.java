@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/12/19 23:45:48  aarvesen
+ * use factory rather than driver
+ *
  * Revision 1.2  2002/10/06 18:24:04  jeffgoke
  * no message
  *
@@ -233,8 +236,8 @@ public class P6TestPerform extends P6TestFramework {
         String realdrivername2 = props2.getProperty("p6realdriver2");
         
         HashMap tp = new HashMap();
-        tp.put("module_log","com.p6spy.engine.logging.P6LogSpyDriver");
-        tp.put("module_outage","com.p6spy.engine.outage.P6OutageSpyDriver");
+        tp.put("module_log","com.p6spy.engine.logging.P6LogFactory");
+        tp.put("module_outage","com.p6spy.engine.outage.P6OutageFactory");
         tp.put("realdriver",realdrivername);
         tp.put("realdriver2",realdrivername2);
         tp.put("filter","false");
