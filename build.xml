@@ -97,24 +97,27 @@
   
 		</echo>
 
+		<path id="classpath">
+		    <fileset dir="${lib}">
+			<include name="**/*.jar" />
+		    </fileset>
+		</path>
 	</target>
 		
 	<target name="compile" depends="init">
 		<echo message="--------- Compiling P6Spy ---------"/>
 		<echo message=""/>
 		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
-		    <classpath>
-			<fileset dir="${lib}">
-			    <include name="**/*.jar" />
-			</fileset>
-		    </classpath>
-		    <exclude name="P6Test*.*" />
+		    <classpath refid="classpath"/>
+		    <exclude name="**/test/**" />
+		    <include name="com/**"/>
 		</javac>
 	</target>
 
 	<target name="jar" depends="compile">
 		<jar jarfile="${dist}/p6spy.jar" basedir="${build}">
-		    <exclude name="P6Test*.*" />
+		    <exclude name="**/test/**" />
+		    <include name="com/**"/>
 		</jar>
 	</target>
 
@@ -163,11 +166,7 @@
 
 	<target name="test" depends="compile">
 		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
-		    <classpath>
-			<fileset dir="${lib}">
-			    <include name="**/*.jar" />
-			</fileset>
-		    </classpath>
+		    <classpath refid="classpath"/>
 		    <include name="P6Test*.*" />
 		</javac>
 		<java classname="junit.textui.TestRunner" fork="yes">
@@ -175,20 +174,14 @@
 		    <arg value="${testclass}" />
 		    <classpath>
 			<pathelement path="${build}"/>
-			<fileset dir="${lib}">
-			    <include name="**/*.jar" />
-			</fileset>
+			<path refid="classpath"/>
 		    </classpath>
 		</java>
 	</target>
 
 	<target name="perform" depends="compile">
 		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
-		    <classpath>
-			<fileset dir="${lib}">
-			    <include name="**/*.jar" />
-			</fileset>
-		    </classpath>
+		    <classpath refid="classpath"/>
 		    <include name="P6Test*.*" />
 		</javac>
 		<java classname="junit.textui.TestRunner" fork="yes">
@@ -196,9 +189,7 @@
 		    <arg value="com.p6spy.engine.test.P6TestPerform" />
 		    <classpath>
 			<pathelement path="${build}"/>
-			<fileset dir="${lib}">
-			    <include name="**/*.jar" />
-			</fileset>
+			<path refid="classpath"/>
 		    </classpath>
 		</java>
 	</target>
