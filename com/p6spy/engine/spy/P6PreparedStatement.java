@@ -69,6 +69,10 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/12/06 22:42:47  aarvesen
+ * New factory registration in the constructor.
+ * jdk 1.4
+ *
  * Revision 1.2  2002/10/06 18:23:25  jeffgoke
  * no message
  *
@@ -126,9 +130,6 @@ import java.math.*;
 
 public class P6PreparedStatement extends P6Statement implements PreparedStatement {
     
-    protected P6Factory getP6Factory() {
-        return new P6CoreFactory();
-    }
     
     protected static int P6_MAX_FIELDS = 256;
     protected PreparedStatement prepStmtPassthru;
@@ -136,8 +137,8 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     protected Object values[];
     protected boolean isString[];
     
-    public P6PreparedStatement(PreparedStatement statement, P6Connection conn, String query) {
-        super(statement, conn);
+    public P6PreparedStatement(P6Factory factory, PreparedStatement statement, P6Connection conn, String query) {
+        super(factory, statement, conn);
         prepStmtPassthru = statement;
         this.preparedQuery = query;
         initValues();
@@ -378,5 +379,15 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
                 isString[i]  = false;
             }
         }
+    }
+
+    // Since JDK 1.4
+    public void setURL(int p0, java.net.URL p1) throws java.sql.SQLException {
+        prepStmtPassthru.setURL(p0, p1);
+    }
+    
+    // Since JDK 1.4
+    public java.sql.ParameterMetaData getParameterMetaData() throws java.sql.SQLException {
+        return(prepStmtPassthru.getParameterMetaData());
     }
 }
