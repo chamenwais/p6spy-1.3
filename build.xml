@@ -167,7 +167,7 @@
 	<target name="test" depends="compile">
 		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
 		    <classpath refid="classpath"/>
-		    <include name="P6Test*.*" />
+		    <include name="**\P6Test*.*" />
 		</javac>
 		<java classname="junit.textui.TestRunner" fork="yes">
 		    <arg value="-noloading" />
