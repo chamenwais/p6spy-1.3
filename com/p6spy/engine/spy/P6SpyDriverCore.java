@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.13  2003/03/07 22:08:09  aarvesen
+ * added deregistration code
+ *
  * Revision 1.12  2003/02/24 17:56:28  dlukeparker
  * Removed debug output
  *
@@ -156,7 +159,7 @@ import com.p6spy.engine.common.*;
 public abstract class P6SpyDriverCore implements Driver {
     
     protected Driver passthru = null;
-    protected static boolean initialized = false;
+    protected static boolean initialized = false;	
     protected static ArrayList factories;
     protected static ArrayList realDrivers = new ArrayList();
     protected static boolean foundSpyProperties;
@@ -227,9 +230,22 @@ public abstract class P6SpyDriverCore implements Driver {
                     spy = new P6SpyDriver();
                     DriverManager.registerDriver(spy);
                 }
+
+		// this is bogus, but we need to make *sure*
+		// that p6 is registered before your real drivers.  Otherwise
+		// the real driver will intercept the call before p6 gets it.
+		// so, deregister the driver if nec.
                 
                 className = (String) i.next();
+		if (P6SpyOptions.getDeregisterDrivers()) {
+		    deregister(className);
+		}
                 Driver realDriver = (Driver)P6Util.forName(className).newInstance();
+		if (P6SpyOptions.getDeregisterDrivers()) {
+		    // just in case you had to deregister
+		    DriverManager.registerDriver(realDriver);
+		}
+		  
                 // now wrap your realDriver in the spy
                 if (hasModules) {
                     spy.setPassthru(realDriver);
@@ -272,6 +288,34 @@ public abstract class P6SpyDriverCore implements Driver {
         
     }
     
+    static void deregister(String className) throws SQLException {
+	ArrayList dereg = new ArrayList();
+	for (Enumeration e = DriverManager.getDrivers(); e.hasMoreElements();) {
+	    Driver driver = (Driver) e.nextElement();
+
+	    // once you reach a P6 driver, you can jump out
+	    if (driver instanceof P6SpyDriver) {
+		break;
+	    }
+
+	    // now you have to be careful of concurrent update
+	    // exceptions here, so save the drivers for later
+	    // deregistration
+	    if (driver.getClass().getName().equals(className)) {
+		dereg.add(driver);
+	    }
+	}
+
+	// if you found any drivers let's dereg them now
+	int size = dereg.size();
+	if (size > 0) {
+	    for (int i = 0; i < size; i++) {
+		DriverManager.deregisterDriver((Driver) dereg.get(i));
+	    }
+	}
+
+    }
+
     public P6SpyDriverCore(String _spydriver, P6Factory _p6factory) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
 	// if we couldn't find the spy.properties file, complain here
 	if (!foundSpyProperties) {
