@@ -1,0 +1,482 @@
+<html><!-- #BeginTemplate "/Templates/spydocs.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>P6Spy Documentation</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF">
+<table width="100%" border="0" bgcolor="black">
+<tr>
+<td>
+<img src="http://www.p6spy.com/documentation/images/header.gif" width="580" height="80"> 
+<br> 
+<table width="580" border="0">
+  <tr> 
+    <td width="11%"><a href="http://www.p6spy.com"><img src="http://www.p6spy.com/documentation/images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/index.htm"><img src="http://www.p6spy.com/documentation/images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/install.htm"><img src="http://www.p6spy.com/documentation/images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/p6log.htm"><img src="http://www.p6spy.com/documentation/images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/p6outage.htm"><img src="http://www.p6spy.com/documentation/images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="38%">&nbsp;</td>
+  </tr>
+</table>
+</td>
+</tr>
+</table>
+<br>
+<!-- #BeginEditable "body" --> 
+<div align="center"> 
+  <p><a name="license"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>License 
+    Agreement, Release Notes, and Additional Help</b></font></p>
+  <p>&nbsp;</p>
+</div>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="license"></a>License 
+  Agreement</b></font></p>
+<ul>
+  <ul>
+    <blockquote> 
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">/*<br>
+        *<br>
+        * ====================================================================<br>
+        * <br>
+        * The P6Spy Software License, Version 1.1<br>
+        *<br>
+        * This license is derived and fully compatible with the Apache Software<br>
+        * license, see http://www.apache.org/LICENSE.txt<br>
+        *<br>
+        * Copyright (c) 2001-2002 Andy Martin, Ph.D. and Jeff Goke<br>
+        * All rights reserved. <br>
+        *<br>
+        * Redistribution and use in source and binary forms, with or without<br>
+        * modification, are permitted provided that the following conditions<br>
+        * are met:<br>
+        *<br>
+        * 1. Redistributions of source code must retain the above copyright<br>
+        * notice, this list of conditions and the following disclaimer. <br>
+        *<br>
+        * 2. Redistributions in binary form must reproduce the above copyright<br>
+        * notice, this list of conditions and the following disclaimer in<br>
+        * the documentation and/or other materials provided with the<br>
+        * distribution.<br>
+        *<br>
+        * 3. The end-user documentation included with the redistribution, if<br>
+        * any, must include the following acknowledgment: <br>
+        * &quot;The original concept and code base for P6Spy was conceived<br>
+        * and developed by Andy Martin, Ph.D. who generously contributed<br>
+        * the first complete release to the public under this license.<br>
+        * This product was due to the pioneering work of Andy<br>
+        * that began in December of 1995 developing applications that could<br>
+        * seamlessly be deployed with minimal effort but with dramatic results.<br>
+        * This code is maintained and extended by Jeff Goke and with the ideas<br>
+        * and contributions of other P6Spy contributors.<br>
+        * (http://www.p6spy.com)&quot;<br>
+        * Alternately, this acknowledgment may appear in the software itself,<br>
+        * if and wherever such third-party acknowledgments normally appear.<br>
+        *<br>
+        * 4. The names &quot;P6Spy&quot;, &quot;Jeff Goke&quot;, and &quot;Andy 
+        Martin&quot; must not be used<br>
+        * to endorse or promote products derived from this software without<br>
+        * prior written permission. For written permission, please contact<br>
+        * license@p6spy.com.<br>
+        *<br>
+        * 5. Products derived from this software may not be called &quot;P6Spy&quot;<br>
+        * nor may &quot;P6Spy&quot; appear in their names without prior written<br>
+        * permission of Jeff Goke and Andy Martin.<br>
+        *<br>
+        * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED<br>
+        * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES<br>
+        * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE<br>
+        * DISCLAIMED. IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR<br>
+        * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,<br>
+        * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT<br>
+        * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF<br>
+        * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND<br>
+        * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,<br>
+        * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT<br>
+        * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF<br>
+        * SUCH DAMAGE.<br>
+        */ </font></p>
+    </blockquote>
+  </ul>
+</ul>
+<p><a name="release"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Release 
+  Notes </b></font></p>
+<ul>
+  <ul>
+    <blockquote> 
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        1.0 beta 6</b></font></p>
+      <blockquote> 
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Debugged 
+          and applied a fix for a problem that applications calling newInstance() 
+          instead of using the DriverManager were causing the driver to fail to 
+          load properly.</font></p>
+      </blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b></b></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        1.0 beta 5</b></font></p>
+      <blockquote> 
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Alan 
+          Arvesen of IronGrid</strong> refactored the driver loading to first 
+          attempt the new classloader mechanism (implemented in beta2) and, upon 
+          failure, attempt the previously used forName loading call.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">P6SpyDriver 
+          now throws an exception immediately when a realdriver fails to load. 
+          This should make diagnostics easier.</font></p>
+      </blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        1.0 beta 4</b></font></p>
+      <blockquote> 
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added error 
+          category and pushed and error logging through the standard logging process 
+          instead of stderr. This should make it easier to diagnose problems when 
+          installation does not proceed as expected.</font></p>
+      </blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        1.0 beta 3</b></font></p>
+      <blockquote> 
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Alan 
+          Arvesen of IronGrid</strong> added a call to each P6 class called getJDBC() 
+          that returns the native driver. This enables a workaround for using 
+          non-standard JDBC calls included with some JDBC drivers. See <a href="license.htm#issues">Known 
+          Issues</a> for more information. Thanks to Ralph Harnden for the suggestion.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Alan 
+          Arvesen of IronGrid</strong> added an appender architecture which supports 
+          customizable logging.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Alan 
+          Arvesen of IronGrid</strong> changed the reloading code to work as a 
+          separate thread, making it more efficient.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Alan 
+          Arvesen of IronGrid</strong> enhanced module support making it much 
+          easier to create a new module. Now the only required files for a new 
+          module are the factory, the driver, and just the classes you want to 
+          change. That is, if you want to intercept the Statement class only, 
+          that is the only class you need to create (in the past you had to create 
+          an instance of every class, even if you did not want to override that 
+          class). The code to support driver loading has also been simplified. 
+          </font></p>
+        <p><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Matthew 
+          Wakeling</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+          added JDK 1.4 support.</font></p>
+      </blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        1.0 beta 1 &amp; 2</b></font></p>
+      <blockquote> 
+        <p><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Rafael 
+          Alvarez</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+          added log4j support, one of the most requested feature enhancements.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Due to 
+          problems reported with driver loading in the alpha version, driver loading 
+          has been rewritten. It is now more efficient.</font></p>
+      </blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        1.0 alpha </b></font></p>
+      <blockquote> 
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Restructured 
+          code to inherit from a single core wrapper driver.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Introduced 
+          concepts of modules and stackable drivers that dynamically load the 
+          necessary code into memory at runtime.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Broke code 
+          into logical modules: P6Log and P6Outage.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Refactored 
+          large amount of code.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Rewrote 
+          Junit tests and added more rigorous tests.</font></p>
+      </blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        0.8</b></font></p>
+      <blockquote> 
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Peter 
+          Laird</strong> contributed an Outage Detection module that reports database 
+          outages when database statements do not respond within a given period 
+          of time.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Peter 
+          Laird</strong> also contributed a JSP application that gives a visual 
+          control to P6Spy. The first version can be used to view configuration 
+          information about P6Spy and to create a demarcation in the log file.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>Viktor 
+          Szathmary</strong> added support for multiple simultaneous databases, 
+          a highly requested feature. Currently support is limited to 3 databases, 
+          but can easily be expanded.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>Viktor 
+          Szathmary</strong> also added the logging of a connection id, and enabled 
+          urls to be prefixed with p6spy: to aid in debugging. A common mistake 
+          people make when installing is to have the real driver registered elsewhere, 
+          this feature avoids that problem. The default is not to require this 
+          value, but in the future it may be made mandatory to ease the install 
+          process.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Rewrote 
+          P6SpyOptions to allow new options to quickly and easily be added.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Additional 
+          JUnit tests have been added</font></p>
+      </blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        0.72</b></font></p>
+      <blockquote> 
+        <p><strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Philip 
+          Ogren</font></strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+          contributed the ability to dynamically reload the property file after 
+          a specified period of time</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added logging 
+          to commit and rollback statements</font></p>
+      </blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        0.71</b></font></p>
+      <blockquote> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>Philip 
+          Ogren</strong> of BEA contributed installation instructions for BEA 
+          WebLogic <a href="install.htm#wlportal">Portal</a> and <a href="install.htm#wlserver">Server</a>.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Jakarta 
+          RegEx support (contributed by Philip Ogren)</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Ability 
+          to print stack trace of logged statements. This is very useful to understand 
+          where a logged query is being executed in the application (contributed 
+          by Philip Ogren)</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simplified 
+          table monitoring property file option (contributed by Philip Ogren)</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Updated 
+          the RegEx documentation</font></p>
+      </blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        0.7</b></font></p>
+      <blockquote> 
+        <p><strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simon 
+          Sadedin</font></strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+          added timing information to the log files. Now you can better visualize 
+          bottleneck queries.</font></p>
+        <p><strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simon 
+          Sadedin</font></strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+          added regex support for table filtering, allowing sophisticated custom 
+          filtering.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>Michael 
+          Sgroi</strong> contributed installation instructions for <a href="install.htm#iplanet">iPlanet</a>.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><strong>Richard 
+          Delbert</strong> contributed installation instructions for <a href="install.htm#weblogic">BEA 
+          WebLogic</a>.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added support 
+          for callable statements.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added support 
+          for batch statements.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added a 
+          debug category that provides detailed debug information. By default 
+          this is disabled. See the <a href="license.htm#troubleshooting">Troubleshooting</a> 
+          section for more information.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Changed 
+          the default log format to include more information.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added test 
+          target to ant that works with JUnit to perform some basic tests. Currently 
+          using Oracle as the test database.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added ResultSet 
+          logging and timing information. By default this is disabled. See the 
+          <a href="other.htm#log"> Log File Format</a> documentation for more information.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fixed a 
+          number of bugs, in particular a bug that was causing an empty spy.log 
+          file to be created and never populated.</font></p>
+      </blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        0.6</b></font></p>
+      <blockquote> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fixed a 
+          bug that null connections were not returning null, but rather an empty 
+          connection. This was a problem for some applications where the application 
+          was expecting a null connection.</font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added an 
+          option to allow the truncation/non-truncation of the log file to be 
+          specified within spy.options. </font></p>
+        <ul>
+        </ul>
+      </blockquote>
+    </blockquote>
+  </ul>
+</ul>
+<p><a name="issues"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Known 
+  Issues </b></font></p>
+<ul>
+  <li> 
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Non-standard 
+      (driver specific) JDBC methods are not supported without using a workaround.&nbsp;&nbsp;</b>Many 
+      drivers provide methods that expose driver specific, non-standard functionality. 
+      Most developers do not use these features, but in the event that an application 
+      does use these features they are not natively supported by P6Spy. For example, 
+      the MySQL JDBC drivers allow you to call the auto-increment function as 
+      follows: </font></font></div>
+    <div align="left"></div>
+    <blockquote> 
+      <blockquote> 
+        <div align="left"> 
+          <p>&nbsp;</p>
+          <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono" size="2">((org.gjt.mm.mysql.PreparedStatement)stmt).getLastInsertId(); 
+            </font></font></p>
+        </div>
+      </blockquote>
+    </blockquote>
+  </li>
+  <blockquote> 
+    <div align="left"></div>
+  </blockquote>
+</ul>
+<blockquote> 
+  <div align="left"> 
+    <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">That 
+      cast fails when P6SpyDriver is in place, since the class it tries to cast 
+      against is P6SpyDriver itself. P6SpyDriver does not expose that driver specific 
+      method and the P6Spy prepared statement class is not a subclass of &quot;org.gjt.mm.mysql.PreparedStatement&quot;. 
+      The one workaround available requires code changes in the application. Each 
+      P6Spy class exposes a method called &quot;getJDBC()&quot; that returns the 
+      real JDBC driver. With this method, an application can cast a class such 
+      as PreapredStatement to P6PreparedStatement, invoke getJDBC(), and then 
+      cast the returned value to the native driver class, such as OraclePreparedStatement. 
+      In this scenario, the non-JDBC statement is not logged but the application 
+      will continue to function. </font></font></p>
+    <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Ideally, a 
+      long-term, native solution<font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+      will be provided. One idea under consideration is to provide vendor specific 
+      versions (Oracle or MySQL, for example) of P6Spy that would subclass the 
+      vendor driver, so that a cast could be successfully executed. These versions 
+      would expose the vendor specific methods. However, this is not yet under 
+      development, and other suggestions are welcome</font></font></p>
+  </div>
+  <ul>
+  </ul>
+</blockquote>
+<p><a name="troubleshooting"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Troubleshooting</b></font></p>
+<blockquote> 
+  <ul>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Application 
+        server does not start properly.&nbsp;</b>This is probably because the 
+        <b>p6spy.jar</b> or <b>spy.properties</b> is not in the classpath.&nbsp;If 
+        using JBoss, look at the JBoss log file for clues</font>. A message like 
+        the following usually means the <b>p6spy.jar</b> file is not found.</font></div>
+    </li>
+    <blockquote> 
+      <blockquote> 
+        <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font size="2" face="Courier New, Courier, mono">[JDBC 
+          provider] Initializing<br>
+          [Service Control] Could not initialize DefaultDomain:service=JdbcProvider</font></font></div>
+      </blockquote>
+    </blockquote>
+  </ul>
+  <blockquote> 
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Y<font face="Verdana, Arial, Helvetica, sans-serif" size="2">ou 
+      may see that the driver is loaded, but a message will indicate that the 
+      <b>spy.properties</b> file is not found, and will list all of the directories 
+      searched for that file. In this case, move the <b>spy.properties</b> file 
+      to one of the seacrhed directories listed.</font></font></div>
+  </blockquote>
+  <ul>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
+        spy.properties cannot be found.&nbsp;&nbsp;</b>Often application servers 
+        have their own classpath and ignore the standard Java classpath. Make 
+        sure <b>spy.properties</b> is in the classpath that is listed in the error 
+        message stating <b>spy.properties</b> cannot be found, this is the classpath 
+        that P6Spy is searching.</font></font></div>
+    </li>
+  </ul>
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+    </font></font></div>
+  <ul>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
+        spy.log file is not written.&nbsp;</b>Searching your entire drive for 
+        <b>spy.log</b>. Remember, you can specify the default location using the 
+        <b>spy.properties</b> property file. See <a href="other.htm">Common Property 
+        File Settings</a> for more information. </font></font></div>
+    </li>
+  </ul>
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+    </font></div>
+  <ul>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
+        spy.log file is generated, but nothing is logged. </b>P6Spy has the ability 
+        to print debug statements that are very useful in determining why the 
+        driver is not working. To turn on these statements, remove the debug category 
+        and the info category from the excludecategories list in your <b>spy.options</b> 
+        file. Also, make sure your wrapped driver is registered correctly. Set 
+        useprefix=true in your <b>spy.properties</b> file and put<b> p6spy:</b> 
+        as a prefix for your connection URL for the P6Spy driver in your application 
+        server configuration. P6Spy will fail if the prefix is not present.</font></font></div>
+    </li>
+  </ul>
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+    </font></div>
+  <ul>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy 
+        was invoked illegally. </font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">You 
+        probably specified an illegal P6Spy driver in your application configuration.</font><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+        </font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+        You most likely got this message because you did not specify com.p6spy.engine.spy.SpyDriver 
+        as the driver to register in your application configuration. Specifying 
+        another class that extends P6SpyDriver is an illegal action</font></font></div>
+      <blockquote> 
+        <div align="left"></div>
+      </blockquote>
+    </li>
+    <div align="left"> 
+      <ul>
+      </ul>
+    </div>
+  </ul>
+</blockquote>
+<div align="left"><a name="faq"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>FAQ</b></font></div>
+<blockquote>
+  <div align="left">
+    <ul>
+      <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can I 
+        use log4j?&nbsp;&nbsp;</b>Yes. See the <a href="other.htm#log">Log File 
+        Format</a> documentation for more information.</font></li>
+      <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can I 
+        use regular expressions to determine what is logged?&nbsp;&nbsp;</b>Yes. 
+        See the <a href="other.htm#common">Common Property File Settings</a> documentation 
+        and refer to the stringmatcher section.</font></li>
+      <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Once 
+        the application is running, can I change the properties and enable the 
+        system to use the new properties?&nbsp;&nbsp;</b>Yes. See the <a href="other.htm#common">Common 
+        Property File Settings</a> documentation and refer to the reloadproperties 
+        section.</font></li>
+      <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can I 
+        use multiple database drivers?&nbsp;&nbsp;</b>Yes. See the <a href="other.htm#common">Common 
+        Property File Settings</a> documentation for more information. Refer specifically 
+        to sections regarding realdriver2 and realdriver3.</font></li>
+    </ul>
+  </div>
+  <div align="left"></div>
+  <div align="left"></div>
+  <ul>
+    <div align="left"> 
+      <ul>
+        <ul>
+          <blockquote> 
+            <blockquote> 
+              <p>&nbsp;</p>
+            </blockquote>
+          </blockquote>
+        </ul>
+      </ul>
+    </div>
+  </ul>
+</blockquote>
+<!-- #EndEditable --> <br>
+<table width="100%" border="0" bgcolor="black">
+<tr>
+<td>
+<table width="580" border="0">
+  <tr> 
+    <td width="11%"><a href="http://www.p6spy.com"><img src="http://www.p6spy.com/documentation/images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/index.htm"><img src="http://www.p6spy.com/documentation/images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/install.htm"><img src="http://www.p6spy.com/documentation/images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/p6log.htm"><img src="http://www.p6spy.com/documentation/images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/p6outage.htm"><img src="http://www.p6spy.com/documentation/images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="38%">&nbsp;</td>
+  </tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>
