@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.12  2003/02/28 07:28:10  jeffgoke
+ * added bug fix to enable jdk 1.2 support
+ *
  * Revision 1.11  2003/02/12 15:32:14  jeffgoke
  * Fixed bug where space in the realdriver name was causing the system to crash
  *
@@ -302,7 +305,7 @@ public class P6Util {
                 reader = new BufferedReader(in);
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    if ((line.trim()).startsWith(prefix)) { 
+                    if ((line.trim()).startsWith(prefix)) {
                         StringTokenizer st = new StringTokenizer(line, "=");
                         try {
                             String name = st.nextToken();
@@ -323,12 +326,12 @@ public class P6Util {
             P6LogQuery.logError("IO Error reading file " + file + " " + e2);
         } finally {
             try {
-		if (reader != null) {
-	                reader.close();
-		}
-		if (in != null) {
-	                in.close();
-		}
+                if (reader != null) {
+                    reader.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
             } catch (IOException e) {
             }
         }
@@ -394,12 +397,16 @@ public class P6Util {
     }
     
     public static File classLoadPropertyFile(java.net.URL purl) {
-        if (purl != null) {
-            return new File(purl.getPath());
+        try {
+            if (purl != null) {
+                return new File(purl.getPath());
+            }
+        } catch (Exception e) {
+            // we ignore this, since JDK 1.2 does not suppport this method
         }
         return null;
     }
-        
+    
     public static java.util.Date timeNow() {
         return(new java.util.Date());
     }
