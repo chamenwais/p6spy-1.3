@@ -17,8 +17,8 @@
     <td width="11%"><a href="http://www.p6spy.com"><img src="http://www.p6spy.com/documentation/images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
     <td width="11%"><a href="http://www.p6spy.com/documentation/index.htm"><img src="http://www.p6spy.com/documentation/images/index.gif" width="110" height="20" border="0"></a></td>
     <td width="11%"><a href="http://www.p6spy.com/documentation/install.htm"><img src="http://www.p6spy.com/documentation/images/install.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="http://www.p6spy.com/documentation/p6modules.htm#p6log"><img src="http://www.p6spy.com/documentation/images/p6log.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="http://www.p6spy.com/documentation/p6modules.htm#p6outage"><img src="http://www.p6spy.com/documentation/images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/other.htm#p6log"><img src="http://www.p6spy.com/documentation/images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/other.htm#p6outage"><img src="http://www.p6spy.com/documentation/images/p6outage.gif" width="110" height="20" border="0"></a></td>
     <td width="38%">&nbsp;</td>
   </tr>
 </table>
@@ -124,203 +124,185 @@
 </ul>
 <p><a name="release"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Release 
   Notes </b></font></p>
+<blockquote>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0 
+    beta 7</b></font></p>
+  <ul>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">Created 
+      code to enable more robust property file loading, including the ability 
+      to use the ClassLoader to load the property file. (Scott Howlett)</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fixed a problem 
+      dealing with the log file being ignored.</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0 
+    beta 6</b></font></p>
+  <ul>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#000000">Debugged 
+      and fixed a problem in which applications calling <b>newInstance()</b>, 
+      instead of using DriverManager, were causing the driver to load improperly.</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0 
+    beta 5</b></font></p>
+  <ul>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Refactored 
+      the driver loading to first attempt the new <b>classloader</b> mechanism 
+      (implemented in Version 1 beta 2) and, upon failure, attempt the previously 
+      used for Name loading call. (Alan Arvesen, IronGrid)</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">P6SpyDriver 
+      now throws an exception immediately when a <b>realdriver</b> fails to load, 
+      making diagnostics easier.</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0 
+    beta 4</b></font></p>
+  <ul>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added error 
+      category and pushed and error logging through the standard logging process 
+      instead of stderr. This should make it easier to diagnose problems when 
+      installation does not proceed as expected.</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0 
+    beta 3</b></font></p>
+  <ul>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added a call 
+      to each P6 class called <b>getJDBC()</b> that returns the native driver. 
+      This enables a workaround for using non-standard JDBC calls included with 
+      some JDBC drivers. See <a href="license.htm#issues">Known Issues</a> for 
+      more information. Thanks to Ralph Harnden for the suggestion. (Alan Arvesen, 
+      IronGrid) </font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added an appender 
+      architecture which supports customizable logging. (Alan Arvesen, IronGrid)</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Changed the 
+      reloading code to work as a separate thread, making it more efficient. (Alan 
+      Arvesen, IronGrid)</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Enhanced 
+      module support, making it easier to create a new module. Now, the only required 
+      files for a new module are the factory, the driver, and the classes that 
+      are changing. If you want to intercept the Statement class only, that is 
+      the only class you need to create. In the past you had to create an instance 
+      of every class, even if you did not want to override that class. The code 
+      to support driver loading has also been simplified. </font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added JDK 
+      1.4 support. (Matthew Wakeling)</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0 
+    beta 1 &amp; 2</b></font></p>
+  <ul>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added <b>log4j</b> 
+      support, one of the most requested feature enhancements. <font face="Verdana, Arial, Helvetica, sans-serif" size="2">(Rafael 
+      Alvarez</font>) </font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Due to problems 
+      reported with driver loading in the alpha version, driver loading has been 
+      rewritten. It is now more efficient.</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0 
+    alpha </b></font></p>
+  <ul>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Restructured 
+      code to inherit from a single core wrapper driver.</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Introduced 
+      concepts of modules and stackable drivers that dynamically load the necessary 
+      code into memory at runtime.</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Broke code 
+      into logical modules: P6Log and P6Outage.</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Refactored 
+      large amount of code.</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Rewrote JUnit 
+      tests and added more rigorous tests.</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.8</b></font></p>
+  <ul>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Created an 
+      Outage Detection module that reports database outages when database statements 
+      do not respond within a given period of time. (Peter Laird)</font></li>
+    <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Created a 
+      JSP application that gives a visual control to P6Spy. The first version 
+      can be used to view configuration information about P6Spy and to create 
+      a demarcation in the log file. (Peter Laird) </font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added support 
+      for multiple simultaneous databases, a highly requested feature. Currently, 
+      support is limited to three databases, but can easily be expanded. (Viktor 
+      Szathmary)</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added the 
+      logging of a connection ID, and enabled URLs to be prefixed with <b>p6spy:</b> 
+      to aid in debugging. A common mistake people make when installing is to 
+      have the real driver registered elsewhere, this feature avoids that problem. 
+      The default does not require this value, but in the future it may be mandatory 
+      to ease the install process.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Rewrote <b>P6SpyOptions</b> 
+      to allow new options to quickly and easily be added.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Additional 
+      JUnit tests were added.</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.72</b></font></p>
+  <ul>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added the 
+      ability to dynamically reload the property file after a specified period 
+      of time. (Philip Ogren)</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added logging 
+      to commit and rollback statements.</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.71</b></font></p>
+  <ul>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added installation 
+      instructions for BEA WebLogic <a href="install.htm#wlportal">Portal</a> 
+      and <a href="install.htm#wlserver">Server</a>. (Philip Ogren)</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Jakarta RegExp 
+      support. (contributed by Philip Ogren)</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Ability to 
+      print stack trace of logged statements. This is very useful in understanding 
+      where a logged query is being executed in the application. (Philip Ogren)</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simplified 
+      table monitoring property file option. (Philip Ogren)</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Updated the 
+      RegExp documentation.</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.7</b></font></p>
+  <ul>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added timing 
+      information to the log files. Now you can better visualize bottleneck queries. 
+      (Simon Sadedin)</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added RegExp 
+      support for table filtering, allowing sophisticated custom filtering. (Simon 
+      Sadedin) </font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added installation 
+      instructions for <a href="install.htm#iplanet">Sun iPlanet</a>. (Michael 
+      Sgroi)</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">Added installation 
+      instructions for <a href="install.htm#weblogic">BEA WebLogic</a>. (Richard 
+      Delbert)</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added support 
+      for callable statements.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added support 
+      for batch statements.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added a debug 
+      category that provides detailed debug information. By default this is disabled. 
+      Refer to the <a href="license.htm#troubleshooting">Troubleshooting</a> section 
+      for more information.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Changed the 
+      default log format to include more information.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added test 
+      target to Ant that works with JUnit to perform some basic tests, using Oracle 
+      as the test database.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added <b>ResultSet</b> 
+      logging and timing information. By default this is disabled. Refer to the 
+      <a href="other.htm#log"> Log File Format</a> documentation for more information.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fixed a number 
+      of bugs, in particular a bug that was causing an empty <b>spy.log</b> file 
+      to be created and never populated.</font></li>
+  </ul>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.6</b></font></p>
+  <ul>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fixed a bug 
+      in which null connections were not returning null, but rather an empty connection. 
+      This was a problem for some applications that were expecting a null connection.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added an option 
+      to allow the truncation/non-truncation of the log file, which can be specified 
+      within <b>spy.options</b>. </font></li>
+  </ul>
+</blockquote>
 <ul>
   <ul>
     <blockquote> 
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        1.0 beta 7</b></font></p>
-      <ul>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">Created 
-          code to enable more robust property file loading. including the ability 
-          to use the ClassLoader to load the property file. (Scott Howlett)</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fixed 
-          a problem dealing with the logfile being ignored.</font></li>
-      </ul>
-      <blockquote>&nbsp;</blockquote>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        1.0 beta 6</b></font></p>
-      <ul>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#000000">Debugged 
-          and fixed a problem in which applications calling newInstance(), instead 
-          of using DriverManager, were causing the driver to load improperly.</font></li>
-      </ul>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b></b></font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        1.0 beta 5</b></font></p>
-      <ul>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Refactored 
-          the driver loading to first attempt the new classloader mechanism (implemented 
-          in Version 1 beta 2) and, upon failure, attempt the previously used 
-          forName loading call. (Alan Arvesen, IronGrid)</font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">P6SpyDriver 
-          now throws an exception immediately when a realdriver fails to load, 
-          making diagnostics easier.</font></li>
-      </ul>
-      <p>&nbsp;</p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        1.0 beta 4</b></font></p>
-      <ul>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added 
-          error category and pushed and error logging through the standard logging 
-          process instead of stderr. This should make it easier to diagnose problems 
-          when installation does not proceed as expected.</font></li>
-      </ul>
-      <p>&nbsp;</p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        1.0 beta 3</b></font></p>
-      <ul>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added 
-          a call to each P6 class called getJDBC() that returns the native driver. 
-          This enables a workaround for using non-standard JDBC calls included 
-          with some JDBC drivers. See <a href="license.htm#issues">Known Issues</a> 
-          for more information. Thanks to Ralph Harnden for the suggestion. (Alan 
-          Arvesen, IronGrid) </font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added 
-          an appender architecture which supports customizable logging. (Alan 
-          Arvesen, IronGrid)</font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Changed 
-          the reloading code to work as a separate thread, making it more efficient. 
-          (Alan Arvesen, IronGrid)</font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Enhanced 
-          module support, making it easier to create a new module. Now, the only 
-          required files for a new module are the factory, the driver, and the 
-          classes that are changing. If you want to intercept the Statement class 
-          only, that is the only class you need to create. In the past you had 
-          to create an instance of every class, even if you did not want to override 
-          that class. The code to support driver loading has also been simplified. 
-          </font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added 
-          JDK 1.4 support. (Matthew Wakeling)</font></li>
-      </ul>
-      <p>&nbsp;</p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        1.0 beta 1 &amp; 2</b></font></p>
-      <ul>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added 
-          log4j support, one of the most requested feature enhancements. <font face="Verdana, Arial, Helvetica, sans-serif" size="2">(Rafael 
-          Alvarez</font>) </font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Due to 
-          problems reported with driver loading in the alpha version, driver loading 
-          has been rewritten. It is now more efficient.</font></li>
-      </ul>
-      <p>&nbsp;</p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        1.0 alpha </b></font></p>
-      <ul>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Restructured 
-          code to inherit from a single core wrapper driver.</font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Introduced 
-          concepts of modules and stackable drivers that dynamically load the 
-          necessary code into memory at runtime.</font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Broke 
-          code into logical modules: P6Log and P6Outage.</font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Refactored 
-          large amount of code.</font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Rewrote 
-          JUnit tests and added more rigorous tests.</font></li>
-      </ul>
-      <p>&nbsp;</p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        0.8</b></font></p>
-      <ul>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Created 
-          an Outage Detection module that reports database outages when database 
-          statements do not respond within a given period of time. (Peter Laird)</font></li>
-        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Created 
-          a JSP application that gives a visual control to P6Spy. The first version 
-          can be used to view configuration information about P6Spy and to create 
-          a demarcation in the log file. (Peter Laird) </font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added 
-          support for multiple simultaneous databases, a highly requested feature. 
-          Currently support is limited to three databases, but can easily be expanded. 
-          (Viktor Szathmary)</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added 
-          the logging of a connection ID, and enabled URLs to be prefixed with 
-          <b>p6spy:</b> to aid in debugging. A common mistake people make when 
-          installing is to have the real driver registered elsewhere, this feature 
-          avoids that problem. The default does not require this value, but in 
-          the future it may be mandatory to ease the install process.</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Rewrote 
-          P6SpyOptions to allow new options to quickly and easily be added.</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Additional 
-          JUnit tests were added.</font></li>
-      </ul>
-      <p>&nbsp;</p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        0.72</b></font></p>
-      <ul>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added 
-          the ability to dynamically reload the property file after a specified 
-          period of time. (Philip Ogren)</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added 
-          logging to commit and rollback statements.</font></li>
-      </ul>
-      <p>&nbsp;</p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        0.71</b></font></p>
-      <ul>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added 
-          installation instructions for BEA WebLogic <a href="install.htm#wlportal">Portal</a> 
-          and <a href="install.htm#wlserver">Server</a>. (Philip Ogren)</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Jakarta 
-          RegEx support. (contributed by Philip Ogren)</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Ability 
-          to print stack trace of logged statements. This is very useful to understand 
-          where a logged query is being executed in the application. (Philip Ogren)</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simplified 
-          table monitoring property file option. (Philip Ogren)</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Updated 
-          the RegEx documentation.</font></li>
-      </ul>
-      <p>&nbsp;</p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        0.7</b></font></p>
-      <ul>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added 
-          timing information to the log files. Now you can better visualize bottleneck 
-          queries. (Simon Sadedin)</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added 
-          RegEx support for table filtering, allowing sophisticated custom filtering. 
-          (Simon Sadedin) </font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added 
-          installation instructions for <a href="install.htm#iplanet">Sun iPlanet</a>. 
-          (Michael Sgroi)</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">Added 
-          installation instructions for <a href="install.htm#weblogic">BEA WebLogic</a>. 
-          (Richard Delbert)</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added 
-          support for callable statements.</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added 
-          support for batch statements.</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added 
-          a debug category that provides detailed debug information. By default 
-          this is disabled. See the <a href="license.htm#troubleshooting">Troubleshooting</a> 
-          section for more information.</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Changed 
-          the default log format to include more information.</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added 
-          test target to Ant that works with JUnit to perform some basic tests. 
-          Currently using Oracle as the test database.</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added 
-          ResultSet logging and timing information. By default this is disabled. 
-          See the <a href="other.htm#log"> Log File Format</a> documentation for 
-          more information.</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fixed 
-          a number of bugs, in particular a bug that was causing an empty spy.log 
-          file to be created and never populated.</font></li>
-      </ul>
-      <p>&nbsp;</p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        0.6</b></font></p>
-      <ul>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fixed 
-          a bug in which null connections were not returning null, but rather 
-          an empty connection. This was a problem for some applications that were 
-          expecting a null connection.</font></li>
-        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added 
-          an option to allow the truncation/non-truncation of the log file, which 
-          can be specified within <b>spy.options</b>. </font></li>
-      </ul>
       <blockquote> 
         <ul>
         </ul>
@@ -339,12 +321,11 @@
       does use these features they are not natively supported by P6Spy. For example, 
       the MySQL JDBC drivers allow you to call the auto-increment function as 
       follows: </font></font></div>
-    <div align="left"></div>
+    <div align="left"><br></div>
     <blockquote> 
       <blockquote> 
-        <div align="left"> 
-          <p>&nbsp;</p>
-          <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono" size="2">((org.gjt.mm.mysql.PreparedStatement)stmt).getLastInsertId(); 
+        <div align="left">
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono" size="2">((org.gjt.mm.mysql.PreparedStatement)stmt).getLastInsertId(); 
             </font></font></p>
         </div>
       </blockquote>
@@ -389,11 +370,9 @@
         the following usually means the <b>p6spy.jar</b> file is not found.</font></div>
     </li>
     <blockquote> 
-      <blockquote> 
-        <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font size="2" face="Courier New, Courier, mono">[JDBC 
-          provider] Initializing<br>
-          [Service Control] Could not initialize DefaultDomain:service=JdbcProvider</font></font></div>
-      </blockquote>
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font size="2" face="Courier New, Courier, mono">[JDBC 
+        provider] Initializing<br>
+        [Service Control] Could not initialize DefaultDomain:service=JdbcProvider</font></font></div>
     </blockquote>
   </ul>
   <blockquote> 
@@ -508,8 +487,8 @@
     <td width="11%"><a href="http://www.p6spy.com"><img src="http://www.p6spy.com/documentation/images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
     <td width="11%"><a href="http://www.p6spy.com/documentation/index.htm"><img src="http://www.p6spy.com/documentation/images/index.gif" width="110" height="20" border="0"></a></td>
     <td width="11%"><a href="http://www.p6spy.com/documentation/install.htm"><img src="http://www.p6spy.com/documentation/images/install.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="http://www.p6spy.com/documentation/p6log.htm"><img src="http://www.p6spy.com/documentation/images/p6log.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="http://www.p6spy.com/documentation/p6outage.htm"><img src="http://www.p6spy.com/documentation/images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/p6spymodules.htm#p6log"><img src="http://www.p6spy.com/documentation/images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/p6spymodules.htm#p6outage"><img src="http://www.p6spy.com/documentation/images/p6outage.gif" width="110" height="20" border="0"></a></td>
     <td width="38%">&nbsp;</td>
   </tr>
 </table>
