@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2003/01/10 21:40:11  jeffgoke
+ * changed to use new error handling facility
+ *
  * Revision 1.4  2003/01/03 21:18:03  aarvesen
  * use the new P6Util.forName
  *
@@ -203,13 +206,13 @@ public abstract class P6SpyDriverCore implements Driver {
 
 	    initialized = true;
 	} catch (ClassNotFoundException e1) {
-	    P6Util.warn("Error registering " + classType + "  " + className + " " + e1);
+	    P6LogQuery.logError("Error registering " + classType + "  " + className + " " + e1);
 	} catch (SQLException e2) {
-	    P6Util.warn("Error registering " + classType + "  " + className + " " + e2);
+	    P6LogQuery.logError("Error registering " + classType + "  " + className + " " + e2);
 	} catch (InstantiationException e3) {
-	    P6Util.warn("Error registering " + classType + "  " + className + " " + e3);
+	    P6LogQuery.logError("Error registering " + classType + "  " + className + " " + e3);
 	} catch (IllegalAccessException e4) {
-	    P6Util.warn("Error registering " + classType + "  " + className + " " + e4);
+	    P6LogQuery.logError("Error registering " + classType + "  " + className + " " + e4);
 	}
 	
     }
