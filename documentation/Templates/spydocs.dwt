@@ -1,42 +1,49 @@
 <html>
 <head>
 <!-- #BeginEditable "doctitle" -->
-<title>Untitled Document</title>
+<title>P6Spy Documentation</title>
 <!-- #EndEditable -->
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<body bgcolor="#000000" text="#000000">
-<img src="images/header.gif" width="580" height="80"> <br>
-<table width="100%" border="0">
+<body bgcolor="#FFFFFF">
+<table width="100%" border="0" bgcolor="black">
+<tr>
+<td>
+<img src="http://www.p6spy.com/documentation/images/header.gif" width="580" height="80"> 
+<br> 
+<table width="580" border="0">
   <tr> 
-    <td width="11%"><a href="http://www.p6spy.com"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="index.htm"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="install.htm"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="p6log.htm"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="p6outage.htm"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com"><img src="http://www.p6spy.com/documentation/images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/index.htm"><img src="http://www.p6spy.com/documentation/images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/install.htm"><img src="http://www.p6spy.com/documentation/images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/p6log.htm"><img src="http://www.p6spy.com/documentation/images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/p6outage.htm"><img src="http://www.p6spy.com/documentation/images/p6outage.gif" width="110" height="20" border="0"></a></td>
     <td width="38%">&nbsp;</td>
   </tr>
 </table>
+</td>
+</tr>
+</table>
 <br>
-<table width="100%" border="0" cellpadding="20" cellspacing="20">
-  <tr>
-    <td bgcolor="#FFFFFF">
 	<!-- #BeginEditable "body" -->
-      <!-- #EndEditable -->
-	  </td>
-  </tr>
-</table>
+      <!-- #EndEditable --> 
 <br>
-<table width="100%" border="0">
+<table width="100%" border="0" bgcolor="black">
+<tr>
+<td>
+<table width="580" border="0">
   <tr> 
-    <td width="11%"><a href="http://www.p6spy.com"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="index.htm"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="install.htm"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="p6log.htm"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="p6outage.htm"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com"><img src="http://www.p6spy.com/documentation/images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/index.htm"><img src="http://www.p6spy.com/documentation/images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/install.htm"><img src="http://www.p6spy.com/documentation/images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/p6log.htm"><img src="http://www.p6spy.com/documentation/images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com/documentation/p6outage.htm"><img src="http://www.p6spy.com/documentation/images/p6outage.gif" width="110" height="20" border="0"></a></td>
     <td width="38%">&nbsp;</td>
   </tr>
+</table>
+</td>
+</tr>
 </table>
 </body>
 </html>
