@@ -19,7 +19,7 @@
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  * notice, this list of conditions and the following disclaimer in
- * the documentation and/or other materials provided with the
+ * the documentation and/or other materials provided with theC:\jakarta-tomcat-3.2.2\classes\spy.properties
  * distribution.
  *
  * 3. The end-user documentation included with the redistribution, if
@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.7  2003/01/09 00:51:17  jeffgoke
+ * removed trace
+ *
  * Revision 1.6  2003/01/03 21:16:00  aarvesen
  * use the new P6Util.forName
  * removed some dead code
@@ -450,12 +453,10 @@ public class P6LogQuery {
     }
     
     static public void logElapsed(int connectionId, long startTime, long endTime, String category, String prepared, String sql) {
-	if (P6SpyOptions.getTrace()) {
-	    if (logger != null && isLoggable(sql) && isCategoryOk(category)) {
+    	if (logger != null && isLoggable(sql) && isCategoryOk(category)) {
 		doLogElapsed(connectionId, startTime, endTime, category, prepared, sql);
-	    } else if (isCategoryOk("debug")) {
+	} else if (isCategoryOk("debug")) {
 		logDebug("P6Spy intentionally did not log category: "+category+", statement: "+sql+"  Reason: logger="+logger+", isLoggable="+isLoggable(sql)+", isCategoryOk="+isCategoryOk(category));
-	    }
 	}
     }
     
