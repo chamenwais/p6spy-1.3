@@ -88,7 +88,8 @@ public class P6SpyOptions   {
      */
     
     public static String SPY_PROPERTIES_FILE = "spy.properties";
-    protected static long lastCheck = 0;
+    protected static Thread reloadThread         = null;
+    protected static OptionReloader reloader     = null;
     
     static {initMethod();}
     
@@ -452,6 +453,31 @@ public class P6SpyOptions   {
             }
         }
     }
+
+    protected static void configure() {
+	if (reloadProperties) {
+	    // check to see if the thread is running.  If so,
+	    // then change the sleep factor. if not, then
+	    // spawn a new thread, etc.
+	    if (reloader == null) {
+		reloader     = new OptionReloader(reloadMs);
+		reloadThread = new Thread(reloader);
+		reloadThread.setDaemon(true);
+		reloadThread.start();
+	    } else {
+		reloader.setRunning(true);
+		reloader.setSleep(reloadMs);
+	    }
+	} else {
+	    // if it's false, and you're currently reloading
+	    // then turn it off so the thread will die
+	    if (reloader != null) {
+		reloader.setRunning(false);
+		reloader = null;
+	    }
+	}
+    }
+
     
     public static void reloadProperties() {
         if(reloadProperties && propertiesPath != null) {
@@ -474,13 +500,6 @@ public class P6SpyOptions   {
         }
     }
     
-    public static void checkReload() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime > lastCheck + reloadMs) {
-            reloadProperties();
-            lastCheck = currentTime;
-        }
-    }
     
     public static void setValues(String filename) {
         try {
@@ -506,6 +525,9 @@ public class P6SpyOptions   {
         } catch (IntrospectionException e) {
             P6Util.warn("Could not set property values due to IntrospectionException");
         }
+
+	// now set the P6SpyOptions options
+	configure();
     }
     
     // this should actually be getAllModules but to make it easier for others to add
