@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.13  2003/04/15 02:10:54  cheechq
+ * jdk 1.2 support mod
+ *
  * Revision 1.12  2003/02/28 07:28:10  jeffgoke
  * added bug fix to enable jdk 1.2 support
  *
@@ -399,7 +402,10 @@ public class P6Util {
     public static File classLoadPropertyFile(java.net.URL purl) {
         try {
             if (purl != null) {
-                return new File(purl.getPath());
+            	// modified by jayakumar for JDK 1.2 support
+                //return new File(purl.getPath());
+                return new File(getPath(purl));
+                // end of modification
             }
         } catch (Exception e) {
             // we ignore this, since JDK 1.2 does not suppport this method
