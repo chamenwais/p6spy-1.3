@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2003/01/23 00:43:37  aarvesen
+ * Changed the module to be dot rather than underscore
+ *
  * Revision 1.3  2002/12/19 23:45:48  aarvesen
  * use factory rather than driver
  *
@@ -236,8 +239,8 @@ public class P6TestPerform extends P6TestFramework {
         String realdrivername2 = props2.getProperty("p6realdriver2");
         
         HashMap tp = new HashMap();
-        tp.put("module_log","com.p6spy.engine.logging.P6LogFactory");
-        tp.put("module_outage","com.p6spy.engine.outage.P6OutageFactory");
+        tp.put("module.log","com.p6spy.engine.logging.P6LogFactory");
+        tp.put("module.outage","com.p6spy.engine.outage.P6OutageFactory");
         tp.put("realdriver",realdrivername);
         tp.put("realdriver2",realdrivername2);
         tp.put("filter","false");

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2003/01/23 00:43:37  aarvesen
+ * Changed the module to be dot rather than underscore
+ *
  * Revision 1.4  2003/01/03 21:19:24  aarvesen
  * use the new P6Util.forName
  *
@@ -166,8 +169,8 @@ public class P6TestUtil  {
         String realdrivername2 = props2.getProperty("p6realdriver2");
         
         HashMap tp = new HashMap();
-        tp.put("module_outage","com.p6spy.engine.outage.P6OutageFactory");
-        tp.put("module_log","com.p6spy.engine.logging.P6LogFactory");
+        tp.put("module.outage","com.p6spy.engine.outage.P6OutageFactory");
+        tp.put("module.log","com.p6spy.engine.logging.P6LogFactory");
         tp.put("realdriver",realdrivername);
         tp.put("realdriver2",realdrivername2);
         tp.put("filter","false");
