@@ -69,6 +69,11 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/06/05 20:11:29  aarvesen
+ * bradley 'dot' johnson (bradley@irongrid.com) added in a test for dynamic array allocation
+ *
+ * re-added the import that Cheech removed :)
+ *
  * Revision 1.2  2003/06/03 19:20:26  cheechq
  * removed unused imports
  *
@@ -86,6 +91,7 @@ package com.p6spy.engine.test;
 
 import junit.framework.*;
 import java.sql.*;
+import com.p6spy.engine.spy.*;
 
 public class P6TestPreparedStatement extends P6TestStatement {
     
@@ -133,6 +139,19 @@ public class P6TestPreparedStatement extends P6TestStatement {
             assertIsLastQuery(query);
             rs.next();
             assertEquals(1, rs.getInt(1));
+            
+            // test dynamic allocation of P6_MAX_FIELDS
+            int MaxFields = P6PreparedStatement.P6_MAX_FIELDS + 3;
+            StringBuffer bigSelect = new StringBuffer(MaxFields);
+            bigSelect.append("select count(*) from prepstmt_test where");
+            for (int i = 0; i < MaxFields; i++) {
+                bigSelect.append(" or col2=?");
+            }
+            prep = getPreparedStatement(bigSelect.toString());
+            for (int i = 1; i <= MaxFields; i++) {
+                 prep.setInt(i, i);
+	    }
+            //rs = prep.executeQuery();
             
             // test batch inserts
             update = "insert into prepstmt_test values (?,?)";
