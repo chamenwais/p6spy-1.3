@@ -69,6 +69,10 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/06 21:39:35  aarvesen
+ * New factory registration in the constructor.
+ * Extend core factory now
+ *
  * Revision 1.1  2002/11/26 18:17:27  jeffgoke
  * *** empty log message ***
  *
@@ -87,41 +91,13 @@ package com.p6spy.engine.sample;
 import java.sql.*;
 import com.p6spy.engine.spy.*;
 
-public class P6SampleFactory implements P6Factory {
+public class P6SampleFactory extends P6CoreFactory implements P6Factory {
     
     public P6SampleFactory() {
     }
     
     public Connection getConnection(Connection conn) throws SQLException {
-        return (new P6SampleConnection(conn));
+        return (new P6SampleConnection(this, conn));
     }
-    
-    public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) {
-        return (new P6SamplePreparedStatement(real, conn, p0));
-    }
-    
-    public Statement getStatement(Statement statement, P6Connection conn) {
-        return (new P6SampleStatement(statement, conn));
-    }
-    
-    public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) {
-        return (new P6SampleCallableStatement(real, conn, p0));
-    }
-    
-    public DatabaseMetaData getDatabaseMetaData(DatabaseMetaData real, P6Connection conn) {
-        return new P6SampleDatabaseMetaData(real, conn);
-    }
-    
-    public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query) {
-        return (new P6SampleResultSet(real, statement, preparedQuery, query));
-    }
-    
-    public Array getArray(Array real, P6Statement statement, String preparedQuery, String query) {
-        return (new P6SampleArray(real, statement, preparedQuery, query));
-    }
-    
-    public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) {
-        return (new P6SampleResultSetMetaData(real));
-    }
-    
+
 }
