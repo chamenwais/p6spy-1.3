@@ -64,6 +64,9 @@
  * Support for PooledConnection interface 
  *
  * $Log$
+ * Revision 1.4  2003/08/07 19:07:58  aarvesen
+ * removed needless imports, collapsed the sql imports
+ *
  * Revision 1.3  2003/08/04 19:34:02  aarvesen
  * radically changed this class to simply wrap a pooledconnection rather than maintain its own kludgy connection pool
  *
@@ -92,12 +95,7 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import javax.sql.PooledConnection;
-
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.sql.*;
 import javax.sql.*;
 
 
