@@ -83,6 +83,10 @@ public class P6SpyDriver2 extends P6SpyDriverCore {
     
     public P6SpyDriver2() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         super(P6SpyDriver2.class.getName(), new P6CoreFactory());
+	Throwable t = new Throwable();
+	StringWriter sw = new StringWriter();
+	t.printStackTrace(new PrintWriter(sw));
+	P6LogQuery.logDebug("new spy driver: " + sw.toString());
     }
     
 }

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.8  2003/01/18 00:26:35  jeffgoke
+ * fixed a bug where new instances of the driver (not using driver manager but creating instances of the driver yourself) were causing the connection to be null
+ *
  * Revision 1.7  2003/01/16 00:50:03  jeffgoke
  * changed Error call to use syntax compatible prior to 1.4
  *
@@ -143,6 +146,7 @@ public abstract class P6SpyDriverCore implements Driver {
     protected Driver passthru = null;
     protected static boolean initialized = false;
     protected static ArrayList factories;
+    protected static ArrayList realDrivers = new ArrayList();
 
     /* 
      * This core class serves to purposes
@@ -198,7 +202,10 @@ public abstract class P6SpyDriverCore implements Driver {
 		// now wrap your realDriver in the spy
 		if (hasModules) {
 		    spy.setPassthru(realDriver);
+		    realDrivers.add(realDriver);
 		}
+
+		P6LogQuery.logDebug("Registered driver: "+className+", realdriver: "+realDriver);
 	    }
 
 	    // instantiate the factories, if nec.
@@ -211,9 +218,16 @@ public abstract class P6SpyDriverCore implements Driver {
 		    P6Factory factory = (P6Factory)P6Util.forName(className).newInstance();
 		    factories.add(factory);
 		}
+
+		P6LogQuery.logDebug("Registered factory: "+className);
 	    }
 
 	    initialized = true;
+
+	    for (Enumeration e = DriverManager.getDrivers() ; e.hasMoreElements() ;) {
+	        P6LogQuery.logDebug ("Driver manager reporting driver registered: "+e.nextElement());
+            }
+	    
 	} catch (Exception e) {
 	    String err = "Error registering " + classType + "  [" + className + "]\nCaused By: " + e.toString();
 	    P6LogQuery.logError(err);
@@ -263,12 +277,33 @@ public abstract class P6SpyDriverCore implements Driver {
         if (realUrl==null) {
             throw new SQLException("URL needs the p6spy prefix: "+p0);
         }
+
+	P6LogQuery.logDebug("this is " + this + " and passthru is " + passthru);
+	if (passthru == null) {
+		findPassthru(realUrl);
+	}
+
+	
         Connection conn = passthru.connect(realUrl,p1);
 
 	if (conn != null) {
 	    conn = wrapConnection(conn);
 	}
         return conn;
+    }
+    
+    protected void findPassthru(String url) {
+	Iterator i = realDrivers.iterator();
+	while (i.hasNext()) {
+	    Driver driver = (Driver) i.next();
+	    try {
+		    if (driver.acceptsURL(url)) {
+			passthru = driver;
+			P6LogQuery.logDebug("found new driver " + driver);
+			break;
+		    }
+	    } catch (SQLException e) {}
+	}
     }
     
     public boolean acceptsURL(String p0) throws SQLException {
