@@ -693,13 +693,13 @@
       Do not include any trailing spaces after the new line. This adds <b>p6spy.jar</b> 
       and <b>spy.properties</b> to the classpath.</font></li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Modify WebLogic 
-      Portal to use the P6Spy driver. Either modify <b><font color="#000000">config.xml 
-      </font></b><font color="#000000">(which resides in <i>bea-home</i>\wlserver6.1\config\<i>your-domain</i>)</font><font color="#000000"> 
+      Server to use the P6Spy driver. Either modify <b><font color="#000000">config.xml 
+      </font></b><font color="#000000">(which resides in <i>bea-home</i>\wlserver6.1\config\<i>your-domain</i>) 
       d</font>irectly or complete the following steps:</font> 
       <ol type="i">
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Start 
-          WebLogic Portal <font color="#000000">by running<b> startPortal.bat</b>. 
-          <b>startPortal.bat </b>resides in <i>bea-home</i>\wlserver6.1\config\portalDomain.</font></font></li>
+          WebLogic Server <font color="#000000">by running<b> startWebLogic.cmd</b>. 
+          <b>startWebLogic.cmd </b>resides in <i>bea-home</i>\wlserver6.1\config\<i>your-domain</i>.</font></font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Start 
           the Administration Console tool by navigating to http://&lt;<i>your-host</i>&gt;:7501/console.</font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Navigate 
@@ -728,12 +728,12 @@
       </ol>
     </li>
     <li><font color="#000000" face="Verdana, Arial, Helvetica, sans-serif" size="2">Using 
-      the Administration Console, shut down WebLogic Portal. Right-click on the 
+      the Administration Console, shut down WebLogic Server. Right-click on the 
       <i><b>your-domain</b></i> -&gt;<b> Servers </b>-&gt; <i><b>your-server</b></i> 
       node and <font color="#000000">s</font>elect <b>Stop this Server </b>from 
       the pop-up menu.</font></li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">Restart 
-      WebLogic Portal by running <b>startPortal.bat</b>.</font></li>
+      WebLogic Portal by running <b>startWebLogic.cmd</b>.</font></li>
   </ol>
   <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
     is complete. </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">When 
