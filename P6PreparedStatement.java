@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2002/04/18 06:54:39  jeffgoke
+ * added batch statement logging support
+ *
  * Revision 1.4  2002/04/15 05:13:32  jeffgoke
  * Simon Sadedin added timing support.  Fixed bug where batch execute was not
  * getting logged.  Added result set timing.  Updated the log format to include
@@ -105,14 +108,15 @@ import java.math.*;
 public class P6PreparedStatement extends P6Statement implements PreparedStatement {
     private  static int P6_MAX_FIELDS = 256;
     protected PreparedStatement prepStmtPassthru;
-    private String query;
+    private String preparedQuery;
+    private String actualQuery;
     private Object values[];
     private boolean isString[];
     
     P6PreparedStatement(PreparedStatement statement, P6Connection conn, String query) {
-        super(statement, conn);
+        super(statement, conn, query);
         prepStmtPassthru = statement;
-        this.query = query;
+        this.preparedQuery = query;
         initValues();
     }
     
@@ -127,7 +131,15 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     }
     
     public void addBatch() throws SQLException {
-        prepStmtPassthru.addBatch();
+        long startTime = System.currentTimeMillis();
+        try {
+            prepStmtPassthru.addBatch();
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "batch", preparedQuery, getQueryFromPreparedStatement());
+            }
+        }
     }
     
     public void clearParameters() throws SQLException {
@@ -141,7 +153,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", query, getQueryFromPreparedStatement());
+                P6LogQuery.logElapsed(startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
             }
         }
     }
@@ -150,11 +162,11 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         long startTime = System.currentTimeMillis();
         try {
             ResultSet resultSet = prepStmtPassthru.executeQuery();
-            return (new P6ResultSet(resultSet, this, query, getQueryFromPreparedStatement()));
+            return (new P6ResultSet(resultSet, this, preparedQuery, getQueryFromPreparedStatement()));
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", query, getQueryFromPreparedStatement());
+                P6LogQuery.logElapsed(startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
             }
         }
     }
@@ -167,7 +179,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", query, getQueryFromPreparedStatement());
+                P6LogQuery.logElapsed(startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
             }
         }
     }
@@ -325,18 +337,18 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         setObjectAsString(p0, p1);
         prepStmtPassthru.setUnicodeStream(p0,p1,p2);
     }
-
+    
     /* we override this because the p6statement version will not be able to return
      * the accurate prepared statement or query information */
     public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
-        return (new P6ResultSet(passthru.getResultSet(), this, query, getQueryFromPreparedStatement()));
+        return (new P6ResultSet(passthru.getResultSet(), this, preparedQuery, getQueryFromPreparedStatement()));
     }
     
     /*
      * P6Spy specific functionality
      */
     public String getQueryFromPreparedStatement() {
-        String t = new String(query);
+        String t = new String(preparedQuery);
         
         if (values != null) {
             int i = 1, found;

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2002/04/18 06:54:39  jeffgoke
+ * added batch statement logging support
+ *
  * Revision 1.3  2002/04/15 05:13:32  jeffgoke
  * Simon Sadedin added timing support.  Fixed bug where batch execute was not
  * getting logged.  Added result set timing.  Updated the log format to include
@@ -104,11 +107,11 @@ import java.sql.*;
 public class P6CallableStatement extends P6PreparedStatement implements java.sql.CallableStatement {
     
     protected CallableStatement callStmtPassthru;
-    private String query;
+    private String callableQuery;
     
     P6CallableStatement(CallableStatement statement, P6Connection conn, String query) {
         super(statement, conn, query);
-        this.query = query;
+        this.callableQuery = query;
         this.callStmtPassthru = statement;
     }
     
@@ -133,7 +136,7 @@ public class P6CallableStatement extends P6PreparedStatement implements java.sql
     }
     
     public java.sql.Array getArray(int p0) throws java.sql.SQLException {
-        return new P6Array(callStmtPassthru.getArray(p0),this,query,getQueryFromPreparedStatement());
+        return new P6Array(callStmtPassthru.getArray(p0),this,callableQuery,getQueryFromPreparedStatement());
     }
     
     public java.math.BigDecimal getBigDecimal(int p0) throws java.sql.SQLException {

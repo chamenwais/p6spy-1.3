@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2002/04/18 06:54:39  jeffgoke
+ * added batch statement logging support
+ *
  * Revision 1.4  2002/04/15 05:13:32  jeffgoke
  * Simon Sadedin added timing support.  Fixed bug where batch execute was not
  * getting logged.  Added result set timing.  Updated the log format to include
@@ -105,13 +108,22 @@ import java.sql.*;
 public class P6Statement implements Statement {
     protected Statement passthru;
     protected P6Connection connection;
-    protected String query;
+    protected String statementQuery;
+    protected String prepared;
     
     public P6Statement() {}
+    
+    P6Statement(Statement statement, P6Connection conn, String prepared) {
+        passthru = statement;
+        connection = conn;
+        this.prepared = prepared;
+    }    
     
     P6Statement(Statement statement, P6Connection conn) {
         passthru = statement;
         connection = conn;
+        prepared = "";
+        statementQuery = "";
     }
     
     public void close() throws java.sql.SQLException {
@@ -119,7 +131,7 @@ public class P6Statement implements Statement {
     }
     
     public boolean execute(String p0) throws java.sql.SQLException {
-        query = p0;
+        statementQuery = p0;
         long startTime = System.currentTimeMillis();
         try {
             return passthru.execute(p0);
@@ -132,7 +144,7 @@ public class P6Statement implements Statement {
     }
     
     public ResultSet executeQuery(String p0) throws java.sql.SQLException {
-        query = p0;
+        statementQuery = p0;
         long startTime = System.currentTimeMillis();
         try {
             return (new P6ResultSet(passthru.executeQuery(p0), this, "", p0));
@@ -145,7 +157,7 @@ public class P6Statement implements Statement {
     }
     
     public int executeUpdate(String p0) throws java.sql.SQLException {
-        query = p0;
+        statementQuery = p0;
         long startTime = System.currentTimeMillis();
         try {
             return(passthru.executeUpdate(p0));
@@ -202,7 +214,7 @@ public class P6Statement implements Statement {
     }
     
     public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
-        return (new P6ResultSet(passthru.getResultSet(), this, "", query));
+        return (new P6ResultSet(passthru.getResultSet(), this, "", statementQuery));
     }
     
     public int getUpdateCount() throws java.sql.SQLException {
@@ -238,8 +250,16 @@ public class P6Statement implements Statement {
     }
     
     public void addBatch(String p0) throws java.sql.SQLException {
-        query = p0;
-        passthru.addBatch(p0);
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        try {
+            passthru.addBatch(p0);
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "batch", "", p0);
+            }
+        }
     }
     
     public void clearBatch() throws java.sql.SQLException {
@@ -253,7 +273,7 @@ public class P6Statement implements Statement {
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", "", query);
+                P6LogQuery.logElapsed(startTime, "statement", prepared, statementQuery);
             }
         }
     }
