@@ -1,6 +1,6 @@
 <%@ page import="com.p6spy.engine.spy.*"%>
 <%@ page import="com.p6spy.engine.common.*"%>
-
+<%@ page import="com.p6spy.engine.outage.*"%>
 <%
 	// what actions can we do (currently just add a line to the log)
 	String actionParam = "doAction";
@@ -76,9 +76,9 @@
 <p><h3>P6Spy Configuration Information:</h3></p>
 <p>
 Driver: <%= P6SpyOptions.getRealdriver() %> <br>
-Stack Trace Enabled: <%= P6SpyOptions.getTrace() %> <br>	
+Stack Trace Enabled: <%= P6SpyOptions.getStackTrace() %> <br>	
 Reload Properties Enabled: <%= P6SpyOptions.getReloadProperties() %> <br>	
-Outage Detection Enabled: <%= P6SpyOptions.getOutageDetection() %> <br>	
+Outage Detection Enabled: <%= P6OutageOptions.getOutageDetection() %> <br>	
 </p>
 
 <p><h3>Create a demarcation in the P6Spy Log file:</h3></p>
