@@ -56,11 +56,11 @@
             your classpath may not work.&nbsp;&nbsp;Some EJB servers ignore the 
             classpath and set their own when they start up.</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
-            spy.properties and spy.forms in your classpath.</b> Copy the spy.properties 
-            and spy.form files into a directory listed in your classpath.&nbsp;&nbsp;For 
-            example, if your classpath is C:\p6spy\p6spy.jar;c:\java you can copy 
-            it to the java directory.&nbsp;&nbsp;Unlike jar files, you do not 
-            directly reference your property file in the classpath.</font></li>
+            spy.properties in your classpath.</b> Copy spy.properties into a directory 
+            listed in your classpath.&nbsp;&nbsp;For example, if your classpath 
+            is C:\p6spy\p6spy.jar;c:\java you can copy it to the java directory.&nbsp;&nbsp;Unlike 
+            jar files, you do not directly reference your property file in the 
+            classpath.</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
             your application or server to use the P6Spy database driver.</b> P6Spy 
             support applications that use DriverManager or a Datasource to obtain 
@@ -101,12 +101,12 @@
         <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains the files: p6spy.jar, spy.properties, and spy.forms</font></li>
+            contains the files: p6spy.jar, spy.properties</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
             the p6spy.jar file in your ext directory.</b> For example: C:\JBoss-2.2.2_Tomcat-3.2.2\jboss\lib\ext</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
-            spy.properties and spy.forms in your db directory (which is part of 
-            the JBoss classpath).</b> For example: C:\JBoss-2.2.2_Tomcat-3.2.2\jboss\db</font></li>
+            spy.properties in your db directory (which is part of the JBoss classpath).</b> 
+            For example: C:\JBoss-2.2.2_Tomcat-3.2.2\jboss\db</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
             JBoss to use the P6Spy driver. </b>&nbsp;Modify the jboss.jcml file 
             to use the P6 driver.&nbsp;&nbsp;Make sure to modify the correct file. 
@@ -147,11 +147,11 @@
         <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains the files: p6spy.jar, spy.properties, and spy.forms</font></li>
+            contains the files: p6spy.jar, spy.properties</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>
 	  Put the p6spy.jar file in the lib directory of the server you wish to run.</b> For example: <code>C:\java\jboss-3.0.4\server\default\lib</code></font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>
-	  Put spy.properties and spy.forms in your JBoss classpath.</b> By default, the JBoss classpath setup by run.bat only points to tools.jar and run.jar.  <B>You might need to add a directory, via JBOSS_CLASSPATH, to this path.</B> For example:
+	  Put spy.properties in your JBoss classpath.</b> By default, the JBoss classpath setup by run.bat only points to tools.jar and run.jar.  <B>You might need to add a directory, via JBOSS_CLASSPATH, to this path.</B> For example:
 	    <P>
 	    <pre>
 C:\&gt; set JBOSS_CLASSPATH=C:\java\jboss-3.0.4\server\default\db
@@ -202,9 +202,9 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
         <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains the files: p6spy.jar, spy.properties, and spy.forms</font></li>
+            contains the files: p6spy.jar, spy.properties</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
-            p6spy.jar, spy.properties, and spy.forms in your [orion-home]\lib 
+            p6spy.jar, spy.properties in your [orion-home]\lib 
             directory.</b> For example: c:\orion\lib</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
             Orion to use the P6Spy driver. </b>&nbsp;Modify [orion-home]\config\data-sources.xml 
@@ -241,9 +241,9 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
           <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Run 
             your application.</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;&nbsp;In 
             the example installation, Orion will not be able to find spy.properties 
-            or spy.forms because of the classpath that Orion uses. The easiest 
-            way to overcome this is to use the -D option to tell Orion where the 
-            property file resides. For example, run Orion using java -Dp6.home=c:\orion\orion\lib 
+            because of the classpath that Orion uses. The easiest way to overcome 
+            this is to use the -D option to tell Orion where the property file 
+            resides. For example, run Orion using java -Dp6.home=c:\orion\orion\lib 
             -jar orion.jar<br>
             <br>
             A spy.log file will be generated in the [orion-home] directory. If 
@@ -265,7 +265,7 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
         <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains the files: p6spy.jar, spy.properties, and spy.forms. Copy 
+            contains the files: p6spy.jar, spy.properties. Copy 
             them to the lib\ directory of your web application. For example: C:\jakarta-tomcat-3.2.1\webapps\p6\WEB-INF\lib</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
             your Tomcat application to use P6Spy as the database driver. </b> 
@@ -285,14 +285,13 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
             &lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/param-value&gt;&lt;/init-param&gt;<br>
             </font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Enable 
-            Tomcat to find spy.properties and spy.forms. </b>While all of the 
-            .jar files in your webapps lib directory are, by default, included 
-            in Tomcat's classpath, the lib directory itself is not, which means 
-            Tomcat will not be able to find your spy.properties or spy.forms files, 
-            which will cause an error to occur. All this means is that you have 
-            to include spy.properties and spy.forms in the Tomcat classpath. The 
-            simplest way to do this is to use the TOMCAT_OPTS environment variable 
-            to specify the location of the spy.properties file. For example:<br>
+            Tomcat to find spy.properties. </b>While all of the .jar files in 
+            your webapps lib directory are, by default, included in Tomcat's classpath, 
+            the lib directory itself is not, which means Tomcat will not be able 
+            to find your spy.properties file, which will cause an error to occur. 
+            All this means is that you have to include spy.properties in the Tomcat 
+            classpath. The simplest way to do this is to use the TOMCAT_OPTS environment 
+            variable to specify the location of the spy.properties file. For example:<br>
             <br>
             SET TOMCAT_OPTS=-Dp6.home=C:\jakarta-tomcat-3.2.1\webapps\p6\WEB-INF\lib<br>
             <br>
@@ -318,14 +317,14 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
         <ol>
           <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file.&nbsp; </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">This 
-            contains the files: p6spy.jar, spy.properties, and spy.forms</font></li>
+            contains the files: p6spy.jar, spy.properties</font></li>
           <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Put 
             the p6spy.jar file in the classpath of the JOnAS EJB server.</b> For 
             example, if p6spy.jar is in the /opt/Provider6 directory, you may 
             add /opt/Provider6/p6psy.jar to the XTRA_CLASSPATH environment variable 
             (or directly edit the config_env script)</font></li>
           <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Put 
-            spy.properties and spy.forms in a directory which is part of your 
+            spy.properties in a directory which is part of your 
             classpath.</b> The best may be to put it in the same directory as 
             your jndi.properties file</font></li>
           <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Tell 
@@ -399,8 +398,7 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
         <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file to a temporary 
-            directory. This contains the files: p6spy.jar, spy.properties, and 
-            spy.forms</font></li>
+            directory. This contains the files: p6spy.jar, spy.properties</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Copy 
             p6spy.jar to <code>&lt;bea-home&gt;\wlportal4.0\lib\ext</code></b>. 
             </font> 
@@ -411,7 +409,7 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
             near the bottom of the file. Be sure there are no trailing spaces 
             on the end of this line. </font> 
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Copy 
-            spy.properties and spy.forms to <code>&lt;bea-home&gt;\wlportal4.0\config\portalDomain</code></b> 
+            spy.properties to <code>&lt;bea-home&gt;\wlportal4.0\config\portalDomain</code></b> 
             or to your application's domain directory. </font> 
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Open 
             spy.properties for edit.</b> Set <code>realdriver=weblogic.jdbc.oci.Driver</code> 
@@ -420,8 +418,7 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Open 
             <code>&lt;bea-home&gt;\wlportal4.0\config\portalDomain\startPortal.bat</code> 
             for edit. </b> Add <code>;%P13N_DIR%\config\portalDomain</code> to 
-            the classpath near the bottom of the file. This puts spy.properties 
-            and spy.forms in the classpath. Be sure there are no trailing spaces 
+            the classpath near the bottom of the file. This puts spy.properties in the classpath. Be sure there are no trailing spaces 
             on the end of this line. </font> 
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
             WebLogic Portal to use the P6Spy driver. </b>&nbsp; This can be done 
@@ -461,13 +458,12 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
         <ol>
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file to a temporary 
-            directory. This contains the files: p6spy.jar, spy.properties, and 
-            spy.forms</font></li>
+            directory. This contains the files: p6spy.jar, spy.properties</font></li>
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><b>Copy 
             p6spy.jar to <code>&lt;bea-home&gt;\wlserver6.1\lib\ext</code></b>. 
             </font> 
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><b>Copy 
-            spy.properties and spy.forms to <code>&lt;bea-home&gt;\wlserver6.1\config\&lt;your-domain&gt; 
+            spy.properties to <code>&lt;bea-home&gt;\wlserver6.1\config\&lt;your-domain&gt; 
             </code></b>. </font> 
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><b>Open 
             spy.properties for edit.</b> Set <code>realdriver=weblogic.jdbc.oci.Driver</code> 
@@ -476,9 +472,9 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><b>Open 
             <code>&lt;bea-home&gt;\wlserver6.1\config\&lt;your-domain&gt;\startWebLogic.cmd</code> 
             for edit. </b> Add <code>;.\ext\p6spy.jar;.\config\&lt;your-domain&gt;</code> 
-            to the classpath near the bottom of the file. This puts p6spy.jar, 
-            spy.forms and spy.properties in the classpath. Be sure there are no 
-            trailing spaces on the end of this line. </font> 
+            to the classpath near the bottom of the file. This puts p6spy.jar 
+            and spy.properties in the classpath. Be sure there are no trailing 
+            spaces on the end of this line. </font> 
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><b>Tell 
             WebLogic Server to use the P6Spy driver. </b>&nbsp; This can be done 
             through the Administration Console or by modifying <code>&lt;bea-home&gt;\wlserver6.1\config\&lt;your-domain&gt;\config.xml</code>. 
@@ -515,13 +511,11 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
         <ol>
           <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file.&nbsp; </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">This 
-            contains the files: p6spy.jar, spy.properties, and spy.forms</font></li>
+            contains the files: p6spy.jar, spy.properties</font></li>
           <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Edit 
             startWeblogic.sh, put the p6spy.jar file in the JAVA_CLASSPATH.</b></font></li>
           <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Edit 
             startWeblogic.sh, put spy.properties in the JAVA_CLASSPATH.</b></font></li>
-          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">Edit 
-            startWeblogic.sh, put spy.forms in the JAVA_CLASSPATH.</font></b></li>
           <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">Edit 
             weblogic.properties (connection pool). </font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"> 
             Replace the JDBC class driver with com.p6spy.engine.spy.P6SpyDriver.</font></li>
@@ -547,7 +541,7 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
         <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains the files: p6spy.jar, spy.properties, and spy.forms. Copy 
+            contains the files: p6spy.jar, spy.properties. Copy 
             them to a directory. For this example, we will copy both files to 
             c:\p6spy</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Start 
@@ -648,8 +642,7 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
         <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> <b>Unzip 
             the distribution.</b> Unjar the p6spy-install.jar file into a directory, 
-            call it &lt;Spy Home&gt;. This contains the files: p6spy.jar, spy.properties, 
-            and spy.forms</font></li>
+            call it &lt;Spy Home&gt;. This contains the files: p6spy.jar, spy.properties</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> <b>Add 
             P6Spy to your classpath.</b> To put the p6spy.jar file in your classpath, 
             run the command line executable &quot;kregedit&quot;. Under Software\iPlanet, 
@@ -725,7 +718,7 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
         <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Application 
             server does not start properly.&nbsp;&nbsp;</b>This is probably because 
-            the p6spy.jar, spy.properties, or spy.forms is not in the classpath.&nbsp;&nbsp;In 
+            the p6spy.jar or spy.properties is not in the classpath.&nbsp;&nbsp;In 
             the case of JBoss look at the JBoss log file for clues</font>: 
             <blockquote> 
               <p><font size="2" face="Arial, Helvetica, sans-serif">[JDBC provider] 
@@ -741,7 +734,7 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
               to one of the directories listed.</font></p>
           </li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>You 
-            see a message stating the spy.properties/spy.forms cannot be found.&nbsp;&nbsp;</b>Often 
+            see a message stating the spy.properties cannot be found.&nbsp;&nbsp;</b>Often 
             application servers have their own classpath and ignore the standard 
             java classpath. Make sure spy.properties is in the classpath that 
             is listed in the error message stating spy.properties cannot be found, 
