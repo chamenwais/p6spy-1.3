@@ -68,6 +68,10 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2002/12/09 21:51:14  aarvesen
+ * New constructor
+ * jdk 1.4 changes
+ *
  * Revision 1.2  2002/10/06 18:22:48  jeffgoke
  * no message
  *
@@ -127,12 +131,9 @@ import com.p6spy.engine.common.*;
 
 public class P6OutageStatement extends P6Statement implements Statement {
     
-    protected P6Factory getP6Factory() {
-        return new P6OutageFactory();
-    }
     
-    public P6OutageStatement(Statement statement, P6Connection conn) {
-        super(statement, conn);
+    public P6OutageStatement(P6Factory factory, Statement statement, P6Connection conn) {
+        super(factory, statement, conn);
     }
     
     public boolean execute(String p0) throws java.sql.SQLException {
@@ -154,6 +155,66 @@ public class P6OutageStatement extends P6Statement implements Statement {
         }
     }
     
+    // Since JDK 1.4
+    public boolean execute(String p0, int p1) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
+        }
+        
+        try {
+            return passthru.execute(p0, p1);
+        }
+        finally {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
+        }
+        
+        try {
+            return passthru.execute(p0, p1);
+        }
+        finally {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
+        }
+        
+        try {
+            return passthru.execute(p0, p1);
+        }
+        finally {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            }
+        }
+    }
+    
     public ResultSet executeQuery(String p0) throws java.sql.SQLException {
         P6SpyOptions.checkReload();
         statementQuery = p0;
@@ -164,7 +225,7 @@ public class P6OutageStatement extends P6Statement implements Statement {
         }
         
         try {
-            return (new P6ResultSet(passthru.executeQuery(p0), this, "", p0));
+            return (new P6ResultSet(getP6Factory(), passthru.executeQuery(p0), this, "", p0));
         }
         finally {
             if (P6SpyOptions.getOutageDetection()) {
@@ -184,6 +245,66 @@ public class P6OutageStatement extends P6Statement implements Statement {
         
         try {
             return(passthru.executeUpdate(p0));
+        }
+        finally {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
+        }
+        
+        try {
+            return(passthru.executeUpdate(p0, p1));
+        }
+        finally {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
+        }
+        
+        try {
+            return(passthru.executeUpdate(p0, p1));
+        }
+        finally {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
+        }
+        
+        try {
+            return(passthru.executeUpdate(p0, p1));
         }
         finally {
             if (P6SpyOptions.getOutageDetection()) {

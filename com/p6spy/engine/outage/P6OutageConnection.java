@@ -68,6 +68,10 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2002/12/09 21:46:07  aarvesen
+ * New constructor
+ * jdk 1.4 changes
+ *
  * Revision 1.2  2002/10/06 18:22:48  jeffgoke
  * no message
  *
@@ -120,12 +124,9 @@ import java.util.*;
 
 public class P6OutageConnection extends P6Connection implements java.sql.Connection {
     
-    protected P6Factory getP6Factory() {
-        return new P6OutageFactory();
-    }
     
-    public P6OutageConnection(Connection conn) throws SQLException {
-        super(conn);
+    public P6OutageConnection(P6Factory factory, Connection conn) throws SQLException {
+        super(factory, conn);
     }
     
     public void commit() throws SQLException {
@@ -158,6 +159,26 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
         
         try {
             passthru.rollback();
+        }
+        finally {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public void rollback(Savepoint p0) throws SQLException {
+        P6SpyOptions.checkReload();
+        long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,
+            "rollback","", "");
+        }
+        
+        try {
+            passthru.rollback(p0);
         }
         finally {
             if (P6SpyOptions.getOutageDetection()) {
