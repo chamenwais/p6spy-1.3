@@ -67,6 +67,9 @@
  * $Author$
  *
  * $Log$
+ * Revision 1.4  2003/08/04 19:33:13  aarvesen
+ * removed the flawed implementation of trying to wrap a normal p6 connection in a pooled connection
+ *
  * Revision 1.3  2003/06/03 19:20:25  cheechq
  * removed unused imports
  *
@@ -99,30 +102,39 @@ package com.p6spy.engine.spy;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.sql.PooledConnection;
-import javax.sql.ConnectionPoolDataSource;
+import javax.sql.*;
 
 public class P6ConnectionPoolDataSource extends P6DataSource implements ConnectionPoolDataSource {
 
+    public P6ConnectionPoolDataSource() {
+      super();
+    }
+
+    public P6ConnectionPoolDataSource(DataSource ds) {
+      super();
+      rds = ds;
+    }
 
     public synchronized PooledConnection getPooledConnection() throws SQLException {
+      if (rds == null) {
+	bindDataSource();
+      }
 
-	// get a connection, don't use passthrough directly so that 
-	// the connection ops will be traced.
-	Connection connection = getConnection();
-
-	P6PooledConnection pooledConnection = new P6PooledConnection(connection);
-	return pooledConnection;
+      PooledConnection pc = ((ConnectionPoolDataSource) rds).getPooledConnection();
+      P6PooledConnection pooledConnection = new P6PooledConnection(pc);
+      return pooledConnection;
     }
     
     
     public synchronized PooledConnection getPooledConnection(String s, String s1) throws SQLException {
 
-	// get a connection, don't use passthrough directly so that 
-	// the connection ops will be traced.
-	Connection connection = getConnection(s, s1);
-	P6PooledConnection pooledConnection = new P6PooledConnection(connection);
-	return pooledConnection;
+      if (rds == null) {
+	bindDataSource();
+      }
+
+      PooledConnection pc = ((ConnectionPoolDataSource) rds).getPooledConnection(s, s1);
+      P6PooledConnection pooledConnection = new P6PooledConnection(pc);
+      return pooledConnection;
     }
 
 }
