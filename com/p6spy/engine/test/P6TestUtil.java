@@ -69,6 +69,10 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.9  2003/03/07 22:06:46  aarvesen
+ * made some things public
+ * added in deregisterdrivers = true
+ *
  * Revision 1.8  2003/02/14 22:22:16  aarvesen
  * use a define for the property file
  *
@@ -115,7 +119,7 @@ public class P6TestUtil  {
     protected P6TestUtil() {
     }
     
-    protected static Properties loadProperties(String filename) {
+    public static Properties loadProperties(String filename) {
         if (filename == null) {
             System.err.println("No "+filename+" properties file specified.");
             System.exit(1);
@@ -205,6 +209,7 @@ public class P6TestUtil  {
         tp.put("formsfile","testspy.forms");
         tp.put("formslog","testforms.log");
         tp.put("formstrace","true");
+        tp.put("deregisterdrivers","true");
         return tp;
     }
     
@@ -261,7 +266,7 @@ public class P6TestUtil  {
         }
     }
     
-    protected static Connection loadDrivers(String drivernameProperty) throws SQLException, IOException, ClassNotFoundException {
+    public static Connection loadDrivers(String drivernameProperty) throws SQLException, IOException, ClassNotFoundException {
         Properties props = loadProperties("P6Test.properties");
         String drivername = props.getProperty(drivernameProperty);
         String user = props.getProperty("user");
