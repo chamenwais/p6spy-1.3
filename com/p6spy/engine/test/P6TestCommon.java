@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/01/28 17:59:12  jeffgoke
+ * fixed test cases to use new options
+ *
  * Revision 1.2  2003/01/03 21:19:24  aarvesen
  * use the new P6Util.forName
  *
@@ -330,16 +333,17 @@ public class P6TestCommon extends P6TestFramework {
             tp.put("reloadpropertiesinterval","1");
             writeProperty("reloadtest.properties", tp);
             
-            P6SpyOptions.SPY_PROPERTIES_FILE = "reloadtest.properties";
-            P6SpyOptions.initMethod();
-            
+            P6SpyProperties properties = new P6SpyProperties();
+            properties.setSpyProperties("reloadtest.properties");
+            properties.forceReadProperties();
+            OptionReloader.reload();
+                        
             Thread.sleep(2000);
             query = "select 'c' from stmt_test";
             statement.executeQuery(query);
             assertEquals(P6SpyOptions.getFilter(), true);
             assertEquals(P6SpyOptions.getInclude(), "bob");
             assertEquals(P6SpyOptions.getExclude(), "barb");
-            assertEquals(P6SpyOptions.getTrace(), false);
             assertEquals(P6SpyOptions.getAutoflush(), false);
             assertEquals(P6SpyOptions.getLogfile(), "reload.log");
             assertEquals(P6SpyOptions.getAppend(), false);

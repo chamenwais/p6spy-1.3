@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.6  2003/01/28 17:59:14  jeffgoke
+ * fixed test cases to use new options
+ *
  * Revision 1.5  2003/01/23 00:43:37  aarvesen
  * Changed the module to be dot rather than underscore
  *
@@ -202,8 +205,10 @@ public class P6TestUtil  {
     protected static void reloadProperty(HashMap props) throws IOException {
         writeProperty("reloadtest.properties", props);
         
-        P6SpyOptions.SPY_PROPERTIES_FILE = "reloadtest.properties";
-        P6SpyOptions.initMethod();
+        P6SpyProperties properties = new P6SpyProperties();
+        properties.setSpyProperties("reloadtest.properties");
+        properties.forceReadProperties();
+        OptionReloader.reload();
     }
     
     protected static void assertIsLastQuery(String query) {

@@ -129,10 +129,15 @@ public class P6SpyProperties {
         return null;
     }
     
-    /* this returns a refreshed version of the property file, regardless of 
+    /* this returns a refreshed version of the property file, regardless of
        whether anything has changed or not. */
-    public static Properties forceGetProperties() {
-        return P6Util.loadProperties(SPY_PROPERTIES_FILE);
+    public Properties forceReadProperties() {
+        File propertiesFile = new File(propertiesPath);
+        if(propertiesFile.exists()) {
+            long lastModified = propertiesFile.lastModified();
+            properties = P6Util.loadProperties(SPY_PROPERTIES_FILE);
+        }
+        return properties;
     }
     
     public void setClassValues(Class klass) {
