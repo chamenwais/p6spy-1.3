@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2002/12/19 16:31:43  aarvesen
+ * Removed the checkReload call
+ *
  * Revision 1.3  2002/12/06 22:27:31  aarvesen
  * new factory registration in the constructor
  *
@@ -114,7 +117,6 @@ public class P6LogResultSet extends P6ResultSet implements ResultSet {
     }
     
     public boolean next() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         try {
             return passthru.next();

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2002/12/19 16:30:31  aarvesen
+ * Removed the checkReload call
+ *
  * Revision 1.3  2002/12/06 22:30:04  aarvesen
  * new factory registration in the constructor
  *
@@ -109,7 +112,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     }
     
     public void addBatch() throws SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = getQueryFromPreparedStatement();
         long startTime = System.currentTimeMillis();
         try {
@@ -123,7 +125,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     }
     
     public boolean execute() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {
@@ -137,7 +138,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     }
     
     public ResultSet executeQuery() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {
@@ -151,7 +151,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     }
     
     public int executeUpdate() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {
@@ -165,7 +164,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     }
     
     public boolean execute(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -181,7 +179,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     
     // Since JDK 1.4
     public boolean execute(String p0, int p1) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -197,7 +194,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     
     // Since JDK 1.4
     public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -213,7 +209,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     
     // Since JDK 1.4
     public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -228,7 +223,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     }
     
     public ResultSet executeQuery(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -243,7 +237,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     }
     
     public int executeUpdate(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -259,7 +252,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     
     // Since JDK 1.4
     public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -275,7 +267,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     
     // Since JDK 1.4
     public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -291,7 +282,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     
     // Since JDK 1.4
     public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -306,7 +296,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     }
     
     public void addBatch(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -321,7 +310,6 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     }
     
     public int[] executeBatch() throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2002/12/19 16:30:50  aarvesen
+ * Removed the checkReload call
+ *
  * Revision 1.3  2002/12/06 22:29:39  aarvesen
  * new factory registration in the constructor
  *
@@ -129,7 +132,6 @@ public class P6LogConnection extends P6Connection implements java.sql.Connection
     }
     
     public void commit() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {
@@ -143,7 +145,6 @@ public class P6LogConnection extends P6Connection implements java.sql.Connection
     }
     
     public void rollback() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {
@@ -157,7 +158,6 @@ public class P6LogConnection extends P6Connection implements java.sql.Connection
     }
     
     public void rollback(Savepoint p0) throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {

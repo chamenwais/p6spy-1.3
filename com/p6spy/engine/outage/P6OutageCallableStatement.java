@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2002/12/19 16:28:43  aarvesen
+ * Removed the checkReload call
+ *
  * Revision 1.3  2002/12/09 21:45:44  aarvesen
  * New constructor
  * jdk 1.4 changes
@@ -110,7 +113,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     }
     
     public boolean execute() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         if (P6SpyOptions.getOutageDetection()) {
@@ -129,7 +131,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     }
     
     public ResultSet executeQuery() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         if (P6SpyOptions.getOutageDetection()) {
@@ -149,7 +150,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     }
     
     public int executeUpdate() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         if (P6SpyOptions.getOutageDetection()) {
@@ -168,7 +168,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     }
     
     public boolean execute(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -188,7 +187,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     
     // Since JDK 1.4
     public boolean execute(String p0, int p1) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -208,7 +206,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     
     // Since JDK 1.4
     public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -228,7 +225,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     
     // Since JDK 1.4
     public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -247,7 +243,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     }
     
     public ResultSet executeQuery(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -266,7 +261,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     }
     
     public int executeUpdate(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -286,7 +280,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     
     // Since JDK 1.4
     public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -306,7 +299,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     
     // Since JDK 1.4
     public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -326,7 +318,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     
     // Since JDK 1.4
     public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -345,7 +336,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     }
     
     public void addBatch(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -365,7 +355,6 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     }
     
     public int[] executeBatch() throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         if (P6SpyOptions.getOutageDetection()) {

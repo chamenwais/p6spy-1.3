@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2002/12/19 16:31:18  aarvesen
+ * Removed the checkReload call
+ *
  * Revision 1.3  2002/12/06 22:28:08  aarvesen
  * new factory registration in the constructor
  * added submitted jdk 1.4 code
@@ -137,7 +140,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     }
     
     public void addBatch() throws SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = getQueryFromPreparedStatement();
         long startTime = System.currentTimeMillis();
         try {
@@ -151,7 +153,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     }
     
     public boolean execute() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {
@@ -165,7 +166,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     }
     
     public ResultSet executeQuery() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {
@@ -179,7 +179,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     }
     
     public int executeUpdate() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {
@@ -202,7 +201,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     // ---------------------------------------------------------------------------------------
     
     public boolean execute(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -218,7 +216,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     
     // Since JDK 1.4
     public boolean execute(String p0, int p1) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -234,7 +231,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     
     // Since JDK 1.4
     public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -250,7 +246,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     
     // Since JDK 1.4
     public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -265,7 +260,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     }
     
     public ResultSet executeQuery(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -280,7 +274,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     }
     
     public int executeUpdate(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -296,7 +289,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     
     // Since JDK 1.4
     public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -312,7 +304,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     
     // Since JDK 1.4
     public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -328,7 +319,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     
     // Since JDK 1.4
     public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -343,7 +333,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     }
     
     public void addBatch(String p0) throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -358,7 +347,6 @@ public class P6LogPreparedStatement extends P6PreparedStatement implements Prepa
     }
     
     public int[] executeBatch() throws java.sql.SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {

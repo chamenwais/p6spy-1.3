@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2002/12/19 16:29:03  aarvesen
+ * Removed the checkReload call
+ *
  * Revision 1.3  2002/12/09 21:46:07  aarvesen
  * New constructor
  * jdk 1.4 changes
@@ -130,7 +133,6 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
     }
     
     public void commit() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         if (P6SpyOptions.getOutageDetection()) {
@@ -149,7 +151,6 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
     }
     
     public void rollback() throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         if (P6SpyOptions.getOutageDetection()) {
@@ -169,7 +170,6 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
     
     // Since JDK 1.4
     public void rollback(Savepoint p0) throws SQLException {
-        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         if (P6SpyOptions.getOutageDetection()) {
