@@ -994,14 +994,222 @@
     <i>config_filename</i>, refer to </font> the iPlanet documentation.)</font></font></div>
 </blockquote>
 <div align="left">
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation is 
+    complete.&nbsp;When you run your application, a <b>spy.log</b> file is generated. 
+    <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The 
+    log file contains a list of all of the database statements executed.</font></font></font></font></font></font> 
+    </font><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">You can 
+    change both the destination of <b>spy.log </b>and what it logs by editing 
+    the <b>spy.properties</b> file (see <a href="other.htm">Common Property File 
+    Settings</a>).</font></font></font></font></font></font></font></p>
+  <div align="left">
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></div>
+    <div align="left"> 
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="websphere"></a>IBM&#153; 
+        WebSphere</b></font></font></p>
+    </div>
+    <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The following 
+      instructions were tested with IBM WebSphere 4.0. </font></p>
+    <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Note:</b> 
+      Before installing, make sure your JDBC driver is configured in your target 
+      application server as a DataSource.</font></p>
+    <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">To install 
+      P6Spy on IBM WebSphere, complete the following steps:</font></p>
+  </div>
+  <ol>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">Extract 
+        the </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><b>p6spy-install.jar 
+        </b>file.&nbsp;The<b> </b>installation<b> </b>file contains <b>p6spy.jar</b> 
+        and <b>spy.properties</b>.</font> </div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Run 
+        the WebSphere Administration tool by logging in to http://localhost/9090/admin.</font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+        Under the WebSphere Administration Domain, open the Resources tree. </font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Open 
+        the JDBC Drivers tree.</font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+        Open the JDBC Driver you want to replace. The list of DataSources defined 
+        for this driver displays. </font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Click 
+        on the name of the DataSource that you want to trace with P6Spy. The configuration 
+        page for that DataSource displays.</font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Before 
+        making any changes, make a note of the values for the following fields:</font></div>
+      <blockquote> 
+        <div align="left"></div>
+        <div align="left"><font face="Courier New, Courier, mono" size="2">DatabaseName<br>
+          Default User<br>
+          Default Password</font></div>
+      </blockquote>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Click 
+        <b>Properties</b> to view the Driver Specific properties. Each of the 
+        items displayed in the table is a setting that the driver needs in order 
+        to connect to the database. Make a note of the name and value of each 
+        item. </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">In 
+        our mysql example, these properties are as follows:</font> 
+        <div align="left"></div>
+      </div>
+    </li>
+  </ol>
+  <div align="left"> 
+    <div align="left"></div>
+  </div>
+  <blockquote> 
+    <blockquote> 
+      <div align="left"> 
+        <div align="left"><font face="Courier New, Courier, mono" size="2">port 
+          3306<br>
+          serverName myhost<br>
+          </font></div>
+      </div>
+    </blockquote>
+  </blockquote>
+  <div align="left"> 
+    <div align="left"> </div>
+  </div>
+  <ol start="8">
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Navigate 
+        to the previous page (the configuration page for the driver), and change 
+        the JNDI Name for the DataSource. For example, if the DataSource JNDI 
+        name is MySqlDS, change it to RealMySqlDS.</font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+        Click <b>JDBC Drivers</b> (in the left panel), to open the list of Drivers. 
+        </font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Click 
+        <b>New</b> to open a configuration page for a new driver. </font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Accept 
+        the <b>User-defined JDBC Driver</b> selection.</font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+        Click <b>Next</b>. </font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fill 
+        in the table with the following values:</font></div>
+    </li>
+  </ol>
+  <div align="left"></div>
+  <blockquote> 
+    <blockquote> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono">Server 
+        Class Path = <i>path_to_p6spy.jar</i><br>
+        Name = P6SpyDriver<br>
+        Description = P6Spy JDBC tracing driver <br>
+        Implementation Classname = com.p6spy.engine.spy.P6ConnectionPoolDataSource</font></font></div>
+    </blockquote>
+  </blockquote>
+  <ol start="14">
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Click 
+        <b>OK</b>. The list of drivers, which contains your new driver specifications, 
+        displays.</font></div>
+    </li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Open the new 
+      JDBC Drivers tree, which contains P6SpyDriver, in the left panel.</font></li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Open 
+        the<b> Data Sources </b>folder.</font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Click 
+        <b>New</b> to create a new DataSource for P6SpyDriver.</font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Set 
+        this DataSource up like the original configuration for your target driver 
+        (the one that you earlier recorded in your notes), except for two things: 
+        the DataSource name and the Driver Specific properties. Use something 
+        different for the DataSource name, and do not set any Driver Specific 
+        properties. </font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">Save 
+        the configuration. </font></div>
+    </li>
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Configure 
+        the <b>spy.properties</b> file. Assuming that your names match the ones 
+        used above, and that you are using the MySql driver from mysql.com, your 
+        DataSource related entries should look like the following examples:</font></div>
+    </li>
+  </ol>
+  <div align="left"></div>
+  <blockquote> 
+    <blockquote> 
+      <div align="left"><font face="Courier New, Courier, mono" size="2">realdatasource=RealMySqlDS<br>
+        prealdatasourceclass=com.mysql.jdbc.jdbc2.optional.MysqlDataSource</font></div>
+      <div align="left"><font face="Courier New, Courier, mono" size="2">realdatasourceproperties=port;3306,serverName;myhost</font></div>
+    </blockquote>
+  </blockquote>
+  <div align="left"> 
+    <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Note: </b>The 
+      items in <b>realdatasourceproperties</b> are the items that you recorded 
+      from the Driver Specific properties in your original DataSource configuration. 
+      </font></p>
+  </div>
+  <ol start="21">
+    <li> 
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Modify 
+        the <b>realdriver</b> line in the <b>spy.properties</b> file to reflect 
+        the wrapped database driver (com.mysql.Driver, in our example). An example 
+        of a modified <b>realdriver</b> line follows:</font></div>
+    </li>
+  </ol>
+  <div align="left"></div>
+  <blockquote> 
+    <blockquote> 
+      <div align="left"><font face="Courier New, Courier, mono" size="2">realdriver=com.mysql.Driver</font></div>
+    </blockquote>
+  </blockquote>
+  <ol start="22">
+    <li> 
+      <div align="left"> 
+        <div align="left"> 
+          <div align="left"> 
+            <div align="left"></div>
+          </div>
+        </div>
+      </div>
+      <div align="left"> 
+        <div align="left"></div>
+      </div>
+      <font face="Verdana, Arial, Helvetica, sans-serif" size="2">Move the <b>spy.properties</b> 
+      file to the WebSphere/AppServer/properties directory.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">Restart 
+      WebSphere, by using either the FirstSteps control panel or the scripts in 
+      the WebSphere bin directory.</font></li>
+  </ol>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
     is complete.&nbsp;When you run your application, a <b>spy.log</b> file is 
     generated. <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The 
     log file contains a list of all of the database statements executed.</font></font></font></font></font></font> 
     </font><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">You can 
     change both the destination of <b>spy.log </b>and what it logs by editing 
     the <b>spy.properties</b> file (see <a href="other.htm">Common Property File 
-    Settings</a>).</font></font></font></font></font></font></font></p>
+    Settings</a>)</font></font></font></font></font></font></font></p>
 </div>
 <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></div>
 <div align="left"> 
