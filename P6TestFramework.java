@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/05/05 00:43:00  jeffgoke
+ * Added Philip's reload code.
+ *
  * Revision 1.1  2002/04/21 06:16:20  jeffgoke
  * added test cases, fixed batch bugs
  *
@@ -105,6 +108,11 @@ public abstract class P6TestFramework extends TestCase {
         } catch (Exception e) {
             fail(e.getMessage());
         }
+        
+        P6SpyOptions.SPY_PROPERTIES_FILE = "spy.properties";
+        P6SpyOptions.initMethod();
+        P6SpyDriver.initMethod();
+        P6LogQuery.initMethod();
     }
     
     protected void tearDown() {

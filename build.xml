@@ -83,8 +83,11 @@
 		<echo message="--------- Required jar files ---------"/>
 		<echo message=""/>
 		<echo message="junit jar must be in the lib directory or the build will fail."/>
-		<echo message="database driver jar (default Oracle) must be in the lib directory or the build will fail."/>
-		<echo message="gnu-regexp jar must be in the lib directory or the build will fail."/>
+		<echo message="database driver jar (default Oracle) must be in the lib directory"/>
+		<echo message="or the build will fail."/>
+		<echo message=""/>
+		<echo message="gnu regex jar and jakarta regex jar must be in the lib directory"/>
+		<echo message="or the build will fail."/>
 	</target>
 		
 	<target name="compile" depends="init">

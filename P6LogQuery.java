@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.9  2002/05/05 00:43:00  jeffgoke
+ * Added Philip's reload code.
+ *
  * Revision 1.8  2002/04/25 06:51:28  jeffgoke
  * Philip Ogren of BEA contributed installation instructions for BEA WebLogic Portal and Server
  * Jakarta RegEx support (contributed by Philip Ogren)
@@ -132,6 +135,10 @@ public class P6LogQuery {
     protected static String lastStack;
     
     static {
+        initMethod();
+    }
+    
+    public synchronized static void initMethod() {
         if (P6SpyOptions.getTrace()) {
             String log = P6SpyOptions.getLogfile();
             if (log == null || log.equals("stdout")) {
@@ -187,14 +194,23 @@ public class P6LogQuery {
         return array;
     }
     
+    static final void logInfo(String sql) {
+        if (qlog != null && isCategoryOk("info")) {
+            doLog(-1, "info", "", sql);
+        }
+    }
+    
     static final void logDebug(String sql) {
         if (qlog != null && isCategoryOk("debug")) {
             doLog(-1, "debug", "", sql);
+        } else {
+            System.err.println(sql);
         }
     }
     
     // this is an internal procedure used to actually write the log information
     static protected final synchronized void doLog(long elapsed, String category, String prepared, String sql) {
+        
         java.util.Date now = P6Util.timeNow();
         SimpleDateFormat sdf = P6SpyOptions.getDateformatter();
         String logEntry;
@@ -215,7 +231,7 @@ public class P6LogQuery {
             else {
                 ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
                 PrintStream printStream = new PrintStream(byteStream);
-                Exception e = new Exception();
+                Exception e = new Exception("P6Spy Stack Trace Log");
                 e.printStackTrace(printStream);
                 String stack = byteStream.toString();
                 if(stack.indexOf(stackTraceClass) != -1) {
@@ -230,7 +246,7 @@ public class P6LogQuery {
     }
     
     static final boolean isLoggable(String sql) {
-        return(P6SpyOptions.getFilter() == false || queryOk(sql.toLowerCase()));
+        return(P6SpyOptions.getFilter() == false || queryOk(sql));
     }
     
     static final boolean isCategoryOk(String category) {
@@ -258,7 +274,6 @@ public class P6LogQuery {
     
     static final boolean sqlOk(String sql) {
         String sqlexpression = P6SpyOptions.getSQLExpression();
-        
         try {
             return P6SpyOptions.getStringMatcherEngine().match(sqlexpression, sql);
         }
@@ -269,6 +284,7 @@ public class P6LogQuery {
         
     }
     static final boolean foundTable(String sql, String tables[]) {
+        sql = sql.toLowerCase();
         boolean ok = false;
         int i;
         if (tables != null) {
@@ -297,6 +313,8 @@ public class P6LogQuery {
     static final void logElapsed(long startTime, long endTime, String category, String prepared, String sql) {
         if (qlog != null && isLoggable(sql) && isCategoryOk(category)) {
             doLogElapsed(startTime, endTime, category, prepared, sql);
+        } else if (isCategoryOk("debug")) {
+            logDebug("P6Spy intentionally did not log category: "+category+", statement: "+sql+"  Reason: Qlog="+qlog+", isLoggable="+isLoggable(sql)+", isCategoryOk="+isCategoryOk(category));
         }
     }
     

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.6  2002/05/05 00:43:00  jeffgoke
+ * Added Philip's reload code.
+ *
  * Revision 1.5  2002/04/15 05:13:32  jeffgoke
  * Simon Sadedin added timing support.  Fixed bug where batch execute was not
  * getting logged.  Added result set timing.  Updated the log format to include
@@ -118,7 +121,7 @@ public class P6SpyDriver implements Driver {
     public synchronized static void initMethod() {
         String driver = P6SpyOptions.getSpydriver();
         P6Util.checkJavaProperties();
-        P6LogQuery.logDebug("P6Spy trace is on: "+P6SpyOptions.getTrace());
+        P6LogQuery.logInfo("P6Spy trace is on: "+P6SpyOptions.getTrace());
         try {
             DriverManager.registerDriver(new P6SpyDriver());
         } catch (ClassNotFoundException e1) {
@@ -172,7 +175,7 @@ public class P6SpyDriver implements Driver {
                 }
                 Class driverClass = Class.forName(driver);
                 passthru = (Driver) driverClass.newInstance();
-                P6LogQuery.logDebug("P6Spy successfully registered driver "+driver);
+                P6LogQuery.logInfo("P6Spy successfully registered driver "+driver);
             } catch (ClassNotFoundException e1) {
                 throw new SQLException("Error registering Driver <" + driver + "> ClassNotFoundException " + driver);
             } catch (InstantiationException e2) {

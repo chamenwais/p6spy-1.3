@@ -13,8 +13,7 @@
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#license">License 
     agreement</a></font></li>
   <li><a href="#release"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Release 
-    notes <br>
-    </font></a></li>
+    notes </font></a></li>
   <li><a href="#install"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">General 
     installation &amp; upgrade instructions</font></a></li>
   <li><a href="#property"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Property 
@@ -38,12 +37,11 @@
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#atg">Installation 
     under ATG</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#iplanet">Installation 
-    under iPlanet</a><br>
-    </font></li>
+    under iPlanet</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#issues">Known 
-    issues</a><br>
-    </font></li>
+    issues</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#trouble">Troubleshooting</a></font></li>
+  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="#FAQ">FAQ</a></font></li>
 </ul>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="license"></a>License 
   Agreement</b></font></p>
@@ -111,7 +109,15 @@
 <p></p>
 <p><a name="release"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Release 
   Notes </b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.71</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.72</b></font></p>
+<ul>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Philip Ogren 
+    contributed the ability to dynamically reload the property file after a specified 
+    period of time</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added logging 
+    to commit and rollback statements</font></li>
+  </ul>
+            <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.71</b></font></p>
 <ul>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Philip Ogren 
     of BEA contributed installation instructions for BEA WebLogic <a href="#wlportal">Portal</a> 
@@ -125,8 +131,7 @@
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simplified table 
     monitoring property file option (contributed by Philip Ogren)</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Updated the 
-    RegEx documentation</font><br>
-  </li>
+    RegEx documentation</font></li>
 </ul>
             <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.7</b></font></p>
 <ul>
@@ -156,8 +161,7 @@
     section for more information.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fixed a number 
     of bugs, in particular a bug that was causing an empty spy.log file to be 
-    created and never populated.<br>
-    </font></li>
+    created and never populated.</font></li>
 </ul>
             <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.6</b></font></p>
 <ul>
@@ -169,10 +173,6 @@
     to allow the truncation/non-truncation of the log file to be specified within 
     spy.options. </font></li>
 </ul>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
 <p><a name="install"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>General 
   Installation Instructions</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The P6Spy software 
@@ -278,7 +278,10 @@
   #This way I can be selective about which stack traces I want.<br>
   # e.g. com.mycompany.myclass</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
   stacktraceclass=</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
-  </font></p>
+  # determines if property file should be reloaded<br>
+  reloadproperties=false<br>
+  # determines how often should be reloaded in seconds<br>
+  reloadpropertiesinterval=60 </font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver is where 
   you specify the real database driver that you use.&nbsp;&nbsp;P6Spy wraps around 
@@ -321,10 +324,8 @@
   list of tables to include<br>
   include = <br>
   # comma separated list of tables to exclude<br>
-  exclude = order<br>
-  </font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>filter, sqlexpression</b><br>
-  </font></p>
+  exclude = order</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>filter, sqlexpression</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If you plan on 
   using a regex engine, a simple alternative to exclude and include is to use 
   sqlexpression. It works like this:</font></p>
@@ -346,12 +347,14 @@
   </i></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy 
   comes with support for a regular expression matcher based on the GNU Regex library. 
   To use this, for example, you would specify:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># Use GNU Regex Matching for Filtering<br>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># Use GNU Regex 
+  Matching for Filtering<br>
   stringmatcher =com.p6spy.engine.spy.GnuRegexMatcher<br>
-</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Note that in order 
-  to do this you must download the GNU Java regex library and add it to your classpath 
-  so that P6Spy can find it. <br>
+  <br>
+  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Note that 
+  in order to do this you must <a href="http://www.cacas.org/java/gnu/regexp/">download</a> 
+  the GNU Java regex library and add it to your classpath so that P6Spy can find 
+  it. <br>
   <br>
   <i>Using Jakarta RegEx<br>
   </i>P6Spy also includes support for the Apache Jakarta Regex library. To use 
@@ -382,16 +385,16 @@
   the system will perform slightly faster with this value set to false</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">autoflush = true<br>
-  </font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>logfile</b></font></p>
+  <b><br>
+  </b> </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>logfile</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Specifies the name 
   of the file to generate.&nbsp;&nbsp;Use &quot;stdout&quot; for standard output. 
   Note, if you are in Windows and are specifying a pathname, make sure to use 
   forward slashes (e.g. c:/mylog/spy.log)</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">logfile = spy.log<br>
-  </font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>append</b></font></p>
+  <b><br>
+  </b> </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>append</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting append=true 
   causes p6spy to continue to append to the logfile, if it exists. Setting append=false 
   causes the logfile to be truncated each time p6spy is restarted (typically when 
@@ -399,16 +402,33 @@
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>excludecategories</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The log includes 
   category information that describes the type of statement. This property excludes 
-  the listed categories. Valid categories include debug, statement, batch, and 
-  result. Debug are debug statements, such as the driver startup statements, statement 
-  includes Statements, PreparedStatements, and CallableStatements. Batch are addBatch 
-  statements, and result are statements generated by ResultSet. Enter a comma 
-  separated list of categories to exclude from your log file. See filter,include,exclude 
+  the listed categories. Valid options include:</font></p>
+<ul>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>info</strong> 
+    includes driver startup information and property file information </font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>debug 
+    </strong>is only intended for use when you cannot get your driver to work 
+    propertly, it dumps out everything</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>statement 
+    </strong> includes Statements, PreparedStatements, and CallableStatements<strong> 
+    </strong></font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>batch</strong> 
+    addBatch() calls</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>commit</strong> 
+    commit() calls</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>rollback</strong> 
+    rollaback() calls</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>result</strong> 
+    are statements generated by ResultSet</font></li>
+</ul>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Enter a comma separated 
+  list of categories to exclude from your log file. See filter,include,exclude 
   for more details on how this process works.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>includecategories</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The log includes 
   category information that describes the type of statement. This property is 
-  a comma separated list of categories to include. See exclude statements.</font></p>
+  a comma separated list of categories to include. See excludecategories for a 
+  valid list of categories.</font></p>
             <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>dateformat</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting a value 
   for dateformat changes the date format value printed in the log file. No value 
@@ -424,6 +444,20 @@
   traces printed out to those that contain this value. E.g. specifying stacktraceclass=com.mycompany.myclass 
   would limit the printing of stack traces to the specified class value. The stack 
   trace is converted to a String and string.indexOf(stacktraceclass) is performed.</font><br>
+  <b><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+  </font></b> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>reloadproperties 
+  and reloadpropertiesinterval</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If reloadproperties 
+  is set to true, then the property file is reloaded every n seconds, where n 
+  is defined by the value set by reloadpropertiesinterval. For example, if reloadproperties=true 
+  and reloadpropertiesinterval=10 then the system checks the File.lastModified() 
+  property of the property file every 10 seconds, and if the file has been modified, 
+  then it will be reloaded.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Warning! If you 
+  have append=true the log will be suddenly truncated if you change your properties. 
+  This is because using reloadproperties is intended to be the equivalent of restarting 
+  your application server, and in the case of an application server restart your 
+  file would be truncated.</font><br>
   <br>
   <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Command Line 
   Options </b></font></p>
@@ -566,12 +600,10 @@
     reason the file does not appear in that directory, search for spy.log on your 
     drive. You can change the location of this file by specifying a location using 
     the property file (see <a href="#property">Property File Settings</a>).<br>
-    <br>
     </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>View the 
     log file.</b> &nbsp;The log file contains a list of all of the database statements 
-    that are executed.<br>
-    </font></li>
+    that are executed.</font></li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="tomcat"></a>Tomcat 
   Installation</b></font></p>
@@ -599,9 +631,7 @@
     our example) to com.p6spy.engine.spy.P6SpyDriver such as:<br>
     <br>
     &lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/param-value&gt;&lt;/init-param&gt;<br>
-    <br>
-    </font> <br>
-  </li>
+    </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Enable Tomcat 
     to find spy.properties. </b>While all of the .jar files in your webapps lib 
     directory are, by default, included in Tomcat's classpath, the lib directory 
@@ -631,7 +661,7 @@
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
   by François Exertier, JOnAS Opensource EJB Server team)</i> </font>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">These instructions 
-  have been tested with JOnAS 2.3.x. </font><br>
+  have been tested with JOnAS 2.3.x. </font>
 <ol>
   <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Unzip the 
     distribution. </b>Unjar the p6spy-install.jar file.&nbsp; This contains two 
@@ -677,8 +707,7 @@
     log file.</b>&nbsp; The log file contains a list of all of the database statements 
     that are executed. You can change the location of this file and the nature 
     of its content by using the spy property file (see <a href="#property">Property 
-    File Settings</a>)</font><br>
-  </li>
+    File Settings</a>)</font></li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="wlportal"></a>WebLogic 
   6.1 Portal Installation</b></font></p>
@@ -761,7 +790,7 @@ why the Cloudscape/WebLogic combination is not working).</font>
   by Philip Ogren, BEA)</i> </font> 
 <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The instructions 
   for installing P6Spy with WebLogic Server differ only slightly from the instructions 
-  for installation with WebLogic Portal. </font><br>
+  for installation with WebLogic Portal. </font>
 <ol>
   <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><b>Unzip the 
     distribution. </b>Unjar the p6spy-install.jar file to a temporary directory. 
@@ -811,7 +840,7 @@ why the Cloudscape/WebLogic combination is not working).</font>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Posted by 
   Richard Delbert on April 10, 2002 on TheServerSide.com)</i> </font> 
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">These instructions 
-  have been tested with WebLogic 5.1</font><br>
+  have been tested with WebLogic 5.1</font>
 <ol>
   <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Unzip the 
     distribution. </b>Unjar the p6spy-install.jar file.&nbsp; This contains two 
@@ -874,7 +903,6 @@ why the Cloudscape/WebLogic combination is not working).</font>
       (you can do this by going to http://localhost:8830 and using the restart 
       dynamo button at the bottom of the page)</font></li>
     <br>
-    <br>
   </ul>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Change the 
     spy.properties file to reference your database. </b>You must tell P6Spy about 
@@ -925,7 +953,6 @@ why the Cloudscape/WebLogic combination is not working).</font>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">restart dynamo 
       (you can do this by going to http://localhost:8830 and using the restart 
       dynamo button at the bottom of the page)</font><br>
-      <br>
     </li>
   </ul>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Run your 
@@ -940,8 +967,7 @@ why the Cloudscape/WebLogic combination is not working).</font>
   by Michael Sgroi)</i></font>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">The following 
   procedure has been tested against iPlanet 6.0 service pack 3 as of April 2002. 
-  It should work for any release of iPlanet 6.0. </font><br>
-<p>&nbsp;
+  It should work for any release of iPlanet 6.0. </font>
 <ol>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> <b>Unzip the 
     distribution.</b> Unjar the p6spy-install.jar file into a directory, call 
@@ -959,7 +985,6 @@ why the Cloudscape/WebLogic combination is not working).</font>
     Driver Identifier: spy<br>
     Driver Classname: com.p6spy.engine.spy.P6SpyDriver<br>
     Driver Classpath: &lt;Spy Home&gt;\p6spy.jar <br>
-    <br>
     </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Configure 
     P6SPy.</b> To tell P6Spy about your real database driver, register your DataSource 
@@ -987,10 +1012,7 @@ why the Cloudscape/WebLogic combination is not working).</font>
     <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&lt;/ias-resource&gt;</font></p>
     <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">For more details 
       parameters passed to iasdeploy and the format of the<br>
-      &lt;Config file name&gt; see the iPlanet docs.</font><br>
-      <br>
-    </p>
-    <p></p>
+      &lt;Config file name&gt; see the iPlanet docs.</font></p>
   </li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="issues"></a>Known 
@@ -1008,7 +1030,6 @@ why the Cloudscape/WebLogic combination is not working).</font>
     for example by using Dynamic Proxies instead of our current technique. However, 
     these come at a performance cost, that while maybe slight, we have decided 
     to avoid at this time.<br>
-    <br>
     </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Multiple 
     drivers are not supported.&nbsp;&nbsp;</b>Currently P6Spy does not work against 
@@ -1041,19 +1062,28 @@ why the Cloudscape/WebLogic combination is not working).</font>
     stating spy.properties cannot be found, this is the classpath that p6spy is 
     searching. If you still have problems, try using the -Dp6.home option to specify 
     where you have placed the spy.properties file. E.g. java -Dp6.home=c:\orion\lib<br>
-    <br>
     </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The spy.log 
     file is not written.&nbsp;&nbsp;</b>Try searching your entire drive for spy.log, 
     you may find it in a strange place. Remember, you can specify the default 
     location using the spy.properties property file.</font><br>
-    <br>
   </li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Use the debug 
-    category.&nbsp; </b>P6Spy was the ability to print debug statements that are 
-    very useful in determining why the driver is not working. To turn on these 
-    statements, remove the debug category from the excludecategories list in your 
-    spy.options file.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The spy.log 
+    file is written, but nothing is being logged.&nbsp; </b>P6Spy was the ability 
+    to print debug statements that are very useful in determining why the driver 
+    is not working. To turn on these statements, remove the debug category and 
+    the info category from the excludecategories list in your spy.options file.</font></li>
+</ol>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="faq" id="faq"></a>FAQ</b></font></p>
+<ol>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can I use 
+    regular expressions to determine what is logged?&nbsp;&nbsp;</b>Yes. Please 
+    see the <a href="#property">Property</a> section and look at the stringmatcher 
+    option.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Once the 
+    application is running, can I change the properties and enable the system 
+    to use the new properties?&nbsp;&nbsp;</b>Yes. Please see the <a href="#property">Property</a> 
+    section and look at the reloadproperties section.</font></li>
 </ol>
 </body>
 </html>

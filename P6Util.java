@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2002/05/05 00:43:00  jeffgoke
+ * Added Philip's reload code.
+ *
  * Revision 1.4  2002/04/15 05:13:32  jeffgoke
  * Simon Sadedin added timing support.  Fixed bug where batch execute was not
  * getting logged.  Added result set timing.  Updated the log format to include
@@ -111,7 +114,7 @@ import java.util.*;
 
 public class P6Util {
     public final static boolean isTrue(String s) {
-        return(s != null && (s.equals("1") || s.equalsIgnoreCase("true")));
+        return(s != null && (s.equals("1") || s.trim().equalsIgnoreCase("true")));
     }
     
     public final static int atoi(Object s) {
@@ -150,6 +153,7 @@ public class P6Util {
         } catch (IOException e2) {
             warn("IO Error reading file " + file + " " + e2);
         }
+        
         return props;
     }
     
@@ -193,10 +197,10 @@ public class P6Util {
             String value = System.getProperty("p6" + opt);
             
             if (value != null) {
-                P6LogQuery.logDebug("Found value in environment: "+opt+", setting to value: "+value);
+                P6LogQuery.logInfo("Found value in environment: "+opt+", setting to value: "+value);
                 P6SpyOptions.set(opt,value);
             } else {
-                P6LogQuery.logDebug("No value in environment for: "+opt+", using: "+P6SpyOptions.get(opt));
+                P6LogQuery.logInfo("No value in environment for: "+opt+", using: "+P6SpyOptions.get(opt));
             }
         }
     }

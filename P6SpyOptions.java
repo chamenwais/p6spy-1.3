@@ -65,8 +65,13 @@ package com.p6spy.engine.spy;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
+import java.io.File;
 
 public class P6SpyOptions   {
+    
+    public static String SPY_PROPERTIES_FILE = "spy.properties";
+    protected static long lastCheck = 0;
+    
     static {initMethod();}
     
     public P6SpyOptions() {}
@@ -91,6 +96,13 @@ public class P6SpyOptions   {
     private static String sqlExpression;
     private static boolean stackTrace;
     private static String stackTraceClass;
+    private static boolean reloadProperties;
+    private static long reloadPropertiesInterval;
+    private static long reloadMs;
+    
+    static String propertiesPath;
+    static long propertiesLastModified = -1;
+    
     
     public static void setAutoflush(boolean _autoflush) {
         autoflush = _autoflush;
@@ -161,7 +173,10 @@ public class P6SpyOptions   {
     public static void setTrace(boolean _trace) {
         trace = _trace;
     }
+    // since getTrace is called almost everywhere, this is the
+    // best property to engage reloading
     public static boolean getTrace() {
+        checkReload();
         return trace;
     }
     public static void setProperties(String _properties) {
@@ -172,7 +187,7 @@ public class P6SpyOptions   {
     }
     public static void setDateformat(String _dateformat) {
         dateformat = _dateformat;
-        if (_dateformat == null || _dateformat.equals ("")) {
+        if (_dateformat == null || _dateformat.equals("")) {
             dateformatter = null;
         } else {
             dateformatter = new SimpleDateFormat(_dateformat);
@@ -208,28 +223,55 @@ public class P6SpyOptions   {
     public static StringMatcher getStringMatcherEngine() {
         return stringMatcherEngine;
     }
-
+    
     public static boolean getStackTrace(){
         return stackTrace;
     }
-    public static void setStackTrace(boolean stacktrace)
-    {
+    public static void setStackTrace(boolean stacktrace) {
         stackTrace = stacktrace;
     }
     public static String getStackTraceClass(){
         return stackTraceClass;
     }
-    public static void setStackTraceClass(String stacktraceclass)
-    {
+    public static void setStackTraceClass(String stacktraceclass) {
         stackTraceClass = stacktraceclass;
     }
-
+    
     public static String getSQLExpression(){
         return sqlExpression;
     }
-    public static void setSQLExpression(String sqlexpression)
-    {
+    public static void setSQLExpression(String sqlexpression) {
+        if (sqlexpression != null && sqlexpression.equals("")) {
+            sqlexpression = null;
+        }        
         sqlExpression = sqlexpression;
+    }
+    
+    public static boolean getReloadProperties() {
+        return reloadProperties;
+    }
+    
+    public static void setReloadProperties(boolean reloadproperties) {
+        reloadProperties = reloadproperties;
+    }
+    
+    public static long getReloadPropertiesInterval() {
+        return reloadPropertiesInterval;
+    }
+    
+    public static void setReloadPropertiesInterval(String reloadpropertiesinterval) {
+        try {
+            reloadPropertiesInterval = Long.parseLong(reloadpropertiesinterval);
+        }
+        catch(NumberFormatException nfe) {
+            P6Util.warn("NumberFormatException in P6SpyOptions.setReloadPropertiesInterval() "+
+            "reloadpropertiesinterval=\""+reloadpropertiesinterval+"\"");
+        }
+        reloadMs = reloadPropertiesInterval * 1000l;
+    }
+    
+    public static void setReloadPropertiesInterval(long reloadpropertiesinterval) {
+        reloadPropertiesInterval = reloadpropertiesinterval;
     }
     
     public static void testP6SpyOptions() {
@@ -261,6 +303,8 @@ public class P6SpyOptions   {
         setSQLExpression(getSQLExpression());
         setStackTrace(getStackTrace());
         setStackTraceClass(getStackTraceClass());
+        setReloadProperties(getReloadProperties());
+        setReloadPropertiesInterval(getReloadPropertiesInterval());
     }
     
     public static void help() {
@@ -282,8 +326,10 @@ public class P6SpyOptions   {
         System.out.println("    stringmatcher []                          - regex engine to use");
         System.out.println("    stacktrace []                             - prints out stack trace for all log statemnts if true");
         System.out.println("    stacktraceclass []                        - filters stack traces printed out to those specified");
+        System.out.println("    reloadproperties []                       - turn on reload of properties");
+        System.out.println("    reloadpropertiesinterval []               - set a timed interval for reloading properties");
         System.out.println("\nGlobal:");
-        System.out.println("    properties [spy.properties]               - name of file that stores the properties info");
+        System.out.println("    properties ["+SPY_PROPERTIES_FILE+"]               - name of file that stores the properties info");
     }
     
     public static void help(String category) {
@@ -296,18 +342,52 @@ public class P6SpyOptions   {
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    sqlexpression []                          - if the sqlexpression matches the sql statement, it is logged");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    logfile [spy.log]                         - name of logfile if trace is on");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    realdriver []                             - name of real jdbc driver to load");        }
-        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    spydriver [com.p6.engine.spy.P6SpyDriver] - name of SPY Driver");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    spydriver [com.p6spy.engine.spy.P6SpyDriver] - name of SPY Driver");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    trace [false]                             - turn on tracing");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    dateformat []                             - simple date format for log file");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    stringmatcher []                          - string matcher engine to use");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    stacktrace []                             - prints out stack trace for all log statemnts if true");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    stacktraceclass []                        - filters stack traces printed out to those specified");        }
-        if (category.equalsIgnoreCase("Global")) {            System.out.println("\nGlobal:");            System.out.println("    properties [spy.properties]               - name of file that stores the properties info");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    reloadproperties []                       - turn on reload of properties");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    reloadpropertiesinterval []               - set a timed interval for reloading properties");        }
+        if (category.equalsIgnoreCase("Global")) {            System.out.println("\nGlobal:");            System.out.println("    properties ["+SPY_PROPERTIES_FILE+"]               - name of file that stores the properties info");        }
+    }
+    
+    public static void reloadProperties() {
+        if(reloadProperties && propertiesPath != null) {
+            P6LogQuery.logDebug("checking property file to see if it needs to be reloaded");
+            File propertiesFile = new File(propertiesPath);
+            if(propertiesFile.exists()) {
+                long lastModified = propertiesFile.lastModified();
+                if(lastModified != propertiesLastModified) {
+                    setValues(P6Util.loadProperties(SPY_PROPERTIES_FILE));
+                    propertiesLastModified = lastModified;
+                    
+                    // finally reinitialize the drivers
+                    P6SpyDriver.initMethod();
+                    P6LogQuery.initMethod();
+                    
+                    P6LogQuery.logInfo("reloadProperties() successful");
+                }
+            }
+        }
     }
     
     public static void initMethod() {
-        Properties props  = P6Util.loadProperties("spy.properties");
+        Properties props  = P6Util.loadProperties(SPY_PROPERTIES_FILE);
+        setValues(props);
+        
+        propertiesPath = P6Util.classPathFile(SPY_PROPERTIES_FILE);
+        if(propertiesPath != null) {
+            File propertiesFile = new File(propertiesPath);
+            if(propertiesFile.exists()) {
+                propertiesLastModified = propertiesFile.lastModified();
+            }
+        }
+    }
+    
+    public static void setValues(Properties props) {
         String value;
         value = props.getProperty("autoflush");
         if (value == null) value = "true";
@@ -332,7 +412,7 @@ public class P6SpyOptions   {
         value = props.getProperty("realdriver");
         setRealdriver(value);
         value = props.getProperty("spydriver");
-        if (value == null) value = "com.p6.engine.spy.P6SpyDriver";
+        if (value == null) value = "com.p6spy.engine.spy.P6SpyDriver";
         setSpydriver(value);
         value = props.getProperty("trace");
         if (value == null) value = "false";
@@ -354,7 +434,13 @@ public class P6SpyOptions   {
         setStackTrace(P6Util.isTrue(value));
         value = props.getProperty("stacktraceclass");
         setStackTraceClass(value);
-        }
+        value = props.getProperty("reloadproperties");
+        if(value == null) value = "false";
+        setReloadProperties(P6Util.isTrue(value));
+        value = props.getProperty("reloadpropertiesinterval");
+        if(value == null) value = "-1";
+        setReloadPropertiesInterval(value);
+    }
     
     public static boolean set(String name, String value) {
         boolean ret = true;
@@ -379,6 +465,8 @@ public class P6SpyOptions   {
         else if (lc.equals("sqlexpression")) setSQLExpression(value);
         else if (lc.equals("stacktrace")) setStackTrace(P6Util.isTrue(value));
         else if (lc.equals("stacktraceclass")) setStackTraceClass(value);
+        else if (lc.equals("reloadproperties")) setReloadProperties(P6Util.isTrue(value));
+        else if (lc.equals("reloadpropertiesinterval")) setReloadPropertiesInterval(value);
         else ret = false;
         return ret;
     }
@@ -404,6 +492,8 @@ public class P6SpyOptions   {
         else if (lc.equals("sqlexpression")) return getSQLExpression();
         else if (lc.equals("stacktrace")) return getStackTrace() ? "true" : "false";
         else if (lc.equals("stacktraceclass")) return getStackTraceClass();
+        else if (lc.equals("reloadproperties")) return getReloadProperties() ? "true":"false";
+        else if (lc.equals("reloadpropertiesinterval")) return ""+getReloadPropertiesInterval();
         else return null;
     }
     
@@ -427,6 +517,8 @@ public class P6SpyOptions   {
         keys.put("sqlexpression", getSQLExpression());
         keys.put("stacktrace", getStackTrace()?"true":"false");
         keys.put("stacktraceclass", getStackTraceClass());
+        keys.put("reloadproperties",getReloadProperties()?"true":"false");
+        keys.put("reloadpropertiesinterval",new Long(getReloadPropertiesInterval()));
         return keys;
     }
     
@@ -450,6 +542,8 @@ public class P6SpyOptions   {
         values.put(getSQLExpression(),"sqlexpression");
         values.put(getStackTrace()?"true":"false","stacktrace");
         values.put(getStackTraceClass(),"stacktraceclass");
+        values.put(getReloadProperties()?"true":"false","reloadproperties");
+        values.put(new Long(getReloadPropertiesInterval()),"reloadpropertiesinterval");
         return values;
     }
     
@@ -473,6 +567,16 @@ public class P6SpyOptions   {
         list.add("sqlexpression");
         list.add("stacktrace");
         list.add("stacktraceclass");
+        list.add("reloadproperties");
+        list.add("reloadpropertiesinterval");
         return list;
+    }
+    
+    public static void checkReload() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > lastCheck + reloadMs) {
+            reloadProperties();
+            lastCheck = currentTime;
+        }
     }
 }

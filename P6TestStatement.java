@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2002/05/05 00:43:00  jeffgoke
+ * Added Philip's reload code.
+ *
  * Revision 1.4  2002/04/27 20:24:01  jeffgoke
  * added logging of commit statements and rollback statements
  *
@@ -95,6 +98,7 @@ import junit.framework.*;
 import java.sql.*;
 import java.util.Properties;
 import java.io.*;
+import java.util.*;
 
 public class P6TestStatement extends P6TestFramework {
     
@@ -231,31 +235,46 @@ public class P6TestStatement extends P6TestFramework {
     
     public void testCategories() {
         
-        Statement statement = connection.createStatement();
-        
-        // test rollback logging
-        P6SpyOptions.setFilter(true);
-        P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
-        P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
-        P6LogQuery.excludeCategories = P6LogQuery.parseCSVList("");
-        P6LogQuery.includeCategories = P6LogQuery.parseCSVList("");
-        String query = "select 'y' from stmt_test";
-        statement.executeQuery(query);
-        assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
-        connection.rollback();
-        assertTrue(P6LogQuery.getLastEntry().indexOf("rollback") != -1);
-        
-        // test commit logging
-        P6SpyOptions.setFilter(true);
-        P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
-        P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
-        P6LogQuery.excludeCategories = P6LogQuery.parseCSVList("");
-        P6LogQuery.includeCategories = P6LogQuery.parseCSVList("");
-        String query = "select 'y' from stmt_test";
-        statement.executeQuery(query);
-        assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
-        connection.commit();
-        assertTrue(P6LogQuery.getLastEntry().indexOf("commit") != -1);
+        try {
+            Statement statement = connection.createStatement();
+            
+            // test rollback logging
+            P6SpyOptions.setFilter(true);
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.excludeCategories = P6LogQuery.parseCSVList("");
+            P6LogQuery.includeCategories = P6LogQuery.parseCSVList("");
+            String query = "select 'y' from stmt_test";
+            statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            connection.rollback();
+            assertTrue(P6LogQuery.getLastEntry().indexOf("rollback") != -1);
+            
+            // test commit logging
+            P6SpyOptions.setFilter(true);
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.excludeCategories = P6LogQuery.parseCSVList("");
+            P6LogQuery.includeCategories = P6LogQuery.parseCSVList("");
+            query = "select 'y' from stmt_test";
+            statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            connection.commit();
+            assertTrue(P6LogQuery.getLastEntry().indexOf("commit") != -1);
+            
+            // test debug logging
+            P6SpyOptions.setFilter(true);
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("stmt_test");
+            P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.excludeCategories = P6LogQuery.parseCSVList("");
+            P6LogQuery.includeCategories = P6LogQuery.parseCSVList("debug,info");
+            query = "select 'y' from stmt_test";
+            statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf("intentionally") != -1);
+            
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
     
     public void testStacktrace() {
@@ -297,6 +316,120 @@ public class P6TestStatement extends P6TestFramework {
             
         } catch (Exception e) {
             fail(e.getMessage()+getStackTrace(e));
+        }
+    }
+    
+    public void testReload() {
+        try {
+            Statement statement = connection.createStatement();
+            
+            HashMap tp = new HashMap();
+            tp.put("realdriver","oracle.jdbc.driver.OracleDriver");
+            tp.put("filter","false");
+            tp.put("include","");
+            tp.put("exclude","");
+            tp.put("trace","true");
+            tp.put("autoflush","true");
+            tp.put("logfile","spy.log");
+            tp.put("append","true");
+            tp.put("dateformat","");
+            tp.put("includecategories","");
+            tp.put("excludecategories","debug,result,batch");
+            tp.put("stringmatcher","");
+            tp.put("stacktrace","false");
+            tp.put("stacktraceclass","");
+            tp.put("reloadproperties","true");
+            tp.put("reloadpropertiesinterval","1");
+            
+            writeProperty(tp);
+            
+            P6SpyOptions.SPY_PROPERTIES_FILE = "reloadtest.properties";
+            P6SpyOptions.initMethod();
+            P6SpyDriver.initMethod();
+            P6LogQuery.initMethod();
+            
+            Thread.sleep(2000);
+            
+            String query = "select 'b' from stmt_test";
+            statement.executeQuery(query);
+            
+            assertEquals(P6SpyOptions.getFilter(), false);
+            
+            tp.put("filter","true");
+            tp.put("include","bob");
+            tp.put("exclude","barb");
+            tp.put("trace","false");
+            tp.put("autoflush","false");
+            tp.put("logfile","reload.log");
+            tp.put("append","false");
+            tp.put("dateformat","dd-MM-yyyy");
+            tp.put("includecategories","debug");
+            tp.put("excludecategories","result,batch");
+            tp.put("stringmatcher","com.p6spy.engine.spy.JakartaRegexMatcher");
+            tp.put("stacktrace","true");
+            tp.put("stacktraceclass","dummy");
+            tp.put("reloadproperties","true");
+            tp.put("reloadpropertiesinterval","1");
+            writeProperty(tp);
+            Thread.sleep(2000);
+            query = "select 'c' from stmt_test";
+            statement.executeQuery(query);            
+            assertEquals(P6SpyOptions.getFilter(), true);
+            assertEquals(P6SpyOptions.getInclude(), "bob");
+            assertEquals(P6SpyOptions.getExclude(), "barb");
+            assertEquals(P6SpyOptions.getTrace(), false);
+            assertEquals(P6SpyOptions.getAutoflush(), false);
+            assertEquals(P6SpyOptions.getLogfile(), "reload.log");
+            assertEquals(P6SpyOptions.getAppend(), false);
+            assertEquals(P6SpyOptions.getDateformat(), "dd-MM-yyyy");
+            assertEquals(P6SpyOptions.getIncludecategories(), "debug");
+            assertEquals(P6SpyOptions.getExcludecategories(), "result,batch");
+            assertEquals(P6SpyOptions.getStringmatcher(), "com.p6spy.engine.spy.JakartaRegexMatcher");
+            assertEquals(P6SpyOptions.getStringMatcherEngine().getClass().getName(), "com.p6spy.engine.spy.JakartaRegexMatcher");
+            assertEquals(P6SpyOptions.getStackTrace(), true);
+            assertEquals(P6SpyOptions.getStackTraceClass(), "dummy");
+            assertEquals(P6SpyOptions.getReloadProperties(), true);
+            assertEquals(P6SpyOptions.getReloadPropertiesInterval(), 1);
+            
+            tp.put("realdriver","oracle.jdbc.driver.OracleDriver");
+            tp.put("filter","false");
+            tp.put("include","");
+            tp.put("exclude","");
+            tp.put("trace","true");
+            tp.put("autoflush","true");
+            tp.put("logfile","spy.log");
+            tp.put("append","true");
+            tp.put("dateformat","");
+            tp.put("includecategories","");
+            tp.put("excludecategories","debug,result,batch");
+            tp.put("stringmatcher","");
+            tp.put("stacktrace","false");
+            tp.put("stacktraceclass","");
+            tp.put("reloadproperties","true");
+            tp.put("reloadpropertiesinterval","1");
+            
+        } catch (Exception e) {
+            fail(e.getMessage()+getStackTrace(e));
+        }
+    }
+    
+    protected void writeProperty(HashMap props) {
+        try {
+            File reload = new File("reloadtest.properties");
+            reload.delete();
+            
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(reload)));
+            
+            Iterator i = props.keySet().iterator();
+            while (i.hasNext()) {
+                String key = (String)i.next();
+                String value = (String)props.get(key);
+                out.println(key+"="+value);
+            }
+            
+            out.close();
+        } catch (Exception e) {
+            fail(e.getMessage());
         }
     }
     
