@@ -67,6 +67,11 @@
  * $Author$
  *
  * $Log$
+ * Revision 1.5  2003/08/07 19:06:38  aarvesen
+ * removed the synchro's
+ * changed the imports slightly
+ * call up to the new constructor
+ *
  * Revision 1.4  2003/08/04 19:33:13  aarvesen
  * removed the flawed implementation of trying to wrap a normal p6 connection in a pooled connection
  *
@@ -100,8 +105,7 @@
 
 package com.p6spy.engine.spy;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 import javax.sql.*;
 
 public class P6ConnectionPoolDataSource extends P6DataSource implements ConnectionPoolDataSource {
@@ -111,11 +115,10 @@ public class P6ConnectionPoolDataSource extends P6DataSource implements Connecti
     }
 
     public P6ConnectionPoolDataSource(DataSource ds) {
-      super();
-      rds = ds;
+      super(ds);
     }
 
-    public synchronized PooledConnection getPooledConnection() throws SQLException {
+    public PooledConnection getPooledConnection() throws SQLException {
       if (rds == null) {
 	bindDataSource();
       }
@@ -126,7 +129,7 @@ public class P6ConnectionPoolDataSource extends P6DataSource implements Connecti
     }
     
     
-    public synchronized PooledConnection getPooledConnection(String s, String s1) throws SQLException {
+    public PooledConnection getPooledConnection(String s, String s1) throws SQLException {
 
       if (rds == null) {
 	bindDataSource();
