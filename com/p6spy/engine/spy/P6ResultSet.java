@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.6  2003/06/20 20:09:07  aarvesen
+ * put in a fix suggested by noack from neofonie.de (Andre Noack)  to deal with result sets throwing an out of bounds exception
+ *
  * Revision 1.5  2003/06/03 19:20:25  cheechq
  * removed unused imports
  *
@@ -137,14 +140,16 @@ public class P6ResultSet extends P6Base implements ResultSet {
         // only dump the data on subsequent calls to next
         if (currRow > -1){
             StringBuffer buffer = new StringBuffer();
+	    String comma = "";
             for (Iterator itr = resultMap.keySet().iterator(); itr.hasNext();){
                String index = (String)itr.next();
+               buffer.append(comma);
                buffer.append(index);
                buffer.append(" = ");
                buffer.append((String)resultMap.get(index));
-               buffer.append(", ");
+	       comma = ", ";
             }
-            P6LogQuery.log("resultset", query, buffer.substring(0, buffer.length() - 2).toString());
+            P6LogQuery.log("resultset", query, buffer.toString());
             resultMap.clear();
         }
         currRow++;
