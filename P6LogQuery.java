@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2002/04/21 06:15:34  jeffgoke
+ * added test cases, fixed batch bugs
+ *
  * Revision 1.4  2002/04/15 05:13:32  jeffgoke
  * Simon Sadedin added timing support.  Fixed bug where batch execute was not
  * getting logged.  Added result set timing.  Updated the log format to include
@@ -107,11 +110,12 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 
 public class P6LogQuery {
-    private static PrintStream qlog;
-    private static String[] includeTables;
-    private static String[] excludeTables;
-    private static String[] includeCategories;
-    private static String[] excludeCategories;
+    protected static PrintStream qlog;
+    protected static String[] includeTables;
+    protected static String[] excludeTables;
+    protected static String[] includeCategories;
+    protected static String[] excludeCategories;
+    protected static String lastEntry;
     
     static {
         if (P6SpyOptions.getTrace()) {
@@ -178,13 +182,15 @@ public class P6LogQuery {
     static final synchronized void doLog(long elapsed, String category, String prepared, String sql) {
         java.util.Date now = P6Util.timeNow();
         SimpleDateFormat sdf = P6SpyOptions.getDateformatter();
+        String logEntry;
         if (sdf == null) {
-            qlog.print(now.getTime());
+            logEntry = Long.toString(now.getTime());
         } else {
-            qlog.print(sdf.format(new java.util.Date(now.getTime())).trim());
+            logEntry = sdf.format(new java.util.Date(now.getTime())).trim();
         }
-        qlog.print("|"+elapsed+"|"+category+"|"+prepared+"|");
-        qlog.println(sql);
+        logEntry = "|"+elapsed+"|"+category+"|"+prepared+"|"+sql;
+        qlog.println(logEntry);
+        lastEntry = logEntry;
     }
     
     static final boolean isLoggable(String sql) {
@@ -238,5 +244,9 @@ public class P6LogQuery {
     
     static final synchronized void doLogElapsed(long startTime, long endTime, String category, String prepared, String sql) {
         doLog((endTime - startTime), category, prepared, sql);
+    }
+    
+    static final String getLastEntry () {
+        return lastEntry;
     }
 }

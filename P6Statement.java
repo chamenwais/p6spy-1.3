@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.6  2002/04/21 06:15:35  jeffgoke
+ * added test cases, fixed batch bugs
+ *
  * Revision 1.5  2002/04/18 06:54:39  jeffgoke
  * added batch statement logging support
  *
@@ -281,5 +284,10 @@ public class P6Statement implements Statement {
     // returns the p6connection
     public java.sql.Connection getConnection() throws java.sql.SQLException {
         return connection;
+    }
+    
+    // p6 specific code used for setting the information
+    public void setStatementQuery (String statementQuery) {
+        this.statementQuery = statementQuery;
     }
 }

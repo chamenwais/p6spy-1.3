@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.6  2002/04/21 06:15:34  jeffgoke
+ * added test cases, fixed batch bugs
+ *
  * Revision 1.5  2002/04/18 06:54:39  jeffgoke
  * added batch statement logging support
  *
@@ -131,6 +134,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     }
     
     public void addBatch() throws SQLException {
+        super.setStatementQuery(getQueryFromPreparedStatement());
         long startTime = System.currentTimeMillis();
         try {
             prepStmtPassthru.addBatch();
