@@ -99,7 +99,7 @@ public class P6SpyOptions   {
     public P6SpyOptions() {}
     
     public static final String DRIVER_PREFIX = "realdriver";
-    public static final String MODULE_PREFIX = "module_";
+    public static final String MODULE_PREFIX = "module.";
     private static ArrayList modules;
     private static ArrayList driverNames;
     private static boolean usePrefix;
