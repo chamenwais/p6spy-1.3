@@ -14,7 +14,7 @@
   <li><a href="#upgrade"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Upgrade 
     instructions</font></a></li>
   <li><a href="#release"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Release 
-    Notes <br>
+    notes <br>
     </font></a></li>
   <li><a href="#install"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">General 
     installation instructions</font></a></li>
@@ -33,7 +33,9 @@
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#jonas">Installation 
     under JOnAS</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#jonas">Installation 
-    under WebLogic</a><br>
+    under WebLogic</a></font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#issues">Known 
+    issues</a><br>
     </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#trouble">Troubleshooting</a></font></li>
 </ul>
@@ -702,6 +704,29 @@
     that are executed. You can change the location of this file and the nature 
     of its content by using the spy property file (see <a href="#property">Property 
     File Settings</a>)</font></li>
+</ol>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="issues"></a>Known 
+  Issues </b></font></p>
+<ol>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Driver specific 
+    methods are not supported.&nbsp;&nbsp;</b>Many drivers provide methods that 
+    expose driver specific, non-standard functionality. Most developers do not 
+    use these features, but in the event that you do, they are not supported by 
+    P6Spy. For example, the MySQL JDBC drivers allow you to call the auto-increment 
+    function like so: ((org.gjt.mm.mysql.PreparedStatement)stmt).getLastInsertId(); 
+    that cast will fail when the P6SpyDriver is in place, since the class it will 
+    be trying to cast against is the P6Spy Driver itself, which does not expose 
+    that driver specific method. There are ways to get around this limitation, 
+    for example by using Dynamic Proxies instead of our current technique. However, 
+    these come at a performance cost, that while maybe slight, we have decided 
+    to avoid at this time.<br>
+    <br>
+    </font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Multiple 
+    drivers are not supported.&nbsp;&nbsp;</b>Currently P6Spy does not work against 
+    multiple database drivers being used within a single application. If you have 
+    two database drivers at work (or more), you can only use P6Spy to log one 
+    of them at a time.</font></li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="trouble"></a>Troubleshooting</b></font></p>
 <ol>
