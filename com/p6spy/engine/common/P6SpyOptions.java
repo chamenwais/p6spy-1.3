@@ -107,7 +107,7 @@ public class P6SpyOptions   {
     private static String exclude;
     private static boolean filter;
     private static String include;
-    private static String logfile = "spy.log";
+    private static String logfile;
     private static String appender;
     private static String realdriver;
     private static String realdriver2;
