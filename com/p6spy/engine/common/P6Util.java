@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.14  2003/04/15 02:49:09  cheechq
+ * bug fix for jdk 1.2 support
+ *
  * Revision 1.13  2003/04/15 02:10:54  cheechq
  * jdk 1.2 support mod
  *
@@ -530,4 +533,19 @@ public class P6Util {
         return list;
     }
     
+    // method add by jayakumar for JDK1.2 support for URL.getPath()
+    public static String getPath(URL theURL) {
+     	String file = theURL.getFile();
+     	String path = null;
+     	if (file != null) {
+			int q = file.lastIndexOf('?');
+	       	if (q != -1) {
+	         path = file.substring(0, q);
+			} else {
+	       		path = file;
+	     	} 
+   		} 
+     	return path;
+     }
+     // end of support method
 }
