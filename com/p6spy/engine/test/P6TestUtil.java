@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/12/19 23:45:18  aarvesen
+ * change to be factory rather than driver
+ *
  * Revision 1.2  2002/12/12 01:39:01  jeffgoke
  * no message
  *
@@ -160,8 +163,8 @@ public class P6TestUtil  {
         String realdrivername2 = props2.getProperty("p6realdriver2");
         
         HashMap tp = new HashMap();
-        tp.put("module_outage","com.p6spy.engine.outage.P6OutageSpyDriver");
-        tp.put("module_log","com.p6spy.engine.logging.P6LogSpyDriver");
+        tp.put("module_outage","com.p6spy.engine.outage.P6OutageFactory");
+        tp.put("module_log","com.p6spy.engine.logging.P6LogFactory");
         tp.put("realdriver",realdrivername);
         tp.put("realdriver2",realdrivername2);
         tp.put("filter","false");
@@ -221,7 +224,7 @@ public class P6TestUtil  {
     
     protected static void printAllDrivers() {
         for (Enumeration e = DriverManager.getDrivers() ; e.hasMoreElements() ;) {
-            System.err.println("DRIVER FOUND == "+e.nextElement());
+            System.err.println("2 DRIVER FOUND == "+e.nextElement());
         }
     }
     
