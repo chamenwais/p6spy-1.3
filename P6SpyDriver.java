@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2002/04/10 05:22:09  jeffgoke
+ * included debug option and a message at driver initialization time
+ *
  * Revision 1.2  2002/04/07 20:43:59  jeffgoke
  * fixed bug that caused null connection to return an empty connection instead of null.
  * added an option allowing the user to truncate.
@@ -127,7 +130,7 @@ public class P6SpyDriver implements Driver {
         Connection conn = passthru.connect(p0,p1);
         return conn == null ? null : new P6Connection(conn);
     }
-
+    
     public final boolean acceptsURL(String p0) throws SQLException {
         registerRealDriver();
         return(passthru.acceptsURL(p0));
@@ -159,6 +162,9 @@ public class P6SpyDriver implements Driver {
                 }
                 Class driverClass = Class.forName(driver);
                 passthru = (Driver) driverClass.newInstance();
+                if (P6SpyOptions.getDebug()) {
+                    P6LogQuery.doLog("P6Spy successfully registered driver "+driver);
+                }
             } catch (ClassNotFoundException e1) {
                 throw new SQLException("Error registering Driver <" + driver + "> ClassNotFoundException " + driver);
             } catch (InstantiationException e2) {

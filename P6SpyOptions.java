@@ -81,6 +81,7 @@ public class P6SpyOptions   {
     private static boolean trace;
     private static boolean append;
     private static String properties;
+    private static boolean debug;
     
     public static void setAutoflush(boolean _autoflush) {
         autoflush = _autoflush;
@@ -142,6 +143,12 @@ public class P6SpyOptions   {
     public static boolean getTrace() {
         return trace;
     }
+    public static void setDebug(boolean _debug) {
+        debug = _debug;
+    }
+    public static boolean getDebug() {
+        return debug;
+    }
     public static void setProperties(String _properties) {
         properties = _properties;
     }
@@ -171,6 +178,7 @@ public class P6SpyOptions   {
         setAppend(getAppend());
         setTrace(getTrace());
         setProperties(getProperties());
+        setDebug(getDebug());
     }
     
     public static void help() {
@@ -185,6 +193,7 @@ public class P6SpyOptions   {
         System.out.println("    spydriver [com.p6.engine.spy.P6SpyDriver] - name of SPY Driver");
         System.out.println("    trace [false]                             - turn on tracing");
         System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");
+        System.out.println("    debug [false]                             - outputs P6Spy debug statements");
         System.out.println("\nGlobal:");
         System.out.println("    properties [spy.properties]               - name of file that stores the properties info");
     }
@@ -200,6 +209,7 @@ public class P6SpyOptions   {
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    spydriver [com.p6.engine.spy.P6SpyDriver] - name of SPY Driver");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    trace [false]                             - turn on tracing");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    debug [false]                             - output P6Spy debug statements");        }
         if (category.equalsIgnoreCase("Global")) {            System.out.println("\nGlobal:");            System.out.println("    properties [spy.properties]               - name of file that stores the properties info");        }
     }
     
@@ -236,6 +246,9 @@ public class P6SpyOptions   {
         value = props.getProperty("append");
         if (value == null) value = "true";
         setAppend(P6Util.isTrue(value));
+        value = props.getProperty("debug");
+        if (value == null) value = "true";
+        setDebug(P6Util.isTrue(value));
     }
     
     public static boolean set(String name, String value) {
@@ -253,6 +266,7 @@ public class P6SpyOptions   {
         else if (lc.equals("append")) setAppend(P6Util.isTrue(value));
         else if (lc.equals("trace")) setTrace(P6Util.isTrue(value));
         else if (lc.equals("properties")) setProperties(value);
+        else if (lc.equals("debug")) setDebug(P6Util.isTrue(value));
         else ret = false;
         return ret;
     }
@@ -271,7 +285,9 @@ public class P6SpyOptions   {
         else if (lc.equals("append")) return getAppend() ? "true" : "false";
         else if (lc.equals("trace")) return getTrace() ? "true" : "false";
         else if (lc.equals("properties")) return getProperties();
-        else return null;    }
+        else if (lc.equals("debug")) return getDebug() ? "true" : "false";
+        else return null;    
+    }
     
     public static Map getKeysMap() {
         HashMap keys = new HashMap();
@@ -286,6 +302,7 @@ public class P6SpyOptions   {
         keys.put("append", getAppend() ? "true" : "false");
         keys.put("trace", getTrace() ? "true" : "false");
         keys.put("properties", getProperties());
+        keys.put("debug", getDebug() ? "true" : "false");
         return keys;
     }
     
@@ -302,6 +319,7 @@ public class P6SpyOptions   {
         values.put(getAppend() ? "true" : "false","append");
         values.put(getTrace() ? "true" : "false","trace");
         values.put(getProperties(),"properties");
+        values.put(getDebug() ? "true" : "false","debug");
         return values;
     }
     
@@ -318,6 +336,7 @@ public class P6SpyOptions   {
         list.add("append");
         list.add("trace");
         list.add("properties");
+        list.add("debug");
         return list;
     }
 }
