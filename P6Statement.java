@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2002/04/11 04:18:03  jeffgoke
+ * fixed bug where callable & prepared were not passing their ancestors the correct constructor information
+ *
  * Revision 1.2  2002/04/10 04:24:26  jeffgoke
  * added support for callable statements and fixed numerous bugs that allowed the real class to be returned
  *
@@ -95,16 +98,13 @@ import java.sql.*;
 
 public class P6Statement implements Statement {
     protected Statement passthru;
-    protected Connection connection;
+    protected P6Connection connection;
     
     public P6Statement() {}
-    
-    public P6Statement(Connection conn) throws SQLException {
-        passthru = conn.createStatement();
-    }
-    
-    public P6Statement(Connection conn, int p0, int p1) throws SQLException {
-        passthru = conn.createStatement(p0, p1);
+       
+    P6Statement(Statement statement, P6Connection conn) {
+        passthru = statement;
+        connection = conn;
     }
     
     public final void close() throws java.sql.SQLException {
@@ -224,6 +224,7 @@ public class P6Statement implements Statement {
         return(passthru.executeBatch());
     }
     
+    // returns the p6connection
     public final java.sql.Connection getConnection() throws java.sql.SQLException {
         return connection;
     }

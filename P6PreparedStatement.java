@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/04/11 04:18:03  jeffgoke
+ * fixed bug where callable & prepared were not passing their ancestors the correct constructor information
+ *
  * Revision 1.2  2002/04/10 04:24:26  jeffgoke
  * added support for callable statements and fixed numerous bugs that allowed the real class to be returned
  *
@@ -100,17 +103,10 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     private Object values[];
     private boolean isString[];
     
-    P6PreparedStatement(Connection conn, String query) throws SQLException {
-        super(conn);
+    P6PreparedStatement(PreparedStatement statement, P6Connection conn, String query) {
+        super(statement, conn);
+        prepStmtPassthru = statement;
         this.query = query;
-        prepStmtPassthru = conn.prepareStatement(query);
-        initValues();
-    }
-    
-    P6PreparedStatement(Connection conn, String query, int resultSetType, int resultSetCurrency) throws SQLException {
-        super(conn);
-        this.query = query;
-        prepStmtPassthru = conn.prepareStatement(query,resultSetType,resultSetCurrency);
         initValues();
     }
     

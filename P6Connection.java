@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2002/04/11 04:18:03  jeffgoke
+ * fixed bug where callable & prepared were not passing their ancestors the correct constructor information
+ *
  * Revision 1.3  2002/04/10 04:24:26  jeffgoke
  * added support for callable statements and fixed numerous bugs that allowed the real class to be returned
  *
@@ -119,27 +122,27 @@ public class P6Connection implements java.sql.Connection {
     }
     
     public final Statement createStatement() throws SQLException {
-        return(new P6Statement(passthru));
+        return(new P6Statement(passthru.createStatement(), this));
     }
     
     public final Statement createStatement(int p0, int p1) throws SQLException {
-        return(new P6Statement(passthru,p0,p1));
+        return(new P6Statement(passthru.createStatement(p0,p1), this));
     }
     
     public final PreparedStatement prepareStatement(String p0) throws SQLException {
-        return new P6PreparedStatement(passthru,p0);
+        return (new P6PreparedStatement(passthru.prepareStatement(p0), this, p0));
     }
     
     public final PreparedStatement prepareStatement(String p0, int p1, int p2) throws SQLException {
-        return new P6PreparedStatement(passthru,p0,p1,p2);
+        return (new P6PreparedStatement(passthru.prepareStatement(p0,p1,p2), this, p0));
     }
     
     public final CallableStatement prepareCall(String p0) throws SQLException {
-        return new P6CallableStatement(passthru,p0);
+        return (new P6CallableStatement(passthru.prepareCall (p0), this, p0));
     }
     
     public final CallableStatement prepareCall(String p0, int p1, int p2) throws SQLException {
-        return new P6CallableStatement(passthru,p0,p1,p2);
+        return (new P6CallableStatement(passthru.prepareCall (p0,p1,p2), this, p0));
     }
     
     public final String nativeSQL(String p0) throws SQLException {

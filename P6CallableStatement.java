@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/04/11 04:18:03  jeffgoke
+ * fixed bug where callable & prepared were not passing their ancestors the correct constructor information
+ *
  * Revision 1.1  2002/04/10 04:24:26  jeffgoke
  * added support for callable statements and fixed numerous bugs that allowed the real class to be returned
  *
@@ -95,17 +98,14 @@ import java.sql.*;
 public class P6CallableStatement extends P6PreparedStatement implements java.sql.CallableStatement {
     
     protected CallableStatement callStmtPassthru;
+    private String query;
     
-    P6CallableStatement(Connection conn, String query) throws SQLException {
-        super(conn, query);
-        callStmtPassthru = conn.prepareCall(query);
+    P6CallableStatement(CallableStatement statement, P6Connection conn, String query) {
+        super(statement, conn, query);
+        this.query = query;
+        this.callStmtPassthru = statement;
     }
     
-    P6CallableStatement(Connection conn, String query, int resultSetType, int resultSetCurrency) throws SQLException {
-        super(conn, query, resultSetType, resultSetCurrency);
-        callStmtPassthru = conn.prepareCall(query,resultSetType,resultSetCurrency);
-    }
-        
     public final String getString(int p0) throws SQLException {
         return callStmtPassthru.getString(p0);
     }
