@@ -109,6 +109,7 @@ public class P6SpyOptions extends P6Options {
     private static String spydriver;
     private static boolean append;
     private static String properties;
+    private static boolean deregister;
     private static String dateformat;
     private static SimpleDateFormat dateformatter;
     private static String includecategories;
@@ -182,6 +183,14 @@ public class P6SpyOptions extends P6Options {
     
     public static String getIncludecategories() {
         return includecategories;
+    }
+
+    public static boolean getDeregisterDrivers() {
+	return deregister;
+    }
+
+    public static void setDeregisterDrivers(String trueOrFalse) {
+        deregister = P6Util.isTrue(trueOrFalse, false);
     }
     
     public static void setLogfile(String _logfile) {
