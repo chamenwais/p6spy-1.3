@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/09 21:47:29  aarvesen
+ * New constructor
+ *
  * Revision 1.1  2002/05/24 07:31:28  jeffgoke
  * version 1 rewrite
  *
@@ -85,12 +88,9 @@ import com.p6spy.engine.spy.*;
 
 public class P6OutageDatabaseMetaData extends P6DatabaseMetaData implements java.sql.DatabaseMetaData {
     
-    protected P6Factory getP6Factory() {
-        return new P6OutageFactory();
-    }
     
-    public P6OutageDatabaseMetaData(DatabaseMetaData metadata, P6Connection connection) {
-        super(metadata, connection);
+    public P6OutageDatabaseMetaData(P6Factory factory, DatabaseMetaData metadata, P6Connection connection) {
+        super(factory, metadata, connection);
     }
     
 }

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/09 21:50:17  aarvesen
+ * New constructor
+ *
  * Revision 1.1  2002/05/24 07:31:28  jeffgoke
  * version 1 rewrite
  *
@@ -102,12 +105,9 @@ import java.text.*;
 
 public class P6OutageResultSet extends P6ResultSet implements ResultSet {
     
-    protected P6Factory getP6Factory() {
-        return new P6OutageFactory();
-    }
     
-    public P6OutageResultSet(ResultSet resultSet, P6Statement statement, String preparedQuery, String query) {
-        super(resultSet, statement, preparedQuery, query);
+    public P6OutageResultSet(P6Factory factory, ResultSet resultSet, P6Statement statement, String preparedQuery, String query) {
+        super(factory, resultSet, statement, preparedQuery, query);
     }
     
 }

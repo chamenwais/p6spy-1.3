@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/09 21:50:46  aarvesen
+ * New constructor
+ *
  * Revision 1.1  2002/10/06 18:22:48  jeffgoke
  * no message
  *
@@ -83,12 +86,9 @@ import com.p6spy.engine.spy.*;
 
 public class P6OutageResultSetMetaData extends P6ResultSetMetaData {
     
-    protected P6Factory getP6Factory() {
-        return new P6OutageFactory();
-    }
     
-    public P6OutageResultSetMetaData(ResultSetMetaData resultSetMetaData) {
-        super(resultSetMetaData);
+    public P6OutageResultSetMetaData(P6Factory factory, ResultSetMetaData resultSetMetaData) {
+        super(factory, resultSetMetaData);
     }
     
 }

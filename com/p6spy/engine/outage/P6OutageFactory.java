@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/12/09 21:48:04  aarvesen
+ * New constructor
+ *
  * Revision 1.2  2002/10/06 18:22:48  jeffgoke
  * no message
  *
@@ -90,35 +93,35 @@ public class P6OutageFactory implements P6Factory {
     }
     
     public Connection getConnection(Connection conn) throws SQLException {
-        return (new P6OutageConnection(conn));
+        return (new P6OutageConnection(this, conn));
     }
     
     public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) {
-        return (new P6OutagePreparedStatement(real, conn, p0));
+        return (new P6OutagePreparedStatement(this, real, conn, p0));
     }
     
     public Statement getStatement(Statement statement, P6Connection conn) {
-        return (new P6OutageStatement(statement, conn));
+        return (new P6OutageStatement(this, statement, conn));
     }
     
     public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) {
-        return (new P6OutageCallableStatement(real, conn, p0));
+        return (new P6OutageCallableStatement(this, real, conn, p0));
     }
     
     public DatabaseMetaData getDatabaseMetaData(DatabaseMetaData real, P6Connection conn) {
-        return new P6OutageDatabaseMetaData(real, conn);
+        return new P6OutageDatabaseMetaData(this, real, conn);
     }
     
     public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query) {
-        return (new P6OutageResultSet(real, statement, preparedQuery, query));
+        return (new P6OutageResultSet(this, real, statement, preparedQuery, query));
     }
     
     public Array getArray(Array real, P6Statement statement, String preparedQuery, String query) {
-        return (new P6OutageArray(real, statement, preparedQuery, query));
+        return (new P6OutageArray(this, real, statement, preparedQuery, query));
     }
     
     public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) {
-        return (new P6OutageResultSetMetaData(real));
+        return (new P6OutageResultSetMetaData(this, real));
     }
     
 }
