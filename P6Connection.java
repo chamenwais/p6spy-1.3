@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2002/04/10 04:24:26  jeffgoke
+ * added support for callable statements and fixed numerous bugs that allowed the real class to be returned
+ *
  * Revision 1.2  2002/04/07 20:43:59  jeffgoke
  * fixed bug that caused null connection to return an empty connection instead of null.
  * added an option allowing the user to truncate.
@@ -92,7 +95,7 @@ package com.p6spy.engine.spy;
 import java.sql.*;
 import java.util.*;
 
-public class P6Connection implements Connection {
+public class P6Connection implements java.sql.Connection {
     private Connection passthru;
     
     public P6Connection(Connection conn) throws SQLException {
@@ -132,11 +135,11 @@ public class P6Connection implements Connection {
     }
     
     public final CallableStatement prepareCall(String p0) throws SQLException {
-        return(passthru.prepareCall(p0));
+        return new P6CallableStatement(passthru,p0);
     }
     
     public final CallableStatement prepareCall(String p0, int p1, int p2) throws SQLException {
-        return(passthru.prepareCall(p0,p1,p2));
+        return new P6CallableStatement(passthru,p0,p1,p2);
     }
     
     public final String nativeSQL(String p0) throws SQLException {
@@ -160,7 +163,7 @@ public class P6Connection implements Connection {
     }
     
     public final DatabaseMetaData getMetaData() throws SQLException {
-        return(passthru.getMetaData());
+        return new P6DatabaseMetaData(passthru.getMetaData(), this);
     }
     
     public final void setCatalog(String p0) throws SQLException {
