@@ -111,6 +111,9 @@ public class P6SpyProperties {
         return (properties != null);
     }
     
+    public static String getPropertiesPath() {
+	return propertiesPath;
+    }
     /* set the name of the property file */
     public static void setSpyProperties(String _properties) {
         SPY_PROPERTIES_FILE = _properties == null ? DFLT_OPTIONS_FILE : _properties;

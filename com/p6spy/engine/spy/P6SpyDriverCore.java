@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.11  2003/02/24 17:45:05  dlukeparker
+ * Clarified error reporting when spy.properties is not found
+ *
  * Revision 1.10  2003/01/28 19:32:31  jeffgoke
  * fixed bug exposed by test framework where option reloading was having problems if options were manipulated before the driver was created.
  *
@@ -153,6 +156,7 @@ public abstract class P6SpyDriverCore implements Driver {
     protected static boolean initialized = false;
     protected static ArrayList factories;
     protected static ArrayList realDrivers = new ArrayList();
+    protected static boolean foundSpyProperties;
     
     /*
      * This core class serves to purposes
@@ -179,8 +183,19 @@ public abstract class P6SpyDriverCore implements Driver {
             return;
         }
         
-        // first thing we want to do is load the core options file
+        // first thing we want to do is load the core options file, but
+	// we don't know where it is, so find out, then set up to throw
+	// an exception from the constructor if it cannot be found.
+	String path = P6SpyProperties.getPropertiesPath();
+	if (path == null) {
+	    foundSpyProperties = false;
+	    return;
+	}
+
+	foundSpyProperties = true;
+
         P6SpyProperties properties = new P6SpyProperties();
+	System.out.println("creating core options");
         P6SpyOptions coreOptions = new P6SpyOptions();
         OptionReloader.add(coreOptions, properties);
         
@@ -256,6 +271,10 @@ public abstract class P6SpyDriverCore implements Driver {
     }
     
     public P6SpyDriverCore(String _spydriver, P6Factory _p6factory) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+	// if we couldn't find the spy.properties file, complain here
+	if (!foundSpyProperties) {
+	    throw (new InstantiationException("spy.properties not found in classpath"));
+	}
         // should really change the constructor here :)
     }
     
