@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/12/18 01:03:03  aarvesen
+ * Remove no-longer-used p6cache driver
+ *
  * Revision 1.2  2002/10/06 18:24:04  jeffgoke
  * no message
  *
@@ -219,7 +222,6 @@ public abstract class P6TestFramework extends TestCase {
         HashMap tp = new HashMap();
         tp.put("module_outage","com.p6spy.engine.outage.P6OutageSpyDriver");
         tp.put("module_log","com.p6spy.engine.logging.P6LogSpyDriver");
-        tp.put("module_cache","com.p6spy.engine.cache.P6CacheDriver");
         tp.put("realdriver",realdrivername);
         tp.put("realdriver2",realdrivername2);
         tp.put("filter","false");
