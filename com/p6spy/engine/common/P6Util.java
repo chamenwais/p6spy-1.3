@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.11  2003/02/12 15:32:14  jeffgoke
+ * Fixed bug where space in the realdriver name was causing the system to crash
+ *
  * Revision 1.10  2003/01/29 05:38:42  jeffgoke
  * added fix to not close reader if it is null
  *
@@ -299,7 +302,7 @@ public class P6Util {
                 reader = new BufferedReader(in);
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    if (line.startsWith(prefix)) {
+                    if ((line.trim()).startsWith(prefix)) { 
                         StringTokenizer st = new StringTokenizer(line, "=");
                         try {
                             String name = st.nextToken();
