@@ -65,6 +65,9 @@ package com.p6spy.engine.common;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
+import java.io.File;
+import java.lang.reflect.*;
+import java.beans.*;
 
 public class P6SpyOptions extends P6Options {
     
@@ -118,6 +121,12 @@ public class P6SpyOptions extends P6Options {
     private static boolean reloadProperties;
     private static long reloadPropertiesInterval;
     private static long reloadMs;
+    private static String jndicontextfactory;
+    private static String jndicontextproviderurl;
+    private static String jndicontextcustom;
+    private static String realdatasource;
+    private static String realdatasourceclass;
+    private static String realdatasourceproperties;
     
     public static void setUsePrefix(String _usePrefix) {
         usePrefix = P6Util.isTrue(_usePrefix, false);
@@ -323,6 +332,49 @@ public class P6SpyOptions extends P6Options {
     public static void setReloadPropertiesInterval(String _reloadpropertiesinterval) {
         reloadPropertiesInterval = P6Util.parseLong(_reloadpropertiesinterval,-1l);
         reloadMs = reloadPropertiesInterval * 1000l;
+    }
+    
+    public static void setJNDIContextFactory(String _jndicontextfactory) {
+        jndicontextfactory = _jndicontextfactory;
+    }
+    public static String getJNDIContextFactory() {
+	return jndicontextfactory;
+    }
+
+    public static void setJNDIContextProviderURL(String _jndicontextproviderurl) {
+	jndicontextproviderurl = _jndicontextproviderurl;
+    }
+    public static String getJNDIContextProviderURL() {
+	return jndicontextproviderurl;
+    }
+
+    public static void setJNDIContextCustom(String _jndicontextcustom) {
+	jndicontextcustom = _jndicontextcustom;
+    }
+    public static String getJNDIContextCustom() {
+	return jndicontextcustom;
+    }
+    
+    public static void setRealDataSource(String _realdatasource) {
+        realdatasource = _realdatasource;
+    }
+    
+    public static String getRealDataSource() {
+        return realdatasource;
+    }
+    
+    public static void setRealDataSourceClass(String _realdatasourceclass) {
+	realdatasourceclass = _realdatasourceclass;
+    }
+    public static String getRealDataSourceClass() {
+	return realdatasourceclass;
+    }
+
+    public static void setRealDataSourceProperties(String _realdatasourceproperties) {
+	realdatasourceproperties = _realdatasourceproperties;
+    }
+    public static String getRealDataSourceProperties() {
+	return realdatasourceproperties;
     }
     
     public void reload(P6SpyProperties properties) {
