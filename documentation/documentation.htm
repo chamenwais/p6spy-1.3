@@ -32,6 +32,9 @@
     under Tomcat</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#jonas">Installation 
     under JOnAS</a></font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#jonas">Installation 
+    under WebLogic</a><br>
+    </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#trouble">Troubleshooting</a></font></li>
 </ul>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="license"></a>License 
@@ -261,7 +264,9 @@
   </font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>logfile</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Specifies the name 
-  of the file to generate.&nbsp;&nbsp;Use &quot;stdout&quot; for standard output.</font></p>
+  of the file to generate.&nbsp;&nbsp;Use &quot;stdout&quot; for standard output. 
+  Note, if you are in Windows and are specifying a pathname, make sure to use 
+  forward slashes (e.g. c:/mylog/spy.log)</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">logfile = spy.log<br>
   </font></p>
@@ -274,7 +279,8 @@
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Prints debug statements. 
   Useful in debugging the status of P6Spy if output is not being written to the 
   log. In particular, this will cause a statement to be written to the defined 
-  log file when the driver is registered.</font></p>
+  log file when the driver is registered and it will output all of the property 
+  file settings.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>dateformat</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting a value 
   for dateformat changes the date format value printed in the log file. No value 
@@ -615,6 +621,40 @@
     log file.</b>&nbsp; The log file contains a list of all of the database statements 
     that are executed. You can change the location of this file and the nature 
     of its content by using the spy property file (see <a href="#property">Property 
+    File Settings</a>)</font><br>
+  </li>
+</ol>
+<p><a name="weblogic"></a><b><font face="Verdana, Arial, Helvetica, sans-serif" size="+1">WebLogic 
+  Instructions </font></b> </p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">These instructions 
+  have been tested with WebLogic 5.1</font><br>
+  <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Posted by Richard 
+  Delbert on April 10, 2002 on TheServerSide.com)</i> </font> <br>
+
+<ol>
+  <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Unzip the 
+    distribution. </b>Unjar the p6spy-install.jar file.&nbsp; This contains two 
+    files: p6spy.jar and spy.properties</font></li>
+  <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Edit startWeblogic.sh, 
+    put the p6spy.jar file in the JAVA_CLASSPATH.</b></font></li>
+  <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Edit startWeblogic.sh, 
+    put spy.properties in the JAVA_CLASSPATH.</b></font></li>
+  <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">Edit weblogic.properties 
+    (connection pool). </font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"> 
+    Replace the JDBC class driver with com.p6spy.engine.spy.P6SpyDriver.</font></li>
+  <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Tell P6Spy 
+    about your real database driver.</b>&nbsp; Modify the spy.properties file 
+    and change the realdriver line to reflect your real database driver.&nbsp; 
+    In our example: realdriver = oracle.jdbc.driver.OracleDriver</font></li>
+  <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Installation 
+    is complete.</b></font></li>
+  <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Run your 
+    application.</b>&nbsp; A spy.log file will be created in the weblogic home 
+    directory.</font></li>
+  <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>View the 
+    log file.</b>&nbsp; The log file contains a list of all of the database statements 
+    that are executed. You can change the location of this file and the nature 
+    of its content by using the spy property file (see <a href="#property">Property 
     File Settings</a>)</font></li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="trouble"></a>Troubleshooting</b></font></p>
@@ -641,7 +681,14 @@
     sure spy.properties is in the classpath that is listed in the error message 
     stating spy.properties cannot be found, this is the classpath that p6spy is 
     searching. If you still have problems, try using the -Dp6.home option to specify 
-    where you have placed the spy.properties file. E.g. java -Dp6.home=c:\orion\lib</font></li>
+    where you have placed the spy.properties file. E.g. java -Dp6.home=c:\orion\lib<br><br></font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The spy.log 
+    file is not written.&nbsp;&nbsp;</b>First, try searching your entire drive 
+    for spy.log, you may find it in a strange place. Remember, you can specify 
+    the default location using the spy.properties property file. Next, set debug=true 
+    in spy.properties and try restarting the system. This will output a line when 
+    the driver initializes and will output the properties being used in spy.log, 
+    look for anything that is incorrect in this information.</font></li>
 </ol>
 </body>
 </html>
