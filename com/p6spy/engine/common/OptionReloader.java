@@ -67,14 +67,15 @@ package com.p6spy.engine.common;
 import java.util.*;
 
 public class OptionReloader implements Runnable {
-    protected int sleepTime = 0;
+    protected long sleepTime = 0;
     protected boolean running = false;
-    public OptionReloader(int sleep) {
+
+    public OptionReloader(long sleep) {
 	setSleep(sleep);
 	setRunning(true);
     }
 
-    public void setSleep(int sleep) {
+    public void setSleep(long sleep) {
 	sleepTime = sleep;
     }
     public void setRunning(boolean run) {
@@ -94,7 +95,7 @@ public class OptionReloader implements Runnable {
 	    } catch (InterruptedException e) {
 		// nothing.
 	    }
-	    P6Options.reloadProperties();
+	    P6SpyOptions.reloadProperties();
 	}
     }
 
