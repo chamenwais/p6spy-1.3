@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/09 21:43:45  aarvesen
+ * Added new constructor
+ *
  * Revision 1.1  2002/05/24 07:31:28  jeffgoke
  * version 1 rewrite
  *
@@ -87,12 +90,9 @@ import com.p6spy.engine.spy.P6Factory;
 
 public class P6OutageArray extends P6Array {
     
-    protected P6Factory getP6Factory() {
-        return new P6OutageFactory();
-    }
     
-    public P6OutageArray(Array array, P6Statement statement, String preparedQuery, String query) {
-        super(array, statement, preparedQuery, query);
+    public P6OutageArray(P6Factory factory, Array array, P6Statement statement, String preparedQuery, String query) {
+        super(factory, array, statement, preparedQuery, query);
     }
     
 }
