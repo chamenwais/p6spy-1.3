@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2002/12/06 22:26:47  aarvesen
+ * new factory registration in the constructor
+ *
  * Revision 1.2  2002/10/06 18:22:12  jeffgoke
  * no message
  *
@@ -127,12 +130,9 @@ import com.p6spy.engine.common.*;
 
 public class P6LogStatement extends P6Statement implements Statement {
     
-    protected P6Factory getP6Factory() {
-        return new P6LogFactory();
-    }
     
-    public P6LogStatement(Statement statement, P6Connection conn) {
-        super(statement, conn);
+    public P6LogStatement(P6Factory factory, Statement statement, P6Connection conn) {
+        super(factory, statement, conn);
     }
     
     public boolean execute(String p0) throws java.sql.SQLException {
@@ -142,6 +142,54 @@ public class P6LogStatement extends P6Statement implements Statement {
         
         try {
             return passthru.execute(p0);
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public boolean execute(String p0, int p1) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return passthru.execute(p0, p1);
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return passthru.execute(p0, p1);
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return passthru.execute(p0, p1);
         }
         finally {
             if (P6SpyOptions.getTrace()) {
@@ -172,6 +220,54 @@ public class P6LogStatement extends P6Statement implements Statement {
         
         try {
             return(passthru.executeUpdate(p0));
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return(passthru.executeUpdate(p0, p1));
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return(passthru.executeUpdate(p0, p1));
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return(passthru.executeUpdate(p0, p1));
         }
         finally {
             if (P6SpyOptions.getTrace()) {

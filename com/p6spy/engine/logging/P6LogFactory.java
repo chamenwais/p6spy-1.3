@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/12/06 22:28:43  aarvesen
+ * new factory registration in the constructor
+ *
  * Revision 1.2  2002/10/06 18:22:12  jeffgoke
  * no message
  *
@@ -90,35 +93,35 @@ public class P6LogFactory implements P6Factory {
     }
     
     public Connection getConnection(Connection conn) throws SQLException {
-        return (new P6LogConnection(conn));
+	return new P6LogConnection(this, conn);
     }
     
     public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) {
-        return (new P6LogPreparedStatement(real, conn, p0));
+        return new P6LogPreparedStatement(this, real, conn, p0);
     }
     
     public Statement getStatement(Statement statement, P6Connection conn) {
-        return (new P6LogStatement(statement, conn));
+        return new P6LogStatement(this, statement, conn);
     }
     
     public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) {
-        return (new P6LogCallableStatement(real, conn, p0));
+        return new P6LogCallableStatement(this, real, conn, p0);
     }
     
     public DatabaseMetaData getDatabaseMetaData(DatabaseMetaData real, P6Connection conn) {
-        return new P6LogDatabaseMetaData(real, conn);
+        return new P6LogDatabaseMetaData(this, real, conn);
     }
     
     public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query) {
-        return (new P6LogResultSet(real, statement, preparedQuery, query));
+        return new P6LogResultSet(this, real, statement, preparedQuery, query);
     }
     
     public Array getArray(Array real, P6Statement statement, String preparedQuery, String query) {
-        return (new P6LogArray(real, statement, preparedQuery, query));
+        return new P6LogArray(this, real, statement, preparedQuery, query);
     }
     
     public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) {
-        return (new P6LogResultSetMetaData(real));
+        return new P6LogResultSetMetaData(this, real);
     }
     
 }

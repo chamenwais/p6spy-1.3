@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/06 22:30:26  aarvesen
+ * new factory registration in the constructor
+ *
  * Revision 1.1  2002/05/24 07:31:45  jeffgoke
  * version 1 rewrite
  *
@@ -87,12 +90,9 @@ import com.p6spy.engine.spy.P6Factory;
 
 public class P6LogArray extends P6Array {
     
-    protected P6Factory getP6Factory() {
-        return new P6LogFactory();
-    }
     
-    public P6LogArray(Array array, P6Statement statement, String preparedQuery, String query) {
-        super(array, statement, preparedQuery, query);
+    public P6LogArray(P6Factory factory, Array array, P6Statement statement, String preparedQuery, String query) {
+        super(factory, array, statement, preparedQuery, query);
     }
     
 }

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/12/06 22:30:04  aarvesen
+ * new factory registration in the constructor
+ *
  * Revision 1.2  2002/10/06 18:22:12  jeffgoke
  * no message
  *
@@ -89,9 +92,6 @@ import java.math.*;
 
 public class P6LogCallableStatement extends P6CallableStatement implements java.sql.CallableStatement {
     
-    protected P6Factory getP6Factory() {
-        return new P6LogFactory();
-    }
     
     // ---------------------------------------------------------------------------------------
     // considered delegation for this, but that doesn't quite work because P6CallableStatement
@@ -104,8 +104,8 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
     // functionality we define in P6PreparedLogStatement.
     // ---------------------------------------------------------------------------------------
     
-    public P6LogCallableStatement(CallableStatement statement, P6Connection conn, String query) {
-        super(statement, conn, query);
+    public P6LogCallableStatement(P6Factory factory, CallableStatement statement, P6Connection conn, String query) {
+        super(factory, statement, conn, query);
     }
     
     public void addBatch() throws SQLException {
@@ -141,8 +141,7 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
         long startTime = System.currentTimeMillis();
         
         try {
-            ResultSet resultSet = prepStmtPassthru.executeQuery();
-            return (new P6ResultSet(resultSet, this, preparedQuery, getQueryFromPreparedStatement()));
+            return getP6Factory().getResultSet(prepStmtPassthru.executeQuery(), this, preparedQuery, getQueryFromPreparedStatement());
         }
         finally {
             if (P6SpyOptions.getTrace()) {
@@ -180,13 +179,61 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
         }
     }
     
+    // Since JDK 1.4
+    public boolean execute(String p0, int p1) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return passthru.execute(p0, p1);
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return passthru.execute(p0, p1);
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return passthru.execute(p0, p1);
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
     public ResultSet executeQuery(String p0) throws java.sql.SQLException {
         P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
         try {
-            return (new P6ResultSet(passthru.executeQuery(p0), this, "", p0));
+            return getP6Factory().getResultSet(passthru.executeQuery(p0), this, "", p0);
         }
         finally {
             if (P6SpyOptions.getTrace()) {
@@ -202,6 +249,54 @@ public class P6LogCallableStatement extends P6CallableStatement implements java.
         
         try {
             return(passthru.executeUpdate(p0));
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return(passthru.executeUpdate(p0, p1));
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return(passthru.executeUpdate(p0, p1));
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.connection.getId(), startTime, "statement", "", p0);
+            }
+        }
+    }
+    
+    // Since JDK 1.4
+    public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
+        statementQuery = p0;
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            return(passthru.executeUpdate(p0, p1));
         }
         finally {
             if (P6SpyOptions.getTrace()) {

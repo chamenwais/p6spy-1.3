@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/06 22:29:10  aarvesen
+ * new factory registration in the constructor
+ *
  * Revision 1.1  2002/05/24 07:31:45  jeffgoke
  * version 1 rewrite
  *
@@ -85,12 +88,9 @@ import com.p6spy.engine.spy.*;
 
 public class P6LogDatabaseMetaData extends P6DatabaseMetaData implements java.sql.DatabaseMetaData {
     
-    protected P6Factory getP6Factory() {
-        return new P6LogFactory();
-    }
     
-    public P6LogDatabaseMetaData(DatabaseMetaData metadata, P6Connection connection) {
-        super(metadata, connection);
+    public P6LogDatabaseMetaData(P6Factory factory, DatabaseMetaData metadata, P6Connection connection) {
+        super(factory, metadata, connection);
     }
     
 }

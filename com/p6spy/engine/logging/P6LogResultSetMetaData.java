@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/06 22:27:10  aarvesen
+ * new factory registration in the constructor
+ *
  * Revision 1.1  2002/10/06 18:22:12  jeffgoke
  * no message
  *
@@ -83,12 +86,9 @@ import com.p6spy.engine.spy.*;
 
 public class P6LogResultSetMetaData extends P6ResultSetMetaData {
     
-    protected P6Factory getP6Factory() {
-        return new P6LogFactory();
-    }
     
-    public P6LogResultSetMetaData(ResultSetMetaData resultSetMetaData) {
-        super(resultSetMetaData);
+    public P6LogResultSetMetaData(P6Factory factory, ResultSetMetaData resultSetMetaData) {
+        super(factory, resultSetMetaData);
     }
     
 }

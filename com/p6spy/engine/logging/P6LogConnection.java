@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2002/12/06 22:29:39  aarvesen
+ * new factory registration in the constructor
+ *
  * Revision 1.2  2002/10/06 18:22:12  jeffgoke
  * no message
  *
@@ -120,12 +123,9 @@ import java.util.*;
 
 public class P6LogConnection extends P6Connection implements java.sql.Connection {
     
-    protected P6Factory getP6Factory() {
-        return new P6LogFactory();
-    }
     
-    public P6LogConnection(Connection conn) throws SQLException {
-        super(conn);
+    public P6LogConnection(P6Factory factory, Connection conn) throws SQLException {
+        super(factory, conn);
     }
     
     public void commit() throws SQLException {
@@ -148,6 +148,20 @@ public class P6LogConnection extends P6Connection implements java.sql.Connection
         
         try {
             passthru.rollback();
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(this.getId(), startTime, "rollback", "", "");
+            }
+        }
+    }
+    
+    public void rollback(Savepoint p0) throws SQLException {
+        P6SpyOptions.checkReload();
+        long startTime = System.currentTimeMillis();
+        
+        try {
+            passthru.rollback(p0);
         }
         finally {
             if (P6SpyOptions.getTrace()) {

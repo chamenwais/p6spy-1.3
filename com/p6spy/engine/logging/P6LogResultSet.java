@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/12/06 22:27:31  aarvesen
+ * new factory registration in the constructor
+ *
  * Revision 1.2  2002/10/06 18:22:12  jeffgoke
  * no message
  *
@@ -105,12 +108,9 @@ import java.text.*;
 
 public class P6LogResultSet extends P6ResultSet implements ResultSet {
     
-    protected P6Factory getP6Factory() {
-        return new P6LogFactory();
-    }
     
-    public P6LogResultSet(ResultSet resultSet, P6Statement statement, String preparedQuery, String query) {
-        super(resultSet, statement, preparedQuery, query);
+    public P6LogResultSet(P6Factory factory, ResultSet resultSet, P6Statement statement, String preparedQuery, String query) {
+        super(factory, resultSet, statement, preparedQuery, query);
     }
     
     public boolean next() throws SQLException {
