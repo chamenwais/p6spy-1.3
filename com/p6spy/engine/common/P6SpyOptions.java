@@ -100,7 +100,8 @@ public class P6SpyOptions   {
     private static String exclude;
     private static boolean filter;
     private static String include;
-    private static String logfile;
+    private static String logfile = "spy.log";
+    private static String appender;
     private static String realdriver;
     private static String realdriver2;
     private static String realdriver3;
@@ -201,6 +202,14 @@ public class P6SpyOptions   {
     
     public static String getLogfile() {
         return logfile;
+    }
+
+    public static String getAppender() {
+	return appender;
+    }
+
+    public static void setAppender(String className) {
+	appender = className;
     }
     
     public static void setRealdriver(String _realdriver) {
