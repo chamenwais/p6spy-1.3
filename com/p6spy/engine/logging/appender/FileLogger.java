@@ -5,16 +5,15 @@ import java.io.*;
 public class FileLogger extends StdoutLogger {
 
     public FileLogger() {
-	this("spy.log");
+	//this("spy.log");
     }
 
-    public FileLogger(String fileName) {
+    public void setLogfile(String fileName) {
 	try {
 	    qlog = new PrintStream(new FileOutputStream(fileName));
 	} catch (IOException e) {
 	    e.printStackTrace(System.err);
 	}
     }
-
 }
 
