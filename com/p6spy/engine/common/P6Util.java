@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.9  2003/01/28 17:00:58  jeffgoke
+ * rewrote options to the ability for a module to have its own option set
+ *
  * Revision 1.8  2003/01/23 23:43:51  jeffgoke
  * try the thread and classloader system resources if we can't find the class loader
  *
@@ -298,7 +301,7 @@ public class P6Util {
                         try {
                             String name = st.nextToken();
                             String value = st.nextToken();
-                            KeyValue kv = new KeyValue(name, value);
+                            KeyValue kv = new KeyValue(name.trim(), value.trim());
                             props.add(kv);
                         } catch (NoSuchElementException e) {
                             // ignore; means that you have
@@ -386,26 +389,7 @@ public class P6Util {
         }
         return null;
     }
-    
-    public static void checkJavaProperties() {
-        Collection list = P6SpyOptions.dynamicGetOptions();
-        Iterator it = list.iterator();
         
-        P6LogQuery.logInfo("Using properties file: "+P6SpyOptions.propertiesPath);
-        
-        while (it.hasNext()) {
-            String opt = (String) it.next();
-            String value = System.getProperty("p6" + opt);
-            
-            if (value != null) {
-                P6LogQuery.logInfo("Found value in environment: "+opt+", setting to value: "+value);
-                P6SpyOptions.dynamicSet(opt,value);
-            } else {
-                P6LogQuery.logInfo("No value in environment for: "+opt+", using: "+P6SpyOptions.dynamicGet(opt));
-            }
-        }
-    }
-    
     public static java.util.Date timeNow() {
         return(new java.util.Date());
     }
@@ -425,32 +409,6 @@ public class P6Util {
     public static long elapsed(java.util.Date start) {
         return(start == null) ? 0 : (timeNow().getTime() - start.getTime());
     }
-    
-    public static ArrayList findAllMethods(Class klass) throws IntrospectionException {
-        ArrayList list = new ArrayList();
-        
-        Method[] methods = klass.getDeclaredMethods();
-        
-        for(int i=0; methods != null && i < methods.length; i++) {
-            Method method = methods[i];
-            String methodName = method.getName();
-            if (methodName.startsWith("get")) {
-                list.add(methodName);
-            }
-        }
-        return list;
-    }
-    
-    public static void set(Class klass, String method, Object[] args) throws IntrospectionException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Method m = klass.getDeclaredMethod(method, new Class[] {String.class});
-        m.invoke(null,args);
-    }
-    
-    public static Object get(Class klass, String method) throws IntrospectionException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Method m = klass.getDeclaredMethod(method, null);
-        return (m.invoke(null,null));
-    }
-    
     
     /**
      * A utiltity for using the current class loader (rather than the
@@ -479,4 +437,74 @@ public class P6Util {
         }
         return Class.forName(name);
     }
+    
+    /** A utility for dynamically setting the value of a given static class
+     * method */
+    public static void dynamicSet(Class klass, String property, String value) {
+        try {
+            P6Util.set(klass, property, new String[] {value});
+        } catch (IntrospectionException e) {
+            P6LogQuery.logError("Could not set property "+property+" due to IntrospectionException");
+        } catch (IllegalAccessException e) {
+            P6LogQuery.logError("Could not set property "+property+" due to IllegalAccessException");
+        } catch (NoSuchMethodException e) {
+            // we are avoid this because it is perfectly okay for there to be get methods
+            // we do not really want to set
+        } catch (InvocationTargetException e) {
+            P6LogQuery.logError("Could not set property "+property+" due to InvoicationTargetException");
+        }
+    }
+    
+    public static void set(Class klass, String method, Object[] args) throws IntrospectionException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Method m = klass.getDeclaredMethod(method, new Class[] {String.class});
+        m.invoke(null,args);
+    }
+    
+    /** A utility for dynamically getting the value of a given static class
+     * method */
+    public static String dynamicGet(Class klass, String property) {
+        try {
+            Object value = P6Util.get(klass, property);
+            return value == null ? null : value.toString();
+        } catch (IntrospectionException e) {
+            P6LogQuery.logError("Could not get property "+property+" due to IntrospectionException");
+        } catch (IllegalAccessException e) {
+            P6LogQuery.logError("Could not get property "+property+" due to IllegalAccessException");
+        } catch (NoSuchMethodException e) {
+            P6LogQuery.logError("Could not get property "+property+" due to NoSuchMethodException");
+        } catch (InvocationTargetException e) {
+            P6LogQuery.logError("Could not get property "+property+" due to InvoicationTargetException");
+        }
+        return null;
+    }
+    
+    public static Object get(Class klass, String method) throws IntrospectionException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Method m = klass.getDeclaredMethod(method, null);
+        return (m.invoke(null,null));
+    }
+    
+    public static Collection dynamicGetOptions(Class klass) {
+        try {
+            return (P6Util.findAllMethods(klass));
+        } catch (IntrospectionException e) {
+            P6LogQuery.logError("Could not get options list due to IntrospectionException");
+        }
+        return null;
+    }
+    
+    public static ArrayList findAllMethods(Class klass) throws IntrospectionException {
+        ArrayList list = new ArrayList();
+        
+        Method[] methods = klass.getDeclaredMethods();
+        
+        for(int i=0; methods != null && i < methods.length; i++) {
+            Method method = methods[i];
+            String methodName = method.getName();
+            if (methodName.startsWith("get")) {
+                list.add(methodName);
+            }
+        }
+        return list;
+    }
+    
 }

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2003/01/28 17:01:07  jeffgoke
+ * rewrote options to the ability for a module to have its own option set
+ *
  * Revision 1.4  2002/12/19 16:28:43  aarvesen
  * Removed the checkReload call
  *
@@ -115,7 +118,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     public boolean execute() throws SQLException {
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,
             "statement", preparedQuery, getQueryFromPreparedStatement());
         }
@@ -124,7 +127,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return prepStmtPassthru.execute();
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -133,7 +136,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     public ResultSet executeQuery() throws SQLException {
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this, startTime,
             "statement", preparedQuery, getQueryFromPreparedStatement());
         }
@@ -143,7 +146,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return (new P6ResultSet(getP6Factory(), resultSet, this, preparedQuery, getQueryFromPreparedStatement()));
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -152,7 +155,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     public int executeUpdate() throws SQLException {
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this, startTime,
             "statement", preparedQuery, getQueryFromPreparedStatement());
         }
@@ -161,7 +164,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return prepStmtPassthru.executeUpdate();
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -171,7 +174,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
         }
         
@@ -179,7 +182,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return passthru.execute(p0);
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -190,7 +193,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
         }
         
@@ -198,7 +201,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return passthru.execute(p0, p1);
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -209,7 +212,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
         }
         
@@ -217,7 +220,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return passthru.execute(p0, p1);
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -228,7 +231,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
         }
         
@@ -236,7 +239,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return passthru.execute(p0, p1);
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -246,7 +249,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
         }
         
@@ -254,7 +257,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return (new P6ResultSet(getP6Factory(), passthru.executeQuery(p0), this, "", p0));
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -264,7 +267,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
         }
         
@@ -272,7 +275,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return(passthru.executeUpdate(p0));
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -283,7 +286,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
         }
         
@@ -291,7 +294,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return(passthru.executeUpdate(p0, p1));
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -302,7 +305,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
         }
         
@@ -310,7 +313,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return(passthru.executeUpdate(p0, p1));
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -321,7 +324,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
         }
         
@@ -329,7 +332,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return(passthru.executeUpdate(p0, p1));
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -339,7 +342,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,
             "batch","", p0);
         }
@@ -348,7 +351,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             passthru.addBatch(p0);
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -357,7 +360,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
     public int[] executeBatch() throws java.sql.SQLException {
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,
             "statement", preparedQuery, statementQuery);
         }
@@ -366,7 +369,7 @@ public class P6OutageCallableStatement extends P6CallableStatement implements ja
             return(passthru.executeBatch());
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }

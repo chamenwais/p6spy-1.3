@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2003/01/28 17:01:11  jeffgoke
+ * rewrote options to the ability for a module to have its own option set
+ *
  * Revision 1.4  2003/01/21 22:50:35  jeffgoke
  * removed code no longer necessary due to the new module
  *
@@ -88,6 +91,7 @@
 package com.p6spy.engine.spy;
 
 import java.sql.*;
+import com.p6spy.engine.common.*;
 
 public class P6CoreFactory implements P6Factory {
     
@@ -124,6 +128,12 @@ public class P6CoreFactory implements P6Factory {
     
     public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) throws SQLException {
         return new P6ResultSetMetaData(this, real);
+    }
+    
+    public P6Options getOptions() throws SQLException {
+        // the core options are managed in P6SpyOptions, which is a special case since it must deal with the
+        // driver, module, and reload issues as well
+        return null;
     }
     
 }

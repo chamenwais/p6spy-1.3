@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2003/01/28 17:01:08  jeffgoke
+ * rewrote options to the ability for a module to have its own option set
+ *
  * Revision 1.4  2002/12/19 16:29:03  aarvesen
  * Removed the checkReload call
  *
@@ -135,7 +138,7 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
     public void commit() throws SQLException {
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,
             "commit","", "");
         }
@@ -144,7 +147,7 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
             passthru.commit();
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -153,7 +156,7 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
     public void rollback() throws SQLException {
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,
             "rollback","", "");
         }
@@ -162,7 +165,7 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
             passthru.rollback();
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }
@@ -172,7 +175,7 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
     public void rollback(Savepoint p0) throws SQLException {
         long startTime = System.currentTimeMillis();
         
-        if (P6SpyOptions.getOutageDetection()) {
+        if (P6OutageOptions.getOutageDetection()) {
             P6OutageDetector.getInstance().registerInvocation(this,startTime,
             "rollback","", "");
         }
@@ -181,7 +184,7 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
             passthru.rollback(p0);
         }
         finally {
-            if (P6SpyOptions.getOutageDetection()) {
+            if (P6OutageOptions.getOutageDetection()) {
                 P6OutageDetector.getInstance().unregisterInvocation(this);
             }
         }

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2003/01/28 17:01:09  jeffgoke
+ * rewrote options to the ability for a module to have its own option set
+ *
  * Revision 1.4  2003/01/21 22:50:34  jeffgoke
  * removed code no longer necessary due to the new module
  *
@@ -89,6 +92,7 @@ package com.p6spy.engine.outage;
 
 import java.sql.*;
 import com.p6spy.engine.spy.*;
+import com.p6spy.engine.common.*;
 
 public class P6OutageFactory extends P6CoreFactory {
     
@@ -109,6 +113,10 @@ public class P6OutageFactory extends P6CoreFactory {
     
     public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) throws SQLException {
         return (new P6OutageCallableStatement(this, real, conn, p0));
+    }
+    
+    public P6Options getOptions() throws SQLException {
+        return (new P6OutageOptions());
     }
     
 }

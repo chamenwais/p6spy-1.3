@@ -109,8 +109,8 @@ public class P6OutageDetector implements Runnable {
         pendingMessages = new Hashtable();
         
         P6LogQuery.logDebug("P6Spy - P6OutageDetector has been invoked.");
-        P6LogQuery.logDebug("P6Spy - P6SpyOptions.getOutageDetectionIntervalMS() = "+
-        P6SpyOptions.getOutageDetectionIntervalMS());
+        P6LogQuery.logDebug("P6Spy - P6OutageOptions.getOutageDetectionIntervalMS() = "+
+        P6OutageOptions.getOutageDetectionIntervalMS());
     }
     
     /**
@@ -145,7 +145,7 @@ public class P6OutageDetector implements Runnable {
                 // sleep for the configured interval
                 // don't cache this value since the props file may be reloaded
                 // and this value might change
-                Thread.sleep(P6SpyOptions.getOutageDetectionIntervalMS());
+                Thread.sleep(P6OutageOptions.getOutageDetectionIntervalMS());
             }
             catch (Exception e) {}
         }
@@ -184,7 +184,7 @@ public class P6OutageDetector implements Runnable {
         P6LogQuery.logDebug("P6Spy - detectOutage.pendingMessage.size = "+listSize);
         
         long currentTime = System.currentTimeMillis();
-        long threshold = P6SpyOptions.getOutageDetectionIntervalMS();
+        long threshold = P6OutageOptions.getOutageDetectionIntervalMS();
         
         Set keys = pendingMessages.keySet();
         Iterator keyIter = keys.iterator();

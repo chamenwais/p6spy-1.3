@@ -67,36 +67,52 @@ package com.p6spy.engine.common;
 import java.util.*;
 
 public class OptionReloader implements Runnable {
+    
+    /* this is our list of option classes we need to call,
+     * we use a set because we only want to call each class
+     * once */
+    protected static HashSet options = new HashSet();
+    
     protected long sleepTime = 0;
     protected boolean running = false;
-
+    
     public OptionReloader(long sleep) {
-	setSleep(sleep);
-	setRunning(true);
+        setSleep(sleep);
+        setRunning(true);
     }
-
+    
     public void setSleep(long sleep) {
-	sleepTime = sleep;
+        sleepTime = sleep;
     }
     public void setRunning(boolean run) {
-	running = run;
+        running = run;
     }
     public boolean getRunning() {
-	return running;
+        return running;
     }
-
+    
     public void run() {
-	while (running) {
-	    // this will always run its own thread,
-	    // so it should be all right to call sleep
-	    // on the current thread
-	    try {
-		Thread.currentThread().sleep(sleepTime);
-	    } catch (InterruptedException e) {
-		// nothing.
-	    }
-	    P6SpyOptions.reloadProperties();
-	}
+        while (running) {
+            // this will always run its own thread,
+            // so it should be all right to call sleep
+            // on the current thread
+            try {
+                Thread.currentThread().sleep(sleepTime);
+            } catch (InterruptedException e) {
+                // nothing.
+            }
+            
+            P6SpyProperties properties = new P6SpyProperties();
+            Iterator i = options.iterator();
+            while (i.hasNext()) {
+                P6Options options = (P6Options)i.next();
+                options.reload(properties);
+            }
+        }
     }
-
+    
+    public static void add(P6Options p6options) {
+        options.add(p6options);
+    }
+    
 }

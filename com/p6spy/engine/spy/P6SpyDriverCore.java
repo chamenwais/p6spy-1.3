@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.9  2003/01/28 17:01:13  jeffgoke
+ * rewrote options to the ability for a module to have its own option set
+ *
  * Revision 1.8  2003/01/18 00:26:35  jeffgoke
  * fixed a bug where new instances of the driver (not using driver manager but creating instances of the driver yourself) were causing the connection to be null
  *
@@ -147,120 +150,134 @@ public abstract class P6SpyDriverCore implements Driver {
     protected static boolean initialized = false;
     protected static ArrayList factories;
     protected static ArrayList realDrivers = new ArrayList();
-
-    /* 
+    
+    /*
      * This core class serves to purposes
-     * 
+     *
      * (1) it acts as a bootstap class the first time
      * it is invoked and it loads not itself, but the first driver on the stack.  This is
      * important because P6SpyDriver, P6SpyDriver2, etc. extend this class and performs
      * the initial bootstrap
-     * 
+     *
      * (2) when connect or acceptURL are invoked it ensures it has a passthru driver.
-     * 
+     *
      *
      */
     
     public synchronized static void initMethod(String spydriver) {
-	// this is the *only* p6 driver
-	// we need to build two lists here:
-	// one of the modules that are loaded, and one of the
-	// realdriver(s) that we need
-
-	// these are defined outside the try block for error messaging
-
-	if (initialized) {
-	    return;
-	}
-
-	String className = "no class";
-	String classType  = "driver";
-	try {
-	    ArrayList driverNames = null;
-	    ArrayList modules = null;
-
-	    driverNames = P6SpyOptions.allDriverNames();
-	    modules = P6SpyOptions.allModules();
-
-	    boolean hasModules = modules.size() > 0;
-
-	    Iterator i = null;
-
-	    // register drivers and wrappers
-	    classType = "driver";
-	    i = driverNames.iterator();
-	    while (i.hasNext()) {
-		P6SpyDriver spy = null;
-		// register P6 first if you are using it
-		if (hasModules) {
-		    spy = new P6SpyDriver();
-		    DriverManager.registerDriver(spy);
-		}
-
-		className = (String) i.next();
-		Driver realDriver = (Driver)P6Util.forName(className).newInstance();
-		// now wrap your realDriver in the spy
-		if (hasModules) {
-		    spy.setPassthru(realDriver);
-		    realDrivers.add(realDriver);
-		}
-
-		P6LogQuery.logDebug("Registered driver: "+className+", realdriver: "+realDriver);
-	    }
-
-	    // instantiate the factories, if nec.
-	    if (hasModules) {
-		factories = new ArrayList();
-		classType = "factory";
-		i = modules.iterator();
-		while (i.hasNext()) {
-		    className = (String) i.next();
-		    P6Factory factory = (P6Factory)P6Util.forName(className).newInstance();
-		    factories.add(factory);
-		}
-
-		P6LogQuery.logDebug("Registered factory: "+className);
-	    }
-
-	    initialized = true;
-
-	    for (Enumeration e = DriverManager.getDrivers() ; e.hasMoreElements() ;) {
-	        P6LogQuery.logDebug ("Driver manager reporting driver registered: "+e.nextElement());
+        // this is the *only* p6 driver
+        // we need to build two lists here:
+        // one of the modules that are loaded, and one of the
+        // realdriver(s) that we need
+        
+        // these are defined outside the try block for error messaging
+        
+        if (initialized) {
+            return;
+        }
+        
+        // first thing we want to do is load the core options file
+        P6SpyProperties properties = new P6SpyProperties();
+        P6SpyOptions coreOptions = new P6SpyOptions();
+        coreOptions.reload(properties);
+        
+        // now register the core options file with the reloader
+        OptionReloader.add(coreOptions);
+        
+        String className = "no class";
+        String classType  = "driver";
+        try {
+            ArrayList driverNames = null;
+            ArrayList modules = null;
+            
+            driverNames = P6SpyOptions.allDriverNames();
+            modules = P6SpyOptions.allModules();
+            
+            boolean hasModules = modules.size() > 0;
+            
+            Iterator i = null;
+            
+            // register drivers and wrappers
+            classType = "driver";
+            i = driverNames.iterator();
+            while (i.hasNext()) {
+                P6SpyDriver spy = null;
+                // register P6 first if you are using it
+                if (hasModules) {
+                    spy = new P6SpyDriver();
+                    DriverManager.registerDriver(spy);
+                }
+                
+                className = (String) i.next();
+                Driver realDriver = (Driver)P6Util.forName(className).newInstance();
+                // now wrap your realDriver in the spy
+                if (hasModules) {
+                    spy.setPassthru(realDriver);
+                    realDrivers.add(realDriver);
+                }
+                
+                P6LogQuery.logDebug("Registered driver: "+className+", realdriver: "+realDriver);
             }
-	    
-	} catch (Exception e) {
-	    String err = "Error registering " + classType + "  [" + className + "]\nCaused By: " + e.toString();
-	    P6LogQuery.logError(err);
-	    throw new P6DriverNotFoundError(err);
-	}
-	
+            
+            // instantiate the factories, if nec.
+            if (hasModules) {
+                factories = new ArrayList();
+                classType = "factory";
+                i = modules.iterator();
+                while (i.hasNext()) {
+                    className = (String) i.next();
+                    P6Factory factory = (P6Factory)P6Util.forName(className).newInstance();
+                    factories.add(factory);
+                    
+                    P6Options options = factory.getOptions();
+                    if (options != null) {
+                        options.reload(properties);
+                        OptionReloader.add(options);
+                    }
+                    
+                    P6LogQuery.logDebug("Registered factory: "+className+" with options: "+options);
+                }
+            }
+            
+            initialized = true;
+            
+            for (Enumeration e = DriverManager.getDrivers() ; e.hasMoreElements() ;) {
+                P6LogQuery.logDebug("Driver manager reporting driver registered: "+e.nextElement());
+            }
+            
+        } catch (Exception e) {
+            String err = "Error registering " + classType + "  [" + className + "]\nCaused By: " + e.toString();
+            P6LogQuery.logError(err);
+            throw new P6DriverNotFoundError(err);
+        }
+        
     }
     
     public P6SpyDriverCore(String _spydriver, P6Factory _p6factory) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-	// should really change the constructor here :)
+        // should really change the constructor here :)
     }
-      
+    
     // these methods are the secret sauce here
     public static Connection wrapConnection(Connection realConnection) throws SQLException {
-	Connection con = realConnection;
-	if (factories != null) {
-	    Iterator it    = factories.iterator();
-	    while (it.hasNext()) {
-		P6Factory factory = (P6Factory) it.next();
-		con = factory.getConnection(con);
-	    }
-	}
-	return con;
+        Connection con = realConnection;
+        if (factories != null) {
+            Iterator it    = factories.iterator();
+            while (it.hasNext()) {
+                P6Factory factory = (P6Factory) it.next();
+                con = factory.getConnection(con);
+            }
+        }
+        return con;
     }
-
+    
     public Driver getPassthru() {
-	return passthru;
+        return passthru;
     }
-
+    
     public void setPassthru(Driver inVar) {
-	passthru = inVar;
+        passthru = inVar;
     }
-
+    
     private String getRealUrl(String url) {
         if (P6SpyOptions.getUsePrefix()) {
             return url.startsWith("p6spy:") ? url.substring("p6spy:".length()) : null;
@@ -269,53 +286,53 @@ public abstract class P6SpyDriverCore implements Driver {
         }
     }
     
-
-
+    
+    
     // the remaining methods are for the Driver interface
     public Connection connect(String p0, java.util.Properties p1) throws SQLException {
         String realUrl = this.getRealUrl(p0);
         if (realUrl==null) {
             throw new SQLException("URL needs the p6spy prefix: "+p0);
         }
-
-	P6LogQuery.logDebug("this is " + this + " and passthru is " + passthru);
-	if (passthru == null) {
-		findPassthru(realUrl);
-	}
-
-	
+        
+        P6LogQuery.logDebug("this is " + this + " and passthru is " + passthru);
+        if (passthru == null) {
+            findPassthru(realUrl);
+        }
+        
+        
         Connection conn = passthru.connect(realUrl,p1);
-
-	if (conn != null) {
-	    conn = wrapConnection(conn);
-	}
+        
+        if (conn != null) {
+            conn = wrapConnection(conn);
+        }
         return conn;
     }
     
     protected void findPassthru(String url) {
-	Iterator i = realDrivers.iterator();
-	while (i.hasNext()) {
-	    Driver driver = (Driver) i.next();
-	    try {
-		    if (driver.acceptsURL(url)) {
-			passthru = driver;
-			P6LogQuery.logDebug("found new driver " + driver);
-			break;
-		    }
-	    } catch (SQLException e) {}
-	}
+        Iterator i = realDrivers.iterator();
+        while (i.hasNext()) {
+            Driver driver = (Driver) i.next();
+            try {
+                if (driver.acceptsURL(url)) {
+                    passthru = driver;
+                    P6LogQuery.logDebug("found new driver " + driver);
+                    break;
+                }
+            } catch (SQLException e) {}
+        }
     }
     
     public boolean acceptsURL(String p0) throws SQLException {
         String realUrl = this.getRealUrl(p0);
-	boolean accepts = false;
-
+        boolean accepts = false;
+        
         if (realUrl != null) {
-	    accepts = passthru.acceptsURL(realUrl);
+            accepts = passthru.acceptsURL(realUrl);
         }
-	return accepts;
+        return accepts;
     }
-
+    
     
     public DriverPropertyInfo [] getPropertyInfo(String p0, java.util.Properties p1) throws SQLException {
         return(passthru.getPropertyInfo(p0,p1));
@@ -333,5 +350,5 @@ public abstract class P6SpyDriverCore implements Driver {
         return(passthru.jdbcCompliant());
     }
     
-
+    
 }

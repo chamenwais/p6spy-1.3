@@ -65,11 +65,8 @@ package com.p6spy.engine.common;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
-import java.io.File;
-import java.lang.reflect.*;
-import java.beans.*;
 
-public class P6SpyOptions   {
+public class P6SpyOptions extends P6Options {
     
     /* how to add a new property:
      *
@@ -87,15 +84,9 @@ public class P6SpyOptions   {
      *
      */
     
-    public static final String OPTIONS_FILE_PROPERTY = "spy.properties";
-    public static final String DFLT_OPTIONS_FILE     = "spy.properties";
-    public static String SPY_PROPERTIES_FILE = System.getProperty(OPTIONS_FILE_PROPERTY, DFLT_OPTIONS_FILE);
-
     protected static Thread reloadThread         = null;
     protected static OptionReloader reloader     = null;
-    
-    static {initMethod();}
-    
+        
     public P6SpyOptions() {}
     
     public static final String DRIVER_PREFIX = "realdriver";
@@ -113,7 +104,6 @@ public class P6SpyOptions   {
     private static String realdriver2;
     private static String realdriver3;
     private static String spydriver;
-    private static boolean trace;
     private static boolean append;
     private static String properties;
     private static String dateformat;
@@ -128,21 +118,6 @@ public class P6SpyOptions   {
     private static boolean reloadProperties;
     private static long reloadPropertiesInterval;
     private static long reloadMs;
-    private static boolean outageDetection;
-    private static long outageDetectionInterval;
-    private static long outageMs;
-    // variables used for p6cache
-    private static boolean cache;
-    private static boolean cachetrace;
-    private static String clearcache;
-    private static String entries;
-    private static String forms;
-    private static String formsfile;
-    private static String formslog;
-    private static boolean formstrace;
-    
-    static String propertiesPath;
-    static long propertiesLastModified = -1;
     
     public static void setUsePrefix(String _usePrefix) {
         usePrefix = P6Util.isTrue(_usePrefix, false);
@@ -210,13 +185,13 @@ public class P6SpyOptions   {
     public static String getLogfile() {
         return logfile;
     }
-
+    
     public static String getAppender() {
-	return appender;
+        return appender;
     }
-
+    
     public static void setAppender(String className) {
-	appender = className;
+        appender = className;
     }
     
     public static void setRealdriver(String _realdriver) {
@@ -260,25 +235,6 @@ public class P6SpyOptions   {
     
     public static String getSpydriver() {
         return spydriver;
-    }
-    
-    public static void setTrace(String _trace) {
-        trace = P6Util.isTrue(_trace, false);
-    }
-    
-    public static boolean getTrace() {
-        return trace;
-    }
-    
-    public static void setProperties(String _properties) {
-        properties = _properties;
-        if (properties == null) {
-            properties = SPY_PROPERTIES_FILE;
-        }
-    }
-    
-    public static String getProperties() {
-        return properties;
     }
     
     public static void setDateformat(String _dateformat) {
@@ -368,228 +324,53 @@ public class P6SpyOptions   {
         reloadPropertiesInterval = P6Util.parseLong(_reloadpropertiesinterval,-1l);
         reloadMs = reloadPropertiesInterval * 1000l;
     }
-    
-    public static boolean getOutageDetection() {
-        return outageDetection;
-    }
-    
-    public static void setOutageDetection(String _outagedetection) {
-        outageDetection = P6Util.isTrue(_outagedetection, false);
-    }
-    
-    public static long getOutageDetectionInterval() {
-        return outageDetectionInterval;
-    }
-    
-    public static long getOutageDetectionIntervalMS() {
-        return outageMs;
-    }
-    
-    public static void setOutageDetectionInterval(String _outagedetectioninterval) {
-        outageDetectionInterval = P6Util.parseLong(_outagedetectioninterval,-1l);
-        outageMs = outageDetectionInterval * 1000l;
-    }
-    
-    // methods for caching
-    
-    public static void setCache(String _cache) {
-        cache = P6Util.isTrue(_cache, false);
-    }
-    
-    public static boolean getCache() {
-        return cache;
-    }
-    public static void setCachetrace(String _cachetrace) {
-        cachetrace = P6Util.isTrue(_cachetrace, false);
-    }
-    public static boolean getCachetrace() {
-        return cachetrace;
-    }
-    public static void setClearcache(String _clearcache) {
-        clearcache = _clearcache;
-    }
-    public static String getClearcache() {
-        return clearcache;
-    }
-    public static void setEntries(String _entries) {
-        entries = _entries;
-    }
-    public static String getEntries() {
-        return entries;
-    }
-    
-    public static void setForms(String _forms) {
-        forms = _forms;
-    }
-    public static String getForms() {
-        return forms;
-    }
-    public static void setFormsfile(String _formsfile) {
-        formsfile = _formsfile;
-    }
-    public static String getFormsfile() {
-        return formsfile;
-    }
-    public static void setFormslog(String _formslog) {
-        formslog = _formslog;
-    }
-    public static String getFormslog() {
-        return formslog;
-    }
-    public static void setFormstrace(String _formstrace) {
-        formstrace = P6Util.isTrue(_formstrace, false);
-    }
-    public static boolean getFormstrace() {
-        return formstrace;
-    }
-    
-    
-    // --------------------------------------------------------------------------
-    // END GET/SET METHODS, BEGIN HELPER CODE
-    // --------------------------------------------------------------------------
-    
-    public static void initMethod() {
-        setValues(SPY_PROPERTIES_FILE);
+               
+    public void reload(P6SpyProperties properties) {
+        // first set the values on this class
+        P6LogQuery.logDebug("P6SpyOptions checking property file to see if it needs to be reloaded");
         
-        propertiesPath = P6Util.classPathFile(SPY_PROPERTIES_FILE);
-        if(propertiesPath != null) {
-            File propertiesFile = new File(propertiesPath);
-            if(propertiesFile.exists()) {
-                propertiesLastModified = propertiesFile.lastModified();
+        if (properties.isNewProperties()) {
+            modules = properties.getReverseOrderedList(MODULE_PREFIX);
+            driverNames = properties.getReverseOrderedList(DRIVER_PREFIX);
+            properties.setClassValues(P6SpyOptions.class);
+            configureReloadingThread();
+            P6LogQuery.initMethod();
+            P6LogQuery.logInfo("reloadProperties() successful");            
+        }        
+    }
+    
+    protected static void configureReloadingThread() {
+        if (reloadProperties) {
+            // check to see if the thread is running.  If so,
+            // then change the sleep factor. if not, then
+            // spawn a new thread, etc.
+            if (reloader == null) {
+                reloader     = new OptionReloader(reloadMs);
+                reloadThread = new Thread(reloader);
+                reloadThread.setDaemon(true);
+                reloadThread.start();
+            } else {
+                reloader.setRunning(true);
+                reloader.setSleep(reloadMs);
+            }
+        } else {
+            // if it's false, and you're currently reloading
+            // then turn it off so the thread will die
+            if (reloader != null) {
+                reloader.setRunning(false);
+                reloader = null;
             }
         }
     }
-
-    protected static void configure() {
-	if (reloadProperties) {
-	    // check to see if the thread is running.  If so,
-	    // then change the sleep factor. if not, then
-	    // spawn a new thread, etc.
-	    if (reloader == null) {
-		reloader     = new OptionReloader(reloadMs);
-		reloadThread = new Thread(reloader);
-		reloadThread.setDaemon(true);
-		reloadThread.start();
-	    } else {
-		reloader.setRunning(true);
-		reloader.setSleep(reloadMs);
-	    }
-	} else {
-	    // if it's false, and you're currently reloading
-	    // then turn it off so the thread will die
-	    if (reloader != null) {
-		reloader.setRunning(false);
-		reloader = null;
-	    }
-	}
-    }
-
-    
-    public static void reloadProperties() {
-        if(reloadProperties && propertiesPath != null) {
-            P6LogQuery.logDebug("checking property file to see if it needs to be reloaded");
-            File propertiesFile = new File(propertiesPath);
-            if(propertiesFile.exists()) {
-                long lastModified = propertiesFile.lastModified();
-                if(lastModified != propertiesLastModified) {
-                    P6LogQuery.logDebug("reloading properties from file "+SPY_PROPERTIES_FILE);
-                    setValues(SPY_PROPERTIES_FILE);
-                    propertiesLastModified = lastModified;
-                    
-                    // finally recheck the environment properties
-                    P6Util.checkJavaProperties();
-                    
-                    P6LogQuery.initMethod();
-                    P6LogQuery.logInfo("reloadProperties() successful");
-                }
-            }
-        }
-    }
-    
-    
-    public static void setValues(String filename) {
-        try {
-            Properties props  = P6Util.loadProperties(filename);
-            
-            ArrayList allMethods = P6Util.findAllMethods(P6SpyOptions.class);
-            Iterator i = allMethods.iterator();
-            while (i.hasNext()) {
-                // lowercase and strip the end
-                String methodName = ((String)i.next()).substring(3);
-                String value = (String)props.get(methodName.toLowerCase());
-                dynamicSet("set"+methodName, value == null ? null : value.trim());
-            }
-            
-	    modules = reverseLoadPropertyList(filename, MODULE_PREFIX);
-	    driverNames = reverseLoadPropertyList(filename, DRIVER_PREFIX);
-
-        } catch (IntrospectionException e) {
-            P6LogQuery.logError("Could not set property values due to IntrospectionException");
-        }
-
-	// now set the P6SpyOptions options
-	configure();
-    }
-
-    protected static ArrayList reverseLoadPropertyList(String filename, String prefix) {
-	ArrayList output = new ArrayList();
-	ArrayList moduleList = P6Util.reverseArrayList(P6Util.loadProperties(filename, prefix));
-	Iterator j = moduleList.iterator();
-	while (j.hasNext()) {
-	    KeyValue moduleKV = (KeyValue)j.next();
-	    String value = (String)moduleKV.getValue();
-	    output.add(value.trim());
-	}
-	return output;
-    }
-    
+        
     // this should actually be getAllModules but to make it easier for others to add
     // methods we'll just use allMethods
     public static ArrayList allModules() {
         return modules;
     }
-
+    
     public static ArrayList allDriverNames() {
-	return driverNames;
+        return driverNames;
     }
     
-    public static void dynamicSet(String property, String value) {
-        try {
-            P6Util.set(P6SpyOptions.class, property, new String[] {value});
-        } catch (IntrospectionException e) {
-            P6LogQuery.logError("Could not set property "+property+" due to IntrospectionException");
-        } catch (IllegalAccessException e) {
-            P6LogQuery.logError("Could not set property "+property+" due to IllegalAccessException");
-        } catch (NoSuchMethodException e) {
-            // we are avoid this because it is perfectly okay for there to be get methods
-            // we do not really want to set
-        } catch (InvocationTargetException e) {
-            P6LogQuery.logError("Could not set property "+property+" due to InvoicationTargetException");
-        }
-    }
-    
-    public static String dynamicGet(String property) {
-        try {
-            Object value = P6Util.get(P6SpyOptions.class, property);
-            return value == null ? null : value.toString();
-        } catch (IntrospectionException e) {
-            P6LogQuery.logError("Could not get property "+property+" due to IntrospectionException");
-        } catch (IllegalAccessException e) {
-            P6LogQuery.logError("Could not get property "+property+" due to IllegalAccessException");
-        } catch (NoSuchMethodException e) {
-            P6LogQuery.logError("Could not get property "+property+" due to NoSuchMethodException");
-        } catch (InvocationTargetException e) {
-            P6LogQuery.logError("Could not get property "+property+" due to InvoicationTargetException");
-        }
-        return null;
-    }
-    
-    public static Collection dynamicGetOptions() {
-        try {
-            return (P6Util.findAllMethods(P6SpyOptions.class));
-        } catch (IntrospectionException e) {
-            P6LogQuery.logError("Could not get options list due to IntrospectionException");
-        }
-        return null;
-    }
 }

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/01/28 17:01:12  jeffgoke
+ * rewrote options to the ability for a module to have its own option set
+ *
  * Revision 1.2  2002/10/06 18:23:25  jeffgoke
  * no message
  *
@@ -82,6 +85,7 @@
 package com.p6spy.engine.spy;
 
 import java.sql.*;
+import com.p6spy.engine.common.P6Options;
 
 /**
  *
@@ -95,6 +99,7 @@ import java.sql.*;
  */
 public interface P6Factory {
     
+    public P6Options getOptions() throws SQLException;
     public Connection getConnection(Connection conn) throws SQLException;
     public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) throws SQLException;
     public Statement getStatement(Statement real, P6Connection conn) throws SQLException;
