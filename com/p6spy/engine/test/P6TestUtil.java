@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.8  2003/02/14 22:22:16  aarvesen
+ * use a define for the property file
+ *
  * Revision 1.7  2003/01/28 19:32:32  jeffgoke
  * fixed bug exposed by test framework where option reloading was having problems if options were manipulated before the driver was created.
  *
@@ -206,10 +209,10 @@ public class P6TestUtil  {
     }
     
     protected static void reloadProperty(HashMap props) throws IOException {
-        writeProperty("reloadtest.properties", props);
+        writeProperty(P6TestFramework.PROPERTY_FILE, props);
         
         P6SpyProperties properties = new P6SpyProperties();
-        properties.setSpyProperties("reloadtest.properties");
+        properties.setSpyProperties(P6TestFramework.PROPERTY_FILE);
         OptionReloader.reload();
     }
     

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2003/02/14 22:22:57  aarvesen
+ * use a define for the property file
+ *
  * Revision 1.3  2003/01/28 17:59:12  jeffgoke
  * fixed test cases to use new options
  *
@@ -331,10 +334,10 @@ public class P6TestCommon extends P6TestFramework {
             tp.put("stacktraceclass","dummy");
             tp.put("reloadproperties","true");
             tp.put("reloadpropertiesinterval","1");
-            writeProperty("reloadtest.properties", tp);
+            writeProperty(PROPERTY_FILE, tp);
             
             P6SpyProperties properties = new P6SpyProperties();
-            properties.setSpyProperties("reloadtest.properties");
+            properties.setSpyProperties(PROPERTY_FILE);
             properties.forceReadProperties();
             OptionReloader.reload();
                         
