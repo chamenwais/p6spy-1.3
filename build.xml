@@ -172,7 +172,7 @@
 		</javac>
 		<java classname="junit.textui.TestRunner" fork="yes">
 		    <arg value="-noloading" />
-		    <arg value="com.p6spy.engine.test.P6Test" />
+		    <arg value="${testclass}" />
 		    <classpath>
 			<pathelement path="${build}"/>
 			<fileset dir="${lib}">
