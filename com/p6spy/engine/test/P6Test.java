@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2002/12/12 19:28:33  aarvesen
+ * call test options along with the other tests
+ *
  * Revision 1.3  2002/12/12 01:39:02  jeffgoke
  * no message
  *
@@ -107,10 +110,11 @@ public class P6Test extends TestCase {
     
     public static Test suite() {
         TestSuite suite = new TestSuite();
+        suite.addTestSuite(P6TestOptions.class);
         suite.addTestSuite(P6TestBasics.class);
+        suite.addTestSuite(P6TestStatement.class);
         suite.addTestSuite(P6TestCallableStatement.class);
         suite.addTestSuite(P6TestPreparedStatement.class);
-        suite.addTestSuite(P6TestStatement.class);
         suite.addTestSuite(P6TestCommon.class);
         return suite;
     }
