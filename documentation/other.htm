@@ -1,4 +1,4 @@
-<html><!-- #BeginTemplate "/Templates/spydocs.dwt" -->
+<html><!-- #BeginTemplate "/Templates/spydocs.dwt" --><!-- DW6 -->
 <head>
 <!-- #BeginEditable "doctitle" --> 
 <title>Untitled Document</title>
@@ -10,12 +10,11 @@
 <img src="images/header.gif" width="580" height="80"> <br>
 <table width="100%" border="0">
   <tr> 
-    <td width="11%"><a href="http://www.p6spy.com" target="_parent"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="index.htm" target="bottomFrame"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="install.htm" target="bottomFrame"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="p6log.htm" target="bottomFrame"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="p6outage.htm" target="bottomFrame"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
-    <td width="7%"><a href="p6cache.htm" target="bottomFrame"><img src="images/p6cache.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="index.htm"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="install.htm"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6log.htm"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6outage.htm"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
     <td width="38%">&nbsp;</td>
   </tr>
 </table>
@@ -467,6 +466,37 @@
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">For example, 
         if you are running the application on your own machine, and using Tomcat 
         as the servlet engine, you would go to: http://localhost:8080/p6spy</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="build" id="faq"></a>Building 
+        the Source </b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">To build 
+        the source you must first <a href="http://www.cacas.org/java/gnu/regexp/">download</a> 
+        the GNU RegEx engine and <a href="http://jakarta.apache.org/builds/jakarta-regexp/">download</a> 
+        the Jakarta RegEx engine. Copy the RegEx .jar files to the lib/ directory 
+        which is a subdirectory of your main directory (the directory with the 
+        source code). </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">You 
+        must also <a href="http://jakarta.apache.org/ant/index.html">download</a> 
+        and install Jakarta Ant. You then just type ant in the directory with 
+        the build.xml file and the code will build. The following are useful targets:</font></p>
+      <ul>
+        <li>[<font face="Verdana, Arial, Helvetica, sans-serif" size="2">no target</font>]<font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+          creates a p6spy.jar file in the dist/ directory</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[clean] 
+          cleans the directory of build files and tool generated backup files</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[release] 
+          creates the Javadocs, the war file, and all distribution .zip and .jar 
+          files</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[test] 
+          runs the standard Junit tests (see notes below)</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[perform] 
+          runs the performance specific JUnit tests (see notes below)</font></li>
+      </ul>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">To run the 
+        Junit tests, first you must <a href="http://www.junit.org/index.htm">download</a> 
+        and install JUnit. Once that is complete you must edit the P6Test.properties 
+        file and specify two databases. The configuration is setup for Oracle 
+        and MySQL (though you will have to change the Oracle URL at a minimum). 
+        You must also copy the vendor database JDBC drivers .jar files of the 
+        two databases you use into the lib/ directory.</font></p>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="faq" id="faq"></a>FAQ</b></font></p>
       <ol>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
@@ -492,12 +522,11 @@
 <br>
 <table width="100%" border="0">
   <tr> 
-    <td width="11%"><a href="http://www.p6spy.com" target="_parent"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="index.htm" target="bottomFrame"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="install.htm" target="bottomFrame"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="p6log.htm" target="bottomFrame"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
-    <td width="11%"><a href="p6outage.htm" target="bottomFrame"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
-    <td width="7%"><a href="p6cache.htm" target="bottomFrame"><img src="images/p6cache.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="http://www.p6spy.com"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="index.htm"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="install.htm"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6log.htm"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6outage.htm"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
     <td width="38%">&nbsp;</td>
   </tr>
 </table>
