@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2002/12/19 23:44:21  aarvesen
+ * Added TestDriver
+ *
  * Revision 1.4  2002/12/12 19:28:33  aarvesen
  * call test options along with the other tests
  *
@@ -116,6 +119,7 @@ public class P6Test extends TestCase {
         suite.addTestSuite(P6TestCallableStatement.class);
         suite.addTestSuite(P6TestPreparedStatement.class);
         suite.addTestSuite(P6TestCommon.class);
+        suite.addTestSuite(P6TestDriver.class);
         return suite;
     }
 }
