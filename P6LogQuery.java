@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.6  2002/04/22 02:26:06  jeffgoke
+ * Simon Sadedin added timing information.  Added Junit tests.
+ *
  * Revision 1.5  2002/04/21 06:15:34  jeffgoke
  * added test cases, fixed batch bugs
  *
@@ -179,7 +182,8 @@ public class P6LogQuery {
         }
     }
     
-    static final synchronized void doLog(long elapsed, String category, String prepared, String sql) {
+    // this is an internal procedure used to actually write the log information
+    static protected final synchronized void doLog(long elapsed, String category, String prepared, String sql) {
         java.util.Date now = P6Util.timeNow();
         SimpleDateFormat sdf = P6SpyOptions.getDateformatter();
         String logEntry;
@@ -213,7 +217,7 @@ public class P6LogQuery {
     }
     
     static final boolean queryOk(String sql) {
-        return (includeTables == null || includeTables.length == 0 || foundTable(sql, includeTables)) && !foundTable(sql, excludeTables);
+        return ((includeTables == null || includeTables.length == 0 || foundTable(sql, includeTables))) && !foundTable(sql, excludeTables);
     }
     
     static final boolean foundTable(String sql, String tables[]) {
@@ -229,7 +233,18 @@ public class P6LogQuery {
     }
     
     static final boolean tableOk(String sql, String table) {
-        return (sql.indexOf(table) >= 0);
+        // Is there a string matcher to use?
+        if(P6SpyOptions.getStringMatcherEngine() != null) {
+            try {
+                return P6SpyOptions.getStringMatcherEngine().match(table, sql);
+            }
+            catch (MatchException e) {
+                P6Util.warn("Exception during matching expression [" + table + "] to sql [" + sql + "]: ");
+                return false;
+            }
+        }
+        else
+            return true;
     }
     
     static final void logElapsed(long startTime, String category, String prepared, String sql) {
@@ -242,11 +257,12 @@ public class P6LogQuery {
         }
     }
     
-    static final synchronized void doLogElapsed(long startTime, long endTime, String category, String prepared, String sql) {
+    // this is an internal method called by logElapsed
+    static protected final synchronized void doLogElapsed(long startTime, long endTime, String category, String prepared, String sql) {
         doLog((endTime - startTime), category, prepared, sql);
     }
     
-    static final String getLastEntry () {
+    static final String getLastEntry() {
         return lastEntry;
     }
 }

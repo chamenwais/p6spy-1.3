@@ -79,13 +79,24 @@
 		<mkdir dir="${dist}"/>			
 		<echo message="Creating javadoc directory ${javadocs}"/>
 		<mkdir dir="${javadocs}"/>			
+		<echo message=""/>
+		<echo message="--------- Required jar files ---------"/>
+		<echo message=""/>
+		<echo message="junit jar must be in the lib directory or the build will fail."/>
+		<echo message="database driver jar (default Oracle) must be in the lib directory or the build will fail."/>
+		<echo message="gnu-regexp jar must be in the lib directory or the build will fail."/>
 	</target>
 		
 	<target name="compile" depends="init">
 		<echo message="--------- Compiling P6Spy ---------"/>
 		<echo message=""/>
 		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
-			<exclude name="P6Test*.*" />
+		    <classpath>
+			<fileset dir="${lib}">
+			    <include name="**/*.jar" />
+			</fileset>
+		    </classpath>
+		    <exclude name="P6Test*.*" />
 		</javac>
 	</target>
 
@@ -128,20 +139,14 @@
 		</jar>
 	</target>
 
-        <target name="_varset1" unless="env.JUNIT_HOME"><fail message="Please set JUNIT_HOME to point to the directory where your Junit.jar file exists.  Do not include the jar name."/></target>
-
-        <target name="_varset2" unless="env.DRIVER_HOME"><fail message="Please set DRIVER_HOME to point to the directory where your driver jar file exists.  Do not include the jar name."/></target>
-
-	<target name="test">
-		<antcall target="_varset1" />
-		<antcall target="_varset2" />
-
-   		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
+	<target name="test" depends="compile">
+		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
 		    <classpath>
-			<fileset dir="${env.JUNIT_HOME}">
+			<fileset dir="${lib}">
 			    <include name="**/*.jar" />
 			</fileset>
 		    </classpath>
+		    <include name="P6Test*.*" />
 		</javac>
 
 		<java classname="junit.textui.TestRunner" fork="yes">
@@ -149,10 +154,7 @@
 		    <arg value="com.p6spy.engine.spy.P6Test" />
 		    <classpath>
 			<pathelement path="${build}"/>
-			<fileset dir="${env.JUNIT_HOME}">
-			    <include name="**/*.jar" />
-			</fileset>
-			<fileset dir="${env.DRIVER_HOME}">
+			<fileset dir="${lib}">
 			    <include name="**/*.jar" />
 			</fileset>
 		    </classpath>

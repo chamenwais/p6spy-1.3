@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/04/22 02:26:06  jeffgoke
+ * Simon Sadedin added timing information.  Added Junit tests.
+ *
  * Revision 1.1  2002/04/21 06:16:20  jeffgoke
  * added test cases, fixed batch bugs
  *
@@ -143,6 +146,67 @@ public class P6TestStatement extends P6TestFramework {
             statement.close();
         } catch (Exception e) {
             fail(e.getMessage()+" due to error: "+getStackTrace(e));
+        }
+    }
+    
+    public void testMatcher() {
+        try {
+            // use default matcher (instr)
+            P6SpyOptions.setStringmatcher("");
+            
+            // first should match
+            P6SpyOptions.setFilter(true);
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+            Statement statement = connection.createStatement();
+            String query = "select count(*) from stmt_test";
+            statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            
+            // now it should fail due to filter = false
+            P6SpyOptions.setFilter(false);
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+            query = "select 'w' from stmt_test";
+            statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            
+            // now match should still fail because table is excluded
+            P6SpyOptions.setFilter(true);
+            P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("stmt_test");
+            query = "select 'x' from stmt_test";
+            statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) == -1);
+            
+            // use gnu regex
+            P6SpyOptions.setStringmatcher("com.p6spy.engine.spy.GnuRegexMatcher");
+            
+            // should match (basic)
+            P6SpyOptions.setFilter(true);
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+            query = "select 'y' from stmt_test";
+            statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            
+            // now match should match (test regex)
+            P6SpyOptions.setFilter(true);
+            P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("[a-z]tmt_test");
+            query = "select 'x' from stmt_test";
+            statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) == -1);
+            
+            // now match should fail (test regex again)
+            P6SpyOptions.setFilter(true);
+            P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("[0-9]tmt_test");
+            query = "select 'z' from stmt_test";
+            statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+        } catch (Exception e) {
+            
         }
     }
     

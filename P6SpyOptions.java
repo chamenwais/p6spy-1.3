@@ -86,6 +86,9 @@ public class P6SpyOptions   {
     private static SimpleDateFormat dateformatter;
     private static String includecategories;
     private static String excludecategories;
+    private static String stringmatcher;
+    private static StringMatcher stringMatcherEngine;
+    
     
     public static void setAutoflush(boolean _autoflush) {
         autoflush = _autoflush;
@@ -179,6 +182,30 @@ public class P6SpyOptions   {
     public static SimpleDateFormat getDateformatter() {
         return dateformatter;
     }
+    public static void setStringmatcher(String _stringmatcher) {
+        stringmatcher = _stringmatcher;
+        if(stringmatcher == null || stringmatcher.equals("")) {
+            stringmatcher = "com.p6spy.engine.spy.SubstringMatcher";
+        }
+        try {
+            stringMatcherEngine = (StringMatcher)Class.forName(stringmatcher).newInstance();
+        } catch (InstantiationException e) {
+            P6Util.warn("Could not instantiate string matcher class: " + stringmatcher);
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            P6Util.warn("Could not instantiate string matcher class: " + stringmatcher);
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            P6Util.warn("Could not instantiate string matcher class: " + stringmatcher);
+            e.printStackTrace();
+        }
+    }
+    public static String getStringmatcher() {
+        return stringmatcher;
+    }
+    public static StringMatcher getStringMatcherEngine() {
+        return stringMatcherEngine;
+    }
     
     public static void testP6SpyOptions() {
         new P6SpyOptions();
@@ -205,6 +232,7 @@ public class P6SpyOptions   {
         setTrace(getTrace());
         setProperties(getProperties());
         setDateformat(getDateformat());
+        setStringmatcher(getStringmatcher());
     }
     
     public static void help() {
@@ -222,6 +250,7 @@ public class P6SpyOptions   {
         System.out.println("    trace [false]                             - turn on tracing");
         System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");
         System.out.println("    dateformat []                             - simple date format for log file");
+        System.out.println("    stringmatcher []                          - regex engine to use");
         System.out.println("\nGlobal:");
         System.out.println("    properties [spy.properties]               - name of file that stores the properties info");
     }
@@ -239,6 +268,7 @@ public class P6SpyOptions   {
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    trace [false]                             - turn on tracing");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    dateformat []                             - simple date format for log file");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    stringmatcher []                          - string matcher engine to use");        }
         if (category.equalsIgnoreCase("Global")) {            System.out.println("\nGlobal:");            System.out.println("    properties [spy.properties]               - name of file that stores the properties info");        }
     }
     
@@ -281,6 +311,8 @@ public class P6SpyOptions   {
         setAppend(P6Util.isTrue(value));
         value = props.getProperty("dateformat");
         setDateformat(value);
+        value = props.getProperty("stringmatcher");
+        setStringmatcher(value);
     }
     
     public static boolean set(String name, String value) {
@@ -302,6 +334,7 @@ public class P6SpyOptions   {
         else if (lc.equals("properties")) setProperties(value);
         else if (lc.equals("properties")) setProperties(value);
         else if (lc.equals("dateformat")) setDateformat(value);
+        else if (lc.equals("stringmatcher")) setStringmatcher(value);
         else ret = false;
         return ret;
     }
@@ -323,6 +356,7 @@ public class P6SpyOptions   {
         else if (lc.equals("trace")) return getTrace() ? "true" : "false";
         else if (lc.equals("properties")) return getProperties();
         else if (lc.equals("dateformat")) return getDateformat();
+        else if (lc.equals("stringmatcher")) return getStringmatcher();
         else return null;
     }
     
@@ -342,6 +376,7 @@ public class P6SpyOptions   {
         keys.put("trace", getTrace() ? "true" : "false");
         keys.put("properties", getProperties());
         keys.put("dateformat", getDateformat());
+        keys.put("stringmatcher", getStringmatcher());
         return keys;
     }
     
@@ -361,6 +396,7 @@ public class P6SpyOptions   {
         values.put(getTrace() ? "true" : "false","trace");
         values.put(getProperties(),"properties");
         values.put(getDateformat(),"dateformat");
+        values.put(getStringmatcher(),"stringmatcher");
         return values;
     }
     
@@ -380,6 +416,7 @@ public class P6SpyOptions   {
         list.add("trace");
         list.add("properties");
         list.add("dateformat");
+        list.add("stringmatcher");
         return list;
     }
 }
