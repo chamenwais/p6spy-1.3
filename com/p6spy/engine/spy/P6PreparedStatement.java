@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.6  2003/06/05 20:10:00  aarvesen
+ * bradley 'dot' johnson (bradley@irongrid.com) added in dynamic array allocation
+ *
  * Revision 1.5  2003/06/03 19:20:25  cheechq
  * removed unused imports
  *
@@ -136,7 +139,8 @@ import java.math.*;
 public class P6PreparedStatement extends P6Statement implements PreparedStatement {
     
     
-    protected static int P6_MAX_FIELDS = 256;
+    public final static int P6_MAX_FIELDS = 32;
+    protected static int P6_GROW_MAX = 32;
     protected PreparedStatement prepStmtPassthru;
     protected String preparedQuery;
     protected Object values[];
@@ -367,10 +371,23 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         return t.toString();
     }
     
+    protected void growValues(int newMax) {
+	int size = values.length;
+	Object [] values_tmp = new Object[newMax + P6_GROW_MAX];
+	boolean [] isString_tmp = new boolean[newMax + P6_GROW_MAX];
+	System.arraycopy(values, 0, values_tmp,  0, size);
+	values = values_tmp;
+	System.arraycopy(isString, 0, isString_tmp, 0, size);
+	isString = isString_tmp;
+    }
+    
     
     protected  void setObjectAsString(int i, Object o) {
         if (values != null) {
-            if (i >= 0 && i <= P6_MAX_FIELDS) {
+            if (i >= 0) {
+	       if ( i >= values.length) {
+		   growValues(i);
+		}
                 values[i] = (o == null) ? "" : o.toString();
                 isString[i]  = true;
             }
@@ -379,10 +396,13 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     
     protected  void setObjectAsInt(int i, Object o) {
         if (values != null) {
-            if (i >= 0 && i <= P6_MAX_FIELDS) {
+            if (i >=0) {    
+                if (i >= values.length) {
+                    growValues(i);
+                }
                 values[i] = (o == null) ? "" : o.toString();
                 isString[i]  = false;
-            }
+            } 
         }
     }
 
