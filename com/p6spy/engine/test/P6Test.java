@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.8  2003/03/07 22:07:34  aarvesen
+ * added test for unloading of registered drivers
+ *
  * Revision 1.7  2003/02/14 22:23:48  aarvesen
  * added test options to test saving properties files
  *
@@ -126,6 +129,7 @@ public class P6Test extends TestCase {
         suite.addTestSuite(P6TestCommon.class);
         suite.addTestSuite(P6TestDriver.class);
         suite.addTestSuite(P6TestOptions.class);
+        suite.addTestSuite(P6TestUnloading.class);
         return suite;
     }
 }
