@@ -67,6 +67,9 @@
  * $Author$
  *
  * $Log$
+ * Revision 1.3  2003/06/03 16:07:12  aarvesen
+ * renamed setDataSourceName to setRealDataSource to both fix a bug with the Oracle app server (which was calling setDataSourceName on its own) and to be orthogonal with spy.properties
+ *
  * Revision 1.2  2003/01/30 23:38:49  dlukeparker
  *
  *
@@ -134,7 +137,7 @@ public class P6DataSourceFactory implements ObjectFactory {
 					   "class '" + className + "': " + ex.toString());
 	    }
 	    // name of the real datasource
-	    dataSource.setDataSourceName((String) ref.get("dataSourceName").getContent());
+	    dataSource.setRealDataSource((String) ref.get("dataSourceName").getContent());
 	    
 	    return dataSource;
 	} else	{ 
