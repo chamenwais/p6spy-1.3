@@ -1,14 +1,17 @@
 <html><!-- #BeginTemplate "/Templates/spydocs.dwt" -->
 <head>
 <!-- #BeginEditable "doctitle" --> 
-<title>P6Spy Documentation</title><!-- #EndEditable --></head><body bgcolor="#000000" text="#000000"><b>Installation</b>
-
+<title>P6Spy Documentation</title><!-- #EndEditable -->
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
 
-
-
-<img src="http://www.p6spy.com/documentation/images/header.gif" width="580" height="80"> <br>
-<table width="100%" border="0">
+<body bgcolor="#FFFFFF">
+<table width="100%" border="0" bgcolor="black">
+<tr>
+<td>
+<img src="http://www.p6spy.com/documentation/images/header.gif" width="580" height="80"> 
+<br> 
+<table width="580" border="0">
   <tr> 
     <td width="11%"><a href="http://www.p6spy.com"><img src="http://www.p6spy.com/documentation/images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
     <td width="11%"><a href="http://www.p6spy.com/documentation/index.htm"><img src="http://www.p6spy.com/documentation/images/index.gif" width="110" height="20" border="0"></a></td>
@@ -18,354 +21,404 @@
     <td width="38%">&nbsp;</td>
   </tr>
 </table>
+</td>
+</tr>
+</table>
 <br>
-<table width="100%" border="0" cellpadding="20" cellspacing="20">
-  <tr>
-    <td bgcolor="#FFFFFF">  
 	<!-- #BeginEditable "body" --> 
-	    <div align="left">
-        <p><a name="install"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>General 
-          Installation Instructions</b></font></p>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The P6Spy 
-          software is very easy to install.&nbsp;&nbsp;There are explicit step-by-step 
-          installation instructions for many application servers (see the <a href="index.htm">table 
-          of contents</a>). If you create instructions for other servers, please 
-          send us a copy and we will include them in the documentation. Once the 
-          software is installed, P6Spy offers many options to let you tailor the 
-          software to your needs. See the property file settings for details.</font></p>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">For those 
-          of you who have been using the closed-source version of p6spy, there 
-          is only one significant change. In the previous release the package 
-          name was &quot;com.p6.engine.spy.P6SpyDriver&quot; in this release it 
-          is &quot;com.p6spy.engine.spy.P6SpyDriver&quot;. Notice &quot;com.p6&quot; 
-          has been changed to &quot;com.p6spy&quot;. This means a small adjustment 
-          to your configuration file. This should not change again.</font></p>
+      <div align="center"> 
+        <p><a name="install"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>P6Spy 
+          Installation</b></font></p></div>
+        <div align="left"><p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">This installation 
+          documentation contains instructions for installing P6Spy with various 
+          application servers. In addition, it contains general instructions for 
+          application servers not listed. Keep in mind that the <a href="install.htm#unspec">Unspecified 
+          Application Server</a> instructions do not contain details specific 
+          to your application server. Use them only as a guideline. </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If 
+          you create instructions for other application servers, send us a copy 
+          for possible publication in the documentation. </font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The installed 
+          P6Spy software offers many configuration options. See <a href="other.htm">Common 
+          Property File Settings</a> for additional information.</font></p></div>
+        <div align="left"><p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss"></a>JBoss</b></font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The following 
+          sections contain specific information on installing P6Spy on <a href="install.htm#jboss2">JBoss 
+          2.x</a> and <a href="install.htm#jboss3">JBoss 3.x</a>.</font></p>
+      </div>
+      <div align="left"></div>
+      <blockquote> 
+        <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss2"></a>JBoss 
+          2.x</b></font></div>
+      </blockquote>
+      <div align="left"> 
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The following 
+    instructions have been tested with various JBoss versions ranging from JBoss 
+    2.2.2-2.4.4 with Jakarta Tomcat 3.2.2-4.0.1 integration. To install P6Spy 
+    on JBoss 2.x, complete the following steps:</font></p>
+      </div>
+      <ol>
+        <li> 
+          
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Unjar 
+      the <b>p6spy-install.jar</b> file.&nbsp;The<b> p6spy-install.jar</b> file 
+      contains <b>p6spy.jar</b> and <b>spy.properties</b>.</font></div>
+        </li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Move the 
+          <b>p6spy.jar</b> file to your <b>ext</b> directory. An example of the 
+          path to your <b>ext</b> directory is <b>C:\JBoss-2.2.2_Tomcat-3.2.2\jboss\lib\ext</b>.</font></li>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Move 
+            the <b>spy.properties</b> file to your <b>db</b> directory, which 
+            is part of the JBoss classpath<b>.</b> An example of the path to your 
+            <b>db</b> directory is <b>C:\JBoss-2.2.2_Tomcat-3.2.2\jboss\db</b>.</font></div>
+        </li>
+        
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Modify the<b> 
+    jboss.jcml</b> file in the Tomcat <b>conf</b> directory to use the P6Spy driver.&nbsp;You 
+    should remove your existing driver from the drivers attribute and replace 
+    that driver with the P6Spy driver. An example of an edited <b>jboss.jcml</b> 
+    file follows:</font> </li>
+      </ol>
+      <div align="left"> 
         <ol>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
-            the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains two files: p6spy.jar and spy.properties</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
-            the p6spy.jar file in your classpath.</b> Either copy the p6spy.jar 
-            file into your ext direction (if you are using and EJB server it probably 
-            has its own ext directory, if you are not, then you probably want 
-            to use the JDK ext directory which is JDK_HOME/jre/lib/ext) or add 
-            p6spy.jar to your classpath.&nbsp;&nbsp;Remember that if you are adding 
-            p6spy.jar to your classpath, you must reference the jar filename directly.&nbsp;&nbsp;In 
-            Windows, for example, it might look like: CLASSPATH=c:\p6spy\p6spy.jar.&nbsp;&nbsp;Note 
-            that if you are using an EJB server, adding the p6spy.jar file to 
-            your classpath may not work.&nbsp;&nbsp;Some EJB servers ignore the 
-            classpath and set their own when they start up.</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
-            spy.properties in your classpath.</b> Copy spy.properties into a directory 
-            listed in your classpath.&nbsp;&nbsp;For example, if your classpath 
-            is C:\p6spy\p6spy.jar;c:\java you can copy it to the java directory.&nbsp;&nbsp;Unlike 
-            jar files, you do not directly reference your property file in the 
-            classpath.</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
-            your application or server to use the P6Spy database driver.</b> P6Spy 
-            support applications that use DriverManager or a Datasource to obtain 
-            a database connection. If you are unsure which method your application 
-            uses to obtain a connection, look for specific instructions for your 
-            application server below, or try the DriverManager instructions first.<br>
-            <strong> <br>
-            If you use the DriverManager to manage your driver:</strong> Modify 
-            your server settings or application settings to tell your application 
-            to use P6Spy as your database driver, which is: com.p6spy.engine.spy.P6SpyDriver 
-            &nbsp;&nbsp;&nbsp;This does not impact your application, it simply 
-            allows P6Spy to read in the database statements before they reach 
-            your database driver.&nbsp;&nbsp;Since the P6Spy driver passes through 
-            all requests to your real driver, you leave all of the other configuration 
-            information, such as the connection address, user, password, etc. 
-            the same.<br>
-            <strong> <br>
-            If you use a Datasource to manage your driver:</strong> <br>
-            </font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
-            P6Spy about your real database driver.</b> &nbsp;Modify the spy.properties 
-            file and change the realdriver line to reflect your real database 
-            driver.&nbsp;&nbsp;For example: realdriver = oracle.jdbc.driver.OracleDriver</font></li>
-          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Run 
-            your application.</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;&nbsp;A 
-            log file will be generated in the starting directory of your application 
-            (you can change this, see the property file section of the documentation).&nbsp;&nbsp;If 
-            you can't find the log file, try searching for spy.log</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>View 
-            the log file.</b> &nbsp;The log file contains a list of all of the 
-            database statements that are executed.</font></li>
-        </ol>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss"></a>JBoss 
-          2.x Installation</b></font></p>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">These instructions 
-          have been tested with various Jboss versions ranging from Jboss 2.2.2-2.4.4 
-          with Tomcat 3.2.2-4.0.1 integration.</font></p>
-        <ol>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
-            the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains the files: p6spy.jar, spy.properties</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
-            the p6spy.jar file in your ext directory.</b> For example: C:\JBoss-2.2.2_Tomcat-3.2.2\jboss\lib\ext</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
-            spy.properties in your db directory (which is part of the JBoss classpath).</b> 
-            For example: C:\JBoss-2.2.2_Tomcat-3.2.2\jboss\db</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
-            JBoss to use the P6Spy driver. </b>&nbsp;Modify the jboss.jcml file 
-            to use the P6 driver.&nbsp;&nbsp;Make sure to modify the correct file. 
-            In the case of the integrated tomcat solution, you should modify the 
-            jboss.jcml file in the Tomcat conf directory. You should remove your 
-            existing driver from the drivers attribute and replace that driver 
-            with the P6Spy driver. This looks like:</font> </li>
           <blockquote> 
-            <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&lt;mbean 
-              code=&quot;org.jboss.jdbc.JdbcProvider&quot; name=&quot;DefaultDomain:service=JdbcProvider&quot;&gt;<br>
-              &lt;attribute name=&quot;Drivers&quot;&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/attribute&gt;<br>
-              &lt;/mbean&gt;</font></p>
+            <blockquote>
+              <p><font face="Courier New, Courier, mono" size="2">&lt;mbean code=&quot;org.jboss.jdbc.JdbcProvider&quot; 
+                name=&quot;DefaultDomain:service=JdbcProvider&quot;&gt;<br>
+                &lt;attribute name=&quot;Drivers&quot;&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/attribute&gt;<br>
+                &lt;/mbean&gt;</font></p>
+            </blockquote>
           </blockquote>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
-            P6Spy about your real database driver.</b> &nbsp;Modify the spy.properties 
-            file and change the realdriver line to reflect your real database 
-            driver.&nbsp;&nbsp;For example: realdriver = oracle.jdbc.driver.OracleDriver</font></li>
-          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
-            is complete.&nbsp;&nbsp;</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">There 
-            is nothing else to change. You leave your connect string, username, 
-            password and other attributes exactly as they were before you installed 
-            P6Spy, the P6Spy driver does all of the work required to pass this 
-            information along to your real database driver.</font></li>
-          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Run 
-            your application.</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;&nbsp;A 
-            spy.log file will be generated in the bin directory of the JBoss server 
-            such as: C:\JBoss-2.2.2_Tomcat-3.2.2\jboss\bin </font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>View 
-            the log file.</b> &nbsp;The log file contains a list of all of the 
-            database statements that are executed.</font></li>
         </ol>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss3"></a>JBoss 
-          3.x Installation</b></font></p>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
-          by Alan Arvesen, IronGrid)</i> </font> 
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">These instructions 
-          have been tested on JBoss 3.0.4 with Jetty integration. For these instructions, I am assuming that you are using the "default" server located under <code>%JBOSS_DIST%/server/default</code>.  Also, these instructions are for wrapping driver services and not XADataSource services.</font></p>
-        <ol>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
-            the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains the files: p6spy.jar, spy.properties</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>
-	  Put the p6spy.jar file in the lib directory of the server you wish to run.</b> For example: <code>C:\java\jboss-3.0.4\server\default\lib</code></font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>
-	  Put spy.properties in your JBoss classpath.</b> By default, the JBoss classpath setup by run.bat only points to tools.jar and run.jar.  <B>You might need to add a directory, via JBOSS_CLASSPATH, to this path.</B> For example:
-	    <P>
-	    <pre>
-C:\&gt; set JBOSS_CLASSPATH=C:\java\jboss-3.0.4\server\default\db
-C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
-	    </pre> 
-	  </font>
-	  </li>
-
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Create a p6spy-service.xml file in %server%\deploy, or modify an existing *-service.xml.</b>&nbsp;
-	  Create a p6spy file based off of one of the samples in the <code>%JBOSS_DIST%\docs\examples\jca</code> directory.  I hacked up a copy of the mysql-service.xml.  Be sure to keep it named <i>something</I>-service.xml, otherwise JBoss will not deploy it properly.<br>
-	  &nbsp;&nbsp;&nbsp;Alternatively, and perhaps better, just modify the <I>whatever</I>-service.xml file for the URL/jdbc combination that you wish to wrap, e.g. <code>oracle-service.xml</code>.<BR>
-	  &nbsp;&nbsp;&nbsp;The important pieces of information here are the jndiname, the ConnectionURL, and the DriverClass.  If you are modifying an existing service, simply change the DriverClass to be the P6SpyDriver.  Here is what mine looks like:
-	  <P>
-	  <pre>
-&lt;attribute name="JndiName"&gt;MySqlDS&lt;/attribute&gt;
-
-&lt;attribute name="ManagedConnectionFactoryProperties"&gt;
-  &lt;properties&gt;
-    &lt;config-property name="ConnectionURL" 
-	type="java.lang.String"&gt;jdbc:mysql://localhost/localdb&lt;/config-property&gt;
-    &lt;config-property name="DriverClass" 
-	type="java.lang.String"&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/config-property&gt;
-    (etc...)
-	  </pre>
-	  <BR>
-	  One other important caveat:  you must make sure that there is no longer a service the explictly loads the driver you are wrapping (in this case, the mysql driver).  Otherwise JBoss will likely load the other driver "before" p6spy and you will not get wrapped connections.
-
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
-            P6Spy about your real database driver.</b> &nbsp;Modify the spy.properties 
-            file and change the realdriver line to reflect your real database 
-            driver.&nbsp;&nbsp;For example: <code>realdriver=org.gjt.mm.mysql.Driver</code></font></li>
-          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
-            is complete.&nbsp;&nbsp;</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">There 
-            is nothing else to change. You leave your connect string, username, 
-            password and other attributes exactly as they were before you installed 
-            P6Spy, the P6Spy driver does all of the work required to pass this 
-            information along to your real database driver.</font></li>
-          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Run 
-            your application.</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;&nbsp;A 
-            spy.log file will be generated in the bin directory of the JBoss server 
-            such as: <code>C:\java\jboss-3.0.4\bin</code> </font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>View 
-            the log file.</b> &nbsp;The log file contains a list of all of the 
-            database statements that are executed.</font></li>
-        </font></ol><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="orion"></a>Orion 
-          Installation</b></font></p>
-        <ol>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
-            the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains the files: p6spy.jar, spy.properties</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
-            p6spy.jar, spy.properties in your [orion-home]\lib 
-            directory.</b> For example: c:\orion\lib</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
-            Orion to use the P6Spy driver. </b>&nbsp;Modify [orion-home]\config\data-sources.xml 
-            to use the P6 driver.&nbsp;&nbsp;In the data-sources.xml file change 
-            connection-driver to specify the p6spy driver instead of the database 
-            driver you are using. For example:</font> </li>
+      </div>
+      <ol start="5">
+        <li> 
+          
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Modify 
+      the realdriver line in the <b>spy.properties</b> file to reflect the wrapped 
+      driver</font>.&nbsp;An example of an edited <b>spy.properties</b> file follows:</font></div>
+          <div align="left"> 
+            <p><br>
+          </div>
+        </li>
+        <div align="left"></div>
+        <blockquote> 
           <blockquote> 
-            <p> <font face="Verdana, Arial, Helvetica, sans-serif" size="2">&lt;data-source<br>
-              class=&quot;com.evermind.sql.DriverManagerDataSource&quot;<br>
-              name=&quot;Hypersonic&quot;<br>
-              location=&quot;jdbc/HypersonicCoreDS&quot;<br>
-              xa-location=&quot;jdbc/xa/HypersonicXADS&quot;<br>
-              ejb-location=&quot;jdbc/HypersonicDS&quot;<br>
-              connection-driver=&quot;com.p6spy.engine.spy.P6SpyDriver&quot;<br>
-              username=&quot;sa&quot;<br>
-              password=&quot;&quot;<br>
-              url=&quot;jdbc:HypersonicSQL:./database/defaultdb&quot;<br>
-              inactivity-timeout=&quot;30&quot;<br>
-              /&gt;</font></p>
+            <div align="left">
+              <p><font face="Courier New, Courier, mono" size="2">realdriver = 
+                oracle.jdbc.driver.OracleDriver</font></p>
+            </div>
           </blockquote>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
-            P6Spy about your real database driver.</b> &nbsp;Modify the spy.properties 
-            file and change the realdriver line to reflect your real database 
-            driver.&nbsp;&nbsp;This is the value that was previously specified 
-            in connection-driver before you changed it in step 3. For example, 
-            if you were using Hypersonic (the default database) this would be: 
-            realdriver = org.hsql.jdbcDriver</font></li>
-          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
-            is complete.&nbsp;&nbsp;</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">There 
-            is nothing else to change. You leave your connect string, username, 
-            password and other attributes exactly as they were before you installed 
-            P6Spy, the P6Spy driver does all of the work required to pass this 
-            information along to your real database driver.</font></li>
-          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Run 
-            your application.</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;&nbsp;In 
-            the example installation, Orion will not be able to find spy.properties 
-            because of the classpath that Orion uses. The easiest way to overcome 
-            this is to use the -D option to tell Orion where the property file 
-            resides. For example, run Orion using java -Dp6.home=c:\orion\orion\lib 
-            -jar orion.jar<br>
-            <br>
-            A spy.log file will be generated in the [orion-home] directory. If 
-            for some reason the file does not appear in that directory, search 
-            for spy.log on your drive. You can change the location of this file 
-            by specifying a location using the property file (see <a href="#property">Property 
-            File Settings</a>).<br>
-            </font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>View 
-            the log file.</b> &nbsp;The log file contains a list of all of the 
-            database statements that are executed.</font></li>
-        </ol>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="tomcat"></a>Tomcat 
-          Installation</b></font></p>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">These instructions 
-          have been tested with Tomcat 3.x.&nbsp;&nbsp;Please note that since 
-          you typically write or otherwise obtain your own connection pool when 
-          using Tomcat, these instructions will differ by application.</font></p>
-        <ol>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
-            the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains the files: p6spy.jar, spy.properties. Copy 
-            them to the lib\ directory of your web application. For example: C:\jakarta-tomcat-3.2.1\webapps\p6\WEB-INF\lib</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
-            your Tomcat application to use P6Spy as the database driver. </b> 
-            Tomcat applications obtain their JDBC connection in a variety of ways. 
-            Most applications have the database driver name externalized as a 
-            configuration parameter. For example, in your web.xml file (C:\jakarta-tomcat-3.2.1\webapps\p6\WEB-INF\web.xml) 
-            you may have something like this:<br>
-            <br>
-            &lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;org.gjt.mm.mysql.Driver&lt;/param-value&gt;&lt;/init-param&gt;<br>
-            <br>
-            In this case the &quot;databaseDriver&quot; parameter has a value 
-            of &quot;org.gjt.mm.mysql.Driver&quot;, which is the MySQL driver. 
-            Wherever this configuration information is stored, you need to change 
-            the driver name (&quot;org.gjt.mm.mysql.Driver&quot; in our example) 
-            to com.p6spy.engine.spy.P6SpyDriver such as:<br>
-            <br>
-            &lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/param-value&gt;&lt;/init-param&gt;<br>
-            </font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Enable 
-            Tomcat to find spy.properties. </b>While all of the .jar files in 
-            your webapps lib directory are, by default, included in Tomcat's classpath, 
-            the lib directory itself is not, which means Tomcat will not be able 
-            to find your spy.properties file, which will cause an error to occur. 
-            All this means is that you have to include spy.properties in the Tomcat 
-            classpath. The simplest way to do this is to use the TOMCAT_OPTS environment 
-            variable to specify the location of the spy.properties file. For example:<br>
-            <br>
-            SET TOMCAT_OPTS=-Dp6.home=C:\jakarta-tomcat-3.2.1\webapps\p6\WEB-INF\lib<br>
-            <br>
-            </font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Change 
-            the spy.properties file to reference your database. </b>You must tell 
-            P6Spy about your real database driver. The realdriver property is, 
-            by default, set to Oracle, such as: realdriver = oracle.jdbc.driver.OracleDriver, 
-            change this to reflect your database. In our previous example, where 
-            we were using MySQL, this would be changed to: realdriver = org.gjt.mm.mysql.Driver</font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Run 
-            your application and view the logs. </b>By default the spy.log file 
-            is written to the place you start Tomcat, such as C:\jakarta-tomcat-3.2.1\bin 
-            - you can change the location of this file by specifying a location 
-            using the property file (see <a href="#property">Property File Settings</a>).</font></li>
-        </ol>
-        <p><a name="jonas"></a><b><font face="Verdana, Arial, Helvetica, sans-serif" size="+1">JOnAS 
-          Installation</font></b> 
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
-          by François Exertier, JOnAS Opensource EJB Server team)</i> </font> 
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">These 
-          instructions have been tested with JOnAS 2.3.x. </font> 
-        <ol>
-          <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Unzip 
-            the distribution. </b>Unjar the p6spy-install.jar file.&nbsp; </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">This 
-            contains the files: p6spy.jar, spy.properties</font></li>
-          <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Put 
-            the p6spy.jar file in the classpath of the JOnAS EJB server.</b> For 
-            example, if p6spy.jar is in the /opt/Provider6 directory, you may 
-            add /opt/Provider6/p6psy.jar to the XTRA_CLASSPATH environment variable 
-            (or directly edit the config_env script)</font></li>
-          <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Put 
-            spy.properties in a directory which is part of your 
-            classpath.</b> The best may be to put it in the same directory as 
-            your jndi.properties file</font></li>
-          <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Tell 
-            JOnAS to use the P6Spy database driver.&nbsp;</b> Database access 
-            configuration within JOnAS is described in a DataSource property file, 
-            e.g. Oracle1.properties (see the JOnAS Bean Programmer's Guide for 
-            more details). Modify the &lt;datasource>.properties file by replacing 
-            the database driver classname by the P6Psy database driver class name 
-            in the datasource.classname property. For example the Oracle1.properties 
-            file delivered with JOnAS should be updated by replacing oracle.jdbc.driver.OracleDriver 
-            by com.p6spy.engine.spy.P6SpyDriver, it then looks like</font></li>
-          <blockquote><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">datasource.name&nbsp;&nbsp; 
-            jdbc_1</font> <br>
-            <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">datasource.description&nbsp; 
-            "Standard jdbc driver for Oracle"</font> <br>
-            <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">datasource.url&nbsp;&nbsp; 
-            jdbc:oracle:thin:scott/tiger@maltes:1521:ORA1</font> <br>
-            <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">datasource.classname 
-            <b>com.p6spy.engine.spy.P6SpyDriver</b></font> <br>
-            <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">...</font></blockquote>
-          <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Tell 
-            P6Spy about your real database driver.</b>&nbsp; Modify the spy.properties 
-            file and change the realdriver line to reflect your real database 
-            driver.&nbsp; In our example: realdriver = oracle.jdbc.driver.OracleDriver</font></li>
-          <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Installation 
-            is complete.&nbsp; </b>There is nothing else to change. You leave 
-            your other datasource properties, e.g. name, url, username, password 
-            and so on exactly as they were before you installed P6Spy, the P6Spy 
-            driver does all of the work required to pass this information along 
-            to your real database driver</font></li>
-          <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Run 
-            your application.</b>&nbsp; Run EJBServer. A spy.log file will be 
-            generated in the launching directory</font></li>
-          <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>View 
-            the log file.</b>&nbsp; The log file contains a list of all of the 
-            database statements that are executed. You can change the location 
-            of this file and the nature of its content by using the spy property 
-            file (see <a href="#property">Property File Settings</a>)</font></li>
-        </ol>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="wlportal"></a>WebLogic 
-          Portal 4.0 Installation</b></font></p>
+        </blockquote>
+      </ol>
+      
+<div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
+  is complete.&nbsp;&nbsp;When you run your application, a <b>spy.log</b> file 
+  is generated in the <b>bin</b> directory of the JBoss server. <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The 
+  log file contains a list of all of the database statements executed. <font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></font></font>The 
+  log file contains a list of all of the database statements executed.</font> 
+</div>
+      <div align="left">
+        <p>&nbsp;</p>
+      
+      </div>
+        <div align="left">
+      </div>
+      
+<blockquote> 
+  <div align="left"> 
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss3"></a>JBoss 
+      3.x</b></font></div>
+  </div>
+</blockquote>
+<div align="left"> 
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
+    by Alan Arvesen, IronGrid)</i> </font> 
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The following 
+    instructions have been tested on JBoss 3.0.4 with Jetty integration. For these 
+    instructions, P6Spy assumes that you are using the default server residing 
+    in <b>%JBOSS_DIST%/server/default</b>. These instructions are intended for 
+    wrapping driver services, not XADataSource services.</font></p>
+  <ol>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Unjar the<b> 
+      p6spy-install.jar</b> file.&nbsp;&nbsp;The <b>p6spy-install.jar</b> file 
+      contains <b>p6spy.jar</b> and <b>spy.properties</b>.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Move the <b>p6spy.jar</b> 
+      file to the <b>lib</b> directory of the server you will run. An example 
+      is <b>C:\java\jboss-3.0.4\server\default\lib</b>.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Add <b>spy.properties</b> 
+      to your JBoss classpath<b>.</b> By default, the JBoss classpath set up by 
+      <b>run.bat</b> only points to <b>tools.jar</b> and <b>run.jar</b>. You may 
+      need to add a directory, via JBOSS_CLASSPATH, to this path. An example of 
+      an edited JBoss classpath follows:</font></li>
+  </ol>
+</div>
+<div align="left"> </div>
+<div align="left"> 
+  <blockquote> 
+    <blockquote> 
+      <blockquote> 
+        <p><font face="Courier New, Courier, mono" size="2">C:\&gt; set JBOSS_CLASSPATH=C:\java\jboss-3.0.4\server\default\db 
+          </font></p>
+        <p><font face="Courier New, Courier, mono" size="2">C:\&gt; copy C:\java\p6spy\spy.* 
+          C:\java\jboss-3.0.4\server\default\db</font></p>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+</div>
+<ol start="4">
+  <li> 
+    <div align="left"> </div>
+    <font face="Verdana, Arial, Helvetica, sans-serif" size="2">Create a <b>p6spy-service.xml</b> 
+    file in <b>%server%\deploy</b>. Make sure to set the config-property element 
+    named DriverClass to P6SpyDriver in <b>p6spy-service.xml</b>. You can accomplish 
+    this most easily by basing a new XML file on the the examples in the <b>%JBOSS_DIST%\docs\examples\jca</b> 
+    directory. You can also configure JndiName and ConnectionURL for your specific 
+    implementation. An example of the pertinent portions (not the complete XML 
+    file) of a <b>p6spy-service.xml</b> file follows: </font> 
+    <blockquote> 
+      <blockquote> 
+        <p><font face="Courier New, Courier, mono" size="2">&lt;attribute name=&quot;JndiName&quot;&gt;MySqlDS&lt;/attribute&gt;</font></p>
+        <p><font face="Courier New, Courier, mono" size="2">&lt;attribute name=&quot;ManagedConnectionFactoryProperties&quot;&gt;</font></p>
+        <p><font face="Courier New, Courier, mono" size="2">&lt;properties&gt;</font></p>
+        <blockquote> 
+          <p><font face="Courier New, Courier, mono" size="2"> &lt;config-property 
+            name=&quot;ConnectionURL&quot;</font></p>
+          <blockquote> 
+            <p>type=&quot;java.lang.String&quot;&gt;jdbc:mysql://localhost/localdb&lt;/config-property&gt;</p>
+          </blockquote>
+          <p>&lt;config-property name=&quot;DriverClass&quot;</p>
+          <blockquote> 
+            <p>type=&quot;java.lang.String&quot;&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/config-property&gt;</p>
+            <div align="left"></div>
+          </blockquote>
+        </blockquote>
+      </blockquote>
+    </blockquote>
+  </li>
+</ol>
+<div align="left">
+<ol>
+    <blockquote> 
+      <blockquote>&nbsp;</blockquote>
+    </blockquote>
+  </ol>
+</div>
+<blockquote> 
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Note:</b> 
+    Make sure there is not a service that explicity loads the wrapped driver. 
+    A service of this type will load the specified driver before P6SpyDriver, 
+    resulting in unwrapped connections.</font></div>
+</blockquote>
+<ol start="5">
+  <li> 
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+      Modify the realdriver line in the <b>spy.properties</b> file to reflect 
+      your wrapped driver.&nbsp;&nbsp;An example of an edited <b>spy.properties</b> 
+      file follows:</font></font></div>
+    <blockquote> 
+      <blockquote>
+        <p><font face="Courier New, Courier, mono" size="2">realdriver=org.gjt.mm.mysql.Driver</font></p>
+      </blockquote>
+    </blockquote>
+  </li>
+</ol>
+<div align="left"></div>
+  
+<div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
+  is complete.&nbsp;&nbsp;When you run your application, a <b>spy.log </b>file 
+  is generated in the <b>bin</b> directory of the JBoss server. <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">You 
+  can change the destination of <b>spy.log</b> file by specifying a location in 
+  the <b>spy.properties</b> file (see <a href="other.htm">Common Property File 
+  Settings</a>).</font></font></font> The log file contains a list of all of the 
+  database statements executed.</font> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></font></div>
+<div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></div>
+<div align="left">
+  <p>&nbsp;</p>
+</div>
+<div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="orion"></a>Orion</b></font></p>
+  <ol>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Unjar the 
+      <b>p6spy-install.jar</b> file.&nbsp;The<b> p6spy-install.jar</b> file contains 
+      <b>p6spy.jar</b> and <b>spy.properties</b>.</font></li>
+    <li>Move<font face="Verdana, Arial, Helvetica, sans-serif" size="2"> <b>p6spy.jar</b> 
+      and <b>spy.properties</b> to your <b>[<i>orion-home</i>]\lib</b> directory. 
+      An example of the path to your <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>[<i>orion-home</i>]\lib</b></font> 
+      directory is <b>C:\orion\lib</b>.</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Modify the 
+      connection-driver line in<b> [<i>orion-home</i>]\config\data-sources.xml</b> 
+      to use P6SpyDriver.&nbsp;An example of an edited <b>data-sources.xml</b> 
+      file follows:</font> </li>
+    <blockquote> 
+      <blockquote> 
+        <p> <font face="Courier New, Courier, mono" size="2">&lt;data-source<br>
+          class=&quot;com.evermind.sql.DriverManagerDataSource&quot;<br>
+          name=&quot;Hypersonic&quot;<br>
+          location=&quot;jdbc/HypersonicCoreDS&quot;<br>
+          xa-location=&quot;jdbc/xa/HypersonicXADS&quot;<br>
+          ejb-location=&quot;jdbc/HypersonicDS&quot;<br>
+          connection-driver=&quot;com.p6spy.engine.spy.P6SpyDriver&quot;<br>
+          username=&quot;sa&quot;<br>
+          password=&quot;&quot;<br>
+          url=&quot;jdbc:HypersonicSQL:./database/defaultdb&quot;<br>
+          inactivity-timeout=&quot;30&quot;<br>
+          /&gt;</font></p>
+      </blockquote>
+    </blockquote>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Modify the 
+      realdriver line in the <b>spy.properties</b> file to reflect the wrapped 
+      driver.&nbsp;(This is the original value specified in connection-driver.) 
+      For example, if Hypersonic (the default database) was the original connection-driver 
+      value, the realdriver value is set to org.hsql.jdbcDriver.</font></li>
+  </ol>
+  </font></div>
+<div align="left"> 
+  <div align="left"> 
+    <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Important:</b> 
+      <font face="Verdana, Arial, Helvetica, sans-serif" size="2">In the example 
+      installation outlined above, Orion cannot locate <b>spy.properties</b> because 
+      of the classpath that Orion uses. Use the -D option to tell Orion where 
+      the property file resides by running Orion using the following command:</font></font></p>
+  </div>
+  <blockquote> 
+    <blockquote> 
+      <blockquote>
+        <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono" size="2">java 
+          -Dp6.home=c:\orion\orion\lib -jar orion.jar</font></font></div>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
+    is complete.&nbsp;</font><b></b></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">When 
+    you run your application, a <b>spy.log </b>file is generated in the <b>[<i>orion-home</i>]</b> 
+    directory of the Orion server.</font><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">You 
+    can change the destination of <b>spy.log</b> file by specifying a location 
+    in the <b>spy.properties</b> file (see <a href="other.htm">Common Property 
+    File Settings</a>).<font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The 
+    log file contains a list of all of the database statements executed. <font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></font></font></font></font></font></font></p>
+</div>
+<blockquote> 
+  <blockquote>&nbsp;</blockquote>
+</blockquote>
+<div align="left"></div>
+<div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="tomcat"></a>Jakarta 
+    Tomcat</b></font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">These instructions 
+    have been tested with Tomcat 3.x.&nbsp;&nbsp;Please note that since you typically 
+    write or otherwise obtain your own connection pool when using Tomcat, these 
+    instructions will differ by application.</font></p>
+  <ol>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip the 
+      distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This contains 
+      the files: p6spy.jar, spy.properties. Copy them to the lib\ directory of 
+      your web application. For example: C:\jakarta-tomcat-3.2.1\webapps\p6\WEB-INF\lib</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell your 
+      Tomcat application to use P6Spy as the database driver. </b> Tomcat applications 
+      obtain their JDBC connection in a variety of ways. Most applications have 
+      the database driver name externalized as a configuration parameter. For 
+      example, in your web.xml file (C:\jakarta-tomcat-3.2.1\webapps\p6\WEB-INF\web.xml) 
+      you may have something like this:<br>
+      <br>
+      &lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;org.gjt.mm.mysql.Driver&lt;/param-value&gt;&lt;/init-param&gt;<br>
+      <br>
+      In this case the &quot;databaseDriver&quot; parameter has a value of &quot;org.gjt.mm.mysql.Driver&quot;, 
+      which is the MySQL driver. Wherever this configuration information is stored, 
+      you need to change the driver name (&quot;org.gjt.mm.mysql.Driver&quot; 
+      in our example) to com.p6spy.engine.spy.P6SpyDriver such as:<br>
+      <br>
+      &lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/param-value&gt;&lt;/init-param&gt;<br>
+      </font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Enable 
+      Tomcat to find spy.properties. </b>While all of the .jar files in your webapps 
+      lib directory are, by default, included in Tomcat's classpath, the lib directory 
+      itself is not, which means Tomcat will not be able to find your spy.properties 
+      file, which will cause an error to occur. All this means is that you have 
+      to include spy.properties in the Tomcat classpath. The simplest way to do 
+      this is to use the TOMCAT_OPTS environment variable to specify the location 
+      of the spy.properties file. For example:<br>
+      <br>
+      SET TOMCAT_OPTS=-Dp6.home=C:\jakarta-tomcat-3.2.1\webapps\p6\WEB-INF\lib<br>
+      <br>
+      </font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Change 
+      the spy.properties file to reference your database. </b>You must tell P6Spy 
+      about your real database driver. The realdriver property is, by default, 
+      set to Oracle, such as: realdriver = oracle.jdbc.driver.OracleDriver, change 
+      this to reflect your database. In our previous example, where we were using 
+      MySQL, this would be changed to: realdriver = org.gjt.mm.mysql.Driver</font></li>
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Run your 
+      application and view the logs. </b>By default the spy.log file is written 
+      to the place you start Tomcat, such as C:\jakarta-tomcat-3.2.1\bin - you 
+      can change the location of this file by specifying a location using the 
+      property file (see <a href="other.htm">Common Property File Settings</a>).</font></li>
+  </ol>
+  <p><a name="jonas"></a><b><font face="Verdana, Arial, Helvetica, sans-serif" size="+1">JOnAS</font></b> 
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
+    by François Exertier, JOnAS Opensource EJB Server team)</i> </font> 
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">These instructions 
+    have been tested with JOnAS 2.3.x. </font> 
+  <ol>
+    <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Unzip 
+      the distribution. </b>Unjar the p6spy-install.jar file.&nbsp; </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">This 
+      contains the files: p6spy.jar, spy.properties</font></li>
+    <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Put the 
+      p6spy.jar file in the classpath of the JOnAS EJB server.</b> For example, 
+      if p6spy.jar is in the /opt/Provider6 directory, you may add /opt/Provider6/p6psy.jar 
+      to the XTRA_CLASSPATH environment variable (or directly edit the config_env 
+      script)</font></li>
+    <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Put spy.properties 
+      in a directory which is part of your classpath.</b> The best may be to put 
+      it in the same directory as your jndi.properties file</font></li>
+    <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Tell 
+      JOnAS to use the P6Spy database driver.&nbsp;</b> Database access configuration 
+      within JOnAS is described in a DataSource property file, e.g. Oracle1.properties 
+      (see the JOnAS Bean Programmer's Guide for more details). Modify the &lt;datasource>.properties 
+      file by replacing the database driver classname by the P6Psy database driver 
+      class name in the datasource.classname property. For example the Oracle1.properties 
+      file delivered with JOnAS should be updated by replacing oracle.jdbc.driver.OracleDriver 
+      by com.p6spy.engine.spy.P6SpyDriver, it then looks like</font></li>
+    <blockquote><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">datasource.name&nbsp;&nbsp; 
+      jdbc_1</font> <br>
+      <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">datasource.description&nbsp; 
+      "Standard jdbc driver for Oracle"</font> <br>
+      <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">datasource.url&nbsp;&nbsp; 
+      jdbc:oracle:thin:scott/tiger@maltes:1521:ORA1</font> <br>
+      <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">datasource.classname 
+      <b>com.p6spy.engine.spy.P6SpyDriver</b></font> <br>
+      <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">...</font></blockquote>
+    <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Tell 
+      P6Spy about your real database driver.</b>&nbsp; Modify the spy.properties 
+      file and change the realdriver line to reflect your real database driver.&nbsp; 
+      In our example: realdriver = oracle.jdbc.driver.OracleDriver</font></li>
+    <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Installation 
+      is complete.&nbsp; </b>There is nothing else to change. You leave your other 
+      datasource properties, e.g. name, url, username, password and so on exactly 
+      as they were before you installed P6Spy, the P6Spy driver does all of the 
+      work required to pass this information along to your real database driver</font></li>
+    <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>Run your 
+      application.</b>&nbsp; Run EJBServer. A spy.log file will be generated in 
+      the launching directory</font></li>
+    <li> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><b>View 
+      the log file.</b>&nbsp; The log file contains a list of all of the database 
+      statements that are executed. You can change the location of this file and 
+      the nature of its content by using the spy property file (see <a href="other.htm">Common 
+      Property File Settings</a>)</font></li>
+  </ol>
+  </font> 
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="weblogic"></a>BEA 
+    WebLogic</b></font> </font></p>
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The following 
+    sections contain specific information on installing P6Spy on</font> <a href="install.htm#wlportal">BEA 
+    WebLogic Portal 4.0</a>, <a href="install.htm#wlserver">BEA WebLogic Server 
+    6.1</a>, and <a href="install.htm#weblogic5">BEA WebLogic 5.1</a>.</p>
+</div>
+<blockquote> 
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="wlportal"></a>BEA 
+    WebLogic Portal 4.0</b></font></font></div>
+</blockquote>
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
         <p><font face="Verdana, Arial, Helvetica, sans-serif"><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
           by Philip Ogren, BEA)</i></font></font> 
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">These instructions 
@@ -383,19 +436,19 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Sybase 
             jConnect-5_2 driver. </font> 
         </ul>
-        <font face="Verdana, Arial, Helvetica, sans-serif" size="2">The default 
-        Stockportal ('Avitek') application is used in this example. <b>Cloudscape</b> 
-        does <b>not</b> work with P6Spy and WebLogic Portal. (Note, Cloudscape 
-        <b>does</b><i> </i>work with P6Spy when using the J2EE reference implementation 
-        server - the following suggestion [not yet tested] was submitted by Adrian 
-        Fletcher: &quot;I may be wrong but I suspect the problem with Cloudscape 
-        and Weblogic is that both drivers end up registered against the same URL. 
-        I seem to remember that the best trick for avoiding this is mangling the 
-        URL. If you instruct users to prepend &quot;p6spy:&quot; to their url 
-        and then remove it in your wrapper, it should work in more cases.&quot; 
-        You can do this with the useprefix option. If anyone has an opportunity 
-        to validate this, please drop me a line with updated information.)</font> 
-        <ol>
+        
+  <font face="Verdana, Arial, Helvetica, sans-serif" size="2">The default Stockportal 
+  ('Avitek') application is used in this example. <b>Cloudscape</b> does <b>not</b> 
+  work with P6Spy and WebLogic Portal. (Note, Cloudscape <b>does</b><i> </i>work 
+  with P6Spy when using the J2EE reference implementation server - the following 
+  suggestion [not yet tested] was submitted by Adrian Fletcher: &quot;I may be 
+  wrong but I suspect the problem with Cloudscape and Weblogic is that both drivers 
+  end up registered against the same URL. I seem to remember that the best trick 
+  for avoiding this is mangling the URL. If you instruct users to prepend &quot;p6spy:&quot; 
+  to their url and then remove it in your wrapped file, it should work in more 
+  cases.&quot; You can do this with the useprefix option. If anyone has an opportunity 
+  to validate this, please drop me a line with updated information.)</font> 
+  <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file to a temporary 
             directory. This contains the files: p6spy.jar, spy.properties</font></li>
@@ -418,8 +471,9 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Open 
             <code>&lt;bea-home&gt;\wlportal4.0\config\portalDomain\startPortal.bat</code> 
             for edit. </b> Add <code>;%P13N_DIR%\config\portalDomain</code> to 
-            the classpath near the bottom of the file. This puts spy.properties in the classpath. Be sure there are no trailing spaces 
-            on the end of this line. </font> 
+            the classpath near the bottom of the file. This puts spy.properties 
+            in the classpath. Be sure there are no trailing spaces on the end 
+            of this line. </font> 
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
             WebLogic Portal to use the P6Spy driver. </b>&nbsp; This can be done 
             through the Administration Console or by modifying <code>&lt;bea-home&gt;\wlportal4.0\config\portalDomain\config.xml</code>. 
@@ -448,8 +502,13 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
             property set in <code>spy.properties</code>. The default location 
             is <code>&lt;bea-home&gt;\wlportal4.0</code>. </font> 
         </ol>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="wlserver"></a> 
-          WebLogic Server 6.1 Installation</b></font></p>
+        
+        </font></div>
+      <blockquote> 
+        <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="wlserver"></a> 
+          BEA WebLogic Server 6.1</b></font></font></div>
+      </blockquote>
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
           by Philip Ogren, BEA)</i> </font> 
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The instructions 
@@ -502,8 +561,12 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
             property set in <code>spy.properties</code>. The default location 
             is <code>&lt;bea-home&gt;\wlserver6.1. </code> </font> 
         </ol>
-        <p><a name="weblogic"></a><b><font face="Verdana, Arial, Helvetica, sans-serif" size="+1">WebLogic 
-          5.1 Instructions </font></b> </p>
+        </font></div>
+      <blockquote> 
+        <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a name="weblogic5"></a><b><font face="Verdana, Arial, Helvetica, sans-serif" size="+1">BEA 
+          WebLogic 5.1</font></b> </font></div>
+      </blockquote>
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Posted 
           by Richard Delbert on April 10, 2002 on TheServerSide.com)</i> </font> 
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">These 
@@ -532,18 +595,18 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
             the log file.</b>&nbsp; The log file contains a list of all of the 
             database statements that are executed. You can change the location 
             of this file and the nature of its content by using the spy property 
-            file (see <a href="#property">Property File Settings</a>)</font></li>
+            file (see <a href="other.htm">Common Property File Settings</a>)</font></li>
         </ol>
-        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="atg"></a>ATG 
-          Installation</b></font></p>
+        
+  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="atg"></a>ATG 
+    Dynamo</b></font></p>
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">These instructions 
           have been tested with ATG Dynamo 5.1.</font></p>
         <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
             the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
-            contains the files: p6spy.jar, spy.properties. Copy 
-            them to a directory. For this example, we will copy both files to 
-            c:\p6spy</font></li>
+            contains the files: p6spy.jar, spy.properties. Copy them to a directory. 
+            For this example, we will copy both files to c:\p6spy</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Start 
             the ATG Dynamo server.</b> Start the ATG application server and your 
             database.</font></li>
@@ -630,10 +693,10 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
             your application and view the logs. </b>By default the spy.log file 
             is written to C:\ATG\Dynamo5.1\home - you can change the location 
             of this file by specifying a location using the property file (see 
-            <a href="#property">Property File Settings</a>).</font></li>
+            <a href="other.htm">Common Property File Settings</a>).</font></li>
         </ol>
-        <p><a name="iplanet"></a><b><font face="Verdana, Arial, Helvetica, sans-serif" size="+1">iPlanet 
-          Instructions </font></b> </p>
+        <p><a name="iplanet"></a><b><font face="Verdana, Arial, Helvetica, sans-serif" size="+1">iPlanet</font></b> 
+        </p>
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
           by Michael Sgroi)</i></font> 
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">The following 
@@ -659,7 +722,7 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
             </font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Configure 
             P6SPy.</b> To tell P6Spy about your real database driver, register 
-            your DataSource by running the follwoing command line executable...<br>
+            your DataSource by running the following command line executable...<br>
             </font> 
             <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>iasdeploy 
               regdatasource -user &lt;iPlanet admin username&gt; -password &lt;iPlanet 
@@ -686,10 +749,57 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
               &lt;Config file name&gt; see the iPlanet docs</font></p>
           </li>
         </ol>
+        </font></div>
+      <div align="left"> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="unspec"></a>Unspecified 
+          Application Server</b></font></font></p>
+      </div>
+      <ol>
+        <li>
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
+            the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
+            contains two files: p6spy.jar and spy.properties</font></div>
+        </li>
+        <li>
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
+            the p6spy.jar file in your classpath.</b> Either copy the p6spy.jar 
+            file into your ext direction (if you are using and EJB server it probably 
+            has its own ext directory, if you are not, then you probably want 
+            to use the JDK ext directory which is JDK_HOME/jre/lib/ext) or add 
+            p6spy.jar to your classpath.&nbsp;&nbsp;Remember that if you are adding 
+            p6spy.jar to your classpath, you must reference the jar filename directly.&nbsp;&nbsp;In 
+            Windows, for example, it might look like: CLASSPATH=c:\p6spy\p6spy.jar.&nbsp;&nbsp;Note 
+            that if you are using an EJB server, adding the p6spy.jar file to 
+            your classpath may not work.&nbsp;&nbsp;Some EJB servers ignore the 
+            classpath and set their own when they start up.</font></div>
+        </li>
+        <li>
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Put 
+            spy.properties in your classpath.</b> Copy spy.properties into a directory 
+            listed in your classpath.&nbsp;&nbsp;For example, if your classpath 
+            is C:\p6spy\p6spy.jar;c:\java you can copy it to the java directory.&nbsp;&nbsp;Unlike 
+            jar files, you do not directly reference your property file in the 
+            classpath.</font></div>
+        </li>
+        <li>
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
+            your application or server to use the P6Spy database driver.</b> P6Spy 
+            support applications that use DriverManager or a Datasource to obtain 
+            a database connection. If you are unsure which method your application 
+            uses to obtain a connection, look for specific instructions for your 
+            application server below, or try the DriverManager instructions first.</font></div>
+        </li>
+      </ol>
+      <div align="left">
+        
+      </div>
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="issues"></a>Known 
           Issues </b></font></p>
-        <ol>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Non-standard 
+        </font></div>
+      <ul>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Non-standard 
             (driver specific) JDBC methods are not supported without using a workaround.&nbsp;&nbsp;</b>Many 
             drivers provide methods that expose driver specific, non-standard 
             functionality. Most developers do not use these features, but in the 
@@ -712,43 +822,64 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
             (Oracle or MySQL for example) of P6Spy that would subclass the vendor 
             driver, so that a cast could be successfully executed, and they would 
             expose the vendor specific methods. However, this is not yet under 
-            development, and other suggestions are welcome.</font></li>
-        </ol>
+            development, and other suggestions are welcome.</font></font></div>
+        </li>
+      </ul>
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="trouble"></a>Troubleshooting</b></font></p>
-        <ol>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Application 
+        </font></div>
+      <ul>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Application 
             server does not start properly.&nbsp;&nbsp;</b>This is probably because 
             the p6spy.jar or spy.properties is not in the classpath.&nbsp;&nbsp;In 
-            the case of JBoss look at the JBoss log file for clues</font>: 
-            <blockquote> 
-              <p><font size="2" face="Arial, Helvetica, sans-serif">[JDBC provider] 
-                Initializing<br>
-                [Service Control] Could not initialize DefaultDomain:service=JdbcProvider</font></p>
-            </blockquote>
-            <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If 
-              you see a message like the above message, that most likely means 
-              the jar file cannot be found.&nbsp;&nbsp;Otherwise you may see that 
-              the driver is loaded, but the message will say the spy.properties 
-              file is not found, and will list all of the directories it looked 
-              in for that file. If that is the case, move the spy.properties file 
-              to one of the directories listed.</font></p>
-          </li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>You 
+            the case of JBoss look at the JBoss log file for clues</font>: </font></div>
+        </li>
+        <blockquote> 
+          <blockquote> 
+            <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font size="2" face="Arial, Helvetica, sans-serif">[JDBC 
+              provider] Initializing<br>
+              [Service Control] Could not initialize DefaultDomain:service=JdbcProvider</font></font></div>
+          </blockquote>
+        </blockquote>
+      </ul>
+      <blockquote> 
+        <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If 
+          you see a message like the above message, that most likely means the 
+          jar file cannot be found.&nbsp;&nbsp;Otherwise you may see that the 
+          driver is loaded, but the message will say the spy.properties file is 
+          not found, and will list all of the directories it looked in for that 
+          file. If that is the case, move the spy.properties file to one of the 
+          directories listed.</font></font></div>
+      </blockquote>
+      <ul>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>You 
             see a message stating the spy.properties cannot be found.&nbsp;&nbsp;</b>Often 
             application servers have their own classpath and ignore the standard 
             java classpath. Make sure spy.properties is in the classpath that 
             is listed in the error message stating spy.properties cannot be found, 
             this is the classpath that p6spy is searching. If you still have problems, 
             try using the -Dp6.home option to specify where you have placed the 
-            spy.properties file. E.g. java -Dp6.home=c:\orion\lib<br>
-            </font></li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
+            spy.properties file. E.g. java -Dp6.home=c:\orion\lib</font></font></div>
+        </li>
+      </ul>
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+        </font></font></div>
+      <ul>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
             spy.log file is not written.&nbsp;&nbsp;</b>Try searching your entire 
             drive for spy.log, you may find it in a strange place. Remember, you 
             can specify the default location using the spy.properties property 
-            file.</font><br>
-          </li>
-          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
+            file.</font></font></div>
+        </li>
+      </ul>
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+        </font></div>
+      <ul>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The 
             spy.log file is written, but nothing is being logged.&nbsp; </b>P6Spy 
             has the ability to print debug statements that are very useful in 
             determining why the driver is not working. To turn on these statements, 
@@ -758,22 +889,27 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
             in your spy.properties file and put p6spy: as a prefix for your connection 
             URL for the p6spy driver in your application server configuration. 
             This will cause P6Spy to fail if the prefix is not present and will 
-            assure the configuration is as expected.</font><br>
-          </li>
-          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy 
+            assure the configuration is as expected.</font></font></div>
+        </li>
+      </ul>
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+        </font></div>
+      <ul>
+        <li> 
+          <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy 
             was invoked illegally. You probably specified an illegal P6Spy driver 
             in your application configuration. </font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
             You most likely got this message because you did not specify com.p6spy.engine.spy.SpyDriver 
             as the driver to register in your application configuration, you specified 
-            another class that extends P6SpyDriver, which is illegal.</font></li>
-        </ol>
-      </font></div>
-	<!-- #EndEditable -->
-	  </td>
-  </tr>
-</table>
+            another class that extends P6SpyDriver, which is illegal.</font></font></div>
+        </li>
+      </ul>
+      <!-- #EndEditable --> 
 <br>
-<table width="100%" border="0">
+<table width="100%" border="0" bgcolor="black">
+<tr>
+<td>
+<table width="580" border="0">
   <tr> 
     <td width="11%"><a href="http://www.p6spy.com"><img src="http://www.p6spy.com/documentation/images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
     <td width="11%"><a href="http://www.p6spy.com/documentation/index.htm"><img src="http://www.p6spy.com/documentation/images/index.gif" width="110" height="20" border="0"></a></td>
@@ -782,6 +918,9 @@ C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
     <td width="11%"><a href="http://www.p6spy.com/documentation/p6outage.htm"><img src="http://www.p6spy.com/documentation/images/p6outage.gif" width="110" height="20" border="0"></a></td>
     <td width="38%">&nbsp;</td>
   </tr>
+</table>
+</td>
+</tr>
 </table>
 </body>
 <!-- #EndTemplate --></html>
