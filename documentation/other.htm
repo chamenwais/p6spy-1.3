@@ -118,7 +118,7 @@
         dateformat=</p>
       <p>#list of categories to explicitly include<br>
         includecategories=</p>
-      <p>#list of categories to exclude: info, batch, debug, statement,<br>
+      <p>#list of categories to exclude: error, info, batch, debug, statement,<br>
         #commit, rollback and result are valid values<br>
         excludecategories=info,debug,result,batch</p>
       <p>#allows you to use a regex engine or your own matching engine to determine 
@@ -346,6 +346,8 @@
         category information that describes the type of statement. This property 
         excludes the listed categories. Valid options include:</font></p>
       <ul>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>error</strong> 
+          includes P6Spy errors. It is recommended you do not exclude this category</font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>info</strong> 
           includes driver startup information and property file information </font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>debug 
@@ -446,10 +448,8 @@
           .next() on the ResultSet, each .next() call is recorded in the result 
           category.</font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>Category</i>. 
-          Currently there are three categories: debug (debug statements related 
-          to p6spy), statement (statement, preparedStatement, and CallableStatement) 
-          and result (ResultSet). You can manage your log by including and excluding 
-          categories, which is described below. </font></li>
+          You can manage your log by including and excluding categories, which 
+          is described above. </font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>Statement 
           SQL String</i>. This is the SQL string passed to the statement object. 
           If it is a prepared statement, it will be the prepared statement prior 
