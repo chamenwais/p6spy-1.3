@@ -1,7 +1,7 @@
 <html><!-- #BeginTemplate "/Templates/spydocs.dwt" --><!-- DW6 -->
 <head>
 <!-- #BeginEditable "doctitle" --> 
-<title>Untitled Document</title>
+<title>Installation</title>
 <!-- #EndEditable -->
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
@@ -134,6 +134,65 @@
             your application.</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;&nbsp;A 
             spy.log file will be generated in the bin directory of the JBoss server 
             such as: C:\JBoss-2.2.2_Tomcat-3.2.2\jboss\bin </font></li>
+          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>View 
+            the log file.</b> &nbsp;The log file contains a list of all of the 
+            database statements that are executed.</font></li>
+        </ol>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss3"></a>JBoss 
+          3.x Installation</b></font></p>
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
+          by Alan Arvesen, IronGrid)</i> </font> 
+        <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">These instructions 
+          have been tested on JBoss 3.0.4 with Jetty integration. For these instructions, I am assuming that you are using the "default" server located under <code>%JBOSS_DIST%/server/default</code>.  Also, these instructions are for wrapping driver services and not XADataSource services.</font></p>
+        <ol>
+          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip 
+            the distribution. </b>Unjar the p6spy-install.jar file.&nbsp;&nbsp;This 
+            contains the files: p6spy.jar, spy.properties, and spy.forms</font></li>
+          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>
+	  Put the p6spy.jar file in the lib directory of the server you wish to run.</b> For example: <code>C:\java\jboss-3.0.4\server\default\lib</code></font></li>
+          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>
+	  Put spy.properties and spy.forms in your JBoss classpath.</b> By default, the JBoss classpath setup by run.bat only points to tools.jar and run.jar.  <B>You might need to add a directory, via JBOSS_CLASSPATH, to this path.</B> For example:
+	    <P>
+	    <pre>
+C:\&gt; set JBOSS_CLASSPATH=C:\java\jboss-3.0.4\server\default\db
+C:\&gt; copy C:\java\p6spy\spy.* C:\java\jboss-3.0.4\server\default\db
+	    </pre> 
+	  </font>
+	  </li>
+
+          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Create a p6spy-service.xml file in %server%\deploy, or modify an existing *-service.xml.</b>&nbsp;
+	  Create a p6spy file based off of one of the samples in the <code>%JBOSS_DIST%\docs\examples\jca</code> directory.  I hacked up a copy of the mysql-service.xml.  Be sure to keep it named <i>something</I>-service.xml, otherwise JBoss will not deploy it properly.<br>
+	  &nbsp;&nbsp;&nbsp;Alternatively, and perhaps better, just modify the <I>whatever</I>-service.xml file for the URL/jdbc combination that you wish to wrap, e.g. <code>oracle-service.xml</code>.<BR>
+	  &nbsp;&nbsp;&nbsp;The important pieces of information here are the jndiname, the ConnectionURL, and the DriverClass.  If you are modifying an existing service, simply change the DriverClass to be the P6SpyDriver.  Here is what mine looks like:
+	  <P>
+	  <pre>
+&lt;attribute name="JndiName"&gt;MySqlDS&lt;/attribute&gt;
+
+&lt;attribute name="ManagedConnectionFactoryProperties"&gt;
+  &lt;properties&gt;
+    &lt;config-property name="ConnectionURL" 
+	type="java.lang.String"&gt;jdbc:mysql://localhost/localdb&lt;/config-property&gt;
+    &lt;config-property name="DriverClass" 
+	type="java.lang.String"&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/config-property&gt;
+    (etc...)
+	  </pre>
+	  <BR>
+	  One other important caveat:  you must make sure that there is no longer a service the explictly loads the driver you are wrapping (in this case, the mysql driver).  Otherwise JBoss will likely load the other driver "before" p6spy and you will not get wrapped connections.
+
+          <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
+            P6Spy about your real database driver.</b> &nbsp;Modify the spy.properties 
+            file and change the realdriver line to reflect your real database 
+            driver.&nbsp;&nbsp;For example: <code>realdriver=org.gjt.mm.mysql.Driver</code></font></li>
+          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
+            is complete.&nbsp;&nbsp;</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">There 
+            is nothing else to change. You leave your connect string, username, 
+            password and other attributes exactly as they were before you installed 
+            P6Spy, the P6Spy driver does all of the work required to pass this 
+            information along to your real database driver.</font></li>
+          <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Run 
+            your application.</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;&nbsp;A 
+            spy.log file will be generated in the bin directory of the JBoss server 
+            such as: <code>C:\java\jboss-3.0.4\bin</code> </font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>View 
             the log file.</b> &nbsp;The log file contains a list of all of the 
             database statements that are executed.</font></li>
