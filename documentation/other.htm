@@ -186,257 +186,284 @@ log4j.logger.p6spy=INFO,STDOUT
 </font>
 </pre>
 <p> <b><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
-  </font></b> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>module.xxx</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module.xxx is the 
-  name of a particular module to be loaded at system startup. A module contains 
-  a group of functionality. If a module line is not commented out, it is loaded 
-  into memory, and will remain in memory until the application is restarted. Modules 
-  can not be changed by using the reloadproperties function. If all modules are 
-  commented out, then nothing except the real database driver is loaded.</font></p>
+  </font></b> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>module.xxx</u></b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>module.xxx </b>is 
+  a particular module loaded at system startup. A module contains a group of functionality. 
+  If a module line is not commented out, it is loaded into memory, and will remain 
+  in memory until the application is restarted. Modules can not be changed by 
+  using the <b>reloadproperties</b> function. If all modules are commented out, 
+  then nothing except the real database driver is loaded.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Currently the following 
   modules are supported:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module.log=com.p6spy.engine.logging.P6LogSpyDriver<br>
-  module.outage=com.p6spy.engine.outage.P6OutageSpyDriver</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module.log is required 
-  for the logging functionality, see P6Log.<br>
-  module.outage is required for the outage functionality, see P6Outage.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver is where 
-  you specify the real database driver that you use.&nbsp;&nbsp;P6Spy wraps around 
-  your existing driver, intercepts the incoming database requests, and outputs 
-  them to a log file.&nbsp;&nbsp;To achieve this without requiring any code changes, 
-  the P6Spy driver is listed with your application as the primary driver.&nbsp;&nbsp;P6Spy 
-  then intercepts and logs the requests, and passes the request to the realdriver 
-  where it is processed as usual.&nbsp;&nbsp;Example:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver = oracle.jdbc.driver.OracleDriver</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver2, 
-  realdriver3 </b></font></p>
-<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">if you have multiple 
-  database drivers then you need a way to specify these drivers. This is where 
-  realdriver2 and realdriver3 are used.</font></p>
-<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Note that if you 
-  are using the same database driver with multiple connection strings, you only 
-  need to specify the driver once. E.g. say you have two MySQL databses: mydb 
-  and testdb. You want to connect to both databases and log their activity. You 
-  have two datasources defined. You should specify com.p6spy.engine.spy.P6SpyDriver 
-  as the database driver for both of these and you should set the realdriver= 
-  the real mysql JDBC driver name. realdriver2, realdriver3 are only intended 
-  for use when you are connecting with two different drivers, for example Oracle 
-  versus MySQL.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>filter, include, 
-  exclude </b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy lets you 
-  monitor specific tables or specific statement types.&nbsp;&nbsp;By setting filter=true 
+<blockquote> 
+  <p><font face="Courier New, Courier, mono" size="2">module.log=com.p6spy.engine.logging.P6LogSpyDriver<br>
+    module.outage=com.p6spy.engine.outage.P6OutageSpyDriver</font></p>
+</blockquote>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>module.log</b> 
+  is required for the logging functionality, see <a href="p6modules.htm#p6log">P6Log</a>.<br>
+  <b>module.outage</b> is required for the outage functionality, see <a href="p6modules.htm#p6outage">P6Outage</a>.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>realdriver</u></b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver</b> 
+  is where you specify the real database driver to be used.&nbsp;&nbsp;P6Spy wraps 
+  around your existing driver, intercepts the incoming database requests, and 
+  outputs them to a log file.&nbsp;To achieve this without requiring any code 
+  changes, the P6Spy driver is listed with your application as the primary driver.&nbsp;P6Spy 
+  then intercepts and logs the requests, and passes the requests to <b>realdriver,</b> 
+  where it is processed as usual.&nbsp;&nbsp;An example follows:</font></p>
+<blockquote> 
+  <p><font face="Courier New, Courier, mono" size="2">realdriver = oracle.jdbc.driver.OracleDriver</font></p>
+</blockquote>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>realdriver2, 
+  realdriver3</u> </b></font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">If you have multiple 
+  database drivers, you need a way to specify these drivers. This is how <b>realdriver2</b> 
+  and <b>realdriver3</b> are used. If you are using the same database driver with 
+  multiple connection strings, you only need to specify the driver once. For example, 
+  if you have two MySQL databases, mydb and testdb, you want to connect to both 
+  databases and log their activity. Specify <b>com.p6spy.engine.spy.P6SpyDriver</b> 
+  as the database driver for both of these and set realdriver to the real mysql 
+  JDBC driver name. <b>realdriver2</b>, <b>realdriver3</b> are only intended for 
+  use when you are connecting with two different drivers, for example Oracle versus 
+  MySQL.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>filter, include, 
+  exclude </u></b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy allows you 
+  to monitor specific tables or specific statement types.&nbsp;By setting <b>filter=true</b>, 
   P6Spy will perform string matching on each statement to determine if it should 
-  be written to the log file.&nbsp;&nbsp;include accepts a comma separated list 
-  of expressions which are required to be appear in a statement before it can 
-  appear in the log, exclude accepts a comma separated list to exclude. By default 
-  string matching is performed using a basic substring match. However Regex matching 
-  can also be used (see Custom Filtering below). Note that exclusion overrides 
+  be written to the log file.&nbsp;&nbsp;include accepts a comma-delimited list 
+  of expressions which are required to appear in a statement before it can appear 
+  in the log. exclude accepts a comma-delimited list to exclude. By default, string 
+  matching is performed using a basic substring match. However, <font color="#CC3333">Regex</font> 
+  matching can also be used (see Custom Filtering below). Exclusion overrides 
   inclusion, so that a statement matching both an include string and an exclude 
   string will be excluded. </font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">example (capture 
-  all select statements except the orders table):</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">filter = true<br>
-  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># comma separated 
-  list of tables to include<br>
-  include = select<br>
-  # comma separated list of tables to exclude<br>
-  exclude = orders</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">example (only captures 
-  statements against order,order_details,price, and price_history):</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">filter = true<br>
-  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># comma separated 
-  list of tables to include<br>
-  include = order,order_details,price,price_history<br>
-  # comma separated list of tables to exclude<br>
-  exclude =</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">example (captures 
-  all statements except statements against the order table):</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">filter = false<br>
-  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># comma separated 
-  list of tables to include<br>
-  include = <br>
-  # comma separated list of tables to exclude<br>
-  exclude = order</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>filter, sqlexpression</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An example showing 
+  capture of all select statements, except the orders table follows:</font></p>
+<blockquote> 
+  <p><font face="Courier New, Courier, mono" size="2">filter = true<br>
+    # comma separated list of tables to include<br>
+    include = select<br>
+    # comma separated list of tables to exclude<br>
+    exclude = orders</font></p>
+</blockquote>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An example showing 
+  only capture statements against order, order_details, price, and price_history 
+  follows:</font></p>
+<blockquote> 
+  <p><font face="Courier New, Courier, mono" size="2">filter = true<br>
+    # comma separated list of tables to include<br>
+    include = order,order_details,price,price_history<br>
+    # comma separated list of tables to exclude<br>
+    exclude =</font></p>
+</blockquote>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An example showing 
+  the capture of all statements, except statements against the order table follows:</font></p>
+<blockquote> 
+  <p><font face="Courier New, Courier, mono" size="2">filter = false<br>
+    # comma separated list of tables to include<br>
+    include = <br>
+    # comma separated list of tables to exclude<br>
+    exclude = order</font></p>
+</blockquote>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>filter, sqlexpression</u></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If you plan on 
-  using a regex engine, a simple alternative to exclude and include is to use 
-  sqlexpression. It works like this:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">filter = true<br>
-  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">sqlexpression 
-  = your expression</font></p>
+  using a <font color="#CC3333">regex</font> engine, a simple alternative to <b>exclude</b> 
+  and <b>include</b> is to use <b>sqlexpression</b>. An example follows:</font></p>
+<p><font face="Courier New, Courier, mono" size="2">filter = true<br>
+  sqlexpression = your expression</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If your expression 
-  matches the SQL string, it is logged, if not, it is not. Note, if you use sqlexpression, 
-  any values set in include and exclude are ignored.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>stringmatcher 
-  (Custom Filtering)</b></font></p>
+  matches the SQL string, it is logged. If the expression does not match, it is 
+  not logged. Note, if you use <b>sqlexpression</b>, any values set in <b>include</b> 
+  and <b>exclude</b> are ignored.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>stringmatcher 
+  (Custom Filtering)</u></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> If you want to 
   apply more intelligence to what is logged or not logged by P6Spy you can specify 
-  a custom matching engine. P6Spy comes with support for several regex engines, 
-  though it is trivial to introduce another engine by implementing the StringMatcher 
-  interface. If a stringmatcher engine is specified, P6Spy will pass each statement 
-  to the class specified to determine if that statement should be logged.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>Using GNU RegEx<br>
-  </i></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy 
-  comes with support for a regular expression matcher based on the GNU Regex library. 
-  To use this, for example, you would specify:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># Use GNU Regex 
-  Matching for Filtering<br>
-  stringmatcher =com.p6spy.engine.common.GnuRegexMatcher<br>
-  <br>
-  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Note that 
-  in order to do this you must <a href="http://www.cacas.org/java/gnu/regexp/">download</a> 
-  the GNU Java regex library and add it to your classpath so that P6Spy can find 
-  it. <br>
-  <i><br>
-  </i> <i>Using Jakarta RegEx<br>
-  </i>P6Spy also includes support for the Apache Jakarta Regex library. To use 
-  this, you would specify:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># Use Apache Jakarta 
-  Regex Matching for Filtering<br>
-  stringmatcher =com.p6spy.engine.common.JakartaRegexMatcher<br>
-  <br>
-  Note that in order to do this you must <a href="http://jakarta.apache.org/builds/jakarta-regexp/">download</a> 
-  the Apache Jarkarta regex library and add it to your classpath so that P6Spy 
-  can find it.</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-  </font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>autoflush</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">For standard development 
-  this value should be set to true. &nbsp;When set to true every time a statement 
-  is intercepted it is immediately written to the log file.&nbsp;&nbsp;In some 
-  cases, however, instant feedback on every statement is not a requirement, and 
-  the system will perform slightly faster with this value set to false</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
+  a custom matching engine. P6Spy comes with support for several <font color="#CC3333">regex</font> 
+  engines, though it is trivial to introduce another engine by implementing the 
+  <b>stringmatcher</b> interface. If a stringmatcher engine is specified, P6Spy 
+  will pass each statement to the class specified to determine if that statement 
+  should be logged.</font></p>
+<ul>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#CC3333">Using 
+    GNU RegEx</font><i><font color="#CC3333"><br>
+    </font></i></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC3333">P6Spy 
+    comes with support for a regular expression matcher based on the GNU Regex 
+    library.</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+    In order to do this, <a href="http://www.cacas.org/java/gnu/regexp/">download</a> 
+    the GNU Java regex library and add it to your classpath so that P6Spy can 
+    find it. The following is an example of the implementation:</font> 
+    <p><font face="Courier New, Courier, mono" size="2"># Use GNU Regex Matching 
+      for Filtering<br>
+      stringmatcher =com.p6spy.engine.common.GnuRegexMatcher</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
+      </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
+      </font></p>
+  </li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Using Jakarta 
+    RegEx<i><br>
+    </i>P6Spy also includes support for the Apache Jakarta Regex library. In order 
+    to do this, <a href="http://jakarta.apache.org/builds/jakarta-regexp/">download</a> 
+    the Apache Jarkarta regex library and add it to your classpath so that P6Spy 
+    can find it.</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+    </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The following 
+    is an example of the implementation:</font> 
+    <p><font face="Courier New, Courier, mono" size="2"># Use Apache Jakarta Regex 
+      Matching for Filtering<br>
+      stringmatcher =com.p6spy.engine.common.JakartaRegexMatcher</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
+      <br>
+      </font></p>
+  </li>
+</ul>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>autoflush</u></b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">For standard development, 
+  the <b>autoflush</b> value should be set to true. When set to true, every time 
+  a statement is intercepted, it is immediately written to the log file.&nbsp;In 
+  some cases, however, instant feedback on every statement is not a requirement. 
+  In those cases, the system will perform slightly faster with <b>autoflush</b> 
+  set to false</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An example follows:</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">autoflush = true<br>
   <b><br>
-  </b> </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><a name="appender"></a>appender</b></font></p>
+  </b> <b><a name="appender"></a><u>appender</u></b></font></p>
 <p><font face="Arial, Helvetica, sans-serif" size="2">Appenders allow you to specify 
   where and how log information is output. Appenders are a flexible architecture 
   allowing anyone to write their own output class for P6Spy. To use an appender, 
   specify the classname of the appender to use. The current release comes with 
-  three optionswhich are log4j, stdout, and logging to a csv text file (default).</font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif"><em>Using CSV File (default)</em></font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif">To output to a file, uncomment 
-  the FileLogger appender and specify a logfile and whether or not to append to 
-  the file or clear the file each time: </font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif">#appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
-  #appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
-  appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif"># name of logfile to use, 
-  note Windows users should make sure to use forward slashes in their pathname(e:/test/spy.log) 
-  (used for file logger only)<br>
-  logfile = spy.log</font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif"># append to the p6spy log 
-  file. if this is set to false the<br>
-  # log file is truncated every time. (file logger only)<br>
-  append=true</font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif"><em>Using StdOut</em></font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif">Uncomment the StdoutLogger 
-  as follows and all output will be sent to stdout in a CSV format:</font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif">#appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
-  appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
-  #appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
-<p><font face="Arial, Helvetica, sans-serif" size="2"><em>Using Log4J</em></font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif">To output to log4j, make 
-  sure log4j is in your path, uncomment the log4j appender, and specify the desired 
-  log4j settings:</font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif">appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
-  #appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
-  # appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif">#The following are for log4j 
-  logging only<br>
-  log4j.appender.STDOUT=org.apache.log4j.ConsoleAppender<br>
-  log4j.appender.STDOUT.layout=org.apache.log4j.PatternLayout<br>
-  log4j.appender.STDOUT.layout.ConversionPattern=p6spy - %m%n</font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif">#log4j.appender.CHAINSAW_CLIENT=org.apache.log4j.net.SocketAppender<br>
-  #log4j.appender.CHAINSAW_CLIENT.RemoteHost=localhost<br>
-  #log4j.appender.CHAINSAW_CLIENT.Port=4445<br>
-  #log4j.appender.CHAINSAW_CLIENT.LocationInfo=true</font></p>
-<p><font size="2" face="Arial, Helvetica, sans-serif">log4j.logger.p6spy=INFO,STDOUT</font></p>
-<p><font face="Arial, Helvetica, sans-serif" size="2">If for some reason log4j 
-  cannot be initialized, the logging will go to a file called log4jaux.log</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>excludecategories</b></font></p>
+  three options which are log4j, stdout, and logging to a CSV text file (default).</font></p>
+<ul>
+  <li><font size="2" face="Arial, Helvetica, sans-serif">Using CSV File (default)</font> 
+    <p><font size="2" face="Arial, Helvetica, sans-serif">To output to a file, 
+      uncomment the <b>FileLogger</b> appender and specify a <b>logfile</b> and 
+      whether or not to append to the file or to clear the file each time: </font></p>
+    <p><font size="2" face="Courier New, Courier, mono">#appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
+      #appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
+      appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
+    <p><font size="2" face="Courier New, Courier, mono"># name of logfile to use, 
+      note Windows users should make sure to use forward slashes in their pathname(e:/test/spy.log) 
+      (used for file logger only)<br>
+      logfile = spy.log</font></p>
+    <p><font size="2" face="Courier New, Courier, mono"># append to the p6spy 
+      log file. if this is set to false the<br>
+      # log file is truncated every time. (file logger only)<br>
+      append=true</font></p>
+  </li>
+  <li><font size="2" face="Arial, Helvetica, sans-serif">Using StdOut</font>
+    <p><font size="2" face="Arial, Helvetica, sans-serif">Uncomment the <b>StdoutLogger</b> 
+      as follows and all output will be sent to stdout in a CSV format:</font></p>
+    <p><font size="2" face="Courier New, Courier, mono">#appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
+      appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
+      #appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
+  </li>
+  <li><font face="Arial, Helvetica, sans-serif" size="2">Using Log4J</font> 
+    <p><font size="2" face="Arial, Helvetica, sans-serif">To output to <b>log4j</b>, 
+      make sure <b>log4j</b> is in your path, uncomment the log4j appender, and 
+      specify the desired <b>log4j</b> settings:</font></p>
+    <p><font size="2" face="Arial, Helvetica, sans-serif">appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
+      #appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
+      # appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
+    <p><font size="2" face="Arial, Helvetica, sans-serif">#The following are for 
+      log4j logging only<br>
+      log4j.appender.STDOUT=org.apache.log4j.ConsoleAppender<br>
+      log4j.appender.STDOUT.layout=org.apache.log4j.PatternLayout<br>
+      log4j.appender.STDOUT.layout.ConversionPattern=p6spy - %m%n</font></p>
+    <p><font size="2" face="Arial, Helvetica, sans-serif">#log4j.appender.CHAINSAW_CLIENT=org.apache.log4j.net.SocketAppender<br>
+      #log4j.appender.CHAINSAW_CLIENT.RemoteHost=localhost<br>
+      #log4j.appender.CHAINSAW_CLIENT.Port=4445<br>
+      #log4j.appender.CHAINSAW_CLIENT.LocationInfo=true</font></p>
+    <p><font size="2" face="Arial, Helvetica, sans-serif">log4j.logger.p6spy=INFO,STDOUT</font></p>
+    <p><font face="Arial, Helvetica, sans-serif" size="2">If for some reason log4j 
+      cannot be initialized, the logging will go to a file called <b>log4jaux.log</b>.</font></p>
+  </li>
+</ul>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>excludecategories</u></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The log includes 
   category information that describes the type of statement. This property excludes 
-  the listed categories. Valid options include:</font></p>
+  the listed categories. Valid options include the following:</font></p>
 <ul>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>error</strong> 
-    includes P6Spy errors. It is recommended you do not exclude this category</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>info</strong> 
-    includes driver startup information and property file information </font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>debug 
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><strong>error</strong> 
+    includes P6Spy errors. It is recommended you do not exclude this category.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><strong>info</strong> 
+    includes driver startup information and property file information. </font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><strong>debug 
     </strong>is only intended for use when you cannot get your driver to work 
-    properly, it dumps out everything</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>statement 
-    </strong> includes Statements, PreparedStatements, and CallableStatements<strong> 
+    properly. It writes everything.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><strong>statement 
+    </strong> includes <b>Statements</b>, <b>PreparedStatements</b>, and <b>CallableStatements</b>.<strong> 
     </strong></font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>batch</strong> 
-    addBatch() calls</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>commit</strong> 
-    commit() calls</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>rollback</strong> 
-    rollaback() calls</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>result</strong> 
-    are statements generated by ResultSet</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong>batch</strong> 
+    addBatch() calls.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong>commit</strong> 
+    commit() calls.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong>rollback</strong> 
+    rollback() calls.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong><font color="#000000">result</font></strong><font color="#000000"> 
+    are statements generated by <b>ResultSet</b>.</font></font></li>
 </ul>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Enter a comma separated 
-  list of categories to exclude from your log file. See filter,include,exclude 
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Enter a comma-delimited 
+  list of categories to exclude from your log file. See <b>filter</b>,<b>include</b>,<b>exclude</b> 
   for more details on how this process works.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>includecategories</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The log includes 
-  category information that describes the type of statement. This property is 
-  a comma separated list of categories to include. See excludecategories for a 
-  valid list of categories.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>dateformat</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>includecategories</u></b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>includecategories</b> 
+  includes category information that describes the type of statement. This property 
+  is a comma-delimited list of categories to include. See <b>excludecategories</b> 
+  for a valid list of categories.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>dateformat</u></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting a value 
-  for dateformat changes the date format value printed in the log file. No value 
-  prints the current time in milliseconds, a useful feature for parsing the log. 
-  The date format engine is Java's SimpleDateFormat class. See the SimpleDateFormat 
-  class in the JavaDocs for information on setting this value. Example value: 
-  dateformat=MM-dd-yy HH:mm:ss:SS</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>stacktrace</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If stack trace 
-  is set, prints out the stack trace for each sql statement logged.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>stacktraceclass</b></font></p>
+  for <b>dateformat</b> changes the date format value printed in the log file. 
+  No value prints the current time in milliseconds, a useful feature for parsing 
+  the log. The date format engine is Java's <b>SimpleDateFormat</b> class. See 
+  the <b>SimpleDateFormat</b> class in the JavaDocs for information on setting 
+  this value. </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An 
+  example follows: </font></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono" size="2">dateformat=MM-dd-yy HH:mm:ss:SS</font></p>
+</blockquote>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>stacktrace</u></b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If <b>stacktrace</b> 
+  is set, the log prints out the stack trace for each SQL statement logged.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>stacktraceclass</u></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Limits the stack 
-  traces printed out to those that contain this value. E.g. specifying stacktraceclass=com.mycompany.myclass 
-  would limit the printing of stack traces to the specified class value. The stack 
-  trace is converted to a String and string.indexOf(stacktraceclass) is performed.</font><br>
+  traces printeded out to those that contain the value set in <b>stacktraceclass</b>. 
+  For example, specifying <b>stacktraceclass=com.mycompany.myclass </b> limits 
+  the printing of stack traces to the specified class value. The stack trace is 
+  converted to a String and <b>string.indexOf(stacktraceclass)</b> is performed.</font><br>
   <b><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
-  </font></b> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>reloadproperties 
-  and reloadpropertiesinterval</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If reloadproperties 
-  is set to true, then the property file is reloaded every n seconds, where n 
-  is defined by the value set by reloadpropertiesinterval. For example, if reloadproperties=true 
-  and reloadpropertiesinterval=10 then the system checks the File.lastModified() 
-  property of the property file every 10 seconds, and if the file has been modified, 
-  then it will be reloaded.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Warning! If you 
-  have append=true the log will be suddenly truncated if you change your properties. 
-  This is because using reloadproperties is intended to be the equivalent of restarting 
-  your application server, and in the case of an application server restart your 
-  file would be truncated.</font></p>
-<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Limitations: reloadproperties 
-  will not reload any driver information (such as realdriver, realdriver2, and 
-  realdriver3) and will not change the modules that are in memory.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>useprefix</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">When set to true 
-  requires you to prefix your URLs with p6spy:. The default is false, but may 
-  become true in a future release. This helps avoid a common pital when installing 
-  p6spy, that your real driver is registered elsewhere and because the URLs are 
-  the same, the system does not know which driver to use.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b></b></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Command 
-  Line Options </b></font></p>
+  </font></b> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>reloadproperties 
+  and reloadpropertiesinterval</u></b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If <b>reloadproperties</b> 
+  is set to true, the property file is reloaded every <i>n</i> seconds, where 
+  <i>n</i> is defined by the value set by <b>reloadpropertiesinterval</b>. For 
+  example, if <b>reloadproperties=true</b> and <b>reloadpropertiesinterval=10</b>,<b> 
+  </b> the system checks the <b>File.lastModified()</b> property of the property 
+  file every 10 seconds, and if the file has been modified, it will be reloaded.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If you set <b>append=true</b>, 
+  the log will be suddenly truncated when you change your properties. This is 
+  because using <b>reloadproperties</b> is intended to be the equivalent of restarting 
+  your application server. Restarting your application server truncates your log 
+  file.</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><b>reloadproperties</b> 
+  will not reload any driver information (such as <b>realdriver</b>, <b>realdriver2</b>, 
+  and <b>realdriver3</b>) and will not change the modules that are in memory.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>useprefix</u></b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting <b>useprefix</b> 
+  to <b>true</b> requires you to prefix your URLs with <b>p6spy:</b>. The default 
+  setting is <b>false</b>.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>Command Line 
+  Options</u> </b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Every parameter 
-  specified in the property file can be set and override at the command line using 
-  the Java -D flag.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">java -Dp6logfile=my.log 
-  -Dp6trace=true</font></p>
+  specified in the property file can be set and overriden at the command line 
+  using the Java <b>-D</b> flag.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An example follows:</font></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono" size="2">java -Dp6logfile=my.log 
+    -Dp6trace=true</font></p>
+</blockquote>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">In addition, you 
-  can set the default directory to look for spy.properties:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">java -Dp6.home=c:\orion\lib</font></p>
+  can set the default directory to look for <b>spy.properties</b>, as shown in 
+  the following example:</font></p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono" size="2">java -Dp6.home=c:\orion\lib</font></p>
+</blockquote>
 <p><a name="log"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Log 
   File Format</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The log file format 
@@ -518,7 +545,7 @@ log4j.logger.p6spy=INFO,STDOUT
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC3333">[release] 
     creates the Javadocs, the .war file, and all distribution .zip and .jar files</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC3333">[test] 
-    runs the standard Junit tests (see notes below)</font></li>
+    runs the standard JUnit tests (see notes below)</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC3333">[perform] 
     runs the performance specific JUnit tests</font></li>
 </ul>
@@ -533,7 +560,7 @@ log4j.logger.p6spy=INFO,STDOUT
     MySQL (you will have to change the Oracle URL at a minimum). </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Copy the vendor 
     database JDBC drivers JAR files of the two databases into the <b>lib/</b> 
-    directory.</font>
+    directory.</font> 
     <div align="left"></div>
   </li>
 </ol>
