@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2003/01/03 20:33:42  aarvesen
+ * Added getJDBC() method to return the underlying jdbc object.
+ *
  * Revision 1.2  2002/12/06 22:40:50  aarvesen
  * Extend P6Base.
  * New factory registration in the constructor.
@@ -291,4 +294,18 @@ public class P6Connection extends P6Base implements java.sql.Connection {
     public PreparedStatement prepareStatement(String p0, String p1[]) throws SQLException {
         return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1), this, p0));
     }
+
+    /**
+     * Returns the underlying JDBC object (in this case, a
+     * java.sql.Connection)
+     * @return the wrapped JDBC object 
+     */
+    public Connection getJDBC() {
+	Connection wrapped = (passthru instanceof P6Connection) ?
+	    ((P6Connection) passthru).getJDBC() :
+	    passthru;
+
+	return wrapped;
+    }
+
 }

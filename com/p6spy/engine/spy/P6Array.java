@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/01/03 20:33:42  aarvesen
+ * Added getJDBC() method to return the underlying jdbc object.
+ *
  * Revision 1.2  2002/12/06 22:39:43  aarvesen
  * Extend P6Base.
  * New factory registration in the constructor.
@@ -150,4 +153,16 @@ public class P6Array extends P6Base implements java.sql.Array{
         return getP6Factory().getResultSet(passthru.getResultSet(p0,p1,p2),statement,preparedQuery,query);
     }
     
+    /**
+     * Returns the underlying JDBC object (in this case, a
+     * java.sql.Array)
+     * @return the wrapped JDBC object 
+     */
+    public Array getJDBC() {
+	Array wrapped = (passthru instanceof P6Array) ?
+	    ((P6Array) passthru).getJDBC() :
+	    passthru;
+
+	return wrapped;
+    }
 }

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2003/01/03 20:33:43  aarvesen
+ * Added getJDBC() method to return the underlying jdbc object.
+ *
  * Revision 1.3  2002/12/06 22:42:47  aarvesen
  * New factory registration in the constructor.
  * jdk 1.4
@@ -390,4 +393,23 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     public java.sql.ParameterMetaData getParameterMetaData() throws java.sql.SQLException {
         return(prepStmtPassthru.getParameterMetaData());
     }
+
+    /**
+     * Returns the underlying JDBC object (in this case, a
+     * java.sql.PreparedStatement).
+     * <p>
+     * The returned object is a java.sql.Statement due
+     * to inheritance reasons, so you'll need to cast 
+     * appropriately.
+     *
+     * @return the wrapped JDBC object 
+     */
+    public Statement getJDBC() {
+	Statement wrapped = (prepStmtPassthru instanceof P6Statement) ?
+	    ((P6Statement) prepStmtPassthru).getJDBC() :
+	    prepStmtPassthru;
+
+	return wrapped;
+    }
+
 }

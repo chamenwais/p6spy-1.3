@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/01/03 20:33:42  aarvesen
+ * Added getJDBC() method to return the underlying jdbc object.
+ *
  * Revision 1.2  2002/12/06 22:40:13  aarvesen
  * Extend P6Base.
  * New factory registration in the constructor.
@@ -489,6 +492,23 @@ public class P6CallableStatement extends P6PreparedStatement implements java.sql
     // Since JDK 1.4
     public java.net.URL getURL(String p0) throws java.sql.SQLException {
         return(callStmtPassthru.getURL(p0));
+    }
+    /**
+     * Returns the underlying JDBC object (in this case, a
+     * java.sql.CallableStatement).
+     * <p>
+     * The returned object is a java.sql.Statement due
+     * to inheritance reasons, so you'll need to cast 
+     * appropriately.
+     *
+     * @return the wrapped JDBC object 
+     */
+    public Statement getJDBC() {
+	Statement wrapped = (callStmtPassthru instanceof P6Statement) ?
+	    ((P6Statement) callStmtPassthru).getJDBC() :
+	    callStmtPassthru;
+
+	return wrapped;
     }
 
 }

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/01/03 20:33:42  aarvesen
+ * Added getJDBC() method to return the underlying jdbc object.
+ *
  * Revision 1.2  2002/12/06 22:42:11  aarvesen
  * Extend P6Base.
  * New factory registration in the constructor.
@@ -775,5 +778,18 @@ public class P6DatabaseMetaData extends P6Base implements java.sql.DatabaseMetaD
     // Since JDK 1.4
     public boolean supportsStatementPooling() throws java.sql.SQLException {
         return passthru.supportsStatementPooling();
+    }
+
+    /**
+     * Returns the underlying JDBC object (in this case, a
+     * java.sql.DatabaseMetaData)
+     * @return the wrapped JDBC object 
+     */
+    public DatabaseMetaData getJDBC() {
+	DatabaseMetaData wrapped = (passthru instanceof P6DatabaseMetaData) ?
+	    ((P6DatabaseMetaData) passthru).getJDBC() :
+	    passthru;
+
+	return wrapped;
     }
 }

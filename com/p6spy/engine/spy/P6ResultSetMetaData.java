@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/01/03 20:33:43  aarvesen
+ * Added getJDBC() method to return the underlying jdbc object.
+ *
  * Revision 1.2  2002/12/06 22:44:12  aarvesen
  * Extend P6Base.
  * New factory registration in the constructor.
@@ -177,6 +180,19 @@ public class P6ResultSetMetaData extends P6Base implements java.sql.ResultSetMet
     
     public boolean isWritable(int param) throws java.sql.SQLException {
         return passthru.isWritable(param);
+    }
+
+    /**
+     * Returns the underlying JDBC object (in this case, a
+     * java.sql.ResultSetMetaData)
+     * @return the wrapped JDBC object 
+     */
+    public ResultSetMetaData getJDBC() {
+	ResultSetMetaData wrapped = (passthru instanceof P6ResultSetMetaData) ?
+	    ((P6ResultSetMetaData) passthru).getJDBC() :
+	    passthru;
+
+	return wrapped;
     }
     
 }

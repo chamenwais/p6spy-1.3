@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2003/01/03 20:33:43  aarvesen
+ * Added getJDBC() method to return the underlying jdbc object.
+ *
  * Revision 1.2  2002/12/06 22:44:42  aarvesen
  * Extend P6Base.
  * New factory registration in the constructor.
@@ -294,5 +297,18 @@ public class P6Statement extends P6Base implements Statement {
     // Since JDK 1.4
     public int getResultSetHoldability() throws java.sql.SQLException {
         return(passthru.getResultSetHoldability());
+    }
+
+    /**
+     * Returns the underlying JDBC object (in this case, a
+     * java.sql.Statement)
+     * @return the wrapped JDBC object 
+     */
+    public Statement getJDBC() {
+	Statement wrapped = (passthru instanceof P6Statement) ?
+	    ((P6Statement) passthru).getJDBC() :
+	    passthru;
+
+	return wrapped;
     }
 }
