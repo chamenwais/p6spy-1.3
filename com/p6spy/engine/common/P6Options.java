@@ -82,7 +82,7 @@ public class P6Options {
      *
      * Costs:
      *	Incur an associated hash lookup everytime you get an option
-     *	Loose compile time checking of your options
+     *	Lose compile time checking of your options
      *
      */
     
@@ -144,8 +144,9 @@ public class P6Options {
 		name = (String) names.nextElement();
 		    if (! name.startsWith(MODULE_PREFIX)) {
 			String opt = props.getProperty(name);
-			DoubleOption dbl = new DoubleOption(moduleList, name);
-			propertyHash.put(dbl, opt);
+			setProperty(name, opt);
+			//DoubleOption dbl = new DoubleOption(moduleList, name);
+			//propertyHash.put(dbl, opt);
 		    }
 	    }
 
@@ -167,13 +168,13 @@ public class P6Options {
 	    // check to see if the thread is running.  If so,
 	    // then change the sleep factor. if not, then
 	    if (reloader == null) {
-		reloader     = new OptionReloader(interval);
+		reloader     = new OptionReloader((long) interval);
 		reloadThread = new Thread(reloader);
 		reloadThread.setDaemon(true);
 		reloadThread.start();
 	    } else {
 		reloader.setRunning(true);
-		reloader.setSleep(interval);
+		reloader.setSleep((long) interval);
 	    }
 	} else {
 	    // if it's false, and you're currently reloading
@@ -251,6 +252,11 @@ public class P6Options {
 	    }
 	}
 	return value;
+    }
+
+    public static void setProperty(String name, String opt) {
+	DoubleOption dbl = new DoubleOption(moduleList, name);
+	propertyHash.put(dbl, opt);
     }
 
     public static boolean getBoolean(String prop, boolean dflt) {
