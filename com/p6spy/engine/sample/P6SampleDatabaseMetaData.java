@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/05 22:00:05  aarvesen
+ * Use the right factory in the constructor
+ *
  * Revision 1.1  2002/11/26 18:17:26  jeffgoke
  * *** empty log message ***
  *
@@ -92,7 +95,7 @@ import com.p6spy.engine.spy.*;
 public class P6SampleDatabaseMetaData extends P6DatabaseMetaData implements java.sql.DatabaseMetaData {
     
     protected P6Factory getP6Factory() {
-        return new P6LogFactory();
+        return new P6SampleFactory();
     }
     
     public P6SampleDatabaseMetaData(DatabaseMetaData metadata, P6Connection connection) {
