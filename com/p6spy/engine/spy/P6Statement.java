@@ -68,6 +68,11 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.2  2002/12/06 22:44:42  aarvesen
+ * Extend P6Base.
+ * New factory registration in the constructor.
+ * jdk 1.4
+ *
  * Revision 1.1  2002/05/24 07:31:13  jeffgoke
  * version 1 rewrite
  *
@@ -120,17 +125,14 @@ package com.p6spy.engine.spy;
 
 import java.sql.*;
 
-public class P6Statement implements Statement {
-    
-    protected P6Factory getP6Factory() {
-        return new P6CoreFactory();
-    }
+public class P6Statement extends P6Base implements Statement {
     
     protected Statement passthru;
     protected P6Connection connection;
     protected String statementQuery;
     
-    public P6Statement(Statement statement, P6Connection conn) {
+    public P6Statement(P6Factory factory, Statement statement, P6Connection conn) {
+	setP6Factory(factory);
         this.passthru = statement;
         this.connection = conn;
         this.statementQuery = "";
@@ -249,4 +251,48 @@ public class P6Statement implements Statement {
         return connection;
     }
     
+    // Since JDK 1.4
+    public boolean getMoreResults(int p0) throws java.sql.SQLException {
+        return(passthru.getMoreResults(p0));
+    }
+    
+    // Since JDK 1.4
+    public java.sql.ResultSet getGeneratedKeys() throws java.sql.SQLException {
+        return(passthru.getGeneratedKeys());
+    }
+
+    // Since JDK 1.4
+    public int executeUpdate(String p0, int p1) throws java.sql.SQLException {
+        return(passthru.executeUpdate(p0, p1));
+    }
+
+    // Since JDK 1.4
+    public int executeUpdate(String p0, int p1[]) throws java.sql.SQLException {
+        return(passthru.executeUpdate(p0, p1));
+    }
+
+    // Since JDK 1.4
+    public int executeUpdate(String p0, String p1[]) throws java.sql.SQLException {
+        return(passthru.executeUpdate(p0, p1));
+    }
+
+    // Since JDK 1.4
+    public boolean execute(String p0, int p1) throws java.sql.SQLException {
+        return(passthru.execute(p0, p1));
+    }
+
+    // Since JDK 1.4
+    public boolean execute(String p0, int p1[]) throws java.sql.SQLException {
+        return(passthru.execute(p0, p1));
+    }
+
+    // Since JDK 1.4
+    public boolean execute(String p0, String p1[]) throws java.sql.SQLException {
+        return(passthru.execute(p0, p1));
+    }
+
+    // Since JDK 1.4
+    public int getResultSetHoldability() throws java.sql.SQLException {
+        return(passthru.getResultSetHoldability());
+    }
 }

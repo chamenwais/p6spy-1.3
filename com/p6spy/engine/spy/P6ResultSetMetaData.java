@@ -69,6 +69,11 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/06 22:44:12  aarvesen
+ * Extend P6Base.
+ * New factory registration in the constructor.
+ * jdk 1.4
+ *
  * Revision 1.1  2002/10/06 18:23:25  jeffgoke
  * no message
  *
@@ -80,15 +85,13 @@ package com.p6spy.engine.spy;
 import java.io.*;
 import java.sql.*;
 
-public class P6ResultSetMetaData implements java.sql.ResultSetMetaData{
+public class P6ResultSetMetaData extends P6Base implements java.sql.ResultSetMetaData{
     
-    protected P6Factory getP6Factory() {
-        return new P6CoreFactory();
-    }
     
     protected ResultSetMetaData passthru;
     
-    public P6ResultSetMetaData(ResultSetMetaData resultSetMetaData) {
+    public P6ResultSetMetaData(P6Factory factory, ResultSetMetaData resultSetMetaData) {
+	setP6Factory(factory);
         this.passthru = resultSetMetaData;
     }
     

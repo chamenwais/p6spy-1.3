@@ -69,6 +69,11 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/12/06 22:43:44  aarvesen
+ * Extend P6Base.
+ * New factory registration in the constructor.
+ * jdk 1.4
+ *
  * Revision 1.2  2002/10/06 18:23:25  jeffgoke
  * no message
  *
@@ -101,18 +106,16 @@ import java.math.*;
 import java.util.*;
 import java.text.*;
 
-public class P6ResultSet implements ResultSet {
+public class P6ResultSet extends P6Base implements ResultSet {
     
-    protected P6Factory getP6Factory() {
-        return new P6CoreFactory();
-    }
     
     protected ResultSet passthru;
     protected P6Statement statement;
     protected String query;
     protected String preparedQuery;
     
-    public P6ResultSet(ResultSet resultSet, P6Statement statement, String preparedQuery, String query) {
+    public P6ResultSet(P6Factory factory, ResultSet resultSet, P6Statement statement, String preparedQuery, String query) {
+	setP6Factory(factory);
         this.passthru = resultSet;
         this.statement = statement;
         this.query = query;
@@ -635,5 +638,55 @@ public class P6ResultSet implements ResultSet {
         return getP6Factory().getArray(passthru.getArray(p0),statement,preparedQuery,query);
     }
     
+    // Since JDK 1.4
+    public java.net.URL getURL(int p0) throws SQLException {
+        return passthru.getURL(p0);
+    }
+
+    // Since JDK 1.4
+    public java.net.URL getURL(String p0) throws SQLException {
+        return passthru.getURL(p0);
+    }
+
+    // Since JDK 1.4
+    public void updateRef(int p0, Ref p1) throws SQLException {
+        passthru.updateRef(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void updateRef(String p0, Ref p1) throws SQLException {
+        passthru.updateRef(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void updateBlob(int p0, Blob p1) throws SQLException {
+        passthru.updateBlob(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void updateBlob(String p0, Blob p1) throws SQLException {
+        passthru.updateBlob(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void updateClob(int p0, Clob p1) throws SQLException {
+        passthru.updateClob(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void updateClob(String p0, Clob p1) throws SQLException {
+        passthru.updateClob(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void updateArray(int p0, Array p1) throws SQLException {
+        passthru.updateArray(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void updateArray(String p0, Array p1) throws SQLException {
+        passthru.updateArray(p0, p1);
+    }
+
 }
 
