@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.12  2003/02/24 17:56:28  dlukeparker
+ * Removed debug output
+ *
  * Revision 1.11  2003/02/24 17:45:05  dlukeparker
  * Clarified error reporting when spy.properties is not found
  *
@@ -195,7 +198,6 @@ public abstract class P6SpyDriverCore implements Driver {
 	foundSpyProperties = true;
 
         P6SpyProperties properties = new P6SpyProperties();
-	System.out.println("creating core options");
         P6SpyOptions coreOptions = new P6SpyOptions();
         OptionReloader.add(coreOptions, properties);
         
