@@ -61,7 +61,7 @@
 
 package com.p6spy.engine.common;
 
-import java.io.File;
+import java.io.*;
 import java.lang.reflect.*;
 import java.beans.*;
 import java.util.*;
@@ -128,6 +128,54 @@ public class P6SpyProperties {
             }
         }
         return null;
+    }
+
+    // save the file down 
+    public static void saveProperties() {
+	Properties props = new Properties();		
+	Iterator it       = OptionReloader.iterator();
+	while (it.hasNext()) {
+	    P6Options opts = (P6Options) it.next();
+            Method[] allMethods = opts.getClass().getDeclaredMethods();
+	    Class[] noParams    = new Class[0];
+	    for (int i = 0; i < allMethods.length; i++) {
+		// we only care about getters with no params, ignore
+		// everything else
+		Method m = allMethods[i];
+		if (! m.getName().startsWith("get")) {
+		    continue;
+		}
+		Class[] params = m.getParameterTypes();
+		if (params.length != 0) {
+		    continue;
+		}
+		String propertyName = m.getName().substring(3);
+		propertyName = propertyName.toLowerCase();
+		try {
+		    Object rv = m.invoke(opts, noParams);
+		    props.setProperty(propertyName, rv.toString());
+		    P6LogQuery.logInfo("added property '" + propertyName + "' with value of '" + rv.toString() + "'" );
+		} catch (Exception e) {
+		    P6LogQuery.logError("Could not get property value " + propertyName + " in class " + opts.getClass().getName() + " because of error " + e);
+		}
+	    }
+	}
+
+
+	// now your props object should have everything you want,
+	// so open up the file and write out the data
+	// NB I don't let you change the name of your properties... maybe
+	// in the future
+        File propertiesFile = new File(propertiesPath);
+	try {
+	    FileOutputStream out = new FileOutputStream(propertiesFile, false);
+	    props.store(out, "P6Spy configuration");
+	    out.close();
+	    P6LogQuery.logInfo("successfully saved properties to file " + propertiesFile);
+	    //propertiesLastModified = propertiesFile.lastModified();
+	} catch (Exception e) {
+	    P6LogQuery.logError("Could save to property file " + propertiesFile  + " because of error " + e);
+	}
     }
     
     /* this returns a refreshed version of the property file, regardless of
