@@ -52,8 +52,8 @@
 </div>
 <div align="left"></div>
 <blockquote> 
-  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss2"></a>JBoss 
-    2.x</b></font></div>
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><font size="3"><a name="jboss2"></a>JBoss 
+    2.x</font></b></font></div>
   <p> 
   <div align="left"> 
     <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The following 
@@ -130,8 +130,8 @@
 <div align="left"> </div>
 <blockquote> 
   <div align="left"> 
-    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss3"></a>JBoss 
-      3.x</b></font></div>
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><font size="3"><a name="jboss3"></a>JBoss 
+      3.x</font></b></font></div>
   </div>
   <div align="left"> 
     <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
@@ -309,7 +309,7 @@
   <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
     is complete.&nbsp;</font></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">When 
     you run your application, a log file (<b>spy.log</b>) is generated in the<b> 
-    </b>[<i>orion-home</i>] directory of the Orion server.</font><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The 
+    </b><i>orion-home</i> directory of the Orion server.</font><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The 
     log file contains a list of all of the database statements executed.</font></font></font></font></font></font> 
     <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">You 
     can change both the destination of <b>spy.log </b>and what it logs by editing 
@@ -322,10 +322,10 @@
   <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="tomcat"></a>Jakarta 
     Tomcat</b></font></p>
   <p>The following <font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-    instructions were tested with Jakarta Tomcat 3.x.&nbsp;&nbsp;Note that since 
-    you typically write or otherwise obtain your own Connection Pool when using 
-    Tomcat, these instructions will differ by application. To install P6Spy on 
-    Jakarta Tomcat, complete the following steps:</font></p>
+    instructions were tested with Jakarta Tomcat 3.x.&nbsp;Note that since you 
+    typically write or otherwise obtain your own Connection Pool when using Tomcat, 
+    these instructions will differ by application. To install P6Spy on Jakarta 
+    Tomcat, complete the following steps:</font></p>
   <ol>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Extract the 
       <b>p6spy-install.jar</b> file.&nbsp;The <b>p6spy-install.jar</b> file contains 
@@ -346,21 +346,20 @@
   </font></div>
 <blockquote> 
   <blockquote> 
-    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
       <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono">&lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;org.gjt.mm.mysql.Driver&lt;/param-value&gt;&lt;/init-param&gt;</font></font></font></div>
       </font></div>
   </blockquote>
-</blockquote>
-<div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
-  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
-    In this above case, the <b>databaseDriver</b> parameter has a value of <b>org.gjt.mm.mysql.Driver</b>, 
-    which is the <b>MySQL</b> driver. Wherever this configuration information 
-    is stored, change the driver name (<b>org.gjt.mm.mysql.Driver</b>, in our 
-    example) to <b>com.p6spy.engine.spy.P6SpyDriver</b>, as in the following example:</font></font></div>
-  </font></div>
-<blockquote> 
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
+      In this above case, the <b>databaseDriver</b> parameter has a value of <b>org.gjt.mm.mysql.Driver</b>, 
+      which is the <b>MySQL</b> driver. Wherever this configuration information 
+      is stored, change the driver name (<b>org.gjt.mm.mysql.Driver</b>, in our 
+      example) to <b>com.p6spy.engine.spy.P6SpyDriver</b>, as in the following 
+      example:</font></font></div>
+    </font></div>
   <blockquote> 
-    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
       <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
         <font face="Courier New, Courier, mono">&lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/param-value&gt;&lt;/init-param&gt;</font><br>
         </font></font></div>
@@ -459,12 +458,12 @@
     </blockquote>
   </ol>
   </font></div>
-<div align="left"> 
-  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"> 
+<blockquote>
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"> 
     <b><font size="2">Note:</font></b><font size="2"> Database access configuration 
     within JOnAS is described in a DataSource property file, such as <b>Oracle1.properties</b>. 
-    Refer to the JOnAS Bean Programmer's Guide for more details.</font></font></font></p>
-</div>
+    Refer to the JOnAS Bean Programmer's Guide for more details.</font></font></font></div>
+</blockquote>
 <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
   <ol start="5">
     <li>Modify the <b>realdriver </b>line in the<b> spy.properties</b> file to 
@@ -507,8 +506,8 @@
     with updated information.</font></font></p>
 </div>
 <blockquote> 
-  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="wlportal"></a>BEA 
-    WebLogic Portal&#153; 4.0</b></font></font></div>
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><font size="3"><a name="wlportal"></a>BEA 
+    WebLogic Portal&#153; 4.0</font></b></font></font></div>
   <p> 
   <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif"><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
     by Philip Ogren, BEA)</i></font></font> </font></div>
@@ -555,10 +554,10 @@
     </li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Add <b>;%P13N_DIR%\lib\ext\p6spy.jar</b> 
       to EXT_CLASSPATH in the <b>set-environment.bat</b> file<font color="#000000">. 
-      <b>set-environment.bat</b> resides in &lt;<i>bea-home</i>&gt;\wlportal4.0\bin\win32.</font> 
+      <b>set-environment.bat</b> resides in <i>bea-home</i>\wlportal4.0\bin\win32.</font> 
       Do not include any trailing spaces after the new line.</font></li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Move <b>spy.properties</b> 
-      to <b><font color="#000000">&lt;</font></b><font color="#000000"><i>bea-home</i>&gt;</font><font color="#CC0033"><font color="#000000">\wlportal4.0\config\portalDomain</font></font> 
+      to <font color="#000000"><i>bea-home</i></font><font color="#CC0033"><font color="#000000">\wlportal4.0\config\portalDomain</font></font> 
       or to the application's domain directory.</font> </li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Modify the 
       <b>realdriver </b>line in the<b> spy.properties</b> file to reflect your 
@@ -571,8 +570,8 @@
     </li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Add <b>;%P13N_DIR%\config\portalDomain</b> 
       to the classpath in the <b>startPortal.bat</b> file. The path to <b>startPortal.bat</b> 
-      is &lt;bea-home&gt;\wlportal4.0\config\portalDomain. Do not include any 
-      trailing spaces after the new line.</font></li>
+      is <i>bea-home</i>\wlportal4.0\config\portalDomain. Do not include any trailing 
+      spaces after the new line.</font></li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Modify WebLogic 
       Portal to use the P6Spy driver. Either modify <b>config.xml</b> (which resides 
       in <i>bea-home</i>\wlportal4.0\config\portalDomain) directly or complete 
@@ -625,8 +624,8 @@
   <blockquote> 
     <div align="left"> </div>
   </blockquote>
-  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="wlserver"></a> 
-    BEA WebLogic Server&#153; 6.1</b></font></font></div>
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="3"><b><a name="wlserver"></a> 
+    BEA WebLogic Server&#153; 6.1</b></font></div>
   <p> 
   <div align="left"> 
     <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
@@ -700,7 +699,7 @@
       <ol type="i">
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Start 
           WebLogic Portal <font color="#000000">by running<b> startPortal.bat</b>. 
-          <b>startPortal.bat </b>resides in &lt;<i>bea-home</i>&gt;\wlserver6.1\config\portalDomain.</font></font></li>
+          <b>startPortal.bat </b>resides in <i>bea-home</i>\wlserver6.1\config\portalDomain.</font></font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Start 
           the Administration Console tool by navigating to http://&lt;<i>your-host</i>&gt;:7501/console.</font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Navigate 
@@ -747,8 +746,8 @@
     <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
       </font> </font></p>
   </div>
-  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a name="weblogic5"></a><b><font face="Verdana, Arial, Helvetica, sans-serif" size="+1">BEA 
-    WebLogic 5.1</font></b> </font></div>
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="3"><a name="weblogic5"></a><b>BEA 
+    WebLogic 5.1</b> </font></div>
   <div align="left"> 
     <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i><font size="2">(Posted 
       by Richard Delbert)</font></i> </font></font></p>
@@ -989,11 +988,11 @@
     </li>
   </ol>
   </font></div>
-<div align="left">
-  <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">(For 
+<blockquote>
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">(For 
     more details on parameters passed to <b>iasdeploy</b> and the format of<font color="#000000"> 
-    <i>config_filename</i>, refer to </font> the iPlanet documentation.)</font></font></p>
-</div>
+    <i>config_filename</i>, refer to </font> the iPlanet documentation.)</font></font></div>
+</blockquote>
 <div align="left">
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
     is complete.&nbsp;When you run your application, a <b>spy.log</b> file is 
