@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.6  2003/01/15 22:09:41  aarvesen
+ * Don't crap out if you can't find a context loader, press on
+ *
  * Revision 1.5  2003/01/10 21:39:43  jeffgoke
  * removed p6util.warn and moved warn handling to logging.  this gives a consistent log file.
  *
@@ -408,7 +411,9 @@ public class P6Util {
 	    return Class.forName(name, true, ctxLoader); 
 
 	} catch(ClassNotFoundException ex) { 
-	    if(ctxLoader == null) { throw ex; } 
+	    // try to fall through and use the default
+	    // Class.forName
+	    //if(ctxLoader == null) { throw ex; } 
 	} catch(SecurityException ex) { 
 	} 
 	return Class.forName(name); 
