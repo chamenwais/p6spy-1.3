@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.7  2003/02/14 22:23:48  aarvesen
+ * added test options to test saving properties files
+ *
  * Revision 1.6  2003/01/22 00:00:30  jeffgoke
  * removed P6Options reference
  *
@@ -122,6 +125,7 @@ public class P6Test extends TestCase {
         suite.addTestSuite(P6TestPreparedStatement.class);
         suite.addTestSuite(P6TestCommon.class);
         suite.addTestSuite(P6TestDriver.class);
+        suite.addTestSuite(P6TestOptions.class);
         return suite;
     }
 }
