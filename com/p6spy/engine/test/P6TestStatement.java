@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2003/06/20 20:32:20  aarvesen
+ * test for bug 161:  null result sets
+ *
  * Revision 1.3  2003/06/03 19:20:26  cheechq
  * removed unused imports
  *
@@ -144,15 +147,22 @@ public class P6TestStatement extends P6TestFramework {
     
     public void testQueryUpdate() {
         try {
+	    ResultSet rs = null;
+
             // test a basic insert
             String update = "insert into stmt_test values (\'bob\', 5)";
             Statement statement = getStatement(update);
             statement.executeUpdate(update);
             assertTrue(P6LogQuery.getLastEntry().indexOf(update) != -1);
+
+	    // inserts should return a null result set
+	    rs = statement.getResultSet();
+	    assertTrue("result set from insert statement is not null", rs == null);
+
             
             // test a basic select
             String query = "select count(*) from stmt_test";
-            ResultSet rs = statement.executeQuery(query);
+            rs = statement.executeQuery(query);
             assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
             rs.next();
             assertEquals(1, rs.getInt(1));
