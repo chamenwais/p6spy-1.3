@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.14  2003/04/10 18:17:57  aarvesen
+ * always check to see if there are drivers to dereg.  Then, either deregister them or warn that they'll prevent you from functioning properly
+ *
  * Revision 1.13  2003/03/07 22:08:09  aarvesen
  * added deregistration code
  *
@@ -237,9 +240,7 @@ public abstract class P6SpyDriverCore implements Driver {
 		// so, deregister the driver if nec.
                 
                 className = (String) i.next();
-		if (P6SpyOptions.getDeregisterDrivers()) {
-		    deregister(className);
-		}
+		deregister(className);
                 Driver realDriver = (Driver)P6Util.forName(className).newInstance();
 		if (P6SpyOptions.getDeregisterDrivers()) {
 		    // just in case you had to deregister
@@ -310,7 +311,13 @@ public abstract class P6SpyDriverCore implements Driver {
 	int size = dereg.size();
 	if (size > 0) {
 	    for (int i = 0; i < size; i++) {
-		DriverManager.deregisterDriver((Driver) dereg.get(i));
+		Driver driver = (Driver) dereg.get(i);
+		if (P6SpyOptions.getDeregisterDrivers()) {
+		    P6LogQuery.logInfo("deregistering driver " + driver.getClass().getName());
+		    DriverManager.deregisterDriver(driver);
+		} else {
+		    P6LogQuery.logError("driver " + driver.getClass().getName() + " is a real driver in spy.properties, but it has been loaded before p6spy.  p6spy will not wrap these connections.  Either prevent the driver from loading, or try setting 'deregisterdrivers' to true in spy.properties");        
+		}
 	    }
 	}
 
