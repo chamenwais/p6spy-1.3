@@ -67,6 +67,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/20 00:29:45  aarvesen
+ * removed the unneeded factory
+ *
  * Revision 1.1  2002/12/19 23:51:45  aarvesen
  * Data Source implementation
  *
@@ -85,7 +88,6 @@ import com.p6spy.engine.spy.P6SpyDriverCore;
 public class P6DataSource extends P6Base implements DataSource {
     protected DataSource rds;
     protected String rdsName;
-    protected P6Factory factory;
 
     public String getDataSourceName() {
 	return rdsName;
