@@ -1,4 +1,5 @@
 <%@ page import="com.p6spy.engine.spy.*"%>
+<%@ page import="com.p6spy.engine.common.*"%>
 
 <%
 	// what actions can we do (currently just add a line to the log)
