@@ -68,6 +68,10 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2002/12/19 16:58:07  aarvesen
+ * Removed some qlog cruft
+ * Added in the getTrace check at this level rather than at the driver level for logElapsed
+ *
  * Revision 1.4  2002/12/12 19:21:45  aarvesen
  * Try a different class loader and write out the correct class name
  *
@@ -451,20 +455,20 @@ public class P6LogQuery {
     }
     
     static public void logElapsed(int connectionId, long startTime, String category, String prepared, String sql) {
-        logElapsed(connectionId, startTime, System.currentTimeMillis(), category, prepared, sql);
+	logElapsed(connectionId, startTime, System.currentTimeMillis(), category, prepared, sql);
     }
     
     static public void logElapsed(int connectionId, long startTime, long endTime, String category, String prepared, String sql) {
-        //if (qlog != null && isLoggable(sql) && isCategoryOk(category)) {
-        if (logger != null && isLoggable(sql) && isCategoryOk(category)) {
-            doLogElapsed(connectionId, startTime, endTime, category, prepared, sql);
-        } else if (isCategoryOk("debug")) {
-            logDebug("P6Spy intentionally did not log category: "+category+", statement: "+sql+"  Reason: Qlog="+qlog+", isLoggable="+isLoggable(sql)+", isCategoryOk="+isCategoryOk(category));
-        }
+	if (P6SpyOptions.getTrace()) {
+	    if (logger != null && isLoggable(sql) && isCategoryOk(category)) {
+		doLogElapsed(connectionId, startTime, endTime, category, prepared, sql);
+	    } else if (isCategoryOk("debug")) {
+		logDebug("P6Spy intentionally did not log category: "+category+", statement: "+sql+"  Reason: logger="+logger+", isLoggable="+isLoggable(sql)+", isCategoryOk="+isCategoryOk(category));
+	    }
+	}
     }
     
     static public void logInfo(String sql) {
-        //if (qlog != null && isCategoryOk("info")) {
         if (logger != null && isCategoryOk("info")) {
             doLog(-1, "info", "", sql);
         }
@@ -472,7 +476,6 @@ public class P6LogQuery {
     
     static public void logDebug(String sql) {
         if (isCategoryOk("debug")) {
-            //if (qlog != null) {
             if (logger != null) {
                 doLog(-1, "debug", "", sql);
             } else {
