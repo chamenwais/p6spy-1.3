@@ -15,7 +15,7 @@ public class StdoutLogger extends FormattedLogger implements P6Logger {
 
     public void logText(String text) {
 	qlog.println(text);
-	setLastEntry(lastEntry);
+	setLastEntry(text);
     }
 
 }
