@@ -65,11 +65,12 @@ import junit.framework.*;
 import java.io.*;
 import java.util.*;
 import java.sql.*;
+import javax.sql.*;
 
 import com.p6spy.engine.common.*;
 import com.p6spy.engine.spy.*;
 
-public class P6TestDriver extends TestCase {
+public class P6TestDriver extends P6TestFramework {
     public P6TestDriver(String name) {
 	super(name);
     }
@@ -94,6 +95,91 @@ public class P6TestDriver extends TestCase {
 	} catch (Exception e) {
 	    e.printStackTrace(System.out);
 	    fail("unexpected exception: " + e);
+	} finally {
+	}
+    }
+
+
+    public void testGetJDBC() {
+	try {
+	    P6Connection p6con = (P6Connection) connection;
+	    chkGetJDBC(p6con, p6con.getJDBC());
+
+	    P6DatabaseMetaData p6md = (P6DatabaseMetaData) connection.getMetaData();
+	    chkGetJDBC(p6md, p6md.getJDBC());
+
+	    P6Statement p6stmt = (P6Statement) connection.createStatement();
+	    chkGetJDBC(p6stmt, p6stmt.getJDBC());
+
+	    P6CallableStatement p6cs = (P6CallableStatement) connection.prepareCall("select sysdate from dual");
+	    chkGetJDBC(p6cs, p6cs.getJDBC());
+
+	    P6PreparedStatement p6ps = (P6PreparedStatement) connection.prepareStatement("select 1 + 1 from dual");
+	    chkGetJDBC(p6ps, p6ps.getJDBC());
+
+	    P6ResultSet p6rs = (P6ResultSet) p6ps.executeQuery();
+	    chkGetJDBC(p6rs, p6rs.getJDBC());
+
+	    P6ResultSetMetaData p6rsmd = (P6ResultSetMetaData) p6rs.getMetaData();
+	    chkGetJDBC(p6rsmd, p6rsmd.getJDBC());
+
+	    // try to release everything
+	    p6cs.close();
+	    p6ps.close();
+	    p6rs.close();
+	    p6stmt.close();
+	    p6con.close();
+	    
+	} catch (Exception e) {
+	    e.printStackTrace(System.out);
+	    fail("unexpected exception: " + e);
+	}
+
+    }
+
+    protected void chkGetJDBC(P6Base p6object, Object jdbcObject) {
+	String p6class = p6object.getClass().getName();
+	String jdbcClass = jdbcObject.getClass().getName();
+
+	/*
+	System.out.println(p6class);
+	System.out.println(jdbcClass);
+	*/
+	
+	assertTrue("Class " + p6class + " is supposed to be a p6 class, but it is not", (p6class.indexOf("p6spy") != -1));
+	assertTrue("Class " + jdbcClass + " is supposed to be a jdbc class, but it is not", (jdbcClass.indexOf("p6spy") == -1));
+    }
+
+    public void t1estDataSource() {
+	Connection con = null;
+	Statement st   = null;
+	try {
+            P6TestUtil.unloadDrivers();
+
+	    // try to do a simple test using the datasourcey stuff
+	    Properties props = P6TestUtil.loadProperties("P6Test.properties");
+	    String user      = props.getProperty("user");
+	    String password  = props.getProperty("password");
+	    String url       = props.getProperty("url");
+	    
+	    P6DriverManagerDataSource ds = 
+		new P6DriverManagerDataSource();	    
+
+	    ds.setUrl(url);
+
+	    con = ds.getConnection(user, password);
+	    st  = con.createStatement();
+	    st.execute("create table foo (col1 varchar2(255))");
+	    st.execute("insert into table foo values ('1')");
+
+	    ResultSet rs   = st.executeQuery("select count(*) from foo");
+	    //assertTrue(rs.
+
+	} catch (Exception e) {
+	    e.printStackTrace(System.out);
+	    fail("unexpected exception: " + e);
+	} finally {
+
 	}
     }
 
