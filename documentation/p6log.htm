@@ -1,0 +1,93 @@
+<html><!-- #BeginTemplate "/Templates/spydocs.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Untitled Document</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#000000" text="#000000">
+<img src="images/header.gif" width="580" height="80"> <br>
+<table width="100%" border="0">
+  <tr> 
+    <td width="11%"><a href="http://www.p6spy.com" target="_parent"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="index.htm" target="bottomFrame"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="install.htm" target="bottomFrame"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6log.htm" target="bottomFrame"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6outage.htm" target="bottomFrame"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="7%"><a href="p6cache.htm" target="bottomFrame"><img src="images/p6cache.gif" width="110" height="20" border="0"></a></td>
+    <td width="38%">&nbsp;</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellpadding="20" cellspacing="20">
+  <tr>
+    <td bgcolor="#FFFFFF">
+	<!-- #BeginEditable "body" --> 
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>P6Log</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Log is an open 
+  source application included in the P6Spy distribution that intercepts and logs 
+  the database statements of any application that uses JDBC. This application 
+  is particularly useful for developers to monitor the SQL statements produced 
+  by EJB servers, enabling the developer to write code that achieves maximum efficiency 
+  on the server.&nbsp;&nbsp;P6Log is designed to be installed in minutes, and 
+  can be put to work immediately.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy consists 
+  of a number of modules that provide different functionality, dependent on your 
+  needs. The P6Log module is enabled by default. You disable/enable the P6Log 
+  module by editing the spy.properties configuration file. If you comment out 
+  the module, it is not loaded, and the functionality is not available. If it 
+  is not commented out, then the functionality is available. Here is an example:</font></p>
+<blockquote> 
+  <p>#################################################################<br>
+    # MODULES #<br>
+    # #<br>
+    # Modules provide the P6Spy functionality. If a module, such #<br>
+    # as module_log is commented out, that functionality will not #<br>
+    # be available. If it is not commented out (if it is active), #<br>
+    # the functionality will be active. #<br>
+    # #<br>
+    # Values set in Modules cannot be reloaded using the #<br>
+    # reloadproperties variable. Once they are loaded, they remain #<br>
+    # in memory until the application is restarted. #<br>
+    # #<br>
+    #################################################################</p>
+  <p>module_log=com.p6spy.engine.logging.P6LogSpyDriver<br>
+    #module_outage=com.p6spy.engine.outage.P6OutageSpyDriver</p>
+</blockquote>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">You can also set 
+  the following properties in spy.properties for P6Log:</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>trace</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Trace is a convenience 
+  toggle that lets you turn on and off the logging.&nbsp;&nbsp;When trace is set 
+  to true, P6Spy writes the the log file whenever an appropriate database request 
+  is intercepted. &nbsp;When trace is set to false, P6Spy never writes to the 
+  log file.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># turn</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+  on tracing<br>
+  trace = true</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">P6Log also shares 
+  some common property file settings that let you specify which tables you want 
+  to log, the file and location of the log file, if you want to show the stacktrace 
+  (where the JDBC statement is being executed), and more. See the <a href="other.htm#common">common 
+  property file settings</a> for details.</font></p>
+
+      <!-- #EndEditable -->
+	  </td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0">
+  <tr> 
+    <td width="11%"><a href="http://www.p6spy.com" target="_parent"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="index.htm" target="bottomFrame"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="install.htm" target="bottomFrame"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6log.htm" target="bottomFrame"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6outage.htm" target="bottomFrame"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="7%"><a href="p6cache.htm" target="bottomFrame"><img src="images/p6cache.gif" width="110" height="20" border="0"></a></td>
+    <td width="38%">&nbsp;</td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

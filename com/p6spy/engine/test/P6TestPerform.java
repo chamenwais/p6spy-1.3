@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/10/06 18:24:04  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:30:46  jeffgoke
  * version 1 rewrite
  *
@@ -143,15 +146,6 @@ public class P6TestPerform extends P6TestFramework {
         }
     }
     
-    protected String createTrunk() {
-        StringBuffer trunc = new StringBuffer(150);
-        for (int i = 0; i < 150; i++) {
-            trunc.append("P");
-        }
-        String trunk = trunc.toString();
-        return trunk;
-    }
-    
     public void testSlowMonitor() {
         try {
             Statement statement = connection.createStatement();
@@ -205,6 +199,15 @@ public class P6TestPerform extends P6TestFramework {
             super.tearDown();
         } catch (Exception e) {
         }
+    }
+        
+    protected String createTrunk() {
+        StringBuffer trunc = new StringBuffer(150);
+        for (int i = 0; i < 150; i++) {
+            trunc.append("P");
+        }
+        String trunk = trunc.toString();
+        return trunk;
     }
     
     protected void drop(Statement statement) {

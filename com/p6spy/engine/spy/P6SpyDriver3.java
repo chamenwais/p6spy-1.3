@@ -81,7 +81,7 @@ public class P6SpyDriver3 extends P6SpyDriverCore {
         P6SpyDriverCore.initMethod(P6SpyDriver3.class.getName());
     }
     
-    public P6SpyDriver3() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public P6SpyDriver3() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         super(P6SpyDriver3.class.getName(), new P6CoreFactory());
     }
     

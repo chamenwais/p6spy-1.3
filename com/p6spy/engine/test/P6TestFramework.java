@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/10/06 18:24:04  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:30:46  jeffgoke
  * version 1 rewrite
  *
@@ -111,9 +114,12 @@ public abstract class P6TestFramework extends TestCase {
     
     protected void setUp() {
         try {
+            // we are going to use a testspy.forms file for these tests
+            ArrayList forms = getDefaultSpyForms();
+            writeFile("testspy.forms", forms);
+            
             // we are going to use the reloadtest.properties file for all tests
             // this is a scratch file that won't hurt spy.properties
-            
             HashMap tp = getDefaultPropertyFile();
             reloadProperty(tp);
             Properties props = loadProperties("P6Test.properties");
@@ -132,7 +138,7 @@ public abstract class P6TestFramework extends TestCase {
             fail(e.getMessage());
         }
     }
-        
+    
     protected Properties loadProperties(String filename) {
         if (filename == null) {
             System.err.println("No "+filename+" properties file specified.");
@@ -177,6 +183,31 @@ public abstract class P6TestFramework extends TestCase {
         }
     }
     
+    protected void writeFile(String filename, ArrayList entries) {
+        try {
+            File file = new File(filename);
+            file.delete();
+            
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file)));            
+            
+            for (int i = 0; i < entries.size(); i++) {
+                String entry = (String)entries.get(i);
+                out.println(entry);
+            }
+            
+            out.close();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    protected ArrayList getDefaultSpyForms() {
+        ArrayList formsLog = new ArrayList();
+        formsLog.add("5 seconds; select count(*) from cache_test");
+        formsLog.add("5 seconds; select col2 from cache_test where col1 != ? and col1 != ? and col1 like ?");
+        return formsLog;
+    }
+    
     protected HashMap getDefaultPropertyFile() {
         
         Properties props = loadProperties("P6Test.properties");
@@ -188,6 +219,7 @@ public abstract class P6TestFramework extends TestCase {
         HashMap tp = new HashMap();
         tp.put("module_outage","com.p6spy.engine.outage.P6OutageSpyDriver");
         tp.put("module_log","com.p6spy.engine.logging.P6LogSpyDriver");
+        tp.put("module_cache","com.p6spy.engine.cache.P6CacheDriver");
         tp.put("realdriver",realdrivername);
         tp.put("realdriver2",realdrivername2);
         tp.put("filter","false");
@@ -208,6 +240,14 @@ public abstract class P6TestFramework extends TestCase {
         tp.put("useprefix","false");
         tp.put("outagedetection", "false");
         tp.put("outagedetectioninterval", "");
+        tp.put("cache","true");
+        tp.put("cachetrace","false");
+        tp.put("clearcache","");
+        tp.put("entries","");
+        tp.put("forms","");
+        tp.put("formsfile","testspy.forms");
+        tp.put("formslog","testforms.log");
+        tp.put("formstrace","true");
         return tp;
     }
     

@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.2  2002/10/06 18:21:37  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:32:01  jeffgoke
  * version 1 rewrite
  *
@@ -102,7 +105,7 @@
  * no message
  *
  * Revision 1.4  2001-08-05 09:16:03-05  andy
- * final version on the website
+ * version on the website
  *
  * Revision 1.3  2001-08-02 07:52:43-05  andy
  * <>
@@ -128,7 +131,7 @@ import java.beans.*;
 
 public class P6Util {
     
-    public final static int parseInt(String i, int defaultValue) {
+    public static int parseInt(String i, int defaultValue) {
         if (i == null || i.equals("")) {
             return defaultValue;
         }
@@ -141,7 +144,7 @@ public class P6Util {
         }
     }
     
-    public final static long parseLong(String l, long defaultValue) {
+    public static long parseLong(String l, long defaultValue) {
         if (l == null || l.equals("")) {
             return defaultValue;
         }
@@ -154,14 +157,14 @@ public class P6Util {
         }
     }
     
-    public final static boolean isTrue(String s, boolean defaultValue) {
+    public static boolean isTrue(String s, boolean defaultValue) {
         if (s == null) {
             return defaultValue;
         }
         return(s.equals("1") || s.trim().equalsIgnoreCase("true"));
     }
     
-    public final static int atoi(Object s) {
+    public static int atoi(Object s) {
         int i = 0;
         
         if (s != null) {
@@ -181,7 +184,7 @@ public class P6Util {
         return(i);
     }
     
-    public static final Properties loadProperties(String file) {
+    public static Properties loadProperties(String file) {
         Properties props = new Properties();
         try {
             String path = classPathFile(file);
@@ -201,12 +204,58 @@ public class P6Util {
         return props;
     }
     
+    // this is our own version, which we need to do to ensure the order is kept
+    // in the property file
+    public static ArrayList loadProperties(String file, String prefix) {
+        ArrayList props = new ArrayList();
+        FileReader in = null;
+        BufferedReader reader = null;
+        try {
+            String path = classPathFile(file);
+            if (path == null) {
+                warn("Can't find " + file + ", java.class.path = <" + System.getProperty("java.class.path") + ">");
+            } else {
+                in = new FileReader(path);
+                // read the file
+                reader = new BufferedReader(in);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (line.startsWith(prefix)) {
+                        StringTokenizer st = new StringTokenizer(line, "=");
+                        String name = st.nextToken();
+                        String value = st.nextToken();
+                        KeyValue kv = new KeyValue(name, value);
+                        props.add(kv);
+                    }
+                }
+            }
+        } catch (FileNotFoundException e1) {
+            warn("Can't find find " + file + " " + e1);
+        } catch (IOException e2) {
+            warn("IO Error reading file " + file + " " + e2);
+        } finally {
+            try {
+                reader.close();
+                in.close();
+            } catch (IOException e) {
+            }
+        }
+        return props;
+    }
+    
+    public static ArrayList reverseArrayList(ArrayList arraylist) {
+        ArrayList newlist = new ArrayList(arraylist.size());
+        for (int i = arraylist.size()-1;i >= 0; i--) {
+            newlist.add(arraylist.get(i));
+        }
+        return newlist;
+    }
     
     /**
      * Here we attempt to find the file in the current dir and the classpath
      * If we can't find it then we return null
      */
-    public static final String classPathFile(String file) {
+    public static String classPathFile(String file) {
         File fp             = null;
         String path         = null;
         String separator    = System.getProperty("path.separator");
@@ -228,11 +277,11 @@ public class P6Util {
         return fp.exists() ? path : null;
     }
     
-    public static final void warn(String s) {
+    public static void warn(String s) {
         System.err.println("Warning: " + s);
     }
     
-    public static final void checkJavaProperties() {
+    public static void checkJavaProperties() {
         Collection list = P6SpyOptions.dynamicGetOptions();
         Iterator it = list.iterator();
         
@@ -251,18 +300,18 @@ public class P6Util {
         }
     }
     
-    public final static java.util.Date timeNow() {
+    public static java.util.Date timeNow() {
         return(new java.util.Date());
     }
     
-    public static final PrintStream getPrintStream(String file, boolean append) throws IOException {
+    public static PrintStream getPrintStream(String file, boolean append) throws IOException {
         PrintStream stream = null;
         FileOutputStream  fw  = new FileOutputStream(file, append);
         stream = new PrintStream(fw, P6SpyOptions.getAutoflush());
         return(stream);
     }
     
-    public final static String timeTaken(java.util.Date start, String msg) {
+    public static String timeTaken(java.util.Date start, String msg) {
         double t = (double) elapsed(start) / (double) 1000;
         return "Time: " + msg + ": " + t;
     }

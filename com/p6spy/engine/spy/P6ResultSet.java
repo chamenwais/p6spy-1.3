@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/10/06 18:23:25  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:31:13  jeffgoke
  * version 1 rewrite
  *
@@ -337,7 +340,7 @@ public class P6ResultSet implements ResultSet {
     }
     
     public ResultSetMetaData getMetaData() throws SQLException {
-        return passthru.getMetaData();
+        return getP6Factory().getResultSetMetaData(passthru.getMetaData());
     }
     
     public int findColumn(String p0) throws SQLException {

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.2  2002/10/06 18:22:48  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:31:28  jeffgoke
  * version 1 rewrite
  *
@@ -126,6 +129,7 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
     }
     
     public void commit() throws SQLException {
+        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         if (P6SpyOptions.getOutageDetection()) {
@@ -144,6 +148,7 @@ public class P6OutageConnection extends P6Connection implements java.sql.Connect
     }
     
     public void rollback() throws SQLException {
+        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         if (P6SpyOptions.getOutageDetection()) {

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/10/06 18:23:25  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:31:13  jeffgoke
  * version 1 rewrite
  *
@@ -93,11 +96,12 @@ import java.sql.*;
 public interface P6Factory {
     
     public Connection getConnection(Connection conn) throws SQLException;
-    public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0);
-    public Statement getStatement(Statement real, P6Connection conn);
-    public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0);
-    public DatabaseMetaData getDatabaseMetaData(DatabaseMetaData real, P6Connection conn);
-    public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query);
-    public Array getArray(Array real, P6Statement statement, String preparedQuery, String query);
+    public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) throws SQLException;
+    public Statement getStatement(Statement real, P6Connection conn) throws SQLException;
+    public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) throws SQLException;
+    public DatabaseMetaData getDatabaseMetaData(DatabaseMetaData real, P6Connection conn) throws SQLException;
+    public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query) throws SQLException;
+    public Array getArray(Array real, P6Statement statement, String preparedQuery, String query) throws SQLException;
+    public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) throws SQLException;
     
 }

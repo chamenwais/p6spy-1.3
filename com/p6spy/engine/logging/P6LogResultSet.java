@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/10/06 18:22:12  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:31:45  jeffgoke
  * version 1 rewrite
  *
@@ -111,6 +114,7 @@ public class P6LogResultSet extends P6ResultSet implements ResultSet {
     }
     
     public boolean next() throws SQLException {
+        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         try {
             return passthru.next();

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.2  2002/10/06 18:22:12  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:31:45  jeffgoke
  * version 1 rewrite
  *
@@ -126,6 +129,7 @@ public class P6LogConnection extends P6Connection implements java.sql.Connection
     }
     
     public void commit() throws SQLException {
+        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {
@@ -139,6 +143,7 @@ public class P6LogConnection extends P6Connection implements java.sql.Connection
     }
     
     public void rollback() throws SQLException {
+        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {

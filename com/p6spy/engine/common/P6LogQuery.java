@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.2  2002/10/06 18:21:37  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:32:01  jeffgoke
  * version 1 rewrite
  *
@@ -154,6 +157,21 @@ public class P6LogQuery {
         String log = P6SpyOptions.getLogfile();
         if (log == null || log.equals("stdout")) {
             qlog = System.out;
+        } else if (log.equals("log4j")) {
+            // start of Rafael Alvarez (soronthar) changes
+            try {
+                qlog = (PrintStream) Class.forName("com.p6spy.engine.common.LoggingStream").newInstance();
+            } catch (InstantiationException e) {
+                System.err.println("Cannot instantiate com.p6spy.engine.common.LoggingStream, logging to file log4jaux.log");
+                qlog = logPrintStream("log4jaux.log");
+            } catch (IllegalAccessException e) {
+                System.err.println("Cannot instantiate com.p6spy.engine.common.LoggingStream, logging to file log4jaux.log");
+                qlog = logPrintStream("log4jaux.log");
+            } catch (ClassNotFoundException e) {
+                System.err.println("Cannot instantiate com.p6spy.engine.common.LoggingStream, logging to file log4jaux.log");
+                qlog = logPrintStream("log4jaux.log");
+            }
+            // End of Rafael Alvarez (soronthar) changes
         } else {
             qlog = logPrintStream(log);
         }
@@ -165,7 +183,7 @@ public class P6LogQuery {
         excludeCategories = parseCSVList(P6SpyOptions.getExcludecategories());
     }
     
-    static PrintStream logPrintStream(String file) {
+    static public PrintStream logPrintStream(String file) {
         PrintStream ps = null;
         try {
             String path = P6Util.classPathFile(file);
@@ -354,6 +372,12 @@ public class P6LogQuery {
     // useful for the JSP demarcation tool
     static public void logText(String text) {
         qlog.println(text);
+    }
+    
+    static public void log(String category, String prepared, String sql) {
+        if (qlog != null) {
+            doLog(-1, category, prepared, sql);
+        }
     }
     
     static public void logElapsed(int connectionId, long startTime, String category, String prepared, String sql) {

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.2  2002/10/06 18:23:25  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:31:13  jeffgoke
  * version 1 rewrite
  *
@@ -126,41 +129,70 @@ public abstract class P6SpyDriverCore implements Driver {
     protected String suffix = null;
     protected P6Factory p6factory = null;
     protected static Object lock = new Object();
-    protected static HashMap driverStacks = new HashMap();
+    public static HashMap driverStacks = new HashMap();
+    protected static HashSet driversRegistered = new HashSet();
     protected static String DRIVERSTACK_KEY = "driverstack";
+
+    /* 
+     * This core class serves to purposes:
+     * 
+     * (1) it acts as a bootstap class the first time
+     * it is invoked and it loads not itself, but the first driver on the stack.  This is
+     * important because P6SpyDriver, P6SpyDriver2, etc. extend this class and performs
+     * the initial bootstrap.
+     * 
+     * (2) when connect or acceptURL are invoked it ensures it has a passthru driver.
+     * 
+     *
+     */
     
     public synchronized static void initMethod(String spydriver) {
-        P6Util.checkJavaProperties();
-        P6LogQuery.logInfo("P6Spy trace is on: "+P6SpyOptions.getTrace());
+        // if this is the bootstrap driver, we need to create the driver stack
+        // but we won't actually register this driver
+        
+        // we only want to register one p6driver per suffix and we need to create
+        // an individual stack per suffix
         String suffixString = getSuffix(spydriver);
-        try {
-            Stack driverStack = null;
-            synchronized (lock) {
-                driverStack = (Stack)driverStacks.get(DRIVERSTACK_KEY+suffixString);
-                if (driverStack == null) {
+        
+        Stack driverStack = null;
+        synchronized (lock) {
+            driverStack = (Stack)driverStacks.get(DRIVERSTACK_KEY+suffixString);
+            if (driverStack == null) {
+                try {
                     P6LogQuery.logDebug("Building driver stack");
                     driverStack = buildDriverStack(suffixString);
                     P6LogQuery.logDebug("Driver stack size: "+driverStack.size());
                     String createDriver = (String)driverStack.pop();
                     Class.forName(createDriver);
                     P6LogQuery.logInfo("Created instance of driver: "+createDriver);
-                } else {
-                    DriverManager.registerDriver((Driver)Class.forName(spydriver).newInstance());
-                    P6LogQuery.logInfo("Registered driver: "+spydriver);
+                } catch (ClassNotFoundException e1) {
+                    P6Util.warn("Error registering Driver P6SpyDriver " + spydriver + " " + e1);
+                } catch (SQLException e2) {
+                    P6Util.warn("Error registering Driver P6SpyDriver " + spydriver + " " + e2);
                 }
             }
-        } catch (ClassNotFoundException e1) {
-            P6Util.warn("Error registering Driver P6SpyDriver " + spydriver + " " + e1);
-        } catch (SQLException e2) {
-            P6Util.warn("Error registering Driver P6SpyDriver " + spydriver + " " + e2);
-        } catch (InstantiationException e3) {
-            P6Util.warn("Error registering Driver P6SpyDriver " + spydriver + " " + e3);
-        } catch (IllegalAccessException e4) {
-            P6Util.warn("Error registering Driver P6SpyDriver " + spydriver + " " + e4);
+        }
+        
+        if (driversRegistered.contains(DRIVERSTACK_KEY+suffixString) == false) {
+            driversRegistered.add(DRIVERSTACK_KEY+suffixString);
+            P6Util.checkJavaProperties();
+            P6LogQuery.logInfo("P6Spy trace is on: "+P6SpyOptions.getTrace());
+            try {
+                DriverManager.registerDriver((Driver)Class.forName(spydriver).newInstance());
+                P6LogQuery.logInfo("Registered driver: "+spydriver);
+            } catch (ClassNotFoundException e1) {
+                P6Util.warn("Error registering Driver P6SpyDriver " + spydriver + " " + e1);
+            } catch (SQLException e2) {
+                P6Util.warn("Error registering Driver P6SpyDriver " + spydriver + " " + e2);
+            } catch (InstantiationException e3) {
+                P6Util.warn("Error registering Driver P6SpyDriver " + spydriver + " " + e3);
+            } catch (IllegalAccessException e4) {
+                P6Util.warn("Error registering Driver P6SpyDriver " + spydriver + " " + e4);
+            }
         }
     }
     
-    public P6SpyDriverCore(String _spydriver, P6Factory _p6factory) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public P6SpyDriverCore(String _spydriver, P6Factory _p6factory) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         suffix = getSuffix(_spydriver);
         p6factory = _p6factory;
     }
@@ -170,7 +202,7 @@ public abstract class P6SpyDriverCore implements Driver {
         if (realUrl==null) {
             throw new SQLException("URL needs the p6spy prefix: "+p0);
         }
-        registerRealDriver();
+        getRealDriver();
         Connection conn = passthru.connect(realUrl,p1);
         return conn == null ? null : p6factory.getConnection(conn);
     }
@@ -180,7 +212,7 @@ public abstract class P6SpyDriverCore implements Driver {
         if (realUrl==null) {
             return false;
         }
-        registerRealDriver();
+        getRealDriver();
         return(passthru.acceptsURL(realUrl));
     }
     
@@ -208,7 +240,7 @@ public abstract class P6SpyDriverCore implements Driver {
         return(passthru.jdbcCompliant());
     }
     
-    protected synchronized void registerRealDriver() throws SQLException {
+    protected synchronized void getRealDriver() throws SQLException {
         if (passthru == null) {
             String registerDriver = null;
             try {

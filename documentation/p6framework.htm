@@ -1,0 +1,145 @@
+<html>
+<!-- #BeginTemplate "/Templates/spydocs.dwt" --> 
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Untitled Document</title>
+<!-- #EndEditable --> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#000000" text="#000000">
+<img src="images/header.gif" width="580" height="80"> 
+<br>
+<table width="100%" border="0">
+  <tr> 
+    <td width="11%"><a href="http://www.p6spy.com" target="_parent"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="index.htm" target="bottomFrame"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="install.htm" target="bottomFrame"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6log.htm" target="bottomFrame"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6outage.htm" target="bottomFrame"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="7%"><a href="p6cache.htm" target="bottomFrame"><img src="images/p6cache.gif" width="110" height="20" border="0"></a></td>
+    <td width="38%">&nbsp;</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0">
+  <tr> 
+    <td bgcolor="#FFFFFF"><!-- #BeginEditable "body" --> 
+          <table width="640" border="0">
+              <tr> 
+                
+    <td width="56%" valign="top"> 
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="framework" id="faq"></a>The 
+        P6Spy Framework</b></font></p>
+                  
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">P6Spy provides 
+        a pluggable framework for applications that intercept and optionally manipulate 
+        database statements. This framework supports any application that uses 
+        JDBC. All of this is done in a seamless manner that requires no change 
+        to the client application and enables the application to be installed 
+        with minimal effort. P6Spy packages several useful applications with the 
+        framework including <a href="p6log.html">P6Log</a>, <a href="p6outage.html">P6Outage</a>, 
+        and <a href="p6cache.html">P6Cache</a>.</font></p>
+                  <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The 
+                    P6Spy framework works by starting with a loader driver (figure 
+                    1.1) that loads the functionality that the end user has chosen 
+                    to enable. This is accomplished by using &quot;stackable drivers&quot;. 
+                    Each module is a self-contained database driver that passes 
+                    through database requests to the next stacked driver at which 
+                    time each driver is allowed to handle the request in turn.</font></p></td>
+                <td width="4%" valign="top">&nbsp;</td>
+                <td width="40%" align="right" valign="top"> <table border="1" bordercolor="#000000" cellpadding="5">
+                    <tr> 
+                      <td> <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">figure 
+                          1.1</font></p>
+                        <p><img src="images/driverloading.gif" width="237" height="283"></p></td>
+                    </tr>
+                  </table></td>
+              </tr>
+              <tr valign="top"> 
+                <td colspan="3"><table width="100%" border="0">
+                    <tr align="left"> 
+                      <td colspan="3" valign="top"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">At 
+                        runtime only the enabled modules are loaded, causing only 
+                        the required code to be executed. If no modules are selected, 
+                        then only the real database driver is loaded, effectively 
+                        incurring zero overhead. Figure 1.2 shows an example of 
+                        how this might work with actual modules.</font></td>
+                    </tr>
+                    <tr> 
+                      <td width="56%" align="center" valign="top"><br><table border="1" bordercolor="#000000" cellpadding="5">
+                          <tr> 
+                            <td>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">figure 
+                                1.2</font></p>
+                              <p><img src="images/processing.gif" width="307" height="283"></p></td>
+                          </tr>
+                        </table></td>
+                      <td width="3%">&nbsp; </td>
+                      <td width="41%" valign="top"><p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Further, 
+                          the framework is designed to make it easy to build modules, 
+                          and to make the installation as simple as possible for 
+                          the end user. To achieve this the framework provides 
+                          a series of core wrapper classes that wrap every JDBC 
+                          statement. The developer is only required to the extend 
+                          those classes and override the specific methods they 
+                          wish to intercept. Not only does this provide fast development, 
+                          but as JDBC provides additional methods, only the core 
+                          classes need to implement wrappers, while the modules 
+                          themselves will automatically inherit the changes to 
+                          the core classes.</font></p>
+                        </td>
+                    </tr>
+                    <tr> 
+                      <td colspan="3" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+            </table>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="build" id="faq"></a>Building 
+  the Source </b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">To build the source 
+  you must first <a href="http://www.cacas.org/java/gnu/regexp/">download</a> 
+  the GNU RegEx engine and <a href="http://jakarta.apache.org/builds/jakarta-regexp/">download</a> 
+  the Jakarta RegEx engine. Copy the RegEx .jar files to the lib/ directory which 
+  is a subdirectory of your main directory (the directory with the source code). 
+  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">You must 
+  also <a href="http://jakarta.apache.org/ant/index.html">download</a> and install 
+  Jakarta Ant. You then just type ant in the directory with the build.xml file 
+  and the code will build. The following are useful targets:</font></p>
+<ul>
+  <li>[<font face="Verdana, Arial, Helvetica, sans-serif" size="2">no target</font>]<font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+    creates a p6spy.jar file in the dist/ directory</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[clean] cleans 
+    the directory of build files and tool generated backup files</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[release] creates 
+    the Javadocs, the war file, and all distribution .zip and .jar files</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[test] runs 
+    the standard Junit tests (see notes below)</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[perform] runs 
+    the performance specific JUnit tests (see notes below)</font></li>
+</ul>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">To run the Junit 
+  tests, first you must <a href="http://www.junit.org/index.htm">download</a> 
+  and install JUnit. Once that is complete you must edit the P6Test.properties 
+  file and specify two databases. The configuration is setup for Oracle and MySQL 
+  (though you will have to change the Oracle URL at a minimum). You must also 
+  copy the vendor database JDBC drivers .jar files of the two databases you use 
+  into the lib/ directory.</font></p>
+      <!-- #EndEditable --></td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0">
+  <tr> 
+    <td width="11%"><a href="http://www.p6spy.com" target="_parent"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="index.htm" target="bottomFrame"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="install.htm" target="bottomFrame"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6log.htm" target="bottomFrame"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6outage.htm" target="bottomFrame"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="7%"><a href="p6cache.htm" target="bottomFrame"><img src="images/p6cache.gif" width="110" height="20" border="0"></a></td>
+    <td width="38%">&nbsp;</td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate -->
+</html>

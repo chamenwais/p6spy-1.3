@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/10/06 18:24:04  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:30:46  jeffgoke
  * version 1 rewrite
  *
@@ -101,10 +104,12 @@ public class P6Test extends TestCase {
     
     public static Test suite() {
         TestSuite suite = new TestSuite();
+        suite.addTestSuite(P6TestBasics.class);
         suite.addTestSuite(P6TestCallableStatement.class);
         suite.addTestSuite(P6TestPreparedStatement.class);
         suite.addTestSuite(P6TestStatement.class);
         suite.addTestSuite(P6TestCommon.class);
+        suite.addTestSuite(P6TestCache.class);
         return suite;
     }
 }

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.2  2002/10/06 18:22:12  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:31:45  jeffgoke
  * version 1 rewrite
  *
@@ -133,6 +136,7 @@ public class P6LogStatement extends P6Statement implements Statement {
     }
     
     public boolean execute(String p0) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -147,11 +151,12 @@ public class P6LogStatement extends P6Statement implements Statement {
     }
     
     public ResultSet executeQuery(String p0) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
         try {
-            return (new P6ResultSet(passthru.executeQuery(p0), this, "", p0));
+            return getP6Factory().getResultSet(passthru.executeQuery(p0), this, "", p0);
         }
         finally {
             if (P6SpyOptions.getTrace()) {
@@ -161,6 +166,7 @@ public class P6LogStatement extends P6Statement implements Statement {
     }
     
     public int executeUpdate(String p0) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -175,6 +181,7 @@ public class P6LogStatement extends P6Statement implements Statement {
     }
     
     public void addBatch(String p0) throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
         
@@ -189,6 +196,7 @@ public class P6LogStatement extends P6Statement implements Statement {
     }
     
     public int[] executeBatch() throws java.sql.SQLException {
+        P6SpyOptions.checkReload();
         long startTime = System.currentTimeMillis();
         
         try {

@@ -84,7 +84,7 @@ public class P6OutageSpyDriver3 extends P6SpyDriverCore {
         P6SpyDriverCore.initMethod(P6OutageSpyDriver3.class.getName());
     }
     
-    public P6OutageSpyDriver3() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public P6OutageSpyDriver3() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         super(P6OutageSpyDriver3.class.getName(),new P6OutageFactory());
     }
     

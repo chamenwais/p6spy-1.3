@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/10/06 18:22:48  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:31:28  jeffgoke
  * version 1 rewrite
  *
@@ -112,6 +115,10 @@ public class P6OutageFactory implements P6Factory {
     
     public Array getArray(Array real, P6Statement statement, String preparedQuery, String query) {
         return (new P6OutageArray(real, statement, preparedQuery, query));
+    }
+    
+    public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) {
+        return (new P6OutageResultSetMetaData(real));
     }
     
 }

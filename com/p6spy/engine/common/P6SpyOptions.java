@@ -123,6 +123,15 @@ public class P6SpyOptions   {
     private static boolean outageDetection;
     private static long outageDetectionInterval;
     private static long outageMs;
+    // variables used for p6cache
+    private static boolean cache;
+    private static boolean cachetrace;
+    private static String clearcache;
+    private static String entries;
+    private static String forms;
+    private static String formsfile;
+    private static String formslog;
+    private static boolean formstrace;
     
     static String propertiesPath;
     static long propertiesLastModified = -1;
@@ -241,10 +250,7 @@ public class P6SpyOptions   {
         trace = P6Util.isTrue(_trace, false);
     }
     
-    // since getTrace is called almost everywhere, this is the
-    // best property to engage reloading
     public static boolean getTrace() {
-        checkReload();
         return trace;
     }
     
@@ -368,13 +374,66 @@ public class P6SpyOptions   {
         outageMs = outageDetectionInterval * 1000l;
     }
     
+    // methods for caching
+    
+    public static void setCache(String _cache) {
+        cache = P6Util.isTrue(_cache, false);
+    }
+    
+    public static boolean getCache() {
+        return cache;
+    }
+    public static void setCachetrace(String _cachetrace) {
+        cachetrace = P6Util.isTrue(_cachetrace, false);
+    }
+    public static boolean getCachetrace() {
+        return cachetrace;
+    }
+    public static void setClearcache(String _clearcache) {
+        clearcache = _clearcache;
+    }
+    public static String getClearcache() {
+        return clearcache;
+    }
+    public static void setEntries(String _entries) {
+        entries = _entries;
+    }
+    public static String getEntries() {
+        return entries;
+    }
+    
+    public static void setForms(String _forms) {
+        forms = _forms;
+    }
+    public static String getForms() {
+        return forms;
+    }
+    public static void setFormsfile(String _formsfile) {
+        formsfile = _formsfile;
+    }
+    public static String getFormsfile() {
+        return formsfile;
+    }
+    public static void setFormslog(String _formslog) {
+        formslog = _formslog;
+    }
+    public static String getFormslog() {
+        return formslog;
+    }
+    public static void setFormstrace(String _formstrace) {
+        formstrace = P6Util.isTrue(_formstrace, false);
+    }
+    public static boolean getFormstrace() {
+        return formstrace;
+    }
+    
+    
     // --------------------------------------------------------------------------
     // END GET/SET METHODS, BEGIN HELPER CODE
     // --------------------------------------------------------------------------
     
     public static void initMethod() {
-        Properties props  = P6Util.loadProperties(SPY_PROPERTIES_FILE);
-        setValues(props);
+        setValues(SPY_PROPERTIES_FILE);
         
         propertiesPath = P6Util.classPathFile(SPY_PROPERTIES_FILE);
         if(propertiesPath != null) {
@@ -393,7 +452,7 @@ public class P6SpyOptions   {
                 long lastModified = propertiesFile.lastModified();
                 if(lastModified != propertiesLastModified) {
                     P6LogQuery.logDebug("reloading properties from file "+SPY_PROPERTIES_FILE);
-                    setValues(P6Util.loadProperties(SPY_PROPERTIES_FILE));
+                    setValues(SPY_PROPERTIES_FILE);
                     propertiesLastModified = lastModified;
                     
                     // finally recheck the environment properties
@@ -414,22 +473,26 @@ public class P6SpyOptions   {
         }
     }
     
-    public static void setValues(Properties props) {
+    public static void setValues(String filename) {
         try {
+            Properties props  = P6Util.loadProperties(filename);
+            
             ArrayList allMethods = P6Util.findAllMethods(P6SpyOptions.class);
             Iterator i = allMethods.iterator();
             while (i.hasNext()) {
                 // lowercase and strip the end
                 String methodName = ((String)i.next()).substring(3);
-                dynamicSet("set"+methodName, (String)props.get(methodName.toLowerCase()));
+                String value = (String)props.get(methodName.toLowerCase());
+                dynamicSet("set"+methodName, value == null ? null : value.trim());
             }
             
+            ArrayList moduleList = P6Util.reverseArrayList(P6Util.loadProperties(filename, "module_"));
             modules = new ArrayList();
-            for (Enumeration e = props.propertyNames() ; e.hasMoreElements() ;) {
-                String propertyName = (String)e.nextElement();
-                if (propertyName.startsWith("module_")) {
-                    modules.add(props.get(propertyName));
-                }
+            Iterator j = moduleList.iterator();
+            while (j.hasNext()) {
+                KeyValue moduleKV = (KeyValue)j.next();
+                String value = (String)moduleKV.getValue();
+                modules.add(value.trim());
             }
         } catch (IntrospectionException e) {
             P6Util.warn("Could not set property values due to IntrospectionException");

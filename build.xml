@@ -130,21 +130,23 @@
 			<fileset dir="${docs}" />
 			<fileset dir="." includes="license.txt" />
 			<fileset dir="." includes="spy.properties" />
+			<fileset dir="." includes="spy.forms" />
 		</zip>
 		<jar jarfile="${dist}/p6spy-install.jar">
 			<fileset dir="${dist}" includes="p6spy.jar" />
 			<fileset dir="${dist}" includes="p6spy.war" />
 			<fileset dir="." includes="license.txt" />
 			<fileset dir="." includes="spy.properties" />
+			<fileset dir="." includes="spy.forms" />
 			<fileset dir="${docs}" />
 		</jar>
 		<zip zipfile="${dist}/p6spy-src.zip">
-			<zipfileset dir="${src}" includes="*.java,*.xml,*.txt,*.properties" />
+			<zipfileset dir="${src}" includes="**/*.java,**/*.xml,**/*.txt,**/*.properties" />
 			<zipfileset dir="${javadocs}" prefix="javadocs" />
 			<zipfileset dir="${docs}" prefix="documentation" />
 		</zip>
 		<jar jarfile="${dist}/p6spy-src.jar">
-			<zipfileset dir="${src}" includes="*.java,*.xml,*.txt,*.properties" />
+			<zipfileset dir="${src}" includes="**/*.java,**/*.xml,**/*.txt,**/*.properties" />
 			<zipfileset dir="${javadocs}" prefix="javadocs" />
 			<zipfileset dir="${docs}" prefix="documentation" />
 		</jar>

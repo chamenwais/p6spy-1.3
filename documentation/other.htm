@@ -1,0 +1,505 @@
+<html><!-- #BeginTemplate "/Templates/spydocs.dwt" -->
+<head>
+<!-- #BeginEditable "doctitle" --> 
+<title>Untitled Document</title>
+<!-- #EndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#000000" text="#000000">
+<img src="images/header.gif" width="580" height="80"> <br>
+<table width="100%" border="0">
+  <tr> 
+    <td width="11%"><a href="http://www.p6spy.com" target="_parent"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="index.htm" target="bottomFrame"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="install.htm" target="bottomFrame"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6log.htm" target="bottomFrame"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6outage.htm" target="bottomFrame"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="7%"><a href="p6cache.htm" target="bottomFrame"><img src="images/p6cache.gif" width="110" height="20" border="0"></a></td>
+    <td width="38%">&nbsp;</td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0" cellpadding="20" cellspacing="20">
+  <tr>
+    <td bgcolor="#FFFFFF"> <!-- #BeginEditable "body" --> 
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="common"></a>Common 
+        Property File Settings</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Example 
+        property file:</b></font></p>
+      <p>#################################################################<br>
+        # P6Spy Options File #<br>
+        # See documentation for detailed instructions #<br>
+        #################################################################</p>
+      <p>#################################################################<br>
+        # MODULES #<br>
+        # #<br>
+        # Modules provide the P6Spy functionality. If a module, such #<br>
+        # as module_log is commented out, that functionality will not #<br>
+        # be available. If it is not commented out (if it is active), #<br>
+        # the functionality will be active. #<br>
+        # #<br>
+        # Values set in Modules cannot be reloaded using the #<br>
+        # reloadproperties variable. Once they are loaded, they remain #<br>
+        # in memory until the application is restarted. #<br>
+        # #<br>
+        #################################################################</p>
+      <p>module_log=com.p6spy.engine.logging.P6LogSpyDriver<br>
+        module_outage=com.p6spy.engine.outage.P6OutageSpyDriver</p>
+      <p>#################################################################<br>
+        # REALDRIVER(s) #<br>
+        # #<br>
+        # In your application server configuration file you replace the #<br>
+        # &quot;real driver&quot; name with com.p6spy.engine.P6SpyDriver. This 
+        is #<br>
+        # where you put the name of your real driver P6Spy can find and #<br>
+        # register your real driver to do the database work. #<br>
+        # #<br>
+        # If your application uses several drivers specify them in #<br>
+        # realdriver2, realdriver3. See the documentation for more #<br>
+        # details. #<br>
+        # #<br>
+        # Values set in REALDRIVER(s) cannot be reloaded using the #<br>
+        # reloadproperties variable. Once they are loaded, they remain #<br>
+        # in memory until the application is restarted. #<br>
+        # #<br>
+        #################################################################</p>
+      <p># realdriver = org.gjt.mm.mysql.Driver <br>
+        realdriver = oracle.jdbc.driver.OracleDriver<br>
+        #specifies another driver to use<br>
+        realdriver2=<br>
+        #specifies a third driver to use<br>
+        realdriver3=</p>
+      <p>################################################################<br>
+        # P6LOG SPECIFIC PROPERTIES #<br>
+        ################################################################<br>
+        # determines if p6log outputs information<br>
+        trace = true</p>
+      <p>################################################################<br>
+        # P6OUTAGE SPECIFIC PROPERTIES #<br>
+        ################################################################<br>
+        # Outage Detection<br>
+        #<br>
+        # This feature detects long-running statements that may be indicative 
+        of<br>
+        # a database outage problem. If this feature is turned on, it will log 
+        any<br>
+        # statement that surpasses the configurable time boundary during its execution.<br>
+        # When this feature is enabled, no other statements are logged except 
+        the long<br>
+        # running statements. The interval property is the boundary time set in 
+        seconds.<br>
+        # For example, if this is set to 2, then any statement requiring at least 
+        2 <br>
+        # seconds will be logged. Note that the same statement will continue to 
+        be logged<br>
+        # for as long as it executes. So if the interval is set to 2, and the 
+        query takes<br>
+        # 11 seconds, it will be logged 5 times (at the 2, 4, 6, 8, 10 second 
+        intervals).<br>
+        #<br>
+        # outagedetection=true|false<br>
+        # outagedetectioninterval=integer time (seconds)<br>
+        #<br>
+        outagedetection=false<br>
+        outagedetectioninterval=</p>
+      <p><br>
+        ################################################################<br>
+        # COMMON PROPERTIES #<br>
+        ################################################################</p>
+      <p># comma separated list of tables to include<br>
+        include =<br>
+        # comma separated list of tables to exclude<br>
+        exclude =</p>
+      <p># sql expression to evaluate if using regex<br>
+        sqlexpression = </p>
+      <p># filter what is logged<br>
+        filter=false </p>
+      <p># turn on tracing<br>
+        autoflush = true<br>
+        # name of logfile if trace is on, use &quot;stdout&quot; for standard 
+        output.<br>
+        logfile = spy.log<br>
+        # append to the p6spy log file. if this is set to false the<br>
+        # log file is truncated every time.<br>
+        append=true</p>
+      <p># sets the date format using Java's SimpleDateFormat routine<br>
+        dateformat=</p>
+      <p>#list of categories to explicitly include<br>
+        includecategories=</p>
+      <p>#list of categories to exclude: info, batch, debug, statement,<br>
+        #commit, rollback and result are valid values<br>
+        excludecategories=info,debug,result,batch</p>
+      <p>#allows you to use a regex engine or your own matching engine to determine 
+        <br>
+        #which statements to log<br>
+        #<br>
+        #stringmatcher=com.p6spy.engine.common.GnuRegexMatcher<br>
+        #stringmatcher=com.p6spy.engine.common.JakartaRegexMatcher<br>
+        stringmatcher=</p>
+      <p># prints a stack trace for every statement logged<br>
+        stacktrace=false<br>
+        # if stacktrace=true, specifies the stack trace to print<br>
+        stacktraceclass=</p>
+      <p># determines if property file should be reloaded<br>
+        reloadproperties=false<br>
+        # determines how often should be reloaded in seconds<br>
+        reloadpropertiesinterval=60<br>
+        #if=true then url must be prefixed with p6spy:<br>
+        useprefix=false</p>
+      <p>#For log4j logging<br>
+        log4j.appender.STDOUT=org.apache.log4j.ConsoleAppender<br>
+        log4j.appender.STDOUT.layout=org.apache.log4j.PatternLayout<br>
+        log4j.appender.STDOUT.layout.ConversionPattern=p6spy - %m%n</p>
+      <p>#log4j.appender.CHAINSAW_CLIENT=org.apache.log4j.net.SocketAppender<br>
+        #log4j.appender.CHAINSAW_CLIENT.RemoteHost=localhost<br>
+        #log4j.appender.CHAINSAW_CLIENT.Port=4445<br>
+        #log4j.appender.CHAINSAW_CLIENT.LocationInfo=true</p>
+      <p>log4j.logger.p6spy=INFO,STDOUT</p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>module_xxx</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_xxx 
+        is the name of a particular module to be loaded at system startup. A module 
+        contains a group of functionality. If a module line is not commented out, 
+        it is loaded into memory, and will remain in memory until the application 
+        is restarted. Modules can not be changed by using the reloadproperties 
+        function. If all modules are commented out, then nothing except the real 
+        database driver is loaded.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Currently 
+        the following modules are supported:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_log=com.p6spy.engine.logging.P6LogSpyDriver<br>
+        module_outage=com.p6spy.engine.outage.P6OutageSpyDriver</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_log 
+        is required for the logging functionality, see P6Log.<br>
+        module_outage is required for the outage functionality, see P6Outage.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver 
+        is where you specify the real database driver that you use.&nbsp;&nbsp;P6Spy 
+        wraps around your existing driver, intercepts the incoming database requests, 
+        and outputs them to a log file.&nbsp;&nbsp;To achieve this without requiring 
+        any code changes, the P6Spy driver is listed with your application as 
+        the primary driver.&nbsp;&nbsp;P6Spy then intercepts and logs the requests, 
+        and passes the request to the realdriver where it is processed as usual.&nbsp;&nbsp;Example:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver 
+        = oracle.jdbc.driver.OracleDriver</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver2, 
+        realdriver3 </b></font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">if you have 
+        multiple database drivers then you need a way to specify these drivers. 
+        This is where realdriver2 and realdriver3 are used. To monitor the first 
+        database, you modified your server settings or application settings to 
+        tell your application to use P6Spy as your database driver, which is: 
+        com.p6spy.engine.spy.P6SpyDriver &nbsp;&nbsp;&nbsp;For the second database, 
+        specify the driver as com.p6spy.engine.spy.P6SpyDriver2 and set realdriver2 
+        to the real driver. For the third database, specify the driver as com.p6spy.engine.spy.P6SpyDriver3 
+        and set realdriver3 to the real driver.</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Note that 
+        if you are using the same database driver with multiple connection strings, 
+        you should use the same driver. E.g. say you have two MySQL databses: 
+        mydb and testdb. You want to connect to both databases and log their activity. 
+        You have two datasources defined. You should specify com.p6spy.engine.spy.P6SpyDriver 
+        as the database driver for both of these and you should set the realdriver= 
+        the real mysql JDBC driver name. realdriver2, realdriver3 are only intended 
+        for use when you are connecting with two different drivers, for example 
+        Oracle versus MySQL.</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">To understand 
+        why this is the case, remember that Java uses the DriverManager to register 
+        all of the drivers. As each class is loaded, it registers itself with 
+        the DriverManager. When a connection is requested for a specific URL, 
+        the driver manager goes through the list of registered drivers and asks 
+        each in turn if it will handle that url (via the acceptURL method). The 
+        first driver that says yes becomes the driver that is used. Since an Oracle 
+        driver can handle any valid Oracle URL, registering the driver twice will 
+        just cause only one of the drivers (the first one that was registered) 
+        to handle the request. The second will be ignored. Therefore, if you specify 
+        the same driver in realdriver and realdriver2 you won't have any problems, 
+        but you will have the same driver registered multiple times.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>filter, 
+        include, exclude </b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy lets 
+        you monitor specific tables or specific statement types.&nbsp;&nbsp;By 
+        setting filter=true P6Spy will perform string matching on each statement 
+        to determine if it should be written to the log file.&nbsp;&nbsp;include 
+        accepts a comma separated list of expressions which are required to be 
+        appear in a statement before it can appear in the log, exclude accepts 
+        a comma separated list to exclude. By default string matching is performed 
+        using a basic substring match. However Regex matching can also be used 
+        (see Custom Filtering below). Note that exclusion overrides inclusion, 
+        so that a statement matching both an include string and an exclude string 
+        will be excluded. </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">example (capture 
+        all select statements except the orders table):</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">filter = 
+        true<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># comma 
+        separated list of tables to include<br>
+        include = select<br>
+        # comma separated list of tables to exclude<br>
+        exclude = orders</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">example (only 
+        captures statements against order,order_details,price, and price_history):</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">filter = 
+        true<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># comma 
+        separated list of tables to include<br>
+        include = order,order_details,price,price_history<br>
+        # comma separated list of tables to exclude<br>
+        exclude =</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">example (captures 
+        all statements except statements against the order table):</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">filter = 
+        false<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># comma 
+        separated list of tables to include<br>
+        include = <br>
+        # comma separated list of tables to exclude<br>
+        exclude = order</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>filter, 
+        sqlexpression</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If you plan 
+        on using a regex engine, a simple alternative to exclude and include is 
+        to use sqlexpression. It works like this:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">filter = 
+        true<br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">sqlexpression 
+        = your expression</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If your expression 
+        matches the SQL string, it is logged, if not, it is not. Note, if you 
+        use sqlexpression, any values set in include and exclude are ignored.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>stringmatcher 
+        (Custom Filtering)</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> If you want 
+        to apply more intelligence to what is logged or not logged by P6Spy you 
+        can specify a custom matching engine. P6Spy comes with support for several 
+        regex engines, though it is trivial to introduce another engine by implementing 
+        the StringMatcher interface. If a stringmatcher engine is specified, P6Spy 
+        will pass each statement to the class specified to determine if that statement 
+        should be logged.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>Using 
+        GNU RegEx<br>
+        </i></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy 
+        comes with support for a regular expression matcher based on the GNU Regex 
+        library. To use this, for example, you would specify:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># Use GNU 
+        Regex Matching for Filtering<br>
+        stringmatcher =com.p6spy.engine.common.GnuRegexMatcher<br>
+        <br>
+        </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Note 
+        that in order to do this you must <a href="http://www.cacas.org/java/gnu/regexp/">download</a> 
+        the GNU Java regex library and add it to your classpath so that P6Spy 
+        can find it. <br>
+        <br>
+        <i>Using Jakarta RegEx<br>
+        </i>P6Spy also includes support for the Apache Jakarta Regex library. 
+        To use this, you would specify:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># Use Apache 
+        Jakarta Regex Matching for Filtering<br>
+        stringmatcher =com.p6spy.engine.common.JakartaRegexMatcher<br>
+        <br>
+        Note that in order to do this you must <a href="http://jakarta.apache.org/builds/jakarta-regexp/">download</a> 
+        the Apache Jarkarta regex library and add it to your classpath so that 
+        P6Spy can find it.</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+        </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>autoflush</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">For standard 
+        development this value should be set to true. &nbsp;When set to true every 
+        time a statement is intercepted it is immediately written to the log file.&nbsp;&nbsp;In 
+        some cases, however, instant feedback on every statement is not a requirement, 
+        and the system will perform slightly faster with this value set to false</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">autoflush 
+        = true<br>
+        <b><br>
+        </b> </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><a name="logfile"></a>logfile</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Specifies 
+        the name of the file to generate.&nbsp;&nbsp;Use &quot;stdout&quot; for 
+        standard output. Note, if you are in Windows and are specifying a pathname, 
+        make sure to use forward slashes (e.g. c:/mylog/spy.log)</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">logfile = 
+        spy.log<br>
+        </font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">you can also 
+        use log4j for your logging</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">1.- Set the 
+        logfile property to &quot;log4j&quot;<br>
+        2.- Put the configuration of the logger and all appenders in the spy.properties 
+        file</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If for some 
+        reason log4j cannot be initialized, the logging will go to a file called 
+        log4jaux.log</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>append</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting append=true 
+        causes p6spy to continue to append to the logfile, if it exists. Setting 
+        append=false causes the logfile to be truncated each time p6spy is restarted 
+        (typically when your application or application server is restarted).</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>excludecategories</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The log includes 
+        category information that describes the type of statement. This property 
+        excludes the listed categories. Valid options include:</font></p>
+      <ul>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>info</strong> 
+          includes driver startup information and property file information </font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>debug 
+          </strong>is only intended for use when you cannot get your driver to 
+          work properly, it dumps out everything</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>statement 
+          </strong> includes Statements, PreparedStatements, and CallableStatements<strong> 
+          </strong></font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>batch</strong> 
+          addBatch() calls</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>commit</strong> 
+          commit() calls</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>rollback</strong> 
+          rollaback() calls</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>result</strong> 
+          are statements generated by ResultSet</font></li>
+      </ul>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Enter a comma 
+        separated list of categories to exclude from your log file. See filter,include,exclude 
+        for more details on how this process works.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>includecategories</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The log includes 
+        category information that describes the type of statement. This property 
+        is a comma separated list of categories to include. See excludecategories 
+        for a valid list of categories.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>dateformat</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting a 
+        value for dateformat changes the date format value printed in the log 
+        file. No value prints the current time in milliseconds, a useful feature 
+        for parsing the log. The date format engine is Java's SimpleDateFormat 
+        class. See the SimpleDateFormat class in the JavaDocs for information 
+        on setting this value. Example value: dateformat=MM-dd-yy HH:mm:ss:SS</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>stacktrace</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If stack 
+        trace is set, prints out the stack trace for each sql statement logged.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>stacktraceclass</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Limits the 
+        stack traces printed out to those that contain this value. E.g. specifying 
+        stacktraceclass=com.mycompany.myclass would limit the printing of stack 
+        traces to the specified class value. The stack trace is converted to a 
+        String and string.indexOf(stacktraceclass) is performed.</font><br>
+        <b><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+        </font></b> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>reloadproperties 
+        and reloadpropertiesinterval</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If reloadproperties 
+        is set to true, then the property file is reloaded every n seconds, where 
+        n is defined by the value set by reloadpropertiesinterval. For example, 
+        if reloadproperties=true and reloadpropertiesinterval=10 then the system 
+        checks the File.lastModified() property of the property file every 10 
+        seconds, and if the file has been modified, then it will be reloaded.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Warning! 
+        If you have append=true the log will be suddenly truncated if you change 
+        your properties. This is because using reloadproperties is intended to 
+        be the equivalent of restarting your application server, and in the case 
+        of an application server restart your file would be truncated.</font></p>
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Limitations: 
+        reloadproperties will not reload any driver information (such as realdriver, 
+        realdriver2, and realdriver3) and will not change the modules that are 
+        in memory.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>useprefix</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">When set 
+        to true requires you to prefix your URLs with p6spy:. The default is false, 
+        but may become true in a future release. This helps avoid a common pital 
+        when installing p6spy, that your real driver is registered elsewhere and 
+        because the URLs are the same, the system does not know which driver to 
+        use.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b></b></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Command 
+        Line Options </b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Every parameter 
+        specified in the property file can be set and override at the command 
+        line using the Java -D flag.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">java -Dp6logfile=my.log 
+        -Dp6trace=true</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">In addition, 
+        you can set the default directory to look for spy.properties:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">java -Dp6.home=c:\orion\lib</font></p>
+      <p><a name="log"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Log 
+        File Format</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The log file 
+        format of spy.log is as follows:</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">current time|execution 
+        time|category|statement SQL String|effective SQL string</font></p>
+      <ul>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>Current 
+          time</i>. The current time is obtained through System.getCurrentTimeMillis() 
+          and represents the number of milliseconds that have passed since January 
+          1, 1970 00:00:00.000 GMT. See the J2SE documentation for further details. 
+          This can be changed to a different format using the dateformat property 
+          described later in this section.</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>Execution 
+          time</i>. The time it took for that method to execute. It is important 
+          to note this is not the total cost for the SQL statement, but rather 
+          the time it takes to execute a particular method. For example, a statement 
+          SELECT * FROM MYTABLE WHERE THISCOL = ? might be executed as a prepared 
+          statement, in which the .execute() function will be measured. This is 
+          recorded as the &quot;statement&quot; category. Further, as you call 
+          .next() on the ResultSet, each .next() call is recorded in the result 
+          category.</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>Category</i>. 
+          Currently there are three categories: debug (debug statements related 
+          to p6spy), statement (statement, preparedStatement, and CallableStatement) 
+          and result (ResultSet). You can manage your log by including and excluding 
+          categories, which is described below. </font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>Statement 
+          SQL String</i>. This is the SQL string passed to the statement object. 
+          If it is a prepared statement, it will be the prepared statement prior 
+          to the parameters being set, to see the complete statement see <i>Effective 
+          SQL String</i>.</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>Effective 
+          SQL String</i>. If you are not using a prepared statement, this will 
+          be empty. Otherwise it will fill in the values of the Prepared Statement 
+          so you can see the effective SQL statement that is passed to the Database. 
+          Of course the Database still sees the Prepared Statement, but this string 
+          allows a convenient way to see the actual values being based to the 
+          Database.</font></li>
+      </ul>
+      <p><a name="jsp"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>The 
+        JSP Application</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy now 
+        includes a JSP application that can be used to view configuration information 
+        about P6Spy and to create a demarcation in the log file.</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The easiest 
+        way to use the JSP application is to copy p6spy.war into the deployment 
+        directory of your application server. (For example, in JBoss this might 
+        be C:\JBoss-2.4.4_Tomcat-4.0.1\jboss\deploy). Once the .war file is deployed, 
+        you can access the application by using the URL http://machine:port/p6spy</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">For example, 
+        if you are running the application on your own machine, and using Tomcat 
+        as the servlet engine, you would go to: http://localhost:8080/p6spy</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="faq" id="faq"></a>FAQ</b></font></p>
+      <ol>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
+          I use log4j?&nbsp;&nbsp;</b>Yes. Please see the <a href="#logfile">logfile</a> 
+          section in the property file.</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
+          I use regular expressions to determine what is logged?&nbsp;&nbsp;</b>Yes. 
+          Please see the <a href="#property">Property</a> section and look at 
+          the stringmatcher option.</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Once 
+          the application is running, can I change the properties and enable the 
+          system to use the new properties?&nbsp;&nbsp;</b>Yes. Please see the 
+          <a href="#property">Property</a> section and look at the reloadproperties 
+          section.</font></li>
+        <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
+          I use multiple datasources?&nbsp;&nbsp;</b>Yes. Please see the <a href="#property">Property</a> 
+          section and look at the realdriver2, realdriver3 section.</font></li>
+      </ol>
+      <div align="left"></div>
+      <!-- #EndEditable --> </td>
+  </tr>
+</table>
+<br>
+<table width="100%" border="0">
+  <tr> 
+    <td width="11%"><a href="http://www.p6spy.com" target="_parent"><img src="images/p6spy_com.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="index.htm" target="bottomFrame"><img src="images/index.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="install.htm" target="bottomFrame"><img src="images/install.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6log.htm" target="bottomFrame"><img src="images/p6log.gif" width="110" height="20" border="0"></a></td>
+    <td width="11%"><a href="p6outage.htm" target="bottomFrame"><img src="images/p6outage.gif" width="110" height="20" border="0"></a></td>
+    <td width="7%"><a href="p6cache.htm" target="bottomFrame"><img src="images/p6cache.gif" width="110" height="20" border="0"></a></td>
+    <td width="38%">&nbsp;</td>
+  </tr>
+</table>
+</body>
+<!-- #EndTemplate --></html>

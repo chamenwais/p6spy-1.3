@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/10/06 18:23:25  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/05/24 07:31:13  jeffgoke
  * version 1 rewrite
  *
@@ -141,13 +144,8 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     }
     
     protected void initValues() {
-        if (P6SpyOptions.getTrace()) {
-            values = new Object[P6_MAX_FIELDS+1];
-            isString = new boolean[P6_MAX_FIELDS+1];
-        } else {
-            values = null;
-            isString = null;
-        }
+        values = new Object[P6_MAX_FIELDS+1];
+        isString = new boolean[P6_MAX_FIELDS+1];
     }
     
     public void addBatch() throws SQLException {
@@ -334,24 +332,35 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     /*
      * P6Spy specific functionality
      */
-    public String getQueryFromPreparedStatement() {
-        String t = new String(preparedQuery);
+    public final String getQueryFromPreparedStatement() {
+        int len = preparedQuery.length();
+        StringBuffer t = new StringBuffer(len * 2);
         
         if (values != null) {
-            int i = 1, found;
+            int i = 1, limit = 0, base = 0;
             
-            while ((found = t.indexOf('?')) != -1) {
+            while ((limit = preparedQuery.indexOf('?',limit)) != -1) {
                 if (isString[i]) {
-                    t = t.substring(0,found) + "'" + values[i] + "'" + t.substring(found+1);
+                    t.append(preparedQuery.substring(base,limit));
+                    t.append("'");
+                    t.append(values[i]);
+                    t.append("'");
                 } else {
-                    t = t.substring(0,found) + values[i] + t.substring(found+1);
+                    t.append(preparedQuery.substring(base,limit));
+                    t.append(values[i]);
                 }
                 i++;
+                limit++;
+                base = limit;
+            }
+            if (base < len) {
+                t.append(preparedQuery.substring(base));
             }
         }
         
-        return(t);
+        return t.toString();
     }
+    
     
     protected  void setObjectAsString(int i, Object o) {
         if (values != null) {
