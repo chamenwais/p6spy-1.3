@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2002/12/12 19:21:45  aarvesen
+ * Try a different class loader and write out the correct class name
+ *
  * Revision 1.3  2002/12/06 22:47:06  aarvesen
  * Use the logger rather than good old qlog
  *
@@ -167,8 +170,15 @@ public class P6LogQuery {
 
 	try {
 	    logger = (P6Logger) Class.forName(appender).newInstance();
-	} catch (Exception e) {
-	    System.err.println("Cannot instantiate com.p6spy.engine.common.LoggingStream, logging to file log4jaux.log: " + e);
+	} catch (Exception e1) {
+	    // try one more hack to load the thing
+	    try {
+		ClassLoader loader = ClassLoader.getSystemClassLoader();
+		logger = (P6Logger) loader.loadClass(appender).newInstance();
+	    
+	    } catch (Exception e) {
+		System.err.println("Cannot instantiate " + appender + ", even on second attempt.  Logging to file log4jaux.log: " + e);
+	    }
 	}
 	
 	/*
