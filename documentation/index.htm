@@ -23,7 +23,7 @@
   <tr>
     <td bgcolor="#FFFFFF"> <!-- #BeginEditable "body" --> 
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>P6Spy 
-        Documentation (1.0.3)<br>
+        Documentation (1.0.5)<br>
         </b><font size="2">For the latest software and documentation visit <a href="http://www.p6spy.com">http://www.p6spy.com</a></font></font></p>
       <ul>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#license">License 
@@ -140,6 +140,17 @@
       <p></p>
       <p><a name="release"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Release 
         Notes </b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        1.0 beta 5</b></font></p>
+      <ul>
+        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Alan 
+          Arvesen of IronGrid</strong> refactored the driver loading to first 
+          attempt the new classloader mechanism (implemented in beta2) and, upon 
+          failure, attempt the previously used forName loading call.</font></li>
+        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">P6SpyDriver 
+          now throws an exception immediately when a realdriver fails to load. 
+          This should make diagnostics easier.</font></li>
+      </ul>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
         1.0 beta 4</b></font></p>
       <ul>
