@@ -65,6 +65,9 @@
  * $Author$
  *
  * $Log$
+ * Revision 1.3  2003/01/31 17:31:54  jeffgoke
+ * updated proxy connection with the new 1.4 methods
+ *
  * Revision 1.2  2003/01/30 23:38:49  dlukeparker
  *
  *
@@ -553,7 +556,7 @@ public class P6ProxyConnection implements Connection {
     * @exception java.sql.SQLException
     */
 
-    public void setReadOnly(boolean readOnly) throws java.sql.SQLException {
+    public void  setReadOnly(boolean readOnly) throws java.sql.SQLException {
         if(connection == null) {
             throw new SQLException(stateError);
         } else {    
@@ -617,5 +620,249 @@ public class P6ProxyConnection implements Connection {
 	    return true;
 	}
 	return false;
+    }
+
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+    public void setHoldability(int holdability) throws java.sql.SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                connection.setHoldability(holdability);
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+    public int getHoldability() throws java.sql.SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                return connection.getHoldability();
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+    public Savepoint setSavepoint() throws java.sql.SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                return connection.setSavepoint();
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+    public Savepoint setSavepoint(String name) throws java.sql.SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                return connection.setSavepoint(name);
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+    public void releaseSavepoint(Savepoint savepoint) throws java.sql.SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                connection.releaseSavepoint(savepoint);
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+    public void rollback(Savepoint savepoint) throws java.sql.SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                connection.rollback(savepoint);
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+
+
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+    
+    public java.sql.Statement createStatement(int resultSetType,
+		    				int resultSetConcurrency,
+						int resultSetHoldability)
+    throws SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                return connection.createStatement(resultSetType, 
+						resultSetConcurrency,
+						resultSetHoldability);
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+
+    public java.sql.PreparedStatement prepareStatement(String sql, 
+                                                       int resultSetType,
+                                                       int resultSetConcurrency,
+						       	int resultSetHoldability) 
+    throws SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                return connection.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+
+    public java.sql.CallableStatement prepareCall(String sql, 
+                                                  int resultSetType,
+                                                  int resultSetConcurrency, 
+						  int resultSetHoldability) 
+    throws SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                return connection.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+
+    public java.sql.PreparedStatement prepareStatement(String sql, 
+                                                  int autoGeneratedKeys) 
+    throws SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                return connection.prepareStatement(sql, autoGeneratedKeys);
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+
+    public java.sql.PreparedStatement prepareStatement(String sql, 
+                                                  int[] columnIndexes) 
+    throws SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                return connection.prepareStatement(sql, columnIndexes);
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
+    }
+    /**
+    * Pass through to P6 wrapper connection. Catches and re-throws exceptions after
+    * delivering ConnectionEvents through P6PooledConnection.deliverEvent.
+    * 
+    * @exception java.sql.SQLException
+    */
+
+    public java.sql.PreparedStatement prepareStatement(String sql, 
+                                                  String[] columnNames) 
+    throws SQLException {
+        if(connection == null) {
+            throw new SQLException(stateError);
+        } else {    
+            try {
+                return connection.prepareStatement(sql, columnNames);
+            } catch (SQLException sqlException) {
+                pooledConnection.deliverEvent(P6PooledConnection.EVENT_TYPE_ERROR, sqlException);
+                throw sqlException;
+            }       
+        }    
     }
 }
