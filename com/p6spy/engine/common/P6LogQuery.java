@@ -68,6 +68,11 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.6  2003/01/03 21:16:00  aarvesen
+ * use the new P6Util.forName
+ * removed some dead code
+ * added a fix for logfile not using the logfile parameter
+ *
  * Revision 1.5  2002/12/19 16:58:07  aarvesen
  * Removed some qlog cruft
  * Added in the getTrace check at this level rather than at the driver level for logElapsed
@@ -173,7 +178,7 @@ public class P6LogQuery {
 	}
 
 	try {
-	    logger = (P6Logger) Class.forName(appender).newInstance();
+	    logger = (P6Logger) P6Util.forName(appender).newInstance();
 	} catch (Exception e1) {
 	    // try one more hack to load the thing
 	    try {
@@ -184,30 +189,16 @@ public class P6LogQuery {
 		System.err.println("Cannot instantiate " + appender + ", even on second attempt.  Logging to file log4jaux.log: " + e);
 	    }
 	}
+
+	if (logger != null) {
+	    if (logger instanceof FileLogger) {
+		String logfile = P6SpyOptions.getLogfile();
+		logfile = (logfile == null) ? "spy.log" : logfile;
+
+		((FileLogger) logger).setLogfile(logfile);
+	    }
+	}
 	
-	/*
-        String log = P6SpyOptions.getLogfile();
-        if (log == null || log.equals("stdout")) {
-            qlog = System.out;
-        } else if (log.equals("log4j")) {
-            // start of Rafael Alvarez (soronthar) changes
-            try {
-                qlog = (PrintStream) Class.forName("com.p6spy.engine.common.LoggingStream").newInstance();
-            } catch (InstantiationException e) {
-                System.err.println("Cannot instantiate com.p6spy.engine.common.LoggingStream, logging to file log4jaux.log");
-                qlog = logPrintStream("log4jaux.log");
-            } catch (IllegalAccessException e) {
-                System.err.println("Cannot instantiate com.p6spy.engine.common.LoggingStream, logging to file log4jaux.log");
-                qlog = logPrintStream("log4jaux.log");
-            } catch (ClassNotFoundException e) {
-                System.err.println("Cannot instantiate com.p6spy.engine.common.LoggingStream, logging to file log4jaux.log");
-                qlog = logPrintStream("log4jaux.log");
-            }
-            // End of Rafael Alvarez (soronthar) changes
-        } else {
-            qlog = logPrintStream(log);
-        }
-	*/
         if (P6SpyOptions.getFilter()) {
             includeTables = parseCSVList(P6SpyOptions.getInclude());
             excludeTables = parseCSVList(P6SpyOptions.getExclude());
