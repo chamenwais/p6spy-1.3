@@ -67,6 +67,10 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2003/08/07 19:07:21  aarvesen
+ * moved the existing constructor to the top of the file
+ * added a new constructor for wrapping a datasource on instantiation
+ *
  * Revision 1.4  2003/06/03 16:07:33  aarvesen
  * renamed setDataSourceName to setRealDataSource
  *
@@ -118,6 +122,18 @@ public class P6DataSource extends P6Base implements DataSource, Referenceable, S
 	// been initialized.
         initMethod();
     }
+
+    /**
+     * Default no-arg constructor for Serialization
+     */
+    
+    public P6DataSource() {
+    }
+
+    public P6DataSource(DataSource source) {
+      rds = source;
+    }
+
     
     public static void initMethod() {
         P6SpyDriverCore.initMethod(P6SpyDriver.class.getName());
@@ -296,14 +312,6 @@ public class P6DataSource extends P6Base implements DataSource, Referenceable, S
 	if (rds == null) {
 	    throw new SQLException("P6DataSource: jndi lookup for Real Data Source Name of '" + rdsName + "' failed, cannot bind named data source.");
 	}
-    }
-
-    /**
-     * Default no-arg constructor for Serialization
-     */
-    
-    public P6DataSource()
-    {
     }
 
     /**
