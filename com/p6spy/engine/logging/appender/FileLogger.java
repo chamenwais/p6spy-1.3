@@ -60,7 +60,7 @@
  */
 
 package com.p6spy.engine.logging.appender;
-
+import com.p6spy.engine.common.P6SpyOptions;
 import java.io.*;
 
 public class FileLogger extends StdoutLogger {
@@ -71,7 +71,7 @@ public class FileLogger extends StdoutLogger {
 
     public void setLogfile(String fileName) {
 	try {
-	    qlog = new PrintStream(new FileOutputStream(fileName));
+	    qlog = new PrintStream(new FileOutputStream(fileName, P6SpyOptions.getAppend()));
 	} catch (IOException e) {
 	    e.printStackTrace(System.err);
 	}
