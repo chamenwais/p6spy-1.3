@@ -79,15 +79,24 @@
 		<mkdir dir="${dist}"/>			
 		<echo message="Creating javadoc directory ${javadocs}"/>
 		<mkdir dir="${javadocs}"/>			
-		<echo message=""/>
-		<echo message="--------- Required jar files ---------"/>
-		<echo message=""/>
-		<echo message="junit jar must be in the lib directory or the build will fail."/>
-		<echo message="database driver jar (default Oracle) must be in the lib directory"/>
-		<echo message="or the build will fail."/>
-		<echo message=""/>
-		<echo message="gnu regex jar and jakarta regex jar must be in the lib directory"/>
-		<echo message="or the build will fail."/>
+		<echo>
+
+  --------- Required jar files ---------
+
+  The p6spy build requires several jars in the lib 
+  directory.  Below is a list of these jar files and 
+  their corresponding URL's as of December 2002:
+
+  JUnit                     http://www.junit.org/
+  Jakarta Regexp            http://jakarta.apache.org/regexp/ 
+  Gnu Regexp                http://www.cacas.org/java/gnu/regexp/
+  Log4j                     http://jakarta.apache.org/log4j/
+
+  Additionally, you will need your database driver jar in the lib
+  directory to have a complete build.
+  
+		</echo>
+
 	</target>
 		
 	<target name="compile" depends="init">
