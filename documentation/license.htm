@@ -63,7 +63,7 @@
   This product was due to the pioneering work of Andy that began in December of 
   1995 developing applications that could seamlessly be deployed with minimal 
   effort but with dramatic results. This code is maintained and extended by Jeff 
-  Goke and with the ideas and contributions of other P6Spy contributors. (http://www.p6spy.com)&quot;<br>
+  Goke and with the ideas and contributions of other P6Spy contributors. (http://www.p6spy.com)<br>
   Alternately, this acknowledgment may appear in the software itself, if and wherever 
   such third-party acknowledgments normally appear.<br>
   <br>
@@ -84,9 +84,8 @@
   OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
   WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
-  OF<br>
-  SUCH DAMAGE.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">TRADEMARK NOTICES</font></p>
+  OF SUCH DAMAGE.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="3"><b>Trademark Notices</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Sun, the Sun logo, 
   Sun Microsystems, JavaSoft, JavaBeans, JDK, Java, HotJava, HotJava Views, Visual 
   Java, Solaris, NEO, Joe, Netra, NFS, ONC, ONC+, OpenWindows, PC-NFS, SNM, SunNet 
@@ -113,14 +112,13 @@
   Oracle is a registered trademark, and ConText, Oracle Alliance and Oracle8 are 
   trademarks or registered trademarks of Oracle Corporation. </font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">DB2, DB2 OLAP Server, 
-  and IBM are trademarks of International Business Machines Corporation in the 
-  United States, other countries or both.</font></p>
+  WebSphere, and IBM are trademarks or registered trademarks of International 
+  Business Machines Corporation in the United States, other countries or both.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">MySQL is a trademark 
   of MySQL AB in the United States and other countries.</font> </p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Other product names 
   mentioned herein and throughout the this web site are the trademarks of their 
-  respective owners.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
+  respective owners.</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
   </font> </p>
 <ul>
 </ul>
@@ -152,7 +150,7 @@
       deployment JAR file by 25%.</font></li>
     <li><font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif"> 
       <a href="index.htm">P6Spy Documentation</a> was overhauled. (<font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif">Suzanne 
-      Patton,</font> <a href="http://www.irongrid.com">IronGrid</a>)</font></li>
+      Patton</font>)</font></li>
   </ul>
   <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b></b></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
     1.0 beta 7</b></font></p>
@@ -167,19 +165,19 @@
     beta 6</b></font></p>
   <ul>
     <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif" color="#000000">Debugged 
-      and fixed a problem in which applications calling <b>newInstance()</b>, 
-      instead of using DriverManager, were causing the driver to load improperly.</font></li>
+      and fixed a problem in which applications calling newInstance(), instead 
+      of using DriverManager, were causing the driver to load improperly.</font></li>
   </ul>
   <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0 
     beta 5</b></font></p>
   <ul>
     <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> Refactored 
-      the driver loading to first attempt the new <b>classloader</b> mechanism 
-      (implemented in Version 1 beta 2) and, upon failure, attempt the previously 
-      used for Name loading call. (Alan Arvesen, </font><font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="http://www.irongrid.com">IronGrid</a></font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">)</font></li>
+      the driver loading to first attempt the new classloader mechanism (implemented 
+      in Version 1 beta 2) and, upon failure, attempt the previously used for 
+      Name loading call. (Alan Arvesen, </font><font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="http://www.irongrid.com">IronGrid</a></font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">)</font></li>
     <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">P6SpyDriver 
-      now throws an exception immediately when a <b>realdriver</b> fails to load, 
-      making diagnostics easier.</font></li>
+      now throws an exception immediately when a realdriver fails to load, making 
+      diagnostics easier.</font></li>
   </ul>
   <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0 
     beta 4</b></font></p>
@@ -193,11 +191,10 @@
     beta 3</b></font></p>
   <ul>
     <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added a call 
-      to each P6 class called <b>getJDBC()</b> that returns the native driver. 
-      This enables a workaround for using non-standard JDBC calls included with 
-      some JDBC drivers. See <a href="license.htm#issues">Known Issues</a> for 
-      more information. Thanks to Ralph Harnden for the suggestion. (Alan Arvesen, 
-      </font><font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="http://www.irongrid.com">IronGrid</a></font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">) 
+      to each P6 class called getJDBC() that returns the native driver. This enables 
+      a workaround for using non-standard JDBC calls included with some JDBC drivers. 
+      See <a href="license.htm#issues">Known Issues</a> for more information. 
+      Thanks to Ralph Harnden for the suggestion. (Alan Arvesen, </font><font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="http://www.irongrid.com">IronGrid</a></font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">) 
       </font></li>
     <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Added an appender 
       architecture which supports customizable logging. (Alan Arvesen, </font><font color="#000000" size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="http://www.irongrid.com">IronGrid</a></font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">)</font></li>
@@ -217,7 +214,7 @@
   <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0 
     beta 1 &amp; 2</b></font></p>
   <ul>
-    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added <b>log4j</b> 
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Added log4j 
       support, one of the most requested feature enhancements. <font face="Verdana, Arial, Helvetica, sans-serif" size="2">(Rafael 
       Alvarez</font>) </font></li>
     <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Due to problems 
@@ -258,7 +255,7 @@
       have the real driver registered elsewhere, this feature avoids that problem. 
       The default does not require this value, but in the future it may be mandatory 
       to ease the install process.</font></li>
-    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Rewrote <b>P6SpyOptions</b> 
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Rewrote P6SpyOptions 
       to allow new options to quickly and easily be added.</font></li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Additional 
       JUnit tests were added.</font></li>
@@ -313,7 +310,7 @@
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added test 
       target to Ant that works with JUnit to perform some basic tests, using Oracle 
       as the test database.</font></li>
-    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added <b>ResultSet</b> 
+    <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added ResultSet 
       logging and timing information. By default this is disabled. Refer to the 
       <a href="other.htm#log"> Log File Format</a> documentation for more information.</font></li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Fixed a number 
@@ -492,16 +489,12 @@
         to sections regarding realdriver2 and realdriver3.</font></li>
     </ul>
   </div>
-  <div align="left"></div>
-  <div align="left"></div>
   <ul>
     <div align="left"> 
       <ul>
         <ul>
-          <blockquote> 
-            <blockquote> 
-              <p>&nbsp;</p>
-            </blockquote>
+          <blockquote>
+            <blockquote>&nbsp;</blockquote>
           </blockquote>
         </ul>
       </ul>
