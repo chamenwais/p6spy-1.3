@@ -86,7 +86,7 @@ public class P6SpyOptions extends P6Options {
     
     protected static Thread reloadThread         = null;
     protected static OptionReloader reloader     = null;
-        
+    
     public P6SpyOptions() {}
     
     public static final String DRIVER_PREFIX = "realdriver";
@@ -324,19 +324,17 @@ public class P6SpyOptions extends P6Options {
         reloadPropertiesInterval = P6Util.parseLong(_reloadpropertiesinterval,-1l);
         reloadMs = reloadPropertiesInterval * 1000l;
     }
-               
+    
     public void reload(P6SpyProperties properties) {
         // first set the values on this class
-        P6LogQuery.logDebug("P6SpyOptions checking property file to see if it needs to be reloaded");
+        P6LogQuery.logDebug(this.getClass().getName()+" reloading properties");
         
-        if (properties.isNewProperties()) {
-            modules = properties.getReverseOrderedList(MODULE_PREFIX);
-            driverNames = properties.getReverseOrderedList(DRIVER_PREFIX);
-            properties.setClassValues(P6SpyOptions.class);
-            configureReloadingThread();
-            P6LogQuery.initMethod();
-            P6LogQuery.logInfo("reloadProperties() successful");            
-        }        
+        modules = properties.getReverseOrderedList(MODULE_PREFIX);
+        driverNames = properties.getReverseOrderedList(DRIVER_PREFIX);
+        properties.setClassValues(P6SpyOptions.class);
+        configureReloadingThread();
+        P6LogQuery.initMethod();
+        P6LogQuery.logInfo("reloadProperties() successful");        
     }
     
     protected static void configureReloadingThread() {
@@ -362,7 +360,7 @@ public class P6SpyOptions extends P6Options {
             }
         }
     }
-        
+    
     // this should actually be getAllModules but to make it easier for others to add
     // methods we'll just use allMethods
     public static ArrayList allModules() {

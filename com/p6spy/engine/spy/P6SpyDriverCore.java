@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.10  2003/01/28 19:32:31  jeffgoke
+ * fixed bug exposed by test framework where option reloading was having problems if options were manipulated before the driver was created.
+ *
  * Revision 1.9  2003/01/28 17:01:13  jeffgoke
  * rewrote options to the ability for a module to have its own option set
  *
@@ -179,10 +182,10 @@ public abstract class P6SpyDriverCore implements Driver {
         // first thing we want to do is load the core options file
         P6SpyProperties properties = new P6SpyProperties();
         P6SpyOptions coreOptions = new P6SpyOptions();
-        coreOptions.reload(properties);
+        OptionReloader.add(coreOptions, properties);
         
         // now register the core options file with the reloader
-        OptionReloader.add(coreOptions);
+        
         
         String className = "no class";
         String classType  = "driver";
@@ -231,8 +234,7 @@ public abstract class P6SpyDriverCore implements Driver {
                     
                     P6Options options = factory.getOptions();
                     if (options != null) {
-                        options.reload(properties);
-                        OptionReloader.add(options);
+                        OptionReloader.add(options, properties);
                     }
                     
                     P6LogQuery.logDebug("Registered factory: "+className+" with options: "+options);

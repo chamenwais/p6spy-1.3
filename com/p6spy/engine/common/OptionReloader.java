@@ -100,17 +100,26 @@ public class OptionReloader implements Runnable {
                 Thread.currentThread().sleep(sleepTime);
             } catch (InterruptedException e) {
                 // nothing.
-            }            
+            }
             reload();
         }
     }
     
-    public static void add(P6Options p6options) {
+    public static void add(P6Options p6options, P6SpyProperties properties) {
         options.add(p6options);
+        // when added make sure to deal with this
+        if (properties.isNewProperties() == false) {
+            properties.forceReadProperties();
+        }
+        p6options.reload(properties);
     }
-        
+    
     public static void reload() {
         P6SpyProperties properties = new P6SpyProperties();
+        // if nothing to reload, don't call the reload function
+        if (properties.isNewProperties() == false) {
+            return;
+        }
         Iterator i = options.iterator();
         while (i.hasNext()) {
             P6Options options = (P6Options)i.next();

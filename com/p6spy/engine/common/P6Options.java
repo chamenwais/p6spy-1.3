@@ -62,7 +62,7 @@
 package com.p6spy.engine.common;
 
 public abstract class P6Options {
-
+    
     public P6Options() { }
     
     /* to implement options for a module:
@@ -71,9 +71,9 @@ public abstract class P6Options {
      *  (3) optionally override reload (not recommended)
      *  (4) return an instance of your options class in your factory via the getOptions() function
      */
-    public void reload(P6SpyProperties properties) {       
-        P6LogQuery.logDebug(this.getClass().getName()+" is checking property file to see if it needs to be reloaded");
+    public void reload(P6SpyProperties properties) {
+        P6LogQuery.logDebug(this.getClass().getName()+" reloading properties");
         properties.setClassValues(this.getClass());
     }
-    
+        
 }

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.8  2003/01/28 19:32:31  jeffgoke
+ * fixed bug exposed by test framework where option reloading was having problems if options were manipulated before the driver was created.
+ *
  * Revision 1.7  2003/01/28 17:59:12  jeffgoke
  * fixed test cases to use new options
  *
@@ -270,7 +273,6 @@ public abstract class P6TestFramework extends TestCase {
             writeProperty("reloadtest.properties", props);
             P6SpyProperties properties = new P6SpyProperties();
             properties.setSpyProperties("reloadtest.properties");
-            properties.forceReadProperties();
             OptionReloader.reload();
         } catch (Exception e) {
             fail(e.getMessage());
