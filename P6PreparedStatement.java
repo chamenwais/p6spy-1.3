@@ -69,6 +69,10 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.8  2002/05/18 06:39:52  jeffgoke
+ * Peter Laird added Outage detection.  Added junit tests for outage detection.
+ * Fixed multi-driver tests.
+ *
  * Revision 1.7  2002/05/16 04:58:40  jeffgoke
  * Viktor Szathmary added multi-driver support.
  * Rewrote P6SpyOptions to be easier to manage.
@@ -157,11 +161,20 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     
     public boolean execute() throws SQLException {
         long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,
+            "statement", preparedQuery, getQueryFromPreparedStatement());
+        }
+        
         try {
             return prepStmtPassthru.execute();
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            }
+            else if (P6SpyOptions.getTrace()) {
                 P6LogQuery.logElapsed(this.connection, startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
             }
         }
@@ -169,25 +182,41 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     
     public ResultSet executeQuery() throws SQLException {
         long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this, startTime,
+            "statement", preparedQuery, getQueryFromPreparedStatement());
+        }
+        
         try {
             ResultSet resultSet = prepStmtPassthru.executeQuery();
             return (new P6ResultSet(resultSet, this, preparedQuery, getQueryFromPreparedStatement()));
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            }
+            else if (P6SpyOptions.getTrace()) {
                 P6LogQuery.logElapsed(this.connection, startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
             }
         }
     }
     
     public int executeUpdate() throws SQLException {
-        
         long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this, startTime,
+            "statement", preparedQuery, getQueryFromPreparedStatement());
+        }
+        
         try {
             return prepStmtPassthru.executeUpdate();
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            } else if (P6SpyOptions.getTrace()) {
                 P6LogQuery.logElapsed(this.connection, startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
             }
         }

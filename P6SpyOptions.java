@@ -119,6 +119,9 @@ public class P6SpyOptions   {
     private static boolean reloadProperties;
     private static long reloadPropertiesInterval;
     private static long reloadMs;
+    private static boolean outageDetection;
+    private static long outageDetectionInterval;
+    private static long outageMs;
     
     static String propertiesPath;
     static long propertiesLastModified = -1;
@@ -342,6 +345,31 @@ public class P6SpyOptions   {
         reloadPropertiesInterval = P6Util.parseLong(_reloadpropertiesinterval,-1l);
         reloadMs = reloadPropertiesInterval * 1000l;
     }
+    
+    public static boolean getOutageDetection() {
+        return outageDetection;
+    }
+    
+    public static void setOutageDetection(String _outagedetection) {
+        outageDetection = P6Util.isTrue(_outagedetection, false);
+    }
+    
+    public static long getOutageDetectionInterval() {
+        return outageDetectionInterval;
+    }
+    
+    public static long getOutageDetectionIntervalMS() {
+        return outageMs;
+    }
+    
+    public static void setOutageDetectionInterval(String _outagedetectioninterval) {
+        outageDetectionInterval = P6Util.parseLong(_outagedetectioninterval,-1l);
+        outageMs = outageDetectionInterval * 1000l;
+    }
+    
+    // --------------------------------------------------------------------------
+    // END GET/SET METHODS, BEGIN HELPER CODE
+    // --------------------------------------------------------------------------
     
     public static void initMethod() {
         Properties props  = P6Util.loadProperties(SPY_PROPERTIES_FILE);

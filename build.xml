@@ -115,17 +115,25 @@
 		<javadoc packagenames="*.java" sourcepath="${src}" destdir="${javadocs}" />
 	</target>
 
-	<target name="release" depends="docs">
+	<target name="webapp" depends="docs">
+		<war warfile="${dist}/p6spy.war" webxml="${webapp}/WEB-INF/web.xml">
+			<fileset dir="${webapp}" includes="**/*.jsp" />
+		</war>
+	</target>
+
+	<target name="release" depends="webapp">
 		<echo message="--------- Creating Release Packages ---------"/>
 		<echo message=""/>
 		<zip zipfile="${dist}/p6spy-install.zip">
 			<fileset dir="${dist}" includes="p6spy.jar" />
+			<fileset dir="${dist}" includes="p6spy.war" />
 			<fileset dir="${docs}" />
 			<fileset dir="." includes="license.txt" />
 			<fileset dir="." includes="spy.properties" />
 		</zip>
 		<jar jarfile="${dist}/p6spy-install.jar">
 			<fileset dir="${dist}" includes="p6spy.jar" />
+			<fileset dir="${dist}" includes="p6spy.war" />
 			<fileset dir="." includes="license.txt" />
 			<fileset dir="." includes="spy.properties" />
 			<fileset dir="${docs}" />
@@ -142,12 +150,7 @@
 		</jar>
 	</target>
 
-	<target name="test_prepare" depends="compile">
-		<!-- <copy file="spy.properties.bak" tofile="spy.properties" overwrite="true" />
-		<copy file="spy.properties" tofile="spy.properties.bak" overwrite="true" /> -->
-	</target>
-
-	<target name="test" depends="test_prepare">
+	<target name="test" depends="compile">
 		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
 		    <classpath>
 			<fileset dir="${lib}">
@@ -167,7 +170,28 @@
 		    </classpath>
 		</java>
 	</target>
-	
+
+	<target name="perform" depends="compile">
+		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
+		    <classpath>
+			<fileset dir="${lib}">
+			    <include name="**/*.jar" />
+			</fileset>
+		    </classpath>
+		    <include name="P6Test*.*" />
+		</javac>
+		<java classname="junit.textui.TestRunner" fork="yes">
+		    <arg value="-noloading" />
+		    <arg value="com.p6spy.engine.spy.P6TestPerform" />
+		    <classpath>
+			<pathelement path="${build}"/>
+			<fileset dir="${lib}">
+			    <include name="**/*.jar" />
+			</fileset>
+		    </classpath>
+		</java>
+	</target>
+
 	<target name="clean">
 		<echo message="--------- Removing build files ---------"/>
 		<echo message=""/>

@@ -69,6 +69,10 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2002/05/18 06:39:52  jeffgoke
+ * Peter Laird added Outage detection.  Added junit tests for outage detection.
+ * Fixed multi-driver tests.
+ *
  * Revision 1.3  2002/05/16 04:58:40  jeffgoke
  * Viktor Szathmary added multi-driver support.
  * Rewrote P6SpyOptions to be easier to manage.
@@ -101,31 +105,26 @@ public abstract class P6TestFramework extends TestCase {
     
     protected void setUp() {
         try {
-            Properties props = loadProperties("P6Test.properties");
+            // we are going to use the reloadtest.properties file for all tests
+            // this is a scratch file that won't hurt spy.properties
             
+            HashMap tp = getDefaultPropertyFile();
+            reloadProperty(tp);
+            Properties props = loadProperties("P6Test.properties");
             String drivername = props.getProperty("p6driver");
             String user = props.getProperty("user");
             String password = props.getProperty("password");
             String url = props.getProperty("url");
             
             Class.forName(drivername);
-            System.err.println("Registering driver: "+drivername);
             Driver driver = DriverManager.getDriver(url);
             System.err.println("FRAMEWORK USING DRIVER == "+driver.getClass().getName()+" FOR URL "+url);
             connection = DriverManager.getConnection(url, user, password);
             
-            for (Enumeration e = DriverManager.getDrivers() ; e.hasMoreElements() ;) {
-                System.err.println("DRIVER FOUND == "+e.nextElement());
-            }            
-            
+            printAllDrivers();
         } catch (Exception e) {
             fail(e.getMessage());
         }
-        
-        //P6SpyOptions.SPY_PROPERTIES_FILE = "spy.properties";
-        //P6SpyOptions.initMethod();
-        //P6SpyDriver.initMethod();
-        //P6LogQuery.initMethod();
     }
     
     protected void tearDown() {
@@ -162,9 +161,94 @@ public abstract class P6TestFramework extends TestCase {
         return props;
     }
     
+    protected void writeProperty(String filename, HashMap props) {
+        try {
+            File reload = new File(filename);
+            reload.delete();
+            
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(reload)));
+            
+            Iterator i = props.keySet().iterator();
+            while (i.hasNext()) {
+                String key = (String)i.next();
+                String value = (String)props.get(key);
+                out.println(key+"="+value);
+            }
+            
+            out.close();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    protected HashMap getDefaultPropertyFile() {
+        
+        Properties props = loadProperties("P6Test.properties");
+        String realdrivername = props.getProperty("p6realdriver");
+        
+        Properties props2 = loadProperties("P6Test.properties");
+        String realdrivername2 = props2.getProperty("p6realdriver2");
+        
+        HashMap tp = new HashMap();
+        tp.put("realdriver",realdrivername);
+        tp.put("realdriver2",realdrivername2);
+        tp.put("filter","false");
+        tp.put("include","");
+        tp.put("exclude","");
+        tp.put("trace","true");
+        tp.put("autoflush","true");
+        tp.put("logfile","spy.log");
+        tp.put("append","true");
+        tp.put("dateformat","");
+        tp.put("includecategories","");
+        tp.put("excludecategories","debug,result,batch");
+        tp.put("stringmatcher","");
+        tp.put("stacktrace","false");
+        tp.put("stacktraceclass","");
+        tp.put("reloadproperties","false");
+        tp.put("reloadpropertiesinterval","1");
+        tp.put("useprefix","false");
+        tp.put("outagedetection", "false");
+        tp.put("outagedetectioninterval", "");
+        return tp;
+    }
+    
+    protected void reloadProperty(HashMap props) {
+        try {
+            writeProperty("reloadtest.properties", props);
+            
+            P6SpyOptions.SPY_PROPERTIES_FILE = "reloadtest.properties";
+            P6SpyOptions.initMethod();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    protected void assertIsLastQuery(String query) {
+        boolean isTrue = P6LogQuery.getLastEntry().indexOf(query) != -1;
+        if (!isTrue) {
+            System.err.println(query+" was not the last query, this was: "+P6LogQuery.getLastEntry());
+        }
+        assertTrue(isTrue);
+    }
+    
+    protected void assertIsNotLastQuery(String query) {
+        boolean isFalse = P6LogQuery.getLastEntry().indexOf(query) == -1;
+        if (!isFalse) {
+            System.err.println(query+" was not the last query, this was: "+P6LogQuery.getLastEntry());
+        }
+        assertTrue(isFalse);
+    }
+    
     protected static String getStackTrace(Exception e) {
         CharArrayWriter c = new CharArrayWriter();
         e.printStackTrace(new PrintWriter(c));
         return c.toString();
+    }
+    
+    protected static void printAllDrivers() {
+        for (Enumeration e = DriverManager.getDrivers() ; e.hasMoreElements() ;) {
+            System.err.println("DRIVER FOUND == "+e.nextElement());
+        }
     }
 }

@@ -69,6 +69,10 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.7  2002/05/18 06:39:52  jeffgoke
+ * Peter Laird added Outage detection.  Added junit tests for outage detection.
+ * Fixed multi-driver tests.
+ *
  * Revision 1.6  2002/05/16 04:58:40  jeffgoke
  * Viktor Szathmary added multi-driver support.
  * Rewrote P6SpyOptions to be easier to manage.
@@ -122,7 +126,7 @@ import java.beans.*;
 public class P6Util {
     
     public final static int parseInt(String i, int defaultValue) {
-        if (i == null) {
+        if (i == null || i.equals("")) {
             return defaultValue;
         }
         try {
@@ -135,7 +139,7 @@ public class P6Util {
     }
     
     public final static long parseLong(String l, long defaultValue) {
-        if (l == null) {
+        if (l == null || l.equals("")) {
             return defaultValue;
         }
         try {

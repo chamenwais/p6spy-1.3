@@ -68,6 +68,10 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.7  2002/05/18 06:39:52  jeffgoke
+ * Peter Laird added Outage detection.  Added junit tests for outage detection.
+ * Fixed multi-driver tests.
+ *
  * Revision 1.6  2002/05/16 04:58:40  jeffgoke
  * Viktor Szathmary added multi-driver support.
  * Rewrote P6SpyOptions to be easier to manage.
@@ -107,9 +111,9 @@ import java.sql.*;
 import java.util.*;
 
 public class P6Connection implements java.sql.Connection {
-	private static int counter=0;
-	private int id = counter++;
-	
+    private static int counter=0;
+    private int id = counter++;
+    
     private Connection passthru;
     
     public P6Connection(Connection conn) throws SQLException {
@@ -125,7 +129,7 @@ public class P6Connection implements java.sql.Connection {
     }
     
     public final int getId() {
-    	return this.id;	
+        return this.id;
     }
     
     public final boolean isClosed() throws SQLException {
@@ -174,11 +178,19 @@ public class P6Connection implements java.sql.Connection {
     
     public final void commit() throws SQLException {
         long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,
+            "commit","", "");
+        }
+        
         try {
             passthru.commit();
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            } else if (P6SpyOptions.getTrace()) {
                 P6LogQuery.logElapsed(this, startTime, "commit", "", "");
             }
         }
@@ -186,11 +198,19 @@ public class P6Connection implements java.sql.Connection {
     
     public final void rollback() throws SQLException {
         long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,
+            "rollback","", "");
+        }
+        
         try {
             passthru.rollback();
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            } else if (P6SpyOptions.getTrace()) {
                 P6LogQuery.logElapsed(this, startTime, "rollback", "", "");
             }
         }

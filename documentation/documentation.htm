@@ -20,6 +20,8 @@
     file settings</font></a></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#log">Log 
     file format</a></font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#jsp">The 
+    JSP application</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#jboss">Installation 
     under JBoss</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#orion">Installation 
@@ -42,6 +44,8 @@
     issues</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#trouble">Troubleshooting</a></font></li>
   <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="#FAQ">FAQ</a></font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#build">Building 
+    the Source</a> </font></li>
 </ul>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="license"></a>License 
   Agreement</b></font></p>
@@ -111,16 +115,24 @@
   Notes </b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.8</b></font></p>
 <ul>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Viktor Szathmary 
-    added support for multiple datasources. This feature has been requested quite 
-    often. Currently supported is limited to 3 datasources, but can easily be 
-    expanded. If you need more than 3, drop me a line and I'll increase that number.</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Viktor Szathmary 
-    also added the logging of a connection id, and enabled urls to be prefixed 
-    with p6spy: to aid in debugging. A common mistake people make when installing 
-    is have the real driver registered elsewhere, this avoids that problem. The 
-    default is not to require this value, but in the future it may be made mandatory 
-    to easy the install process.</font></li>
+  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Peter 
+    Laird</strong> contributed an Outage Detection module that logs all database 
+    activity that takes longer than a specified length to execute.</font></li>
+  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Peter 
+    Laird</strong> also contributed a JSP application that gives a visual control 
+    to P6Spy. The first version can be used to view configuration information 
+    about P6Spy and to create a demarcation in the log file.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>Viktor 
+    Szathmary</strong> added support for multiple datasources. This feature has 
+    been requested quite often. Currently supported is limited to 3 datasources, 
+    but can easily be expanded. If you need more than 3, drop me a line and I'll 
+    increase that number.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>Viktor 
+    Szathmary</strong> also added the logging of a connection id, and enabled 
+    urls to be prefixed with p6spy: to aid in debugging. A common mistake people 
+    make when installing is have the real driver registered elsewhere, this avoids 
+    that problem. The default is not to require this value, but in the future 
+    it may be made mandatory to easy the install process.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Rewrote P6SpyOptions 
     to allow new options to quickly and easily be added.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Additional JUnit 
@@ -128,7 +140,8 @@
 </ul>
             <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.72</b></font></p>
 <ul>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Philip Ogren 
+  <li><strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Philip 
+    Ogren</font></strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
     contributed the ability to dynamically reload the property file after a specified 
     period of time</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added logging 
@@ -136,9 +149,9 @@
   </ul>
             <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.71</b></font></p>
 <ul>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Philip Ogren 
-    of BEA contributed installation instructions for BEA WebLogic <a href="#wlportal">Portal</a> 
-    and <a href="#wlserver">Server</a>.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>Philip 
+    Ogren</strong> of BEA contributed installation instructions for BEA WebLogic 
+    <a href="#wlportal">Portal</a> and <a href="#wlserver">Server</a>.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Jakarta RegEx 
     support (contributed by Philip Ogren)</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Ability to print 
@@ -152,15 +165,17 @@
 </ul>
             <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.7</b></font></p>
 <ul>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simon Sadedin 
+  <li><strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simon 
+    Sadedin</font></strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
     added timing information to the log files. Now you can better visualize bottleneck 
     queries.</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simon Sadedin 
+  <li><strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simon 
+    Sadedin</font></strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
     added regex support for table filtering, allowing sophisticated custom filtering.</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Michael Sgroi 
-    contributed installation instructions for <a href="#iplanet">iPlanet</a>.</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">Richard Delbert 
-    contributed installation instructions for <a href="#weblogic">WebLogic</a>.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>Michael 
+    Sgroi</strong> contributed installation instructions for <a href="#iplanet">iPlanet</a>.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><strong>Richard 
+    Delbert</strong> contributed installation instructions for <a href="#weblogic">WebLogic</a>.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added support 
     for callable statements.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Added support 
@@ -306,6 +321,10 @@
   <font face="Verdana, Arial, Helvetica, sans-serif" size="2"># determines if 
   p6spy: is required in the url, useful for debugging<br>
   useprefix=false</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"># Outage Detection<br>
+  # outagedetection=false<br>
+  # outagedetectioninterval=integer time (seconds)</font><br>
+</p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver is where 
   you specify the real database driver that you use.&nbsp;&nbsp;P6Spy wraps around 
@@ -520,9 +539,19 @@
   requires you to prefix your URLs with p6spy:. The default is false, but may 
   become true in a future release. This helps avoid a common pital when installing 
   p6spy, that your real driver is registered elsewhere and because the URLs are 
-  the same, the system does not know which driver to use.<br>
-  </font><br>
-  <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Command Line 
+  the same, the system does not know which driver to use.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>outagedetection</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font> <font size="2" face="Verdana, Arial, Helvetica, sans-serif">This 
+  feature detects long-running statements that may be indicative of a database 
+  outage problem. If this feature is turned on, it will log any statement that 
+  surpasses the configurable time boundary during its execution. When this feature 
+  is enabled, no other statements are logged except the long running statements. 
+  The interval property is the boundary time set in seconds. For example, if this 
+  is set to 2, then any statement requiring at least 2 seconds will be logged. 
+  Note that the same statement will continue to be logged for as long as it executes. 
+  So if the interval is set to 2, and the query takes 11 seconds, it will be logged 
+  5 times (at the 2, 4, 6, 8, 10 second intervals).</font> </p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Command Line 
   Options </b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Every parameter 
   specified in the property file can be set and override at the command line using 
@@ -569,7 +598,21 @@
     the Database still sees the Prepared Statement, but this string allows a convenient 
     way to see the actual values being based to the Database.</font></li>
 </ul>
-            <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss"></a>JBoss 
+            
+<p><a name="jsp"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>The 
+  JSP Application</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy now includes 
+  a JSP application that can be used to view configuration information about P6Spy 
+  and to create a demarcation in the log file.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The easiest way 
+  to use the JSP application is to copy p6spy.war into the deployment directory 
+  of your application server. (For example, in JBoss this might be C:\JBoss-2.4.4_Tomcat-4.0.1\jboss\deploy). 
+  Once the .war file is deployed, you can access the application by using the 
+  URL http://machine:port/p6spy</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">For example, if 
+  you are running the application on your own machine, and using Tomcat as the 
+  servlet engine, you would go to: http://localhost:8080/p6spy</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss"></a>JBoss 
   Installation</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">These instructions 
   have been tested with various Jboss versions ranging from Jboss 2.2.2-2.4.4 
@@ -794,8 +837,14 @@
 <font face="Verdana, Arial, Helvetica, sans-serif" size="2">The default Stockportal 
 ('Avitek') application is used in this example. <b>Cloudscape</b> does <b>not</b> 
 work with P6Spy and WebLogic Portal. (Note, Cloudscape <b>does</b><i> </i>work 
-with P6Spy when using the J2EE reference implementation server - not yet sure 
-why the Cloudscape/WebLogic combination is not working).</font> 
+with P6Spy when using the J2EE reference implementation server - the following 
+suggestion [not yet tested] was submitted by Adrian Fletcher: &quot;I may be wrong 
+but I suspect the problem with Cloudscape and Weblogic is that both drivers end 
+up registered against the same URL. I seem to remember that the best trick for 
+avoiding this is mangling the URL. If you instruct users to prepend &quot;p6spy:&quot; 
+to their url and then remove it in your wrapper, it should work in more cases.&quot; 
+You can do this with the useprefix option. If anyone has an opportunity to validate 
+this, please drop me a line with updated information.)</font> 
 <ol>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Unzip the 
     distribution. </b>Unjar the p6spy-install.jar file to a temporary directory. 
@@ -1150,5 +1199,35 @@ why the Cloudscape/WebLogic combination is not working).</font>
     multiple datasources?&nbsp;&nbsp;</b>Yes. Please see the <a href="#property">Property</a> 
     section and look at the realdriver2, realdriver3 section.</font></li>
 </ol>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="build" id="faq"></a>Building 
+  the Source </b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">To build the source 
+  you must first <a href="http://www.cacas.org/java/gnu/regexp/">download</a> 
+  the GNU RegEx engine and <a href="http://jakarta.apache.org/builds/jakarta-regexp/">download</a> 
+  the Jakarta RegEx engine. Copy the RegEx .jar files to the lib/ directory which 
+  is a subdirectory of your main directory (the directory with the source code). 
+  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">You must 
+  also <a href="http://jakarta.apache.org/ant/index.html">download</a> and install 
+  Jakarta Ant. You then just type ant in the directory with the build.xml file 
+  and the code will build. The following are useful targets:</font></p>
+<ul>
+  <li>[<font face="Verdana, Arial, Helvetica, sans-serif" size="2">no target</font>]<font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+    creates a p6spy.jar file in the dist/ directory</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[clean] cleans 
+    the directory of build files and tool generated backup files</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[release] creates 
+    the Javadocs, the war file, and all distribution .zip and .jar files</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[test] runs 
+    the standard Junit tests (see notes below)</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">[perform] runs 
+    the performance specific JUnit tests (see notes below)</font></li>
+</ul>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">To run the Junit 
+  tests, first you must <a href="http://www.junit.org/index.htm">download</a> 
+  and instal JUnit. Once that is complete you must edit the P6Test.properties 
+  file and specify two databases. The configuration is setup for Oracle and MySQL 
+  (though you will have to change the Oracle URL at a minimum). You must also 
+  copy the vendor database JDBC drivers .jar files of the two databases you use 
+  into the lib/ directory.</font></p>
 </body>
 </html>

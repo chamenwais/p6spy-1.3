@@ -68,6 +68,10 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.8  2002/05/18 06:39:52  jeffgoke
+ * Peter Laird added Outage detection.  Added junit tests for outage detection.
+ * Fixed multi-driver tests.
+ *
  * Revision 1.7  2002/05/16 04:58:40  jeffgoke
  * Viktor Szathmary added multi-driver support.
  * Rewrote P6SpyOptions to be easier to manage.
@@ -125,7 +129,7 @@ public class P6Statement implements Statement {
         passthru = statement;
         connection = conn;
         this.prepared = prepared;
-    }    
+    }
     
     P6Statement(Statement statement, P6Connection conn) {
         passthru = statement;
@@ -141,11 +145,18 @@ public class P6Statement implements Statement {
     public boolean execute(String p0) throws java.sql.SQLException {
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
+        }
+        
         try {
             return passthru.execute(p0);
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            } else if (P6SpyOptions.getTrace()) {
                 P6LogQuery.logElapsed(this.connection, startTime, "statement", "", p0);
             }
         }
@@ -154,11 +165,18 @@ public class P6Statement implements Statement {
     public ResultSet executeQuery(String p0) throws java.sql.SQLException {
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
+        }
+        
         try {
             return (new P6ResultSet(passthru.executeQuery(p0), this, "", p0));
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            } else if (P6SpyOptions.getTrace()) {
                 P6LogQuery.logElapsed(this.connection, startTime, "statement", "", p0);
             }
         }
@@ -167,11 +185,18 @@ public class P6Statement implements Statement {
     public int executeUpdate(String p0) throws java.sql.SQLException {
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,"statement","", p0);
+        }
+        
         try {
             return(passthru.executeUpdate(p0));
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            } else if (P6SpyOptions.getTrace()) {
                 P6LogQuery.logElapsed(this.connection, startTime, "statement", "", p0);
             }
         }
@@ -260,11 +285,19 @@ public class P6Statement implements Statement {
     public void addBatch(String p0) throws java.sql.SQLException {
         statementQuery = p0;
         long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,
+            "batch","", p0);
+        }
+        
         try {
             passthru.addBatch(p0);
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            } else if (P6SpyOptions.getTrace()) {
                 P6LogQuery.logElapsed(this.connection, startTime, "batch", "", p0);
             }
         }
@@ -276,11 +309,19 @@ public class P6Statement implements Statement {
     
     public int[] executeBatch() throws java.sql.SQLException {
         long startTime = System.currentTimeMillis();
+        
+        if (P6SpyOptions.getOutageDetection()) {
+            P6OutageDetector.getInstance().registerInvocation(this,startTime,
+            "statement", prepared, statementQuery);
+        }
+        
         try {
             return(passthru.executeBatch());
         }
         finally {
-            if (P6SpyOptions.getTrace()) {
+            if (P6SpyOptions.getOutageDetection()) {
+                P6OutageDetector.getInstance().unregisterInvocation(this);
+            } else if (P6SpyOptions.getTrace()) {
                 P6LogQuery.logElapsed(this.connection, startTime, "statement", prepared, statementQuery);
             }
         }
@@ -292,7 +333,7 @@ public class P6Statement implements Statement {
     }
     
     // p6 specific code used for setting the information
-    public void setStatementQuery (String statementQuery) {
+    public void setStatementQuery(String statementQuery) {
         this.statementQuery = statementQuery;
     }
 }

@@ -68,6 +68,10 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.11  2002/05/18 06:39:52  jeffgoke
+ * Peter Laird added Outage detection.  Added junit tests for outage detection.
+ * Fixed multi-driver tests.
+ *
  * Revision 1.10  2002/05/16 04:58:40  jeffgoke
  * Viktor Szathmary added multi-driver support.
  * Rewrote P6SpyOptions to be easier to manage.
@@ -206,20 +210,22 @@ public class P6LogQuery {
     }
     
     static final void logDebug(String sql) {
-        if (qlog != null && isCategoryOk("debug")) {
-            doLog(-1, "debug", "", sql);
-        } else {
-            System.err.println(sql);
+        if (isCategoryOk("debug")) {
+            if (qlog != null) {
+                doLog(-1, "debug", "", sql);
+            } else {
+                System.err.println(sql);
+            }
         }
     }
-
+    
     static protected final synchronized void doLog(long elapsed, String category, String prepared, String sql) {
-    	doLog(null, elapsed, category, prepared, sql);
+        doLog(null, elapsed, category, prepared, sql);
     }
     
     // this is an internal procedure used to actually write the log information
     static protected final synchronized void doLog(P6Connection connection, long elapsed, String category, String prepared, String sql) {
-     
+        
         java.util.Date now = P6Util.timeNow();
         SimpleDateFormat sdf = P6SpyOptions.getDateformatter();
         String logEntry;
@@ -325,6 +331,12 @@ public class P6LogQuery {
         } else if (isCategoryOk("debug")) {
             logDebug("P6Spy intentionally did not log category: "+category+", statement: "+sql+"  Reason: Qlog="+qlog+", isLoggable="+isLoggable(sql)+", isCategoryOk="+isCategoryOk(category));
         }
+    }
+    
+    // this a way for an external to dump an unrestricted line of text into the log
+    // useful for the JSP demarcation tool
+    static public final synchronized void logText(String text) {
+        qlog.println(text);
     }
     
     // this is an internal method called by logElapsed

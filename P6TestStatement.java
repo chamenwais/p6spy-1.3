@@ -69,6 +69,10 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.7  2002/05/18 06:39:52  jeffgoke
+ * Peter Laird added Outage detection.  Added junit tests for outage detection.
+ * Fixed multi-driver tests.
+ *
  * Revision 1.6  2002/05/16 04:58:40  jeffgoke
  * Viktor Szathmary added multi-driver support.
  * Rewrote P6SpyOptions to be easier to manage.
@@ -328,31 +332,8 @@ public class P6TestStatement extends P6TestFramework {
         try {
             Statement statement = connection.createStatement();
             
-            HashMap tp = new HashMap();
-            tp.put("realdriver","oracle.jdbc.driver.OracleDriver");
-            tp.put("filter","false");
-            tp.put("include","");
-            tp.put("exclude","");
-            tp.put("trace","true");
-            tp.put("autoflush","true");
-            tp.put("logfile","spy.log");
-            tp.put("append","true");
-            tp.put("dateformat","");
-            tp.put("includecategories","");
-            tp.put("excludecategories","debug,result,batch");
-            tp.put("stringmatcher","");
-            tp.put("stacktrace","false");
-            tp.put("stacktraceclass","");
-            tp.put("reloadproperties","true");
-            tp.put("reloadpropertiesinterval","1");
-            tp.put("useprefix","false");
-            
-            writeProperty("reloadtest.properties", tp);
-            
-            P6SpyOptions.SPY_PROPERTIES_FILE = "reloadtest.properties";
-            P6SpyOptions.initMethod();
-            
-            Thread.sleep(2000);
+            HashMap tp = getDefaultPropertyFile();
+            reloadProperty (tp);
             
             String query = "select 'b' from stmt_test";
             statement.executeQuery(query);
@@ -398,25 +379,6 @@ public class P6TestStatement extends P6TestFramework {
             assertEquals(P6SpyOptions.getStackTraceClass(), "dummy");
             assertEquals(P6SpyOptions.getReloadProperties(), true);
             assertEquals(P6SpyOptions.getReloadPropertiesInterval(), 1);
-            
-            tp.put("realdriver","oracle.jdbc.driver.OracleDriver");
-            tp.put("filter","false");
-            tp.put("include","");
-            tp.put("exclude","");
-            tp.put("trace","true");
-            tp.put("autoflush","true");
-            tp.put("logfile","spy.log");
-            tp.put("append","true");
-            tp.put("dateformat","");
-            tp.put("includecategories","");
-            tp.put("excludecategories","debug,result,batch");
-            tp.put("stringmatcher","");
-            tp.put("stacktrace","false");
-            tp.put("stacktraceclass","");
-            tp.put("reloadproperties","true");
-            tp.put("reloadpropertiesinterval","1");
-            writeProperty("reloadtest.properties", tp);
-            
         } catch (Exception e) {
             fail(e.getMessage()+getStackTrace(e));
         }
@@ -428,41 +390,19 @@ public class P6TestStatement extends P6TestFramework {
         
         try {
             // rebuild the properties so it can find the second connection
-            
-            HashMap tp = new HashMap();
-            tp.put("realdriver","oracle.jdbc.driver.OracleDriver");
-            tp.put("realdriver2","oracle.jdbc.driver.OracleDriver2");
-            tp.put("filter","false");
-            tp.put("include","");
-            tp.put("exclude","");
-            tp.put("trace","true");
-            tp.put("autoflush","true");
-            tp.put("logfile","spy.log");
-            tp.put("append","true");
-            tp.put("dateformat","");
-            tp.put("includecategories","");
-            tp.put("excludecategories","result,batch");
-            tp.put("stringmatcher","");
-            tp.put("stacktrace","false");
-            tp.put("stacktraceclass","");
-            tp.put("reloadproperties","true");
-            tp.put("reloadpropertiesinterval","1");
-            tp.put("useprefix","false");
-            
-            P6SpyOptions.SPY_PROPERTIES_FILE = "reloadtest.properties";
-            P6SpyOptions.initMethod();
-            
-            writeProperty("reloadtest.properties", tp);
-            
-            Thread.sleep(2000);
+            HashMap tp = getDefaultPropertyFile();
+            reloadProperty(tp);
             
             // rebuild a second connection for the multi-driver test
             Properties props = loadProperties("P6Test.properties");
             String drivername = props.getProperty("p6driver2");
             String user = props.getProperty("user2");
             String password = props.getProperty("password2");
-            String url = props.getProperty("url");
+            String url = props.getProperty("url2");
             
+            Class.forName(drivername);
+            System.err.println("REGISTERED: "+drivername);
+            printAllDrivers();
             Driver driver = DriverManager.getDriver(url);
             Connection conn2 = DriverManager.getConnection(url, user, password);
             statement2 = conn2.createStatement();
@@ -472,7 +412,7 @@ public class P6TestStatement extends P6TestFramework {
             
             // rebuild the tables
             dropStatement("drop table stmt_test2", statement2);
-            statement2.execute("create table stmt_test2 (col1 varchar2(255), col2 number(5))");
+            statement2.execute("create table stmt_test2 (col1 varchar(255), col2 int(5))");
             
             // this should be fine
             String query = "select 'q1' from stmt_test";
@@ -501,6 +441,7 @@ public class P6TestStatement extends P6TestFramework {
             }
             
         } catch (Exception e) {
+            printAllDrivers();
             fail(e.getMessage()+getStackTrace(e));
         } finally {
             try {
@@ -509,27 +450,7 @@ public class P6TestStatement extends P6TestFramework {
             } catch (Exception e) { }
         }
     }
-    
-    protected void writeProperty(String filename, HashMap props) {
-        try {
-            File reload = new File(filename);
-            reload.delete();
-            
-            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(reload)));
-            
-            Iterator i = props.keySet().iterator();
-            while (i.hasNext()) {
-                String key = (String)i.next();
-                String value = (String)props.get(key);
-                out.println(key+"="+value);
-            }
-            
-            out.close();
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-    }
-    
+
     protected void tearDown() {
         try {
             Statement statement = connection.createStatement();
