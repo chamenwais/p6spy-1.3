@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2003/01/21 22:50:35  jeffgoke
+ * removed code no longer necessary due to the new module
+ *
  * Revision 1.3  2002/12/06 22:41:27  aarvesen
  * New factory registration in the constructor.
  *
@@ -95,31 +98,31 @@ public class P6CoreFactory implements P6Factory {
         return new P6Connection(this, conn);
     }
     
-    public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) {
+    public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) throws SQLException {
         return new P6PreparedStatement(this, real, conn, p0);
     }
     
-    public Statement getStatement(Statement statement, P6Connection conn) {
+    public Statement getStatement(Statement statement, P6Connection conn) throws SQLException {
         return new P6Statement(this, statement, conn);
     }
     
-    public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) {
+    public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) throws SQLException {
         return new P6CallableStatement(this, real, conn, p0);
     }
     
-    public DatabaseMetaData getDatabaseMetaData(DatabaseMetaData real, P6Connection conn) {
+    public DatabaseMetaData getDatabaseMetaData(DatabaseMetaData real, P6Connection conn) throws SQLException {
         return new P6DatabaseMetaData(this, real, conn);
     }
     
-    public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query) {
+    public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query) throws SQLException {
         return new P6ResultSet(this, real, statement, preparedQuery, query);
     }
     
-    public Array getArray(Array real, P6Statement statement, String preparedQuery, String query) {
+    public Array getArray(Array real, P6Statement statement, String preparedQuery, String query) throws SQLException {
         return new P6Array(this, real, statement, preparedQuery, query);
     }
     
-    public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) {
+    public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) throws SQLException {
         return new P6ResultSetMetaData(this, real);
     }
     

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2003/01/21 22:50:30  jeffgoke
+ * removed code no longer necessary due to the new module
+ *
  * Revision 1.3  2002/12/06 22:28:43  aarvesen
  * new factory registration in the constructor
  *
@@ -87,7 +90,7 @@ package com.p6spy.engine.logging;
 import java.sql.*;
 import com.p6spy.engine.spy.*;
 
-public class P6LogFactory implements P6Factory {
+public class P6LogFactory extends P6CoreFactory {
     
     public P6LogFactory() {
     }
@@ -96,32 +99,20 @@ public class P6LogFactory implements P6Factory {
 	return new P6LogConnection(this, conn);
     }
     
-    public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) {
+    public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) throws SQLException {
         return new P6LogPreparedStatement(this, real, conn, p0);
     }
     
-    public Statement getStatement(Statement statement, P6Connection conn) {
+    public Statement getStatement(Statement statement, P6Connection conn) throws SQLException {
         return new P6LogStatement(this, statement, conn);
     }
     
-    public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) {
+    public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) throws SQLException {
         return new P6LogCallableStatement(this, real, conn, p0);
     }
-    
-    public DatabaseMetaData getDatabaseMetaData(DatabaseMetaData real, P6Connection conn) {
-        return new P6LogDatabaseMetaData(this, real, conn);
-    }
-    
-    public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query) {
+        
+    public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query) throws SQLException {
         return new P6LogResultSet(this, real, statement, preparedQuery, query);
     }
-    
-    public Array getArray(Array real, P6Statement statement, String preparedQuery, String query) {
-        return new P6LogArray(this, real, statement, preparedQuery, query);
-    }
-    
-    public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) {
-        return new P6LogResultSetMetaData(this, real);
-    }
-    
+        
 }
