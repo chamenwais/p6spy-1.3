@@ -121,6 +121,8 @@
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simon Sadedin 
     added timing information to the log files. Now you can better visualize bottleneck 
     queries.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Simon Sadedin 
+    added regex support for table filtering, allowing sophisticated custom filtering.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Michael Sgroi 
     contributed installation instructions for <a href="#iplanet">iPlanet</a>.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="-1">Richard Delbert 
@@ -219,7 +221,7 @@
   filter = false<br>
   # regex engine to use (gnuregex is the only engine currently implemented - it 
   is easy to implement your own)<br>
-  stringMatcher =com.p6spy.engine.spy.GnuRegexMatcher <br>
+  stringmatcher =com.p6spy.engine.spy.GnuRegexMatcher <br>
   # comma separated list of tables to include<br>
   </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">include =<br>
   # comma separated list of tables to exclude<br>
@@ -284,7 +286,8 @@
   include = <br>
   # comma separated list of tables to exclude<br>
   exclude = order</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>stringMatcher (Custom Filtering)</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>stringmatcher 
+  (Custom Filtering)</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
   If you want to apply more intelligence to what is logged or not logged by P6Spy you can supply your
   own class implementing the StringMatcher interface.  P6Spy will pass each statement to your class
@@ -292,7 +295,7 @@
   matcher based on the GNU Regex library.  To use this, for example, you would specify:</font></p>
 
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># Use GNU Regex Matching for Filtering<br>
-  stringMatcher =com.p6spy.engine.spy.GnuRegexMatcher<br>
+  stringmatcher =com.p6spy.engine.spy.GnuRegexMatcher<br>
 </font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Note that in order to do this you must download
   the GNU Java regex library and add it to your classpath so that P6Spy can find it.

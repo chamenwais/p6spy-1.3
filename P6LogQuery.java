@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.7  2002/04/22 02:57:45  jeffgoke
+ * fixed bug in log
+ *
  * Revision 1.6  2002/04/22 02:26:06  jeffgoke
  * Simon Sadedin added timing information.  Added Junit tests.
  *
@@ -192,7 +195,7 @@ public class P6LogQuery {
         } else {
             logEntry = sdf.format(new java.util.Date(now.getTime())).trim();
         }
-        logEntry = "|"+elapsed+"|"+category+"|"+prepared+"|"+sql;
+        logEntry += "|"+elapsed+"|"+category+"|"+prepared+"|"+sql;
         qlog.println(logEntry);
         lastEntry = logEntry;
     }
