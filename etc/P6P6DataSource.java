@@ -10,6 +10,9 @@ import com.p6spy.engine.spy.*;
 
 public class P6P6DataSource extends com.p6spy.engine.spy.P6DataSource {
 
+  public P6P6DataSource (javax.sql.DataSource p0) {
+    super( p0);
+  }
   public P6P6DataSource () {
     super();
   }
