@@ -69,6 +69,11 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/06 22:42:11  aarvesen
+ * Extend P6Base.
+ * New factory registration in the constructor.
+ * jdk 1.4 additions
+ *
  * Revision 1.1  2002/05/24 07:31:13  jeffgoke
  * version 1 rewrite
  *
@@ -83,16 +88,14 @@ package com.p6spy.engine.spy;
 import java.io.*;
 import java.sql.*;
 
-public class P6DatabaseMetaData implements java.sql.DatabaseMetaData {
+public class P6DatabaseMetaData extends P6Base implements java.sql.DatabaseMetaData {
     
-    protected P6Factory getP6Factory() {
-        return new P6CoreFactory();
-    }
     
     protected DatabaseMetaData passthru;
     protected P6Connection connection;
     
-    public P6DatabaseMetaData(DatabaseMetaData metadata, P6Connection connection) {
+    public P6DatabaseMetaData(P6Factory factory, DatabaseMetaData metadata, P6Connection connection) {
+	setP6Factory(factory);
         this.passthru = metadata;
         this.connection = connection;
     }
@@ -694,4 +697,83 @@ public class P6DatabaseMetaData implements java.sql.DatabaseMetaData {
         return passthru.usesLocalFiles();
     }
     
+    // Since JDK 1.4
+    public boolean supportsSavepoints() throws java.sql.SQLException {
+        return passthru.supportsSavepoints();
+    }
+
+    // Since JDK 1.4
+    public boolean supportsNamedParameters() throws java.sql.SQLException {
+        return passthru.supportsNamedParameters();
+    }
+
+    // Since JDK 1.4
+    public boolean supportsMultipleOpenResults() throws java.sql.SQLException {
+        return passthru.supportsMultipleOpenResults();
+    }
+
+    // Since JDK 1.4
+    public boolean supportsGetGeneratedKeys() throws java.sql.SQLException {
+        return passthru.supportsGetGeneratedKeys();
+    }
+
+    // Since JDK 1.4
+    public java.sql.ResultSet getSuperTypes(String p0, String p1, String p2) throws java.sql.SQLException {
+        return passthru.getSuperTypes(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public java.sql.ResultSet getSuperTables(String p0, String p1, String p2) throws java.sql.SQLException {
+        return passthru.getSuperTables(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public java.sql.ResultSet getAttributes(String p0, String p1, String p2, String p3) throws java.sql.SQLException {
+        return passthru.getAttributes(p0, p1, p2, p3);
+    }
+
+    // Since JDK 1.4
+    public boolean supportsResultSetHoldability(int p0) throws java.sql.SQLException {
+        return passthru.supportsResultSetHoldability(p0);
+    }
+
+    // Since JDK 1.4
+    public int getResultSetHoldability() throws java.sql.SQLException {
+        return passthru.getResultSetHoldability();
+    }
+
+    // Since JDK 1.4
+    public int getDatabaseMajorVersion() throws java.sql.SQLException {
+        return passthru.getDatabaseMajorVersion();
+    }
+
+    // Since JDK 1.4
+    public int getDatabaseMinorVersion() throws java.sql.SQLException {
+        return passthru.getDatabaseMinorVersion();
+    }
+
+    // Since JDK 1.4
+    public int getJDBCMajorVersion() throws java.sql.SQLException {
+        return passthru.getJDBCMajorVersion();
+    }
+
+    // Since JDK 1.4
+    public int getJDBCMinorVersion() throws java.sql.SQLException {
+        return passthru.getJDBCMinorVersion();
+    }
+
+    // Since JDK 1.4
+    public int getSQLStateType() throws java.sql.SQLException {
+        return passthru.getSQLStateType();
+    }
+
+    // Since JDK 1.4
+    public boolean locatorsUpdateCopy() throws java.sql.SQLException {
+        return passthru.locatorsUpdateCopy();
+    }
+
+    // Since JDK 1.4
+    public boolean supportsStatementPooling() throws java.sql.SQLException {
+        return passthru.supportsStatementPooling();
+    }
 }
