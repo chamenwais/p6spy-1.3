@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2003/08/04 20:18:23  bradleydot
+ * Added calls to growvalues in registerOutParameters if they are outside the current array size.
+ *
  * Revision 1.4  2003/06/03 19:20:24  cheechq
  * removed unused imports
  *
@@ -133,14 +136,23 @@ public class P6CallableStatement extends P6PreparedStatement implements java.sql
     }
     
     public void registerOutParameter(int p0, int p1) throws SQLException {
+        if (p0>=values.length){
+          growValues(p0);
+        }
         callStmtPassthru.registerOutParameter(p0, p1);
     }
     
     public void registerOutParameter(int p0, int p1, int p2) throws SQLException {
+        if (p0>=values.length){
+          growValues(p0);
+        }      
         callStmtPassthru.registerOutParameter(p0, p1, p2);
     }
     
     public void registerOutParameter(int p0, int p1, String p2) throws SQLException {
+        if (p0>=values.length){
+          growValues(p0);
+        }      
         callStmtPassthru.registerOutParameter(p0, p1, p2);
     }
     
@@ -512,5 +524,6 @@ public class P6CallableStatement extends P6PreparedStatement implements java.sql
 
 	return wrapped;
     }
+    
 
 }
