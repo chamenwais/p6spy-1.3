@@ -244,28 +244,28 @@
   #jndicontextproviderurl=iiop://localhost:900</font></p>
 <p> <b><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
   </font></b> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">module.xxx</font></b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>module.xxx </b>is 
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module.xxx<b> </b>is 
   a particular module loaded at system startup. A module contains a group of functionality. 
   If a module line is not commented out, it is loaded into memory, and will remain 
   in memory until the application is restarted. Modules can not be changed by 
-  using the <b>reloadproperties</b> function. If all modules are commented out, 
-  then nothing except the wrapped database driver is loaded.</font></p>
+  using the reloadproperties function. If all modules are commented out, then 
+  nothing except the wrapped database driver is loaded.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Currently the following 
   modules are supported:</font></p>
 <blockquote> 
   <p><font face="Courier New, Courier, mono" size="2">module.log=com.p6spy.engine.logging.P6LogSpyDriver<br>
     module.outage=com.p6spy.engine.outage.P6OutageSpyDriver</font></p>
 </blockquote>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>module.log</b> 
-  is required for the logging functionality, see <a href="other.htm#p6log">P6Log</a>.<br>
-  <b>module.outage</b> is required for the outage functionality, see <a href="other.htm#p6outage">P6Outage</a>.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module.log is required 
+  for the logging functionality, see <a href="other.htm#p6log">P6Log</a>.<br>
+  module.outage is required for the outage functionality, see <a href="other.htm#p6outage">P6Outage</a>.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">realdriver</font></b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver</b> 
-  is where you specify the wrapped database driver.&nbsp;&nbsp;P6Spy wraps around 
-  your existing driver, intercepts the incoming database requests, and outputs 
-  them to a log file.&nbsp;To achieve this without requiring any code changes, 
-  the P6Spy driver is listed with your application as the primary driver.&nbsp;P6Spy 
-  then intercepts and logs the requests, and passes the requests to <b>realdriver,</b> 
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver is where 
+  you specify the wrapped database driver.&nbsp;&nbsp;P6Spy wraps around your 
+  existing driver, intercepts the incoming database requests, and outputs them 
+  to a log file.&nbsp;To achieve this without requiring any code changes, the 
+  P6Spy driver is listed with your application as the primary driver.&nbsp;P6Spy 
+  then intercepts and logs the requests, and passes the requests to realdriver, 
   where it is processed as usual.&nbsp;An example follows:</font></p>
 <blockquote> 
   <p><font face="Courier New, Courier, mono" size="2">realdriver = oracle.jdbc.driver.OracleDriver</font></p>
@@ -278,22 +278,21 @@
   specify the driver once. For example, if you have two MySQL databases, mydb 
   and testdb, you want to connect to both databases and log their activity. Specify 
   <b>com.p6spy.engine.spy.P6SpyDriver</b> as the database driver for both of these 
-  and set <b>realdriver</b> to the real mysql JDBC driver name. <b>realdriver2</b>, 
-  <b>realdriver3</b> are only intended for use when you are connecting with two 
-  different drivers, for example Oracle versus MySQL.</font></p>
+  and set realdriver to the real MySQL JDBC driver name. realdriver2, realdriver3 
+  are only intended for use when you are connecting with two different drivers, 
+  for example Oracle versus MySQL.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">filter, 
   include, exclude</font><u> </u></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy allows you 
   to monitor specific tables or specific statement types.&nbsp;By setting <b>filter=true</b>, 
   P6Spy will perform string matching on each statement to determine if it should 
-  be written to the log file.&nbsp;&nbsp;<b>include</b> accepts a comma-delimited 
-  list of expressions which is required to appear in a statement before it can 
-  appear in the log. <b>exclude</b> accepts a comma-delimited list to exclude. 
-  By default, string matching is performed using a basic substring match. However, 
-  <font color="#000000">RegExp</font> matching can also be used (see <b>stringmatcher</b> 
-  (Custom Filtering) below). Exclusion overrides inclusion, so that a statement 
-  matching both an <b>include</b> string and an <b>exclude</b> string is excluded. 
-  </font></p>
+  be written to the log file.&nbsp;&nbsp;include accepts a comma-delimited list 
+  of expressions which is required to appear in a statement before it can appear 
+  in the log. exclude accepts a comma-delimited list to exclude. By default, string 
+  matching is performed using a basic substring match. However, <font color="#000000">RegExp</font> 
+  matching can also be used (see stringmatcher (Custom Filtering) below). Exclusion 
+  overrides inclusion, so that a statement matching both an include string and 
+  an exclude string is excluded. </font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An example showing 
   capture of all select statements, except the orders table follows:</font></p>
 <blockquote> 
@@ -326,23 +325,22 @@
   sqlexpression</font></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If you plan on 
   using a <font color="#000000">RegExp </font>engine, a simple alternative to 
-  <b>exclude</b> and <b>include</b> is to use <b>sqlexpression</b>. An example 
-  follows:</font></p>
+  exclude and include is to use sqlexpression. An example follows:</font></p>
 <p><font face="Courier New, Courier, mono" size="2">filter = true<br>
   sqlexpression = your expression</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If your expression 
   matches the SQL string, it is logged. If the expression does not match, it is 
-  not logged. If you use <b>sqlexpression</b>, any values set in <b>include</b> 
-  and <b>exclude</b> are ignored.</font></p>
+  not logged. If you use sqlexpression, any values set in include and exclude 
+  are ignored.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">stringmatcher 
   (Custom Filtering)</font></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> If you want to 
   apply more intelligence to what is logged or not logged by P6Spy, you can specify 
   a custom matching engine. P6Spy comes with support for several <font color="#000000">RegExp</font> 
   engines, though it is trivial to introduce another engine by implementing the 
-  <b>stringmatcher</b> interface. If a <b>stringmatcher</b> engine is specified, 
-  P6Spy will pass each statement to the class specified to determine if that statement 
-  should be logged.</font></p>
+  stringmatcher interface. If a stringmatcher engine is specified, P6Spy will 
+  pass each statement to the class specified to determine if that statement should 
+  be logged.</font></p>
 <ul>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#000000">Using 
     GNU</font><font color="#CC3333"> <font color="#000000">RegEx</font></font><font color="#000000">p</font>&#151;</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">P6Spy 
@@ -372,10 +370,10 @@
 </ul>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">autoflush</font></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">For standard development, 
-  set the <b>autoflush</b> value to true. When set to true, every time a statement 
-  is intercepted, it is immediately written to the log file.&nbsp;In some cases, 
+  set the autoflush value to true. When set to true, every time a statement is 
+  intercepted, it is immediately written to the log file.&nbsp;In some cases, 
   however, instant feedback on every statement is not a requirement. In those 
-  cases, the system performs slightly faster with <b>autoflush</b> set to false.</font></p>
+  cases, the system performs slightly faster with autoflush set to false.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An example follows:</font></p>
 <blockquote> 
   <p><font face="Courier New, Courier, mono" size="2">autoflush = true</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
@@ -386,12 +384,12 @@
   you to specify where and how log information is output. Appenders are a flexible 
   architecture allowing anyone to write their own output class for P6Spy. To use 
   an appender, specify the classname of the appender to use. The current release 
-  comes with three options which are <b>log4j</b>, <b>stdout</b>, and logging 
-  to a CSV text file (default).</font></p>
+  comes with three options which are log4j, stdout, and logging to a CSV text 
+  file (default).</font></p>
 <ul>
   <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Using a CSV 
     File&#151;</font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">To 
-    output to a file, uncomment the <b>FileLogger</b> appender and specify a <b>logfile</b> 
+    output to a file, uncomment the FileLogger appender and specify a logfile 
     and whether or not to append to the file or to clear the file each time: </font> 
     <p><font size="2" face="Courier New, Courier, mono">#appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
       #appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
@@ -406,15 +404,15 @@
       append=true</font></p>
   </li>
   <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Using StdOut&#151;</font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Uncomment 
-    the <b>StdoutLogger</b> as follows and all output will be sent to stdout in 
-    a CSV format:</font> 
+    the StdoutLogger as follows and all output will be sent to stdout in a CSV 
+    format:</font> 
     <p><font size="2" face="Courier New, Courier, mono">#appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
       appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
       #appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
   </li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Using Log4J&#151;</font><font size="2" face="Verdana, Arial, Helvetica, sans-serif">To 
-    output to <b>log4j</b>, make sure <b>log4j</b> is in your path, uncomment 
-    the <b>log4j</b> appender, and specify the desired <b>log4j</b> settings:</font> 
+    output to log4j, make sure log4j is in your path, uncomment the log4j appender, 
+    and specify the desired log4j settings:</font> 
     <p><font size="2" face="Courier New, Courier, mono">appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
       #appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
       # appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
@@ -429,8 +427,8 @@
       #log4j.appender.CHAINSAW_CLIENT.LocationInfo=true</font></p>
     <p><font size="2" face="Courier New, Courier, mono">log4j.logger.p6spy=INFO,STDOUT</font></p>
     <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If for some 
-      reason <b>log4j</b> cannot be initialized, the logging will go to a file 
-      called <b>log4jaux.log</b>.</font></p>
+      reason log4j cannot be initialized, the logging will go to a file called 
+      <b>log4jaux.log</b>.</font></p>
   </li>
 </ul>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">excludecategories</font></b></font></p>
@@ -446,71 +444,70 @@
     </strong>is only intended for use when you cannot get your driver to work 
     properly, because it writes everything.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><strong>statement 
-    </strong> includes <b>Statements</b>, <b>PreparedStatements</b>, and <b>CallableStatements</b>.<strong> 
+    </strong> includes Statements, PreparedStatements, and CallableStatements.<strong> 
     </strong></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong><font color="#000000">batch</font></strong><font color="#000000"> 
-    includes calls made to the <b>addBatch()</b> JDBC API.</font></font></li>
+    includes calls made to the addBatch() JDBC API.</font></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><strong>commit</strong> 
-    includes calls made to the <b>commit()</b> JDBC API.</font></li>
+    includes calls made to the commit() JDBC API.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><strong>rollback</strong> 
-    includes calls made to the <b>rollback()</b> JDBC API.</font></li>
+    includes calls made to the rollback() JDBC API.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong><font color="#000000">result</font></strong><font color="#000000"> 
-    includes statements generated by <b>ResultSet</b>.</font></font></li>
+    includes statements generated by ResultSet.</font></font></li>
 </ul>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Enter a comma-delimited 
-  list of categories to exclude from your log file. See <b>filter</b>,<b>include</b>,<b>exclude</b> 
+  list of categories to exclude from your log file. See filter,include,exclude 
   for more details on how this process works.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">includecategories</font></b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>includecategories</b> 
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">includecategories 
   includes category information that describes the type of statement. This property 
-  is a comma-delimited list of categories to include. See <b>excludecategories</b> 
-  for a valid list of categories.</font></p>
+  is a comma-delimited list of categories to include. See excludecategories for 
+  a valid list of categories.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">dateformat</font></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting a value 
-  for <b>dateformat</b> changes the date format value printed in the log file. 
-  No value prints the current time in milliseconds, a useful feature for parsing 
-  the log. The date format engine is Java's <b>SimpleDateFormat</b> class. Refer 
-  to the <b>SimpleDateFormat</b> class in the JavaDocs for information on setting 
-  this value. </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An 
+  for dateformat changes the date format value printed in the log file. No value 
+  prints the current time in milliseconds, a useful feature for parsing the log. 
+  The date format engine is Java's SimpleDateFormat class. Refer to the SimpleDateFormat 
+  class in the JavaDocs for information on setting this value. </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An 
   example follows: </font></p>
 <blockquote> 
   <p><font face="Courier New, Courier, mono" size="2">dateformat=MM-dd-yy HH:mm:ss:SS</font></p>
 </blockquote>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">stacktrace</font></b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If <b>stacktrace</b> 
-  is set, the log prints out the stack trace for each SQL statement logged.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If stacktrace is 
+  set, the log prints out the stack trace for each SQL statement logged.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">stacktraceclass</font></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Limits the stack 
-  traces printed to those that contain the value set in <b>stacktraceclass</b>. 
-  For example, specifying <b>stacktraceclass=com.mycompany.myclass </b> limits 
-  the printing of stack traces to the specified class value. The stack trace is 
-  converted to a String and <b>string.indexOf(stacktraceclass)</b> is performed.</font><br>
+  traces printed to those that contain the value set in stacktraceclass. For example, 
+  specifying <b>stacktraceclass=com.mycompany.myclass </b> limits the printing 
+  of stack traces to the specified class value. The stack trace is converted to 
+  a String and string.indexOf(stacktraceclass) is performed.</font><br>
   <b><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
   </font></b> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">reloadproperties 
   and reloadpropertiesinterval</font></b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If <b>reloadproperties</b> 
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If reloadproperties 
   is set to true, the property file is reloaded every <i>n</i> seconds, where 
-  <i>n</i> is defined by the value set by <b>reloadpropertiesinterval</b>. For 
-  example, if <b>reloadproperties=true</b> and <b>reloadpropertiesinterval=10</b>,<b> 
-  </b> the system checks the <b>File.lastModified()</b> property of the property 
-  file every 10 seconds, and if the file has been modified, it will be reloaded.</font></p>
+  <i>n</i> is defined by the value set by reloadpropertiesinterval. For example, 
+  if <b>reloadproperties=true</b> and <b>reloadpropertiesinterval=10</b>,<b> </b> 
+  the system checks the File.lastModified() property of the property file every 
+  10 seconds, and if the file has been modified, it will be reloaded.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If you set <b>append=true</b>, 
   the log will be suddenly truncated when you change your properties. This is 
-  because using <b>reloadproperties</b> is intended to be the equivalent of restarting 
+  because using reloadproperties is intended to be the equivalent of restarting 
   your application server. Restarting your application server truncates your log 
   file.</font></p>
 <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><b>reloadproperties</b> 
-  will not reload any driver information (such as <b>realdriver</b>, <b>realdriver2</b>, 
-  and <b>realdriver3</b>) and will not change the modules that are in memory.</font></p>
+  will not reload any driver information (such as realdriver, realdriver2, and 
+  realdriver3) and will not change the modules that are in memory.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">useprefix</font></b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting <b>useprefix</b> 
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting useprefix 
   to <b>true</b> requires you to prefix your URLs with <b>p6spy:</b>. The default 
   setting is <b>false</b>.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">Command 
   Line Options</font> </b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Every parameter 
   specified in the property file can be set and overriden at the command line 
-  using the Java <b>-D</b> flag.</font></p>
+  using the Java <b>-</b>D flag.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An example follows:</font></p>
 <blockquote> 
   <p><font face="Courier New, Courier, mono" size="2">java -Dp6logfile=my.log 
@@ -532,20 +529,20 @@
 </blockquote>
 <ul>
   <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">current time</font></b><font face="Courier New, Courier, mono" size="2">&#151;</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The 
-    current time is obtained through <b>System.getCurrentTimeMillis()</b> and 
-    represents the number of milliseconds that have passed since January 1, 1970 
-    00:00:00.000 GMT. (Refer to the J2SE documentation for further details on 
-    <b>System.getCurrentTimeMillis()</b>.) <font color="#000000">This can be changed 
-    to a different format using the <b>dateformat</b> property described in <a href="other.htm">Common 
-    Property File Settings</a>.</font></font></li>
+    current time is obtained through System.getCurrentTimeMillis() and represents 
+    the number of milliseconds that have passed since January 1, 1970 00:00:00.000 
+    GMT. (Refer to the J2SE documentation for further details on System.getCurrentTimeMillis().) 
+    <font color="#000000">This can be changed to a different format using the 
+    dateformat property described in <a href="other.htm">Common Property File 
+    Settings</a>.</font></font></li>
   <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">execution 
     time</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&#151;The 
     time it takes for a particular method to execute. (This is not the total cost 
     for the SQL statement.) For example, a statement SELECT * FROM MYTABLE WHERE 
-    THISCOL = ? might be executed as a prepared statement, in which the <b>.execute()</b> 
-    function will be measured. This is recorded as the <b>statement</b> category. 
-    Further, as you call <b>.next()</b> on the <b>ResultSet</b>, each <b>.next() 
-    </b>call is recorded in the <b>result</b> category.</font></li>
+    THISCOL = ? might be executed as a prepared statement, in which the .execute() 
+    function will be measured. This is recorded as the statement category. Further, 
+    as you call .next() on the ResultSet, each .next()<b> </b>call is recorded 
+    in the result category.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>category</b></font><font face="Courier New, Courier, mono" size="2">&#151;</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#000000">You 
     can manage your log by including and excluding categories, which is described 
     in </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#000000"><a href="other.htm">Common 
@@ -554,7 +551,7 @@
     SQL string</b>&#151;This is the SQL string passed to the statement object. 
     If it is a prepared statement, it will be the prepared statement as it was 
     prior to the parameters being set. To see the complete statement, refer to 
-    <b>effective SQL string</b><font face="Verdana, Arial, Helvetica, sans-serif">.</font></font></li>
+    effective SQL string<font face="Verdana, Arial, Helvetica, sans-serif">.</font></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>effective 
     SQL string</b></font><font face="Courier New, Courier, mono" size="2">&#151;</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If 
     you are not using a prepared statement, this will contains no value. Otherwise, 
@@ -621,7 +618,7 @@
     file and specify two databases. The configuration is set up for Oracle and 
     MySQL. You must change the Oracle URL, at minimum. </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Copy the vendor 
-    database JDBC drivers JAR files of the two databases into the lib directory.</font> 
+    database JDBC drivers' JAR files (of the two databases) into the lib directory.</font> 
   </li>
 </ol>
 <div align="center"> 
