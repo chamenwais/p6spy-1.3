@@ -189,41 +189,31 @@
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Create a <b>p6spy-service.xml</b> 
       file in<i> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#000000">JBOSS_DIST</font></font></i><font color="#000000">\server\deploy</font>. 
       Set the <b>config-property</b> element named <b>DriverClass</b> to P6SpyDriver 
-      in <b>p6spy-service.xml</b>, by basing a new XML file on the the one of 
-      the examples in the <font color="#000000"><i>JBOSS_DIST</i>\docs\examples\jca</font> 
+      in <b>p6spy-service.xml</b>, by basing a new XML file on one of the examples 
+      in the <font color="#000000"><i>JBOSS_DIST</i>\docs\examples\jca</font> 
       directory. You can also configure <b>JndiName</b> and <b>ConnectionURL</b> 
       for your specific implementation. An example of the pertinent portions (not 
       the complete XML file) of a <b>p6spy-service.xml</b> file follows: </font> 
-      <p>
+      <p> 
     </li>
   </ol>
   <blockquote> 
     <blockquote> 
-      <blockquote> 
-        <p><font face="Courier New, Courier, mono" size="2">&lt;attribute name=&quot;JndiName&quot;&gt;MySqlDS&lt;/attribute&gt;</font></p>
-        <p><font face="Courier New, Courier, mono" size="2">&lt;attribute name=&quot;ManagedConnectionFactoryProperties&quot;&gt;</font></p>
-        <p><font face="Courier New, Courier, mono" size="2">&lt;properties&gt;</font></p>
-        <blockquote> 
-          <p><font face="Courier New, Courier, mono" size="2"> &lt;config-property 
-            name=&quot;ConnectionURL&quot;</font></p>
-          <blockquote> 
-            <p><font face="Courier New, Courier, mono" size="2">type=&quot;java.lang.String&quot;&gt;jdbc:mysql://localhost/localdb&lt;/config-property&gt;</font></p>
-          </blockquote>
-          <p><font face="Courier New, Courier, mono" size="2">&lt;config-property 
-            name=&quot;DriverClass&quot;</font></p>
-          <blockquote> 
-            <p><font face="Courier New, Courier, mono" size="2">type=&quot;java.lang.String&quot;&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/config-property&gt;</font></p>
-          </blockquote>
-          <div align="left"></div>
-        </blockquote>
-        <div align="left"></div>
-      </blockquote>
+      <blockquote> <font face="Courier New, Courier, mono" size="2">&lt;attribute 
+        name=&quot;JndiName&quot;&gt;MySqlDS&lt;/attribute&gt;<br>
+        &lt;attribute name=&quot;ManagedConnectionFactoryProperties&quot;&gt; 
+        <br>
+        &lt;properties&gt;<br>
+        &lt;config-property name=&quot;ConnectionURL&quot; type=&quot;java.lang.String&quot;&gt;jdbc:mysql://localhost/localdb&lt;/config-property&gt;<br>&lt;config-property 
+        name=&quot;DriverClass&quot;type=&quot;java.lang.String&quot;&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/config-property&gt;</font></blockquote>
+      <div align="left"></div>
     </blockquote>
-    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Note:</b> 
-      Make sure there is not a service that explicitly loads the wrapped driver. 
-      A service of this type will load the specified driver before P6SpyDriver, 
-      resulting in unwrapped connections.</font></div>
+    <div align="left"></div>
   </blockquote>
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Note:</b> 
+    Make sure there is not a service that explicitly loads the wrapped driver. 
+    A service of this type will load the specified driver before P6SpyDriver, 
+    resulting in unwrapped connections.</font></div>
   <ol start="5">
     <li> 
       <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
@@ -344,7 +334,7 @@
     Tomcat</b></font></p>
   <p>The following <font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
     instructions were tested with Jakarta Tomcat 3.x.&nbsp;&nbsp;Note that since 
-    you typically write or otherwise obtain your own connection pool when using 
+    you typically write or otherwise obtain your own Connection Pool when using 
     Tomcat, these instructions will differ by application. To install P6Spy on 
     Jakarta Tomcat, complete the following steps:</font></p>
   <ol>
@@ -464,7 +454,7 @@
   <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"> 
     <b><font size="2">Note:</font></b><font size="2"> Database access configuration 
     within JOnAS is described in a DataSource property file, such as <b>Oracle1.properties</b>. 
-    See the JOnAS Bean Programmer's Guide for more details.</font></font></font></p>
+    Refer to the JOnAS Bean Programmer's Guide for more details.</font></font></font></p>
 </div>
 <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
   <ol start="5">
@@ -503,7 +493,7 @@
     both drivers end up registered against the same URL. I seem to remember that 
     the best trick for avoiding this is mangling the URL. If you instruct users 
     to prepend &quot;p6spy:&quot; to their URL and then remove it in your wrapped 
-    file, it should work in more cases.&quot; You can do this with the useprefix 
+    file, it should work in more cases.&quot; You can do this with the <b>useprefix</b> 
     option. If anyone has an opportunity to validate this, please drop us a line 
     with updated information.</font></font></p>
 </div>
@@ -586,11 +576,11 @@
           the Administration Console tool by navigating to http://<i>your-host</i>:7501/console, 
           where <i>your-host</i> is the machine on which BEA WebLogic is installed.</font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Navigate 
-          to the<b><i> your-domain</i></b>, <font color="#000000">(where <i>your-domain</i> 
-          is the domain name specified during the BEA WebLogic install)-&gt;<b>Services 
-          -&gt;JDBC -&gt;Connection Pools</b></font> node and set the <b>Driver 
-          Classname</b> for each <font color="#000000">Connection Pool</font> 
-          to <b>com.p6spy.engine.spy.P6SpyDriver</b>. </font></li>
+          to the<b><i> your-domain</i></b> <font color="#000000">(where <i>your-domain</i> 
+          is the domain name specified during the BEA WebLogic install) -&gt;<b> 
+          Services </b>-&gt; <b>JDBC </b>-&gt;<b> Connection Pools</b></font> 
+          node and set the <b>Driver Classname</b> for each <font color="#000000">Connection 
+          Pool</font> to <b>com.p6spy.engine.spy.P6SpyDriver</b>. </font></li>
       </ol>
     </li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If using RDBMS 
@@ -600,20 +590,19 @@
       <ol type="i">
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Using 
           the Administration Console, navigate to the<font color="#000000"> <b><i>your-domain</i> 
-          -&gt; Security</b> -&gt;<b>Realms</b></font> node.</font></li>
+          </b>-&gt;<b> Security</b> -&gt; <b>Realms</b></font> node.</font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Select 
           the security realm.</font></li>
         <li><font color="#000000" face="Verdana, Arial, Helvetica, sans-serif" size="2">C</font><font color="#CC3333" face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#000000">lick 
           the <b>Database</b> tab.</font></font></li>
         <li><font color="#000000" face="Verdana, Arial, Helvetica, sans-serif" size="2">Set 
           the <b>Driver</b> parameter to <b>com.p6spy.engine.spy.P6SpyDriver</b>.</font></li>
-        <li><font color="#CC33CC" face="Verdana, Arial, Helvetica, sans-serif" size="2">.</font></li>
       </ol>
     </li>
     <li><font color="#000000" face="Verdana, Arial, Helvetica, sans-serif" size="2">Using 
       the Administration Console, shut down WebLogic Portal. R<font color="#000000">ight-click 
       on the<i> <b>your-domain</b></i>-&gt;<b>Servers</b>-&gt;<i><b>your-server</b> 
-      node</i> and </font>selecting <b>Stop this Server </b>from the pop-up menu.</font></li>
+      node</i> and </font>select <b>Stop this Server </b>from the pop-up menu.</font></li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">Restart 
       WebLogic Portal by running <b>startPortal.bat</b>.</font></li>
   </ol>
@@ -706,10 +695,11 @@
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Start 
           the Administration Console tool by navigating to http://&lt;<i>your-host</i>&gt;:7501/console.</font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Navigate 
-          to the <i><b>your-domain</b></i><font color="#000000">-&gt;<b>Services</b>-&gt; 
-          <b>JDBC</b>-&gt;<b>Connection Pools </b></font>node and set the <font color="#CC3300"><b><font color="#000000">Driver 
-          Classname</font></b><font color="#000000"> for each Connection Pool</font></font> 
-          to <b>com.p6spy.engine.spy.P6SpyDriver</b>. </font></li>
+          to the <i><b>your-domain </b></i><font color="#000000">-&gt; <b>Services 
+          </b>-&gt; <b>JDBC </b>-&gt;<b> Connection Pools </b></font>node and 
+          set the <font color="#CC3300"><b><font color="#000000">Driver Classname</font></b><font color="#000000"> 
+          for each Connection Pool</font></font> to <b>com.p6spy.engine.spy.P6SpyDriver</b>. 
+          </font></li>
       </ol>
     </li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If using RDBMS 
@@ -718,8 +708,8 @@
       the following steps: </font> 
       <ol type="i">
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Using 
-          the Administration Console, navigate to the <font color="#CC3333"><b><i><font color="#000000">your-domain</font></i></b><font color="#000000">-&gt;<i>Security-&gt;</i><b>Realms</b></font></font> 
-          node.</font></li>
+          the Administration Console, navigate to the <font color="#CC3333"><b><i><font color="#000000">your-domain</font></i></b><font color="#000000"> 
+          -&gt; <b>Security </b>-&gt;<i> </i><b>Realms</b></font></font> node.</font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Select 
           the security realm.</font></li>
         <li><font color="#000000" face="Verdana, Arial, Helvetica, sans-serif" size="2">C</font><font color="#CC3333" face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#000000">lick 
@@ -731,7 +721,7 @@
     </li>
     <li><font color="#000000" face="Verdana, Arial, Helvetica, sans-serif" size="2">Using 
       the Administration Console, shut down WebLogic Portal. Right-click on the 
-      <i><b>your-domain</b></i>-&gt;<b>Servers</b>-&gt;<i><b>your-server</b></i> 
+      <i><b>your-domain</b></i> -&gt;<b> Servers </b>-&gt; <i><b>your-server</b></i> 
       node and <font color="#000000">s</font>elect <b>Stop this Server </b>from 
       the pop-up menu.</font></li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">Restart 
@@ -827,17 +817,13 @@
           default<font color="#000000"> <i>user</i>/<i>pass</i> is admin/admin.</font></font></p>
       </blockquote>
       <ol type="i" start="2">
-        <li>C<font face="Verdana, Arial, Helvetica, sans-serif" size="2">lick 
-          <b>Configuration Manager</b>.</font></li>
-        <li>C<font face="Verdana, Arial, Helvetica, sans-serif" size="2">lick 
-          <b>Default Configuration</b>.</font></li>
-        <li>C<font face="Verdana, Arial, Helvetica, sans-serif" size="2">lick 
-          <b>System Paths</b>.</font></li>
+        <li>Select <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Configuration 
+          Manager </b>-&gt;<b> Default Configuration </b>-&gt;<b> System Paths</b>.</font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Enter 
           the full path of the <b>p6spy.jar</b> file under <b>Extend Dynamo's 
           Classpath</b>. An example of the path is C:\p6spy\p6spy.jar.</font></li>
-        <li>Enter the full path of the <b>spy.properties</b> file <b>Extend Dynamo's 
-          Classpath</b>. An example of the path is C:\p6spy.</li>
+        <li>Enter the full path of the <b>spy.properties</b> file under<b> Extend 
+          Dynamo's Classpath</b>. An example of the path is C:\p6spy.</li>
         <li>Click<font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
           <b>Append to Classpath</b>.</font></li>
         <li>C<font face="Verdana, Arial, Helvetica, sans-serif" size="2">onfirm 
@@ -864,8 +850,8 @@
   </blockquote>
   <div align="left"> 
     <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Change 
-      this to reflect your database. If you are using the ATG demo this would 
-      be as follows:</font></font></p>
+      this to reflect your database. An example of a modified <b>realdriver</b> 
+      line for ATG demo follows:</font></font></p>
   </div>
   <blockquote> 
     <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono" size="2">realdriver 
@@ -880,19 +866,10 @@
       <ol type="i">
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Run the 
           Admin Tool by logging in to http://localhost:8830.</font></li>
-        <li>C<font face="Verdana, Arial, Helvetica, sans-serif" size="2">lick 
-          <b>Configuration Manager.</b></font></li>
-        <li>C<font face="Verdana, Arial, Helvetica, sans-serif" size="2">lick 
-          <b>Default Configuration.</b></font></li>
-        <li>C<font face="Verdana, Arial, Helvetica, sans-serif" size="2">lick 
-          <b>Connection Pools.</b></font></li>
-        <li>C<font face="Verdana, Arial, Helvetica, sans-serif" size="2">lick 
-          <b>JTDataSource.</b></font></li>
-        <li>C<font face="Verdana, Arial, Helvetica, sans-serif" size="2">lick 
-          <b>JDBC 1.x/2.x driver</b>.<br>
-          </font></li>
-        <li>S<font face="Verdana, Arial, Helvetica, sans-serif" size="2">elect 
-          <b>Custom JDBC Information.</b></font></li>
+        <li>Select <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Configuration 
+          Manager </b>-&gt;<b> Default Configuration </b>-&gt; <b>Connection Pools</b> 
+          -&gt; <b>JTDataSource </b>-&gt;<b> JDBC 1.x/2.x driver </b>-&gt;<b> 
+          Custom JDBC Information.</b></font></li>
         <li>E<font face="Verdana, Arial, Helvetica, sans-serif" size="2">nter 
           the information exactly as you would for connecting to your database, 
           except for the driver box. Set the driver box to <b>com.p6spy.engine.spy.P6SpyDriver</b>.</font></li>
@@ -949,8 +926,8 @@
       file contains <b>p6spy.jar </b>and <b>spy.properties</b>.</font></li>
     <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> Add <b>p6spy.jar</b> 
       to your classpath by running the command line executable <b>kregedit</b>. 
-      Under <font color="#000000"><b>Software\iPlanet</b>-&gt;<b>6.0</b>-&gt;<b>Java</b>-&gt;<b>ClassPath</b>,</font> 
-      modify the entry adding <font color="#CC0033"><i><font color="#000000">spy-home</font> 
+      Under <font color="#000000"><b>Software\iPlanet</b> -&gt; <b>6.0 </b>-&gt; 
+      <b>Java</b> -&gt; <b>ClassPath</b>,</font> modify the entry adding <font color="#CC0033"><i><font color="#000000">spy-home</font> 
       </i></font>to the end of the classpath.</font> </li>
     <li>Modify<font face="Verdana, Arial, Helvetica, sans-serif" size="2"> your 
       application server to use the P6Spy database driver by running the command 
@@ -969,7 +946,7 @@
       about the wrapped database driver, register your DataSource by running the 
       following command line executable:<br>
       </font> 
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono" color="#000000">iasdeploy 
+      <p><font face="Courier New, Courier, mono" color="#000000">iasdeploy 
         regdatasource -user <i>iPlanet_admin_username</i> -password <i>iPlanet_admin_password</i> 
         -host localhost -port <i>iPlanet_admin _port config_filename</i></font><font color="#000000"><br>
         </font><br>
@@ -978,17 +955,11 @@
         admin port number, and <i>config_filename</i> is the full path to the 
         file containing your DataSource configuration. An example follows:<br>
         <br>
-        <font face="Courier New, Courier, mono" color="#000000">&lt;ias-resource&gt;</font></font></p>
-      <p><font face="Courier New, Courier, mono" size="2" color="#000000"> &lt;resource&gt;</font></p>
-      <p><font face="Courier New, Courier, mono" size="2" color="#000000">&lt;jndi-name&gt;jdbc/yourapp/ora-type4-spy&lt;/jndi-name&gt;</font></p>
-      <p><font face="Courier New, Courier, mono" size="2" color="#000000">&lt;jdbc&gt;</font></p>
-      <p><font face="Courier New, Courier, mono" size="2" color="#000000">&lt;driver-type&gt;spy&lt;/driver-type&gt;</font></p>
-      <p><font face="Courier New, Courier, mono" size="2" color="#000000">&lt;database-url&gt;jdbc:oracle:thin:@localhost:1521:orcl&lt;/database-url&gt;</font></p>
-      <p><font face="Courier New, Courier, mono" size="2" color="#000000">&lt;username&gt;user&lt;/username&gt;</font></p>
-      <p><font face="Courier New, Courier, mono" size="2" color="#000000">&lt;password&gt;password&lt;/password&gt;</font></p>
-      <p><font face="Courier New, Courier, mono" size="2" color="#000000">&lt;/jdbc&gt;</font></p>
-      <p><font face="Courier New, Courier, mono" size="2" color="#000000">&lt;/resource&gt;</font></p>
-      <p><font face="Courier New, Courier, mono" size="2" color="#000000">&lt;/ias-resource&gt;</font></p>
+        <font face="Courier New, Courier, mono">&lt;ias-resource&gt;<br> &lt;resource&gt;<br> 
+        &lt;jndi-name&gt;jdbc/yourapp/ora-type4-spy&lt;/jndi-name&gt;<br>
+        &lt;jdbc&gt;<br> &lt;driver-type&gt;spy&lt;/driver-type&gt;<br>&lt;database-url&gt;jdbc:oracle:thin:@localhost:1521:orcl&lt;/database-url&gt; <br>
+        &lt;username&gt;user&lt;/username&gt;<br> &lt;password&gt;password&lt;/password&gt; <br>
+        &lt;/jdbc&gt;<br> &lt;/resource&gt;<br> &lt;/ias-resource&gt; </font> 
     </li>
   </ol>
   </font></div>
@@ -1057,7 +1028,7 @@
   </li>
   <li> 
     <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Modify 
-      your application or server to use the P6Spy database driver.</font></div>
+      your application server or application to use the P6Spy database driver.</font></div>
   </li>
   <li> 
     <div align="left"> 
