@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2003/01/10 21:39:43  jeffgoke
+ * removed p6util.warn and moved warn handling to logging.  this gives a consistent log file.
+ *
  * Revision 1.4  2003/01/08 18:11:13  aarvesen
  * Trap the no more element exception to avoid a stupid crashing bug.
  *
@@ -146,7 +149,7 @@ public class P6Util {
             return (Integer.parseInt(i));
         }
         catch(NumberFormatException nfe) {
-            P6Util.warn("NumberFormatException occured parsing value "+i);
+            P6LogQuery.logError("NumberFormatException occured parsing value "+i);
             return defaultValue;
         }
     }
@@ -159,7 +162,7 @@ public class P6Util {
             return (Long.parseLong(l));
         }
         catch(NumberFormatException nfe) {
-            P6Util.warn("NumberFormatException occured parsing value "+l);
+            P6LogQuery.logError("NumberFormatException occured parsing value "+l);
             return defaultValue;
         }
     }
@@ -196,7 +199,7 @@ public class P6Util {
         try {
             String path = classPathFile(file);
             if (path == null) {
-                warn("Can't find " + file + ", java.class.path = <" + System.getProperty("java.class.path") + ">");
+                P6LogQuery.logError("Can't find " + file + ", java.class.path = <" + System.getProperty("java.class.path") + ">");
             } else {
                 FileInputStream in = new FileInputStream(path);
                 props.load(in);
@@ -204,9 +207,9 @@ public class P6Util {
                 in.close();
             }
         } catch (FileNotFoundException e1) {
-            warn("Can't find find " + file + " " + e1);
+            P6LogQuery.logError("Can't find find " + file + " " + e1);
         } catch (IOException e2) {
-            warn("IO Error reading file " + file + " " + e2);
+            P6LogQuery.logError("IO Error reading file " + file + " " + e2);
         }
         
         return props;
@@ -250,7 +253,7 @@ public class P6Util {
         try {
             String path = classPathFile(file);
             if (path == null) {
-                warn("Can't find " + file + ", java.class.path = <" + System.getProperty("java.class.path") + ">");
+                P6LogQuery.logError("Can't find " + file + ", java.class.path = <" + System.getProperty("java.class.path") + ">");
             } else {
                 in = new FileReader(path);
                 // read the file
@@ -273,9 +276,9 @@ public class P6Util {
                 }
             }
         } catch (FileNotFoundException e1) {
-            warn("Can't find find " + file + " " + e1);
+            P6LogQuery.logError("Can't find find " + file + " " + e1);
         } catch (IOException e2) {
-            warn("IO Error reading file " + file + " " + e2);
+            P6LogQuery.logError("IO Error reading file " + file + " " + e2);
         } finally {
             try {
                 reader.close();
@@ -318,10 +321,6 @@ public class P6Util {
         } while (!fp.exists() && tok.hasMoreTokens());
         
         return fp.exists() ? path : null;
-    }
-    
-    public static void warn(String s) {
-        System.err.println("Warning: " + s);
     }
     
     public static void checkJavaProperties() {

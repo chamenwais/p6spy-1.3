@@ -306,13 +306,13 @@ public class P6SpyOptions   {
         try {
             stringMatcherEngine = (StringMatcher)P6Util.forName(stringmatcher).newInstance();
         } catch (InstantiationException e) {
-            P6Util.warn("Could not instantiate string matcher class: " + stringmatcher);
+            P6LogQuery.logError("Could not instantiate string matcher class: " + stringmatcher);
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            P6Util.warn("Could not instantiate string matcher class: " + stringmatcher);
+            P6LogQuery.logError("Could not instantiate string matcher class: " + stringmatcher);
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            P6Util.warn("Could not instantiate string matcher class: " + stringmatcher);
+            P6LogQuery.logError("Could not instantiate string matcher class: " + stringmatcher);
             e.printStackTrace();
         }
     }
@@ -524,7 +524,7 @@ public class P6SpyOptions   {
 	    driverNames = reverseLoadPropertyList(filename, DRIVER_PREFIX);
 
         } catch (IntrospectionException e) {
-            P6Util.warn("Could not set property values due to IntrospectionException");
+            P6LogQuery.logError("Could not set property values due to IntrospectionException");
         }
 
 	// now set the P6SpyOptions options
@@ -557,14 +557,14 @@ public class P6SpyOptions   {
         try {
             P6Util.set(P6SpyOptions.class, property, new String[] {value});
         } catch (IntrospectionException e) {
-            P6Util.warn("Could not set property "+property+" due to IntrospectionException");
+            P6LogQuery.logError("Could not set property "+property+" due to IntrospectionException");
         } catch (IllegalAccessException e) {
-            P6Util.warn("Could not set property "+property+" due to IllegalAccessException");
+            P6LogQuery.logError("Could not set property "+property+" due to IllegalAccessException");
         } catch (NoSuchMethodException e) {
             // we are avoid this because it is perfectly okay for there to be get methods
             // we do not really want to set
         } catch (InvocationTargetException e) {
-            P6Util.warn("Could not set property "+property+" due to InvoicationTargetException");
+            P6LogQuery.logError("Could not set property "+property+" due to InvoicationTargetException");
         }
     }
     
@@ -573,13 +573,13 @@ public class P6SpyOptions   {
             Object value = P6Util.get(P6SpyOptions.class, property);
             return value == null ? null : value.toString();
         } catch (IntrospectionException e) {
-            P6Util.warn("Could not get property "+property+" due to IntrospectionException");
+            P6LogQuery.logError("Could not get property "+property+" due to IntrospectionException");
         } catch (IllegalAccessException e) {
-            P6Util.warn("Could not get property "+property+" due to IllegalAccessException");
+            P6LogQuery.logError("Could not get property "+property+" due to IllegalAccessException");
         } catch (NoSuchMethodException e) {
-            P6Util.warn("Could not get property "+property+" due to NoSuchMethodException");
+            P6LogQuery.logError("Could not get property "+property+" due to NoSuchMethodException");
         } catch (InvocationTargetException e) {
-            P6Util.warn("Could not get property "+property+" due to InvoicationTargetException");
+            P6LogQuery.logError("Could not get property "+property+" due to InvoicationTargetException");
         }
         return null;
     }
@@ -588,7 +588,7 @@ public class P6SpyOptions   {
         try {
             return (P6Util.findAllMethods(P6SpyOptions.class));
         } catch (IntrospectionException e) {
-            P6Util.warn("Could not get options list due to IntrospectionException");
+            P6LogQuery.logError("Could not get options list due to IntrospectionException");
         }
         return null;
     }

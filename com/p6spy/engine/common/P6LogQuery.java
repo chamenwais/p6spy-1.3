@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.8  2003/01/10 21:39:43  jeffgoke
+ * removed p6util.warn and moved warn handling to logging.  this gives a consistent log file.
+ *
  * Revision 1.7  2003/01/09 00:51:17  jeffgoke
  * removed trace
  *
@@ -217,7 +220,7 @@ public class P6LogQuery {
             file = (path == null) ? file : path;
             ps = P6Util.getPrintStream(file, P6SpyOptions.getAppend());
         } catch (IOException io) {
-            P6Util.warn("Error opening " + file + ", " + io.getMessage());
+            P6LogQuery.logError("Error opening " + file + ", " + io.getMessage());
             ps = null;
         }
         
@@ -365,7 +368,7 @@ public class P6LogQuery {
             return P6SpyOptions.getStringMatcherEngine().match(sqlexpression, sql);
         }
         catch (MatchException e) {
-            P6Util.warn("Exception during matching sqlexpression [" + sqlexpression + "] to sql [" + sql + "]: ");
+            P6LogQuery.logError("Exception during matching sqlexpression [" + sqlexpression + "] to sql [" + sql + "]: ");
             return false;
         }
         
@@ -388,7 +391,7 @@ public class P6LogQuery {
             return P6SpyOptions.getStringMatcherEngine().match(table, sql);
         }
         catch (MatchException e) {
-            P6Util.warn("Exception during matching expression [" + table + "] to sql [" + sql + "]: ");
+            P6LogQuery.logError("Exception during matching expression [" + table + "] to sql [" + sql + "]: ");
             return false;
         }
     }
@@ -473,6 +476,13 @@ public class P6LogQuery {
             } else {
                 System.err.println(sql);
             }
+        }
+    }
+
+    static public void logError(String sql) {
+        System.err.println ("Warning: "+sql);
+        if (logger != null) {
+            doLog(-1, "error", "", sql);
         }
     }
     
