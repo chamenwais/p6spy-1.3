@@ -68,7 +68,6 @@ package com.p6spy.engine.spy;
 
 import java.sql.*;
 import java.io.*;
-import java.util.*;
 import com.p6spy.engine.common.*;
 
 public class P6SpyDriver3 extends P6SpyDriverCore {

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/06/03 19:20:26  cheechq
+ * removed unused imports
+ *
  * Revision 1.2  2003/04/09 16:44:00  jeffgoke
  * Added Jboss JMX support.  Updated documentation.  Added execution threshold property to only log queries taking longer than a specified time.
  *
@@ -111,11 +114,6 @@ package com.p6spy.engine.test;
 
 import junit.framework.*;
 import java.sql.*;
-import java.util.Properties;
-import java.io.*;
-import java.util.*;
-
-import com.p6spy.engine.spy.*;
 import com.p6spy.engine.common.*;
 
 public class P6TestStatement extends P6TestFramework {

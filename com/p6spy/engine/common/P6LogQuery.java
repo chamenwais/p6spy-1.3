@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.11  2003/06/03 19:20:19  cheechq
+ * removed unused imports
+ *
  * Revision 1.10  2003/04/09 16:43:59  jeffgoke
  * Added Jboss JMX support.  Updated documentation.  Added execution threshold property to only log queries taking longer than a specified time.
  *
@@ -162,7 +165,6 @@
 
 package com.p6spy.engine.common;
 
-import java.sql.*;
 import java.util.*;
 import java.io.*;
 import java.text.SimpleDateFormat;

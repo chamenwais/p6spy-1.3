@@ -65,9 +65,6 @@ package com.p6spy.engine.common;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
-import java.io.File;
-import java.lang.reflect.*;
-import java.beans.*;
 
 public class P6SpyOptions extends P6Options {
     

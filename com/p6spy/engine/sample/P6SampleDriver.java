@@ -67,10 +67,7 @@
 package com.p6spy.engine.sample;
 
 import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
 import java.sql.*;
-import java.io.*;
-import java.util.*;
 
 public class P6SampleDriver extends P6SpyDriverCore {
     

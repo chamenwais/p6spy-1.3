@@ -65,6 +65,9 @@
  * $Author$
  *
  * $Log$
+ * Revision 1.4  2003/06/03 19:20:25  cheechq
+ * removed unused imports
+ *
  * Revision 1.3  2003/01/31 17:31:54  jeffgoke
  * updated proxy connection with the new 1.4 methods
  *
@@ -97,14 +100,8 @@ package com.p6spy.engine.spy;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
-import javax.sql.PooledConnection;
-import javax.sql.ConnectionPoolDataSource;
 
 import java.sql.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import javax.sql.*;
 
 /***
  * This class proxies for a real connection in support of pooled connections.

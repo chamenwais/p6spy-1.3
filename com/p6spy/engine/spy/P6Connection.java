@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2003/06/03 19:20:25  cheechq
+ * removed unused imports
+ *
  * Revision 1.3  2003/01/03 20:33:42  aarvesen
  * Added getJDBC() method to return the underlying jdbc object.
  *
@@ -119,7 +122,6 @@
 package com.p6spy.engine.spy;
 
 import java.sql.*;
-import java.util.*;
 
 public class P6Connection extends P6Base implements java.sql.Connection {
 

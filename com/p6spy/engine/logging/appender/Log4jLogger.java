@@ -78,8 +78,7 @@ public class Log4jLogger extends FormattedLogger implements P6Logger {
     // to configure log4j will add to this configuration.
     public Log4jLogger() {
         P6SpyProperties properties = new P6SpyProperties();
-        PropertyConfigurator conf=new PropertyConfigurator();
-        conf.configure(properties.forceReadProperties());
+        PropertyConfigurator.configure(properties.forceReadProperties());
         log = Logger.getLogger("p6spy");
         log.setAdditivity(false);
     }

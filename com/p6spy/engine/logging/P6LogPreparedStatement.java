@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.6  2003/06/03 19:20:22  cheechq
+ * removed unused imports
+ *
  * Revision 1.5  2002/12/19 16:59:44  aarvesen
  * remove getTrace from the driver level
  *
@@ -131,9 +134,7 @@ package com.p6spy.engine.logging;
 
 import com.p6spy.engine.spy.*;
 import com.p6spy.engine.common.*;
-import java.io.*;
 import java.sql.*;
-import java.math.*;
 
 public class P6LogPreparedStatement extends P6PreparedStatement implements PreparedStatement {
     

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2003/06/03 19:20:26  cheechq
+ * removed unused imports
+ *
  * Revision 1.4  2003/02/14 22:22:57  aarvesen
  * use a define for the property file
  *
@@ -118,10 +121,8 @@ package com.p6spy.engine.test;
 import junit.framework.*;
 import java.sql.*;
 import java.util.Properties;
-import java.io.*;
 import java.util.*;
 
-import com.p6spy.engine.spy.*;
 import com.p6spy.engine.common.*;
 
 public class P6TestCommon extends P6TestFramework {

@@ -67,6 +67,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/06/03 19:20:25  cheechq
+ * removed unused imports
+ *
  * Revision 1.2  2003/01/03 21:17:34  aarvesen
  * use the new P6Util.forName
  *
@@ -80,14 +83,10 @@
 
 package com.p6spy.engine.spy;
 
-import java.util.*;
 import java.sql.*;
 import javax.sql.*;
 import java.io.PrintWriter;
-import javax.naming.*;
-import com.p6spy.engine.common.P6SpyOptions;
 import com.p6spy.engine.common.P6Util;
-import com.p6spy.engine.spy.P6SpyDriverCore;
 
 public class P6DriverManagerDataSource implements DataSource {
     protected DataSource rds;

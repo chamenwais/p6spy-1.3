@@ -64,6 +64,9 @@
  * Support for PooledConnection interface 
  *
  * $Log$
+ * Revision 1.2  2003/06/03 19:20:25  cheechq
+ * removed unused imports
+ *
  * Revision 1.1  2003/01/30 23:35:22  dlukeparker
  *
  *
@@ -88,11 +91,8 @@ package com.p6spy.engine.spy;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
 import javax.sql.PooledConnection;
-import javax.sql.ConnectionPoolDataSource;
 
-import java.sql.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import javax.sql.*;

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.9  2003/06/03 19:20:26  cheechq
+ * removed unused imports
+ *
  * Revision 1.8  2003/03/07 22:07:34  aarvesen
  * added test for unloading of registered drivers
  *
@@ -103,12 +106,6 @@
 package com.p6spy.engine.test;
 
 import junit.framework.*;
-import java.sql.*;
-import java.util.Properties;
-import java.io.*;
-
-import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
 
 public class P6Test extends TestCase {
     

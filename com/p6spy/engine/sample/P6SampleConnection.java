@@ -63,9 +63,7 @@
 package com.p6spy.engine.sample;
 
 import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
 import java.sql.*;
-import java.util.*;
 
 public class P6SampleConnection extends P6Connection implements java.sql.Connection {
     protected int count = 0;    

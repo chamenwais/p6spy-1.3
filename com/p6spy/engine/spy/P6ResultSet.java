@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2003/06/03 19:20:25  cheechq
+ * removed unused imports
+ *
  * Revision 1.4  2003/01/03 20:33:43  aarvesen
  * Added getJDBC() method to return the underlying jdbc object.
  *
@@ -103,11 +106,11 @@
 
 package com.p6spy.engine.spy;
 
+import com.p6spy.engine.common.P6LogQuery;
 import java.io.*;
 import java.sql.*;
 import java.math.*;
 import java.util.*;
-import java.text.*;
 
 public class P6ResultSet extends P6Base implements ResultSet {
     
@@ -116,6 +119,8 @@ public class P6ResultSet extends P6Base implements ResultSet {
     protected P6Statement statement;
     protected String query;
     protected String preparedQuery;
+    private Map resultMap = new TreeMap();
+    private int currRow = -1;
     
     public P6ResultSet(P6Factory factory, ResultSet resultSet, P6Statement statement, String preparedQuery, String query) {
 	setP6Factory(factory);
@@ -125,7 +130,24 @@ public class P6ResultSet extends P6Base implements ResultSet {
         this.preparedQuery = preparedQuery;
     }
     
+    /**
+     * This gets overloaded in the P6LogResultSet, but may need to do what that class does
+     */
     public boolean next() throws SQLException {
+        // only dump the data on subsequent calls to next
+        if (currRow > -1){
+            StringBuffer buffer = new StringBuffer();
+            for (Iterator itr = resultMap.keySet().iterator(); itr.hasNext();){
+               String index = (String)itr.next();
+               buffer.append(index);
+               buffer.append(" = ");
+               buffer.append((String)resultMap.get(index));
+               buffer.append(", ");
+            }
+            P6LogQuery.log("resultset", query, buffer.substring(0, buffer.length() - 2).toString());
+            resultMap.clear();
+        }
+        currRow++;
         return passthru.next();
     }
     
@@ -138,11 +160,11 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public byte[] getBytes(int p0) throws SQLException {
-        return passthru.getBytes(p0);
+        return getBytes(passthru.getMetaData().getColumnName(p0));
     }
     
     public boolean getBoolean(int p0) throws SQLException {
-        return passthru.getBoolean(p0);
+        return getBoolean(passthru.getMetaData().getColumnName(p0));
     }
     
     public boolean getBoolean(String p0) throws SQLException {
@@ -154,7 +176,7 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public long getLong(int p0) throws SQLException {
-        return passthru.getLong(p0);
+        return getLong(passthru.getMetaData().getColumnName(p0));
     }
     
     public long getLong(String p0) throws SQLException {
@@ -174,7 +196,7 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public Object getObject(int p0) throws SQLException {
-        return passthru.getObject(p0);
+        return getObject(passthru.getMetaData().getColumnName(p0));
     }
     
     public Object getObject(String p0) throws SQLException {
@@ -190,7 +212,7 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public Ref getRef(int p0) throws SQLException {
-        return passthru.getRef(p0);
+        return getRef(passthru.getMetaData().getColumnName(p0));
     }
     
     public Time getTime(int p0, java.util.Calendar p1) throws SQLException {
@@ -206,11 +228,11 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public Time getTime(int p0) throws SQLException {
-        return passthru.getTime(p0);
+        return getTime(passthru.getMetaData().getColumnName(p0));
     }
     
     public java.sql.Date getDate(int p0) throws SQLException {
-        return passthru.getDate(p0);
+        return getDate(passthru.getMetaData().getColumnName(p0));
     }
     
     public java.sql.Date getDate(String p0, java.util.Calendar p1) throws SQLException {
@@ -230,11 +252,13 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public String getString(String p0) throws SQLException {
-        return passthru.getString(p0);
+        String result = passthru.getString(p0);
+        resultMap.put(p0, result);                
+        return result;
     }
     
     public String getString(int p0) throws SQLException {
-        return passthru.getString(p0);
+        return getString(passthru.getMetaData().getColumnName(p0));
     }
     
     public byte getByte(String p0) throws SQLException {
@@ -242,23 +266,27 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public byte getByte(int p0) throws SQLException {
-        return passthru.getByte(p0);
+        return getByte(passthru.getMetaData().getColumnName(p0));
     }
     
     public short getShort(String p0) throws SQLException {
-        return passthru.getShort(p0);
+        short result = passthru.getShort(p0);
+        resultMap.put(p0, String.valueOf(result));                
+        return result;
     }
     
     public short getShort(int p0) throws SQLException {
-        return passthru.getShort(p0);
+        return getShort(passthru.getMetaData().getColumnName(p0));
     }
     
     public int getInt(int p0) throws SQLException {
-        return passthru.getInt(p0);
+        return getInt(passthru.getMetaData().getColumnName(p0));
     }
     
     public int getInt(String p0) throws SQLException {
-        return passthru.getInt(p0);
+        int result = passthru.getInt(p0);
+        resultMap.put(p0, String.valueOf(result));                
+        return result;
     }
     
     public float getFloat(String p0) throws SQLException {
@@ -266,11 +294,11 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public float getFloat(int p0) throws SQLException {
-        return passthru.getFloat(p0);
+        return getFloat(passthru.getMetaData().getColumnName(p0));
     }
     
     public double getDouble(int p0) throws SQLException {
-        return passthru.getDouble(p0);
+        return getDouble(passthru.getMetaData().getColumnName(p0));
     }
     
     public double getDouble(String p0) throws SQLException {
@@ -282,7 +310,7 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public BigDecimal getBigDecimal(int p0) throws SQLException {
-        return passthru.getBigDecimal(p0);
+        return getBigDecimal(passthru.getMetaData().getColumnName(p0));
     }
     
     public BigDecimal getBigDecimal(int p0, int p1) throws SQLException {
@@ -302,7 +330,7 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public Timestamp getTimestamp(int p0) throws SQLException {
-        return passthru.getTimestamp(p0);
+        return getTimestamp(passthru.getMetaData().getColumnName(p0));
     }
     
     public Timestamp getTimestamp(int p0, java.util.Calendar p1) throws SQLException {
@@ -314,7 +342,7 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public InputStream getAsciiStream(int p0) throws SQLException {
-        return passthru.getAsciiStream(p0);
+        return getAsciiStream(passthru.getMetaData().getColumnName(p0));
     }
     
     public InputStream getUnicodeStream(int p0) throws SQLException {
@@ -326,7 +354,7 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public InputStream getBinaryStream(int p0) throws SQLException {
-        return passthru.getBinaryStream(p0);
+        return getBinaryStream(passthru.getMetaData().getColumnName(p0));
     }
     
     public InputStream getBinaryStream(String p0) throws SQLException {
@@ -358,7 +386,7 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public Reader getCharacterStream(int p0) throws SQLException {
-        return passthru.getCharacterStream(p0);
+        return getCharacterStream(passthru.getMetaData().getColumnName(p0));
     }
     
     public boolean isBeforeFirst() throws SQLException {
@@ -618,7 +646,7 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public Blob getBlob(int p0) throws SQLException {
-        return passthru.getBlob(p0);
+        return getBlob(passthru.getMetaData().getColumnName(p0));
     }
     
     public Blob getBlob(String p0) throws SQLException {
@@ -630,7 +658,7 @@ public class P6ResultSet extends P6Base implements ResultSet {
     }
     
     public Clob getClob(int p0) throws SQLException {
-        return passthru.getClob(p0);
+        return getClob(passthru.getMetaData().getColumnName(p0));
     }
     
     public Array getArray(int p0) throws SQLException {

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.15  2003/06/03 19:20:26  cheechq
+ * removed unused imports
+ *
  * Revision 1.14  2003/04/10 18:17:57  aarvesen
  * always check to see if there are drivers to dereg.  Then, either deregister them or warn that they'll prevent you from functioning properly
  *
@@ -155,7 +158,6 @@
 package com.p6spy.engine.spy;
 
 import java.sql.*;
-import java.io.*;
 import java.util.*;
 import com.p6spy.engine.common.*;
 
@@ -365,8 +367,16 @@ public abstract class P6SpyDriverCore implements Driver {
     // the remaining methods are for the Driver interface
     public Connection connect(String p0, java.util.Properties p1) throws SQLException {
         String realUrl = this.getRealUrl(p0);
+        // if there is no url, we have problems
         if (realUrl==null) {
-            throw new SQLException("URL needs the p6spy prefix: "+p0);
+            throw new SQLException("realURL is null, needs the p6spy prefix: "+p0);
+        }
+        
+        // lets try to find the driver from the multiple divers in spy.properties
+        findPassthru(realUrl);
+        // if we can't find one, it may not be defined
+        if (passthru == null) {
+            throw new SQLException("Unable to find a driver that accepts " + realUrl);
         }
         
         P6LogQuery.logDebug("this is " + this + " and passthru is " + passthru);
@@ -397,9 +407,26 @@ public abstract class P6SpyDriverCore implements Driver {
         }
     }
     
+    /**
+     * for some reason the passthru is null, go create one
+     */                      
     public boolean acceptsURL(String p0) throws SQLException {
         String realUrl = this.getRealUrl(p0);
         boolean accepts = false;
+        
+        // somehow we get initilized but no driver is created, 
+        // lets try findPassthru  
+        if (passthru == null && initialized){
+            // we should have some drivers 
+            if (realDrivers.size() == 0){
+                throw new SQLException("P6 has no drivers registered");
+            } else {
+                findPassthru(realUrl); 
+                // if we are still null, we have issues
+                if (passthru == null)
+                    throw new SQLException("P6 can't find a driver to accept url ("+realUrl+") from the "+realDrivers.size()+" drivers P6 knows about. The current driver is null");
+            }
+        }                     
         
         if (realUrl != null) {
             accepts = passthru.acceptsURL(realUrl);

@@ -61,11 +61,8 @@
 
 package com.p6spy.engine.test;
 
-import junit.framework.*;
-import java.io.*;
 import java.util.*;
 import java.sql.*;
-import javax.sql.*;
 
 import com.p6spy.engine.common.*;
 import com.p6spy.engine.spy.*;

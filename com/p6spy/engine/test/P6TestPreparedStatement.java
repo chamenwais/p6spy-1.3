@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2003/06/03 19:20:26  cheechq
+ * removed unused imports
+ *
  * Revision 1.1  2002/05/24 07:30:46  jeffgoke
  * version 1 rewrite
  *
@@ -83,11 +86,6 @@ package com.p6spy.engine.test;
 
 import junit.framework.*;
 import java.sql.*;
-import java.util.Properties;
-import java.io.*;
-
-import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
 
 public class P6TestPreparedStatement extends P6TestStatement {
     

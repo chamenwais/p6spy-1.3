@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.6  2003/06/03 19:20:23  cheechq
+ * removed unused imports
+ *
  * Revision 1.5  2003/01/28 17:01:10  jeffgoke
  * rewrote options to the ability for a module to have its own option set
  *
@@ -130,10 +133,7 @@
 package com.p6spy.engine.outage;
 
 import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
-import java.io.*;
 import java.sql.*;
-import java.math.*;
 
 public class P6OutagePreparedStatement extends P6PreparedStatement implements PreparedStatement {
     

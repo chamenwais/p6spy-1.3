@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2003/06/03 19:20:26  cheechq
+ * removed unused imports
+ *
  * Revision 1.4  2003/01/23 00:43:37  aarvesen
  * Changed the module to be dot rather than underscore
  *
@@ -93,10 +96,6 @@ package com.p6spy.engine.test;
 import junit.framework.*;
 import java.sql.*;
 import java.util.*;
-import java.io.*;
-
-import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
 
 public class P6TestPerform extends P6TestFramework {
     

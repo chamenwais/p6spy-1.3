@@ -61,10 +61,8 @@
 
 package com.p6spy.engine.test;
 
-import junit.framework.*;
 
 import com.p6spy.engine.common.*;
-import com.p6spy.engine.spy.*;
 
 public class P6TestOptions extends P6TestFramework {
 

@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.15  2003/06/03 19:20:20  cheechq
+ * removed unused imports
+ *
  * Revision 1.14  2003/04/15 02:49:09  cheechq
  * bug fix for jdk 1.2 support
  *
@@ -160,7 +163,6 @@
 
 package com.p6spy.engine.common;
 
-import java.sql.*;
 import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;

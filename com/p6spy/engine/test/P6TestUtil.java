@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.10  2003/06/03 19:20:26  cheechq
+ * removed unused imports
+ *
  * Revision 1.9  2003/03/07 22:06:46  aarvesen
  * made some things public
  * added in deregisterdrivers = true
@@ -111,7 +114,6 @@ import java.sql.*;
 import java.io.*;
 import java.util.*;
 
-import com.p6spy.engine.spy.*;
 import com.p6spy.engine.common.*;
 
 public class P6TestUtil  {

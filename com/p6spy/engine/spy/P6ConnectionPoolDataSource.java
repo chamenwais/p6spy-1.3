@@ -67,6 +67,9 @@
  * $Author$
  *
  * $Log$
+ * Revision 1.3  2003/06/03 19:20:25  cheechq
+ * removed unused imports
+ *
  * Revision 1.2  2003/01/30 23:38:49  dlukeparker
  *
  *
@@ -96,7 +99,6 @@ package com.p6spy.engine.spy;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
 import javax.sql.PooledConnection;
 import javax.sql.ConnectionPoolDataSource;
 

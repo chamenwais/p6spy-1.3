@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/06/03 19:20:26  cheechq
+ * removed unused imports
+ *
  * Revision 1.2  2002/12/12 01:39:01  jeffgoke
  * no message
  *
@@ -86,11 +89,8 @@ package com.p6spy.engine.test;
 
 import junit.framework.*;
 import java.sql.*;
-import java.io.*;
 import java.util.*;
 
-import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
 
 public class P6TestBasics extends TestCase {
     
