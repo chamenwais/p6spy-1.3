@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.8  2003/08/06 18:35:18  bradleydot
+ * Minor changes so TestCallable will work:  added getValuesLength method and set P6_Grow_Max as public static.  Also changed setURL so that it is registered in values array.
+ *
  * Revision 1.7  2003/06/20 20:31:37  aarvesen
  * fix for bug 161:  null result sets
  *
@@ -143,7 +146,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     
     
     public final static int P6_MAX_FIELDS = 32;
-    protected static int P6_GROW_MAX = 32;
+    public static int P6_GROW_MAX = 32;
     protected PreparedStatement prepStmtPassthru;
     protected String preparedQuery;
     protected Object values[];
@@ -205,7 +208,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         setObjectAsString(p0, p1);
         prepStmtPassthru.setBigDecimal(p0,p1);
     }
-    
+
     public void setBinaryStream(int p0, InputStream p1, int p2) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setBinaryStream(p0,p1,p2);
@@ -244,7 +247,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     public void setDate(int p0, Date p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setDate(p0,p1);
-    }
+    } 
     
     public void setDate(int p0, Date p1, java.util.Calendar p2) throws SQLException {
         setObjectAsString(p0, p1);
@@ -379,13 +382,13 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
     }
     
     protected void growValues(int newMax) {
-	int size = values.length;
-	Object [] values_tmp = new Object[newMax + P6_GROW_MAX];
-	boolean [] isString_tmp = new boolean[newMax + P6_GROW_MAX];
-	System.arraycopy(values, 0, values_tmp,  0, size);
-	values = values_tmp;
-	System.arraycopy(isString, 0, isString_tmp, 0, size);
-	isString = isString_tmp;
+        int size = values.length;
+        Object [] values_tmp = new Object[newMax + P6_GROW_MAX];
+        boolean [] isString_tmp = new boolean[newMax + P6_GROW_MAX];
+        System.arraycopy(values, 0, values_tmp,  0, size);
+        values = values_tmp;
+        System.arraycopy(isString, 0, isString_tmp, 0, size);
+        isString = isString_tmp;
     }
     
     
@@ -415,6 +418,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
 
     // Since JDK 1.4
     public void setURL(int p0, java.net.URL p1) throws java.sql.SQLException {
+        setObjectAsString(p0, p1);
         prepStmtPassthru.setURL(p0, p1);
     }
     
@@ -441,4 +445,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
 	return wrapped;
     }
 
+   public int getValuesLength() {
+     return values.length;
+    }
 }
