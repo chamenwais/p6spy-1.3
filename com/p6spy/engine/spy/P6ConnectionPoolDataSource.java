@@ -64,7 +64,14 @@
  *  an aware DataSource to produce the PooledConnection
  *  ojects. This is it.
  *
+ * $Author$
+ *
  * $Log$
+ * Revision 1.2  2003/01/30 23:38:49  dlukeparker
+ *
+ *
+ * Added cvs keywords
+ *
  * Revision 1.1  2003/01/30 23:35:22  dlukeparker
  *
  *
