@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.7  2002/05/05 21:00:36  jeffgoke
+ * added logging when the connection is requested (as an info)
+ *
  * Revision 1.6  2002/05/05 00:43:00  jeffgoke
  * Added Philip's reload code.
  *
@@ -139,6 +142,7 @@ public class P6SpyDriver implements Driver {
     }
     
     public final Connection connect(String p0, java.util.Properties p1) throws SQLException {
+        P6LogQuery.logInfo("P6Spy returned requested connection");
         registerRealDriver();
         Connection conn = passthru.connect(p0,p1);
         return conn == null ? null : new P6Connection(conn);
