@@ -32,7 +32,6 @@
   <p><a name="install"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Configuration 
     and Usage</b></font></p>
   <p>&nbsp;</p>
-  <p>&nbsp;</p>
 </div>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="common"></a></b></font><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Common 
   Property File Settings</b></font></p>
@@ -233,7 +232,7 @@ log4j.logger.p6spy=INFO,STDOUT
   be written to the log file.&nbsp;&nbsp;include accepts a comma-delimited list 
   of expressions which are required to appear in a statement before it can appear 
   in the log. exclude accepts a comma-delimited list to exclude. By default, string 
-  matching is performed using a basic substring match. However, <font color="#CC3333">Regex</font> 
+  matching is performed using a basic substring match. However, <font color="#000000">RegExp</font> 
   matching can also be used (see Custom Filtering below). Exclusion overrides 
   inclusion, so that a statement matching both an include string and an exclude 
   string will be excluded. </font></p>
@@ -267,8 +266,9 @@ log4j.logger.p6spy=INFO,STDOUT
 </blockquote>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>filter, sqlexpression</u></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If you plan on 
-  using a <font color="#CC3333">regex</font> engine, a simple alternative to <b>exclude</b> 
-  and <b>include</b> is to use <b>sqlexpression</b>. An example follows:</font></p>
+  using a <font color="#000000">RegExp </font>engine, a simple alternative to 
+  <b>exclude</b> and <b>include</b> is to use <b>sqlexpression</b>. An example 
+  follows:</font></p>
 <p><font face="Courier New, Courier, mono" size="2">filter = true<br>
   sqlexpression = your expression</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If your expression 
@@ -279,16 +279,16 @@ log4j.logger.p6spy=INFO,STDOUT
   (Custom Filtering)</u></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> If you want to 
   apply more intelligence to what is logged or not logged by P6Spy you can specify 
-  a custom matching engine. P6Spy comes with support for several <font color="#CC3333">regex</font> 
+  a custom matching engine. P6Spy comes with support for several <font color="#000000">RegExp</font> 
   engines, though it is trivial to introduce another engine by implementing the 
   <b>stringmatcher</b> interface. If a stringmatcher engine is specified, P6Spy 
   will pass each statement to the class specified to determine if that statement 
   should be logged.</font></p>
 <ul>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#CC3333">Using 
-    GNU RegEx</font><i><font color="#CC3333"><br>
-    </font></i></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC3333">P6Spy 
-    comes with support for a regular expression matcher based on the GNU Regex 
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#000000">Using 
+    GNU</font><font color="#CC3333"> <font color="#000000">RegEx</font></font><font color="#000000">p</font><i><font color="#CC3333"><br>
+    </font></i></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">P6Spy 
+    comes with support for a regular expression matcher based on the GNU RegExp 
     library.</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
     In order to do this, <a href="http://www.cacas.org/java/gnu/regexp/">download</a> 
     the GNU Java regex library and add it to your classpath so that P6Spy can 
@@ -347,7 +347,7 @@ log4j.logger.p6spy=INFO,STDOUT
       # log file is truncated every time. (file logger only)<br>
       append=true</font></p>
   </li>
-  <li><font size="2" face="Arial, Helvetica, sans-serif">Using StdOut</font>
+  <li><font size="2" face="Arial, Helvetica, sans-serif">Using StdOut</font> 
     <p><font size="2" face="Arial, Helvetica, sans-serif">Uncomment the <b>StdoutLogger</b> 
       as follows and all output will be sent to stdout in a CSV format:</font></p>
     <p><font size="2" face="Courier New, Courier, mono">#appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
@@ -390,14 +390,14 @@ log4j.logger.p6spy=INFO,STDOUT
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><strong>statement 
     </strong> includes <b>Statements</b>, <b>PreparedStatements</b>, and <b>CallableStatements</b>.<strong> 
     </strong></font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong>batch</strong> 
-    addBatch() calls.</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong>commit</strong> 
-    commit() calls.</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong>rollback</strong> 
-    rollback() calls.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong><font color="#000000">batch</font></strong><font color="#000000"> 
+    includes calls made to the <b>addBatch()</b> JDBC API.</font></font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><strong>commit</strong> 
+    includes calls made to the <b>commit()</b> JDBC API.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><strong>rollback</strong> 
+    includes calls made to the <b>rollback()</b> JDBC API.</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC0033"><strong><font color="#000000">result</font></strong><font color="#000000"> 
-    are statements generated by <b>ResultSet</b>.</font></font></li>
+    includes statements generated by <b>ResultSet</b>.</font></font></li>
 </ul>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Enter a comma-delimited 
   list of categories to exclude from your log file. See <b>filter</b>,<b>include</b>,<b>exclude</b> 
@@ -415,7 +415,7 @@ log4j.logger.p6spy=INFO,STDOUT
   the <b>SimpleDateFormat</b> class in the JavaDocs for information on setting 
   this value. </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An 
   example follows: </font></p>
-<blockquote>
+<blockquote> 
   <p><font face="Courier New, Courier, mono" size="2">dateformat=MM-dd-yy HH:mm:ss:SS</font></p>
 </blockquote>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><u>stacktrace</u></b></font></p>
@@ -454,14 +454,14 @@ log4j.logger.p6spy=INFO,STDOUT
   specified in the property file can be set and overriden at the command line 
   using the Java <b>-D</b> flag.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">An example follows:</font></p>
-<blockquote>
+<blockquote> 
   <p><font face="Courier New, Courier, mono" size="2">java -Dp6logfile=my.log 
     -Dp6trace=true</font></p>
 </blockquote>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">In addition, you 
   can set the default directory to look for <b>spy.properties</b>, as shown in 
   the following example:</font></p>
-<blockquote>
+<blockquote> 
   <p><font face="Courier New, Courier, mono" size="2">java -Dp6.home=c:\orion\lib</font></p>
 </blockquote>
 <p><a name="log"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Log 
@@ -473,34 +473,35 @@ log4j.logger.p6spy=INFO,STDOUT
     SQL String|effective SQL string</font></p>
 </blockquote>
 <ul>
-  <li><font face="Courier New, Courier, mono" size="2">current time</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-    - The current time is obtained through System.getCurrentTimeMillis() and represents 
-    the number of milliseconds that have passed since January 1, 1970 00:00:00.000 
-    GMT. (Refer to the J2SE documentation for further details on System.getCurrentTimeMillis().) 
-    <font color="#CC3333">This can be changed to a different format using the 
-    dateformat property described later in this section.</font></font></li>
-  <li><font face="Courier New, Courier, mono" size="2">execution time</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-    - The time it took for the method to execute. This is not the total cost for 
-    the SQL statement, but rather the time it takes to execute a particular method. 
+  <li><font face="Courier New, Courier, mono" size="2">current time&#151;</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The 
+    current time is obtained through <b>System.getCurrentTimeMillis()</b> and 
+    represents the number of milliseconds that have passed since January 1, 1970 
+    00:00:00.000 GMT. (Refer to the J2SE documentation for further details on 
+    <b>System.getCurrentTimeMillis()</b>.) <font color="#000000">This can be changed 
+    to a different format using the dateformat property described in <a href="other.htm">Common 
+    Property File Settings</a>.</font></font></li>
+  <li><font face="Courier New, Courier, mono" size="2">execution time</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&#151;The 
+    time it took for the method to execute. This is not the total cost for the 
+    SQL statement, but rather the time it takes to execute a particular method. 
     For example, a statement SELECT * FROM MYTABLE WHERE THISCOL = ? might be 
-    executed as a prepared statement, in which the .execute() function will be 
-    measured. This is recorded as the &quot;statement&quot; category. Further, 
-    as you call .next() on the ResultSet, each .next() call is recorded in the 
-    result category.</font></li>
-  <li><font face="Courier New, Courier, mono" size="2">category</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-    - <font color="#CC3300">You can manage your log by including and excluding 
-    categories, which is described above. </font></font></li>
-  <li><font face="Courier New, Courier, mono" size="2">statement SQL string</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-    - This is the SQL string passed to the statement object. If it is a prepared 
-    statement, it will be the prepared statement as it was prior to the parameters 
-    being set. To see the complete statement, see <font face="Courier New, Courier, mono">effective 
-    SQL string</font>.</font></li>
-  <li><font face="Courier New, Courier, mono" size="2">effective SQL string</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-    - If you are not using a prepared statement, this will be empty. Otherwise, 
-    it will fill in the values of the Prepared Statement so you can see the effective 
+    executed as a prepared statement, in which the <b>.execute()</b> function 
+    will be measured. This is recorded as the <b>statement</b> category. Further, 
+    as you call <b>.next()</b> on the <b>ResultSet</b>, each <b>.next() </b>call 
+    is recorded in the <b>result</b> category.</font></li>
+  <li><font face="Courier New, Courier, mono" size="2">category&#151;</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#000000">You 
+    can manage your log by including and excluding categories, which is described 
+    in </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font color="#000000"><a href="other.htm">Common 
+    Property File Settings</a></font></font><font color="#000000">. </font></font></li>
+  <li><font face="Courier New, Courier, mono" size="2">statement SQL string</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&#151;This 
+    is the SQL string passed to the statement object. If it is a prepared statement, 
+    it will be the prepared statement as it was prior to the parameters being 
+    set. To see the complete statement, see effective SQL string<font face="Verdana, Arial, Helvetica, sans-serif">.</font></font></li>
+  <li><font face="Courier New, Courier, mono" size="2">effective SQL string&#151;</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If 
+    you are not using a prepared statement, this will be empty. Otherwise, it 
+    will fill in the values of the Prepared Statement so you can see the effective 
     SQL statement that is passed to the database. Of course, the database still 
     sees the prepared statement, but this string is a convenient way to see the 
-    actual values <font color="#CC3300">being sent to the database.</font></font></li>
+    actual values <font color="#000000">being sent to the database.</font></font></li>
 </ul>
 <p><a name="jsp"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>The 
   JSP Application</b></font></p>
@@ -511,7 +512,7 @@ log4j.logger.p6spy=INFO,STDOUT
 <ol>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Copy <b>p6spy.war</b> 
     into the deployment directory of your application server. In JBoss, for example, 
-    the directory might be <b>C:\JBoss-2.4.4_Tomcat-4.0.1\jboss\deploy</b>. </font></li>
+    the directory might be C:\JBoss-2.4.4_Tomcat-4.0.1\jboss\deploy. </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Once <b>p6spy.war</b> 
     is deployed, access the application by navigating to http://<i>machine</i>:<i>port</i>/p6spy. 
     For example, if you are running the application on your own machine, and using 
@@ -531,23 +532,24 @@ log4j.logger.p6spy=INFO,STDOUT
     Ant the first time will display a message listing all required libraries and 
     locations where they can be downloaded. </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Copy these libraries 
-    into the<b> lib/</b> directory, which is a subdirectory of your main directory 
+    into the<b> </b>lib/ directory, which is a subdirectory of your main directory 
     (the directory with the source code). </font></li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The following are 
   useful Ant targets:</font></p>
 <ul>
-  <li><font color="#CC3333">[<font face="Verdana, Arial, Helvetica, sans-serif" size="2">no 
-    target</font>]<font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-    creates a<b> p6spy.jar</b> file in the <b>dist/</b> directory</font></font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC3333">[clean] 
-    cleans the directory of build files and tool generated backup files</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC3333">[release] 
-    creates the Javadocs, the .war file, and all distribution .zip and .jar files</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC3333">[test] 
-    runs the standard JUnit tests (see notes below)</font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#CC3333">[perform] 
-    runs the performance specific JUnit tests</font></li>
+  <li><font color="#CC3333"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font color="#000000">ant</font></b><font color="#000000"> 
+    creates a<b> p6spy.jar</b> file in the dist directory.</font></font></font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><b>ant 
+    clean</b> cleans the directory of build files and tool-generated backup files.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"> 
+    <b>ant release</b> creates the Javadocs, the .war file, and all distribution 
+    .zip and .jar files.</font></li>
+  <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000">ant 
+    test</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"> 
+    runs the standard JUnit tests. Refer to the JUnit test instructions below.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="#000000"><b>ant 
+    perform</b> runs the performance specific JUnit tests.</font></li>
 </ul>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">To run the JUnit 
   tests, complete the following steps:</font></p>
@@ -559,8 +561,7 @@ log4j.logger.p6spy=INFO,STDOUT
     file and specify two databases. The configuration is set up for Oracle and 
     MySQL (you will have to change the Oracle URL at a minimum). </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Copy the vendor 
-    database JDBC drivers JAR files of the two databases into the <b>lib/</b> 
-    directory.</font> 
+    database JDBC drivers JAR files of the two databases into the lib/ directory.</font> 
     <div align="left"></div>
   </li>
 </ol>
