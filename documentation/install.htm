@@ -87,12 +87,10 @@
   <ol>
     <blockquote> 
       <blockquote> 
-        <blockquote> 
-          <p><font face="Courier New, Courier, mono" size="2">&lt;mbean code=&quot;org.jboss.jdbc.JdbcProvider&quot; 
-            name=&quot;DefaultDomain:service=JdbcProvider&quot;&gt;<br>
-            &lt;attribute name=&quot;Drivers&quot;&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/attribute&gt;<br>
-            &lt;/mbean&gt;</font></p>
-        </blockquote>
+        <p><font face="Courier New, Courier, mono" size="2">&lt;mbean code=&quot;org.jboss.jdbc.JdbcProvider&quot; 
+          name=&quot;DefaultDomain:service=JdbcProvider&quot;&gt;<br>
+          &lt;attribute name=&quot;Drivers&quot;&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/attribute&gt;<br>
+          &lt;/mbean&gt;</font></p>
       </blockquote>
     </blockquote>
   </ol>
@@ -111,10 +109,8 @@
   <div align="left"></div>
   <blockquote> 
     <blockquote> 
-      <blockquote> 
-        <div align="left"><font face="Courier New, Courier, mono" size="2">realdriver 
-          = oracle.jdbc.driver.OracleDriver</font></div>
-      </blockquote>
+      <div align="left"><font face="Courier New, Courier, mono" size="2">realdriver 
+        = oracle.jdbc.driver.OracleDriver</font></div>
     </blockquote>
   </blockquote>
 </ol>
@@ -173,12 +169,10 @@
   <blockquote> 
     <blockquote> 
       <blockquote> 
-        <blockquote> 
-          <p><font face="Courier New, Courier, mono" size="2">C:\&gt; set JBOSS_CLASSPATH=C:\java\jboss-3.0.4\server\default\db 
-            </font></p>
-          <p><font face="Courier New, Courier, mono" size="2">C:\&gt; copy C:\java\p6spy\spy.* 
-            C:\java\jboss-3.0.4\server\default\db</font></p>
-        </blockquote>
+        <p><font face="Courier New, Courier, mono" size="2">C:\&gt; set JBOSS_CLASSPATH=C:\java\jboss-3.0.4\server\default\db 
+          </font></p>
+        <p><font face="Courier New, Courier, mono" size="2">C:\&gt; copy C:\java\p6spy\spy.* 
+          C:\java\jboss-3.0.4\server\default\db</font></p>
       </blockquote>
     </blockquote>
   </blockquote>
@@ -199,13 +193,12 @@
   </ol>
   <blockquote> 
     <blockquote> 
-      <blockquote> <font face="Courier New, Courier, mono" size="2">&lt;attribute 
-        name=&quot;JndiName&quot;&gt;MySqlDS&lt;/attribute&gt;<br>
+      <p><font face="Courier New, Courier, mono" size="2">&lt;attribute name=&quot;JndiName&quot;&gt;MySqlDS&lt;/attribute&gt;<br>
         &lt;attribute name=&quot;ManagedConnectionFactoryProperties&quot;&gt; 
         <br>
         &lt;properties&gt;<br>
-        &lt;config-property name=&quot;ConnectionURL&quot; type=&quot;java.lang.String&quot;&gt;jdbc:mysql://localhost/localdb&lt;/config-property&gt;<br>&lt;config-property 
-        name=&quot;DriverClass&quot;type=&quot;java.lang.String&quot;&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/config-property&gt;</font></blockquote>
+        &lt;config-property name=&quot;ConnectionURL&quot; type=&quot;java.lang.String&quot;&gt;jdbc:mysql://localhost/localdb&lt;/config-property&gt;<br>
+        &lt;config-property name=&quot;DriverClass&quot;type=&quot;java.lang.String&quot;&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/config-property&gt;</font></p>
       <div align="left"></div>
     </blockquote>
     <div align="left"></div>
@@ -225,9 +218,7 @@
   </ol>
   <blockquote> 
     <blockquote> 
-      <blockquote> 
-        <p><font face="Courier New, Courier, mono" size="2">realdriver=org.gjt.mm.mysql.Driver</font></p>
-      </blockquote>
+      <p><font face="Courier New, Courier, mono" size="2">realdriver=org.gjt.mm.mysql.Driver</font></p>
     </blockquote>
   </blockquote>
 </ol>
@@ -265,20 +256,18 @@
       </font>An example of an edited <b>data-sources.xml</b> file follows:</font> 
     </li>
     <blockquote> 
-      <blockquote> 
-        <p> <font face="Courier New, Courier, mono" size="2">&lt;data-source<br>
-          class=&quot;com.evermind.sql.DriverManagerDataSource&quot;<br>
-          name=&quot;Hypersonic&quot;<br>
-          location=&quot;jdbc/HypersonicCoreDS&quot;<br>
-          xa-location=&quot;jdbc/xa/HypersonicXADS&quot;<br>
-          ejb-location=&quot;jdbc/HypersonicDS&quot;<br>
-          connection-driver=&quot;com.p6spy.engine.spy.P6SpyDriver&quot;<br>
-          username=&quot;sa&quot;<br>
-          password=&quot;&quot;<br>
-          url=&quot;jdbc:HypersonicSQL:./database/defaultdb&quot;<br>
-          inactivity-timeout=&quot;30&quot;<br>
-          /&gt;</font></p>
-      </blockquote>
+      <p> <font face="Courier New, Courier, mono" size="2">&lt;data-source<br>
+        class=&quot;com.evermind.sql.DriverManagerDataSource&quot;<br>
+        name=&quot;Hypersonic&quot;<br>
+        location=&quot;jdbc/HypersonicCoreDS&quot;<br>
+        xa-location=&quot;jdbc/xa/HypersonicXADS&quot;<br>
+        ejb-location=&quot;jdbc/HypersonicDS&quot;<br>
+        connection-driver=&quot;com.p6spy.engine.spy.P6SpyDriver&quot;<br>
+        username=&quot;sa&quot;<br>
+        password=&quot;&quot;<br>
+        url=&quot;jdbc:HypersonicSQL:./database/defaultdb&quot;<br>
+        inactivity-timeout=&quot;30&quot;<br>
+        /&gt;</font></p>
     </blockquote>
   </ol>
   </font></div>
@@ -292,8 +281,8 @@
         following command:</font></font></div>
       </font></div>
     <blockquote> 
-      <blockquote><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono" size="2">java 
-        -Dp6.home=c:\orion\orion\lib -jar orion.jar</font></font></blockquote>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono" size="2">java 
+        -Dp6.home=c:\orion\orion\lib -jar orion.jar</font></font></p>
     </blockquote>
   </li>
 </ol>
@@ -356,18 +345,27 @@
   </ol>
   </font></div>
 <blockquote> 
-  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono">&lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;org.gjt.mm.mysql.Driver&lt;/param-value&gt;&lt;/init-param&gt;</font><br>
-      <br>
-      In this above case, the <b>databaseDriver</b> parameter has a value of <b>org.gjt.mm.mysql.Driver</b>, 
-      which is the <b>MySQL</b> driver. Wherever this configuration information 
-      is stored, change the driver name (<b>org.gjt.mm.mysql.Driver</b>, in our 
-      example) to <b>com.p6spy.engine.spy.P6SpyDriver</b>, as in the following 
-      example:<br>
-      <br>
-      <font face="Courier New, Courier, mono">&lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/param-value&gt;&lt;/init-param&gt;</font><br>
-      </font></font></div>
-    </font></div>
+  <blockquote> 
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono">&lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;org.gjt.mm.mysql.Driver&lt;/param-value&gt;&lt;/init-param&gt;</font></font></font></div>
+      </font></div>
+  </blockquote>
+</blockquote>
+<div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+  <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
+    In this above case, the <b>databaseDriver</b> parameter has a value of <b>org.gjt.mm.mysql.Driver</b>, 
+    which is the <b>MySQL</b> driver. Wherever this configuration information 
+    is stored, change the driver name (<b>org.gjt.mm.mysql.Driver</b>, in our 
+    example) to <b>com.p6spy.engine.spy.P6SpyDriver</b>, as in the following example:</font></font></div>
+  </font></div>
+<blockquote> 
+  <blockquote> 
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
+        <font face="Courier New, Courier, mono">&lt;init-param&gt;&lt;param-name&gt;databaseDriver&lt;/param-name&gt;&lt;param-value&gt;com.p6spy.engine.spy.P6SpyDriver&lt;/param-value&gt;&lt;/init-param&gt;</font><br>
+        </font></font></div>
+      </font></div>
+  </blockquote>
 </blockquote>
 <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
   <ol start="4">
@@ -379,12 +377,22 @@
         your <b>spy.properties</b> file, which will result in an error. So, you 
         must include <b>spy.properties</b> in the Tomcat classpath. Use the TOMCAT_OPTS 
         environment variable to specify the location of the <b>spy.properties</b> 
-        file. An example of the edited TOMCAT_OPTS environment variable follows:<br>
-        <br>
+        file. An example of the edited TOMCAT_OPTS environment variable follows:</font></font></div>
+    </li>
+  </ol>
+  </font></div>
+<blockquote> 
+  <blockquote> 
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
         <font face="Courier New, Courier, mono">SET TOMCAT_OPTS=-Dp6.home=C:\jakarta-tomcat-3.2.1\webapps\p6\WEB-INF\lib</font><br>
         <br>
         </font></font></div>
-    </li>
+      </font></div>
+  </blockquote>
+</blockquote>
+<div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+  <ol start="4">
     <li>Modify<font face="Verdana, Arial, Helvetica, sans-serif" size="2"> the<b> 
       realdriver </b>line in the <b>spy.properties </b>file to reflect the wrapped 
       database driver.<b> </b> <font face="Verdana, Arial, Helvetica, sans-serif" size="-1">An 
@@ -395,10 +403,8 @@
   </font></div>
 <blockquote> 
   <blockquote> 
-    <blockquote> 
-      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono" size="2">realdriver 
-        = org.gjt.mm.mysql.Driver</font></font></div>
-    </blockquote>
+    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono" size="2">realdriver 
+      = org.gjt.mm.mysql.Driver</font></font></div>
   </blockquote>
 </blockquote>
 <div align="left"> 
@@ -441,13 +447,16 @@
       <b>Oracle1.properties</b> file delivered with JOnAS should be updated by 
       replacing<b> oracle.jdbc.driver.OracleDriver</b> with <b><font size="2">com.p6spy.engine.spy.P6SpyDriver</font></b>. 
       An example follows:</font></li>
-    <blockquote><font face="Courier New, Courier, mono">datasource.name&nbsp;&nbsp; 
-      jdbc_1</font> <font face="Courier New, Courier, mono"><br>
-      datasource.description&nbsp; "Standard jdbc driver for Oracle"</font> <font face="Courier New, Courier, mono"><br>
-      datasource.url&nbsp;&nbsp; jdbc:oracle:thin:scott/tiger@maltes:1521:ORA1</font> 
-      <font face="Courier New, Courier, mono"><br>
-      datasource.classname com.p6spy.engine.spy.P6SpyDriver</font> <font face="Courier New, Courier, mono"><br>
-      ...</font></blockquote>
+    <blockquote> 
+      <p><font face="Courier New, Courier, mono">datasource.name&nbsp;&nbsp; jdbc_1</font> 
+        <font face="Courier New, Courier, mono"><br>
+        datasource.description&nbsp; "Standard jdbc driver for Oracle"</font> 
+        <font face="Courier New, Courier, mono"><br>
+        datasource.url&nbsp;&nbsp; jdbc:oracle:thin:scott/tiger@maltes:1521:ORA1</font> 
+        <font face="Courier New, Courier, mono"><br>
+        datasource.classname com.p6spy.engine.spy.P6SpyDriver</font> <font face="Courier New, Courier, mono"><br>
+        ...</font></p>
+    </blockquote>
   </ol>
   </font></div>
 <div align="left"> 
@@ -777,8 +786,10 @@
 <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></div>
 <blockquote> 
   <blockquote> 
-    <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono">realdriver 
-      = oracle.jdbc.driver.OracleDriver</font></font></div>
+    <blockquote>
+      <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono">realdriver 
+        = oracle.jdbc.driver.OracleDriver</font></font></div>
+    </blockquote>
   </blockquote>
   <div align="left"> 
     <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
@@ -933,12 +944,17 @@
       application server to use the P6Spy database driver by running the command 
       line executable <b>jdbcsetup</b>. Add a new 3rd Party JDBC Configuration 
       as shown in the following example:<br>
-      <br>
-      <font face="Courier New, Courier, mono">Driver Identifier: spy<br>
-      Driver Classname: com.p6spy.engine.spy.P6SpyDriver<br>
-      Driver Classpath: <font color="#CC0000"><i><font color="#000000">spy-home</font></i><font color="#000000">\p6spy.jar</font></font></font></font></li>
+      </font></li>
   </ol>
   </font></div>
+<blockquote>
+  <blockquote>
+<div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Courier New, Courier, mono">Driver 
+      Identifier: spy<br>
+      Driver Classname: com.p6spy.engine.spy.P6SpyDriver<br>
+      Driver Classpath: <font color="#CC0000"><i><font color="#000000">spy-home</font></i><font color="#000000">\p6spy.jar</font></font></font></font></font></div>
+  </blockquote>
+</blockquote>
 <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></div>
 <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
   <ol start="4">
@@ -946,20 +962,30 @@
       about the wrapped database driver, register your DataSource by running the 
       following command line executable:<br>
       </font> 
-      <p><font face="Courier New, Courier, mono" color="#000000">iasdeploy 
-        regdatasource -user <i>iPlanet_admin_username</i> -password <i>iPlanet_admin_password</i> 
-        -host localhost -port <i>iPlanet_admin _port config_filename</i></font><font color="#000000"><br>
-        </font><br>
-        where <i>iPlanet_admin_username</i> is your iPlanet admin username, <i>iPlanet_admin_password 
-        </i>is your iPlanet admin password, <i>iPlanet_admin_port</i> is the iPlanet 
-        admin port number, and <i>config_filename</i> is the full path to the 
-        file containing your DataSource configuration. An example follows:<br>
-        <br>
-        <font face="Courier New, Courier, mono">&lt;ias-resource&gt;<br> &lt;resource&gt;<br> 
-        &lt;jndi-name&gt;jdbc/yourapp/ora-type4-spy&lt;/jndi-name&gt;<br>
-        &lt;jdbc&gt;<br> &lt;driver-type&gt;spy&lt;/driver-type&gt;<br>&lt;database-url&gt;jdbc:oracle:thin:@localhost:1521:orcl&lt;/database-url&gt; <br>
-        &lt;username&gt;user&lt;/username&gt;<br> &lt;password&gt;password&lt;/password&gt; <br>
-        &lt;/jdbc&gt;<br> &lt;/resource&gt;<br> &lt;/ias-resource&gt; </font> 
+      <blockquote>
+        <p><font face="Courier New, Courier, mono" color="#000000">iasdeploy regdatasource 
+          -user <i>iPlanet_admin_username</i> -password <i>iPlanet_admin_password</i> 
+          -host localhost -port <i>iPlanet_admin _port config_filename</i></font><font color="#000000"><br>
+          </font><br>
+          where <i>iPlanet_admin_username</i> is your iPlanet admin username, 
+          <i>iPlanet_admin_password </i>is your iPlanet admin password, <i>iPlanet_admin_port</i> 
+          is the iPlanet admin port number, and <i>config_filename</i> is the 
+          full path to the file containing your DataSource configuration. An example 
+          follows:<br>
+          <br>
+          <font face="Courier New, Courier, mono">&lt;ias-resource&gt;<br>
+          &lt;resource&gt;<br>
+          &lt;jndi-name&gt;jdbc/yourapp/ora-type4-spy&lt;/jndi-name&gt;<br>
+          &lt;jdbc&gt;<br>
+          &lt;driver-type&gt;spy&lt;/driver-type&gt;<br>
+          &lt;database-url&gt;jdbc:oracle:thin:@localhost:1521:orcl&lt;/database-url&gt; 
+          <br>
+          &lt;username&gt;user&lt;/username&gt;<br>
+          &lt;password&gt;password&lt;/password&gt; <br>
+          &lt;/jdbc&gt;<br>
+          &lt;/resource&gt;<br>
+          &lt;/ias-resource&gt; </font> </p>
+      </blockquote>
     </li>
   </ol>
   </font></div>
@@ -1041,25 +1067,23 @@
     </div>
   </li>
 </ol>
-<div align="left">
-  <div align="left">
+<div align="left"> 
+  <div align="left"> 
     <div align="left"></div>
   </div>
 </div>
 <ol start="4">
-  <div align="left">
+  <div align="left"> 
     <ol start="5">
       <div align="left"></div>
-      <blockquote> 
-        <blockquote> 
-          <blockquote> 
-            <div align="left"> <font face="Courier New, Courier, mono" size="2">realdriver 
-              = oracle.jdbc.driver.OracleDriver</font></div>
-          </blockquote>
-        </blockquote>
-      </blockquote>
     </ol>
   </div>
+  <blockquote>
+    <div align="left">
+      <div align="left"><font face="Courier New, Courier, mono" size="2">realdriver 
+        = oracle.jdbc.driver.OracleDriver</font></div>
+    </div>
+  </blockquote>
 </ol>
 <div align="left">
   <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Installation 
