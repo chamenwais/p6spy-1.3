@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2003/06/20 20:31:55  aarvesen
+ * fix for bug 161:  null result sets
+ *
  * Revision 1.3  2003/01/03 20:33:43  aarvesen
  * Added getJDBC() method to return the underlying jdbc object.
  *
@@ -149,6 +152,7 @@ public class P6Statement extends P6Base implements Statement {
         return passthru.execute(p0);
     }
     
+    // Bug 161:  this method, unlike getResultSet(), should  never return null
     public ResultSet executeQuery(String p0) throws java.sql.SQLException {
         return (getP6Factory().getResultSet(passthru.executeQuery(p0), this, "", p0));
     }
@@ -201,8 +205,11 @@ public class P6Statement extends P6Base implements Statement {
         passthru.setCursorName(p0);
     }
     
+    // bug 161: getResultSet() should return null if this is an update
+    // count or there are not more result sets
     public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
-        return (getP6Factory().getResultSet(passthru.getResultSet(), this, "", statementQuery));
+	ResultSet rs = passthru.getResultSet();
+        return (rs == null)  ? null : getP6Factory().getResultSet(rs, this, "", statementQuery);
     }
     
     public int getUpdateCount() throws java.sql.SQLException {

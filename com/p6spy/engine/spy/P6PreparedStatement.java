@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.7  2003/06/20 20:31:37  aarvesen
+ * fix for bug 161:  null result sets
+ *
  * Revision 1.6  2003/06/05 20:10:00  aarvesen
  * bradley 'dot' johnson (bradley@irongrid.com) added in dynamic array allocation
  *
@@ -333,10 +336,14 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         prepStmtPassthru.setUnicodeStream(p0,p1,p2);
     }
     
-    /* we override this because the p6statement version will not be able to return
-     * the accurate prepared statement or query information */
+    /* we override this because the p6statement version will not be 
+     * able to return the accurate prepared statement or query information
+     */
+    // bug 161: getResultSet() should return null if this is an update
+    // count or there are not more result sets
     public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
-        return (getP6Factory().getResultSet(passthru.getResultSet(), this, preparedQuery, getQueryFromPreparedStatement()));
+	ResultSet rs = passthru.getResultSet();
+        return (rs == null) ? null : getP6Factory().getResultSet(rs, this, preparedQuery, getQueryFromPreparedStatement());
     }
     
     /*
