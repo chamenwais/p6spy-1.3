@@ -60,32 +60,46 @@
  */
 
 /**
- * Description: This is a module driver.  Every module must have a driver.
+ * Description: JDBC Driver Extension implementing PreparedStatement.
+ *
+ * $Author$
+ * $Revision$
+ * $Date$
+ *
+ * $Id$
+ * $Source$
+ * $Log$
+ * Revision 1.1  2002/11/26 18:17:27  jeffgoke
+ * *** empty log message ***
+ *
+ * Revision 1.1  2002/10/06 18:24:52  jeffgoke
+ * no message
+ *
+ * Revision 1.1  2002/05/24 07:31:45  jeffgoke
+ * version 1 rewrite
+ *
  *
  */
 
-package com.p6spy.engine.logging;
+package com.p6spy.engine.sample;
 
 import com.p6spy.engine.spy.*;
 import com.p6spy.engine.common.*;
-import java.sql.*;
 import java.io.*;
+import java.sql.*;
+import java.math.*;
 import java.util.*;
+import java.text.*;
 
-public class P6SampleDriver extends P6SpyDriverCore {
+public class P6SampleResultSet extends P6ResultSet implements ResultSet {
     
-    // implement an interface for modules
-    
-    static {
-        initMethod();
+    protected P6Factory getP6Factory() {
+        return new P6SampleFactory();
     }
     
-    public static void initMethod() {
-        P6SpyDriverCore.initMethod(P6SampleDriver.class.getName());
-    }
-    
-    public P6SampleDriver() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        super(P6SampleDriver.class.getName(),new P6SampleFactory());
+    public P6SampleResultSet(ResultSet resultSet, P6Statement statement, String preparedQuery, String query) {
+        super(resultSet, statement, preparedQuery, query);
     }
     
 }
+

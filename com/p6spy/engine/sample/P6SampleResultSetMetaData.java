@@ -60,7 +60,7 @@
  */
 
 /**
- * Description: JDBC Driver Extension implementing PreparedStatement.
+ * Description: JDBC Driver Extension implementing P6ResultSetMetaData
  *
  * $Author$
  * $Revision$
@@ -69,34 +69,29 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.1  2002/11/26 18:17:27  jeffgoke
+ * *** empty log message ***
+ *
  * Revision 1.1  2002/10/06 18:24:52  jeffgoke
  * no message
- *
- * Revision 1.1  2002/05/24 07:31:45  jeffgoke
- * version 1 rewrite
  *
  *
  */
 
-package com.p6spy.engine.logging;
+package com.p6spy.engine.sample;
 
-import com.p6spy.engine.spy.*;
-import com.p6spy.engine.common.*;
 import java.io.*;
 import java.sql.*;
-import java.math.*;
-import java.util.*;
-import java.text.*;
+import com.p6spy.engine.spy.*;
 
-public class P6SampleResultSet extends P6ResultSet implements ResultSet {
+public class P6SampleResultSetMetaData extends P6ResultSetMetaData {
     
     protected P6Factory getP6Factory() {
         return new P6SampleFactory();
     }
     
-    public P6SampleResultSet(ResultSet resultSet, P6Statement statement, String preparedQuery, String query) {
-        super(resultSet, statement, preparedQuery, query);
+    public P6SampleResultSetMetaData(ResultSetMetaData resultSetMetaData) {
+        super(resultSetMetaData);
     }
     
 }
-

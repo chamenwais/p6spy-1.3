@@ -60,37 +60,32 @@
  */
 
 /**
- * Description: Wrapper class for Statement
- *
- * $Author$
- * $Revision$
- * $Date$
- *
- * $Id$
- * $Log$
- * Revision 1.1  2002/10/06 18:24:52  jeffgoke
- * no message
- *
- * Revision 1.1  2002/05/24 07:31:45  jeffgoke
- * version 1 rewrite
- *
+ * Description: This is a module driver.  Every module must have a driver.
  *
  */
 
-package com.p6spy.engine.logging;
+package com.p6spy.engine.sample;
 
-import java.sql.*;
 import com.p6spy.engine.spy.*;
 import com.p6spy.engine.common.*;
+import java.sql.*;
+import java.io.*;
+import java.util.*;
 
-public class P6SampleStatement extends P6Statement implements Statement {
+public class P6SampleDriver2 extends P6SpyDriverCore {
     
-    protected P6Factory getP6Factory() {
-        return new P6SampleFactory();
+    // implement an interface for modules
+    
+    static {
+        initMethod();
     }
     
-    public P6SampleStatement(Statement statement, P6Connection conn) {
-        super(statement, conn);
+    public static void initMethod() {
+        P6SpyDriverCore.initMethod(P6SampleDriver2.class.getName());
     }
-
+    
+    public P6SampleDriver2() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        super(P6SampleDriver2.class.getName(),new P6SampleFactory());
+    }
+    
 }

@@ -64,7 +64,7 @@
  *
  */
 
-package com.p6spy.engine.logging;
+package com.p6spy.engine.sample;
 
 import com.p6spy.engine.spy.*;
 import com.p6spy.engine.common.*;
@@ -72,7 +72,7 @@ import java.sql.*;
 import java.io.*;
 import java.util.*;
 
-public class P6SampleDriver2 extends P6SpyDriverCore {
+public class P6SampleDriver extends P6SpyDriverCore {
     
     // implement an interface for modules
     
@@ -81,11 +81,11 @@ public class P6SampleDriver2 extends P6SpyDriverCore {
     }
     
     public static void initMethod() {
-        P6SpyDriverCore.initMethod(P6SampleDriver2.class.getName());
+        P6SpyDriverCore.initMethod(P6SampleDriver.class.getName());
     }
     
-    public P6SampleDriver2() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        super(P6SampleDriver2.class.getName(),new P6SampleFactory());
+    public P6SampleDriver() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        super(P6SampleDriver.class.getName(),new P6SampleFactory());
     }
     
 }

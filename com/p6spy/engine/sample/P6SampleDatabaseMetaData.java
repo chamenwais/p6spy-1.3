@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.1  2002/11/26 18:17:26  jeffgoke
+ * *** empty log message ***
+ *
  * Revision 1.1  2002/10/06 18:24:52  jeffgoke
  * no message
  *
@@ -79,7 +82,7 @@
  *
  */
 
-package com.p6spy.engine.logging;
+package com.p6spy.engine.sample;
 
 import java.io.*;
 import java.sql.*;

@@ -60,7 +60,7 @@
  */
 
 /**
- * Description: JDBC Driver Extension implementing Array
+ * Description: factory for getting real values.
  *
  * $Author$
  * $Revision$
@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.1  2002/11/26 18:17:27  jeffgoke
+ * *** empty log message ***
+ *
  * Revision 1.1  2002/10/06 18:24:52  jeffgoke
  * no message
  *
@@ -79,23 +82,46 @@
  *
  */
 
-package com.p6spy.engine.logging;
+package com.p6spy.engine.sample;
 
-import java.io.*;
 import java.sql.*;
+import com.p6spy.engine.spy.*;
 
-import com.p6spy.engine.spy.P6Array;
-import com.p6spy.engine.spy.P6Statement;
-import com.p6spy.engine.spy.P6Factory;
-
-public class P6SampleArray extends P6Array {
+public class P6SampleFactory implements P6Factory {
     
-    protected P6Factory getP6Factory() {
-        return new P6SampleFactory();
+    public P6SampleFactory() {
     }
     
-    public P6SampleArray(Array array, P6Statement statement, String preparedQuery, String query) {
-        super(array, statement, preparedQuery, query);
+    public Connection getConnection(Connection conn) throws SQLException {
+        return (new P6SampleConnection(conn));
+    }
+    
+    public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) {
+        return (new P6SamplePreparedStatement(real, conn, p0));
+    }
+    
+    public Statement getStatement(Statement statement, P6Connection conn) {
+        return (new P6SampleStatement(statement, conn));
+    }
+    
+    public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) {
+        return (new P6SampleCallableStatement(real, conn, p0));
+    }
+    
+    public DatabaseMetaData getDatabaseMetaData(DatabaseMetaData real, P6Connection conn) {
+        return new P6SampleDatabaseMetaData(real, conn);
+    }
+    
+    public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query) {
+        return (new P6SampleResultSet(real, statement, preparedQuery, query));
+    }
+    
+    public Array getArray(Array real, P6Statement statement, String preparedQuery, String query) {
+        return (new P6SampleArray(real, statement, preparedQuery, query));
+    }
+    
+    public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) {
+        return (new P6SampleResultSetMetaData(real));
     }
     
 }

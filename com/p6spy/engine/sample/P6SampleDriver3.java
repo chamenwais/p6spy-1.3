@@ -60,65 +60,32 @@
  */
 
 /**
- * Description: factory for getting real values.
- *
- * $Author$
- * $Revision$
- * $Date$
- *
- * $Id$
- * $Source$
- * $Log$
- * Revision 1.1  2002/10/06 18:24:52  jeffgoke
- * no message
- *
- * Revision 1.1  2002/05/24 07:31:45  jeffgoke
- * version 1 rewrite
- *
- *
+ * Description: This is a module driver.  Every module must have a driver.
  *
  */
 
-package com.p6spy.engine.logging;
+package com.p6spy.engine.sample;
 
-import java.sql.*;
 import com.p6spy.engine.spy.*;
+import com.p6spy.engine.common.*;
+import java.sql.*;
+import java.io.*;
+import java.util.*;
 
-public class P6SampleFactory implements P6Factory {
+public class P6SampleDriver3 extends P6SpyDriverCore {
     
-    public P6SampleFactory() {
+    // implement an interface for modules
+    
+    static {
+        initMethod();
     }
     
-    public Connection getConnection(Connection conn) throws SQLException {
-        return (new P6SampleConnection(conn));
+    public static void initMethod() {
+        P6SpyDriverCore.initMethod(P6SampleDriver3.class.getName());
     }
     
-    public PreparedStatement getPreparedStatement(PreparedStatement real, P6Connection conn, String p0) {
-        return (new P6SamplePreparedStatement(real, conn, p0));
-    }
-    
-    public Statement getStatement(Statement statement, P6Connection conn) {
-        return (new P6SampleStatement(statement, conn));
-    }
-    
-    public CallableStatement getCallableStatement(CallableStatement real, P6Connection conn, String p0) {
-        return (new P6SampleCallableStatement(real, conn, p0));
-    }
-    
-    public DatabaseMetaData getDatabaseMetaData(DatabaseMetaData real, P6Connection conn) {
-        return new P6SampleDatabaseMetaData(real, conn);
-    }
-    
-    public ResultSet getResultSet(ResultSet real, P6Statement statement, String preparedQuery, String query) {
-        return (new P6SampleResultSet(real, statement, preparedQuery, query));
-    }
-    
-    public Array getArray(Array real, P6Statement statement, String preparedQuery, String query) {
-        return (new P6SampleArray(real, statement, preparedQuery, query));
-    }
-    
-    public ResultSetMetaData getResultSetMetaData(ResultSetMetaData real) {
-        return (new P6SampleResultSetMetaData(real));
+    public P6SampleDriver3() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        super(P6SampleDriver3.class.getName(),new P6SampleFactory());
     }
     
 }
