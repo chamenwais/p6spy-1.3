@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2002/04/27 20:24:01  jeffgoke
+ * added logging of commit statements and rollback statements
+ *
  * Revision 1.3  2002/04/25 06:51:28  jeffgoke
  * Philip Ogren of BEA contributed installation instructions for BEA WebLogic Portal and Server
  * Jakarta RegEx support (contributed by Philip Ogren)
@@ -224,6 +227,35 @@ public class P6TestStatement extends P6TestFramework {
         query = "select 'z' from stmt_test";
         statement.executeQuery(query);
         assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+    }
+    
+    public void testCategories() {
+        
+        Statement statement = connection.createStatement();
+        
+        // test rollback logging
+        P6SpyOptions.setFilter(true);
+        P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
+        P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+        P6LogQuery.excludeCategories = P6LogQuery.parseCSVList("");
+        P6LogQuery.includeCategories = P6LogQuery.parseCSVList("");
+        String query = "select 'y' from stmt_test";
+        statement.executeQuery(query);
+        assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+        connection.rollback();
+        assertTrue(P6LogQuery.getLastEntry().indexOf("rollback") != -1);
+        
+        // test commit logging
+        P6SpyOptions.setFilter(true);
+        P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
+        P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+        P6LogQuery.excludeCategories = P6LogQuery.parseCSVList("");
+        P6LogQuery.includeCategories = P6LogQuery.parseCSVList("");
+        String query = "select 'y' from stmt_test";
+        statement.executeQuery(query);
+        assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+        connection.commit();
+        assertTrue(P6LogQuery.getLastEntry().indexOf("commit") != -1);
     }
     
     public void testStacktrace() {

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2002/04/27 20:24:01  jeffgoke
+ * added logging of commit statements and rollback statements
+ *
  * Revision 1.4  2002/04/11 04:18:03  jeffgoke
  * fixed bug where callable & prepared were not passing their ancestors the correct constructor information
  *
@@ -138,11 +141,11 @@ public class P6Connection implements java.sql.Connection {
     }
     
     public final CallableStatement prepareCall(String p0) throws SQLException {
-        return (new P6CallableStatement(passthru.prepareCall (p0), this, p0));
+        return (new P6CallableStatement(passthru.prepareCall(p0), this, p0));
     }
     
     public final CallableStatement prepareCall(String p0, int p1, int p2) throws SQLException {
-        return (new P6CallableStatement(passthru.prepareCall (p0,p1,p2), this, p0));
+        return (new P6CallableStatement(passthru.prepareCall(p0,p1,p2), this, p0));
     }
     
     public final String nativeSQL(String p0) throws SQLException {
@@ -158,11 +161,27 @@ public class P6Connection implements java.sql.Connection {
     }
     
     public final void commit() throws SQLException {
-        passthru.commit();
+        long startTime = System.currentTimeMillis();
+        try {
+            passthru.commit();
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "commit", "", "");
+            }
+        }
     }
     
     public final void rollback() throws SQLException {
-        passthru.rollback();
+        long startTime = System.currentTimeMillis();
+        try {
+            passthru.rollback();
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "rollback", "", "");
+            }
+        }
     }
     
     public final DatabaseMetaData getMetaData() throws SQLException {
