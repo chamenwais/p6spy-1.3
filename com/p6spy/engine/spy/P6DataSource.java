@@ -67,6 +67,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2003/06/03 16:07:33  aarvesen
+ * renamed setDataSourceName to setRealDataSource
+ *
  * Revision 1.3  2003/01/30 23:35:22  dlukeparker
  *
  *
@@ -120,11 +123,11 @@ public class P6DataSource extends P6Base implements DataSource, Referenceable, S
         P6SpyDriverCore.initMethod(P6SpyDriver.class.getName());
     }
 
-    public String getDataSourceName() {
+    public String getRealDataSource() {
 	return rdsName;
     }
 
-    public void setDataSourceName(String inVar) {
+    public void setRealDataSource(String inVar) {
 	rdsName = inVar;
     }
     protected void bindDataSource() throws SQLException {
@@ -313,7 +316,7 @@ public class P6DataSource extends P6Base implements DataSource, Referenceable, S
 	
 	Reference Ref = new Reference(getClass().getName(), FactoryName, null);
 	
-	Ref.add(new StringRefAddr("dataSourceName", getDataSourceName()));
+	Ref.add(new StringRefAddr("dataSourceName", getRealDataSource()));
 	return Ref;
     }
 
