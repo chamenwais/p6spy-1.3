@@ -69,6 +69,13 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/04/25 06:51:28  jeffgoke
+ * Philip Ogren of BEA contributed installation instructions for BEA WebLogic Portal and Server
+ * Jakarta RegEx support (contributed by Philip Ogren)
+ * Ability to print stack trace of logged statements. This is very useful to understand where a logged query is being executed in the application (contributed by Philip Ogren)
+ * Simplified table monitoring property file option (contributed by Philip Ogren)
+ * Updated the RegEx documentation
+ *
  * Revision 1.2  2002/04/22 02:26:06  jeffgoke
  * Simon Sadedin added timing information.  Added Junit tests.
  *
@@ -151,7 +158,7 @@ public class P6TestStatement extends P6TestFramework {
     
     public void testMatcher() {
         try {
-            // use default matcher (instr)
+            // test the default matcher
             P6SpyOptions.setStringmatcher("");
             
             // first should match
@@ -181,32 +188,83 @@ public class P6TestStatement extends P6TestFramework {
             
             // use gnu regex
             P6SpyOptions.setStringmatcher("com.p6spy.engine.spy.GnuRegexMatcher");
+            tryRegEx();
             
-            // should match (basic)
+            P6SpyOptions.setStringmatcher("com.p6spy.engine.spy.JakartaRegexMatcher");
+            tryRegEx();
+            
+        } catch (Exception e) {
+            fail(e.getMessage()+getStackTrace(e));
+        }
+    }
+    
+    protected void tryRegEx() throws Exception {
+        Statement statement = connection.createStatement();
+        
+        // should match (basic)
+        P6SpyOptions.setFilter(true);
+        P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
+        P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+        String query = "select 'y' from stmt_test";
+        statement.executeQuery(query);
+        assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+        
+        // now match should match (test regex)
+        P6SpyOptions.setFilter(true);
+        P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+        P6LogQuery.excludeTables = P6LogQuery.parseCSVList("[a-z]tmt_test");
+        query = "select 'x' from stmt_test";
+        statement.executeQuery(query);
+        assertTrue(P6LogQuery.getLastEntry().indexOf(query) == -1);
+        
+        // now match should fail (test regex again)
+        P6SpyOptions.setFilter(true);
+        P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
+        P6LogQuery.excludeTables = P6LogQuery.parseCSVList("[0-9]tmt_test");
+        query = "select 'z' from stmt_test";
+        statement.executeQuery(query);
+        assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+    }
+    
+    public void testStacktrace() {
+        try {
+            // get a statement
+            Statement statement = connection.createStatement();
+            P6SpyOptions.setStackTrace(true);
+            
+            // perform a query & make sure we get the stack trace
             P6SpyOptions.setFilter(true);
             P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
-            query = "select 'y' from stmt_test";
+            String query = "select 'y' from stmt_test";
             statement.executeQuery(query);
             assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            assertTrue(P6LogQuery.getLastStack().indexOf("Stack") != -1);
             
-            // now match should match (test regex)
+            // filter on stack trace that will not match
+            P6LogQuery.lastStack = null;
+            P6SpyOptions.setStackTraceClass("com.dont.match");
             P6SpyOptions.setFilter(true);
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
-            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("[a-z]tmt_test");
-            query = "select 'x' from stmt_test";
+            query = "select 'a' from stmt_test";
             statement.executeQuery(query);
-            assertTrue(P6LogQuery.getLastEntry().indexOf(query) == -1);
+            // this will actually match - just the stack trace wont fire
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            assertNull(P6LogQuery.getLastStack());
             
-            // now match should fail (test regex again)
+            P6LogQuery.lastStack = null;
+            P6SpyOptions.setStackTraceClass("com.p6spy.engine.spy");
             P6SpyOptions.setFilter(true);
+            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
-            P6LogQuery.excludeTables = P6LogQuery.parseCSVList("[0-9]tmt_test");
-            query = "select 'z' from stmt_test";
+            query = "select 'b' from stmt_test";
             statement.executeQuery(query);
             assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            assertTrue(P6LogQuery.getLastStack().indexOf("Stack") != -1);
+            
         } catch (Exception e) {
-            
+            fail(e.getMessage()+getStackTrace(e));
         }
     }
     

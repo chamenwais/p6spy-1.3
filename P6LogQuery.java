@@ -68,6 +68,13 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.8  2002/04/25 06:51:28  jeffgoke
+ * Philip Ogren of BEA contributed installation instructions for BEA WebLogic Portal and Server
+ * Jakarta RegEx support (contributed by Philip Ogren)
+ * Ability to print stack trace of logged statements. This is very useful to understand where a logged query is being executed in the application (contributed by Philip Ogren)
+ * Simplified table monitoring property file option (contributed by Philip Ogren)
+ * Updated the RegEx documentation
+ *
  * Revision 1.7  2002/04/22 02:57:45  jeffgoke
  * fixed bug in log
  *
@@ -122,6 +129,7 @@ public class P6LogQuery {
     protected static String[] includeCategories;
     protected static String[] excludeCategories;
     protected static String lastEntry;
+    protected static String lastStack;
     
     static {
         if (P6SpyOptions.getTrace()) {
@@ -197,7 +205,28 @@ public class P6LogQuery {
         }
         logEntry += "|"+elapsed+"|"+category+"|"+prepared+"|"+sql;
         qlog.println(logEntry);
+        boolean stackTrace = P6SpyOptions.getStackTrace();
+        String stackTraceClass = P6SpyOptions.getStackTraceClass();
+        if(stackTrace) {
+            if(stackTraceClass == null) {
+                Exception e = new Exception();
+                e.printStackTrace(qlog);
+            }
+            else {
+                ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+                PrintStream printStream = new PrintStream(byteStream);
+                Exception e = new Exception();
+                e.printStackTrace(printStream);
+                String stack = byteStream.toString();
+                if(stack.indexOf(stackTraceClass) != -1) {
+                    lastStack = stack;
+                    e.printStackTrace(qlog);
+                }
+            }
+        }
+        
         lastEntry = logEntry;
+        
     }
     
     static final boolean isLoggable(String sql) {
@@ -220,9 +249,25 @@ public class P6LogQuery {
     }
     
     static final boolean queryOk(String sql) {
-        return ((includeTables == null || includeTables.length == 0 || foundTable(sql, includeTables))) && !foundTable(sql, excludeTables);
+        if(P6SpyOptions.getStringMatcherEngine() != null && P6SpyOptions.getSQLExpression() != null) {
+            return sqlOk(sql);
+        }
+        else
+            return ((includeTables == null || includeTables.length == 0 || foundTable(sql, includeTables))) && !foundTable(sql, excludeTables);
     }
     
+    static final boolean sqlOk(String sql) {
+        String sqlexpression = P6SpyOptions.getSQLExpression();
+        
+        try {
+            return P6SpyOptions.getStringMatcherEngine().match(sqlexpression, sql);
+        }
+        catch (MatchException e) {
+            P6Util.warn("Exception during matching sqlexpression [" + sqlexpression + "] to sql [" + sql + "]: ");
+            return false;
+        }
+        
+    }
     static final boolean foundTable(String sql, String tables[]) {
         boolean ok = false;
         int i;
@@ -236,18 +281,13 @@ public class P6LogQuery {
     }
     
     static final boolean tableOk(String sql, String table) {
-        // Is there a string matcher to use?
-        if(P6SpyOptions.getStringMatcherEngine() != null) {
-            try {
-                return P6SpyOptions.getStringMatcherEngine().match(table, sql);
-            }
-            catch (MatchException e) {
-                P6Util.warn("Exception during matching expression [" + table + "] to sql [" + sql + "]: ");
-                return false;
-            }
+        try {
+            return P6SpyOptions.getStringMatcherEngine().match(table, sql);
         }
-        else
-            return true;
+        catch (MatchException e) {
+            P6Util.warn("Exception during matching expression [" + table + "] to sql [" + sql + "]: ");
+            return false;
+        }
     }
     
     static final void logElapsed(long startTime, String category, String prepared, String sql) {
@@ -268,4 +308,9 @@ public class P6LogQuery {
     static final String getLastEntry() {
         return lastEntry;
     }
+    
+    static final String getLastStack() {
+        return lastStack;
+    }
+    
 }

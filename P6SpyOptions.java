@@ -88,7 +88,9 @@ public class P6SpyOptions   {
     private static String excludecategories;
     private static String stringmatcher;
     private static StringMatcher stringMatcherEngine;
-    
+    private static String sqlExpression;
+    private static boolean stackTrace;
+    private static String stackTraceClass;
     
     public static void setAutoflush(boolean _autoflush) {
         autoflush = _autoflush;
@@ -170,7 +172,7 @@ public class P6SpyOptions   {
     }
     public static void setDateformat(String _dateformat) {
         dateformat = _dateformat;
-        if (_dateformat == null) {
+        if (_dateformat == null || _dateformat.equals ("")) {
             dateformatter = null;
         } else {
             dateformatter = new SimpleDateFormat(_dateformat);
@@ -206,6 +208,29 @@ public class P6SpyOptions   {
     public static StringMatcher getStringMatcherEngine() {
         return stringMatcherEngine;
     }
+
+    public static boolean getStackTrace(){
+        return stackTrace;
+    }
+    public static void setStackTrace(boolean stacktrace)
+    {
+        stackTrace = stacktrace;
+    }
+    public static String getStackTraceClass(){
+        return stackTraceClass;
+    }
+    public static void setStackTraceClass(String stacktraceclass)
+    {
+        stackTraceClass = stacktraceclass;
+    }
+
+    public static String getSQLExpression(){
+        return sqlExpression;
+    }
+    public static void setSQLExpression(String sqlexpression)
+    {
+        sqlExpression = sqlexpression;
+    }
     
     public static void testP6SpyOptions() {
         new P6SpyOptions();
@@ -233,6 +258,9 @@ public class P6SpyOptions   {
         setProperties(getProperties());
         setDateformat(getDateformat());
         setStringmatcher(getStringmatcher());
+        setSQLExpression(getSQLExpression());
+        setStackTrace(getStackTrace());
+        setStackTraceClass(getStackTraceClass());
     }
     
     public static void help() {
@@ -243,6 +271,7 @@ public class P6SpyOptions   {
         System.out.println("    filter [false]                            - turn on filtering");
         System.out.println("    help [false]                              - print help message or not");
         System.out.println("    include []                                - comma separated list of tables to include");
+        System.out.println("    sqlexpression []                          - if the sqlexpression matches the sql statement, it is logged");
         System.out.println("    includecategories []                      - comma separated list of categories to include");
         System.out.println("    logfile [spy.log]                         - name of logfile if trace is on");
         System.out.println("    realdriver []                             - name of real jdbc driver to load");
@@ -251,6 +280,8 @@ public class P6SpyOptions   {
         System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");
         System.out.println("    dateformat []                             - simple date format for log file");
         System.out.println("    stringmatcher []                          - regex engine to use");
+        System.out.println("    stacktrace []                             - prints out stack trace for all log statemnts if true");
+        System.out.println("    stacktraceclass []                        - filters stack traces printed out to those specified");
         System.out.println("\nGlobal:");
         System.out.println("    properties [spy.properties]               - name of file that stores the properties info");
     }
@@ -262,6 +293,7 @@ public class P6SpyOptions   {
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    filter [false]                            - turn on filtering");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    help [false]                              - print help message or not");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    include []                                - comma separated list of tables to include");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    sqlexpression []                          - if the sqlexpression matches the sql statement, it is logged");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    logfile [spy.log]                         - name of logfile if trace is on");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    realdriver []                             - name of real jdbc driver to load");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    spydriver [com.p6.engine.spy.P6SpyDriver] - name of SPY Driver");        }
@@ -269,6 +301,8 @@ public class P6SpyOptions   {
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    dateformat []                             - simple date format for log file");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    stringmatcher []                          - string matcher engine to use");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    stacktrace []                             - prints out stack trace for all log statemnts if true");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    stacktraceclass []                        - filters stack traces printed out to those specified");        }
         if (category.equalsIgnoreCase("Global")) {            System.out.println("\nGlobal:");            System.out.println("    properties [spy.properties]               - name of file that stores the properties info");        }
     }
     
@@ -313,7 +347,14 @@ public class P6SpyOptions   {
         setDateformat(value);
         value = props.getProperty("stringmatcher");
         setStringmatcher(value);
-    }
+        value = props.getProperty("sqlexpression");
+        setSQLExpression(value);
+        value = props.getProperty("stacktrace");
+        if(value == null) value = "false";
+        setStackTrace(P6Util.isTrue(value));
+        value = props.getProperty("stacktraceclass");
+        setStackTraceClass(value);
+        }
     
     public static boolean set(String name, String value) {
         boolean ret = true;
@@ -335,6 +376,9 @@ public class P6SpyOptions   {
         else if (lc.equals("properties")) setProperties(value);
         else if (lc.equals("dateformat")) setDateformat(value);
         else if (lc.equals("stringmatcher")) setStringmatcher(value);
+        else if (lc.equals("sqlexpression")) setSQLExpression(value);
+        else if (lc.equals("stacktrace")) setStackTrace(P6Util.isTrue(value));
+        else if (lc.equals("stacktraceclass")) setStackTraceClass(value);
         else ret = false;
         return ret;
     }
@@ -357,6 +401,9 @@ public class P6SpyOptions   {
         else if (lc.equals("properties")) return getProperties();
         else if (lc.equals("dateformat")) return getDateformat();
         else if (lc.equals("stringmatcher")) return getStringmatcher();
+        else if (lc.equals("sqlexpression")) return getSQLExpression();
+        else if (lc.equals("stacktrace")) return getStackTrace() ? "true" : "false";
+        else if (lc.equals("stacktraceclass")) return getStackTraceClass();
         else return null;
     }
     
@@ -377,6 +424,9 @@ public class P6SpyOptions   {
         keys.put("properties", getProperties());
         keys.put("dateformat", getDateformat());
         keys.put("stringmatcher", getStringmatcher());
+        keys.put("sqlexpression", getSQLExpression());
+        keys.put("stacktrace", getStackTrace()?"true":"false");
+        keys.put("stacktraceclass", getStackTraceClass());
         return keys;
     }
     
@@ -397,6 +447,9 @@ public class P6SpyOptions   {
         values.put(getProperties(),"properties");
         values.put(getDateformat(),"dateformat");
         values.put(getStringmatcher(),"stringmatcher");
+        values.put(getSQLExpression(),"sqlexpression");
+        values.put(getStackTrace()?"true":"false","stacktrace");
+        values.put(getStackTraceClass(),"stacktraceclass");
         return values;
     }
     
@@ -417,6 +470,9 @@ public class P6SpyOptions   {
         list.add("properties");
         list.add("dateformat");
         list.add("stringmatcher");
+        list.add("sqlexpression");
+        list.add("stacktrace");
+        list.add("stacktraceclass");
         return list;
     }
 }
