@@ -16,10 +16,12 @@
     notes </font></a></li>
   <li><a href="#install"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">General 
     installation &amp; upgrade instructions</font></a></li>
-  <li><a href="#property"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Property 
-    file settings</font></a></li>
+  <li><a href="#m_property"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">General 
+    property file settings</font></a> </li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#log">Log 
     file format</a></font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#p6log">P6Log</a></font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#p6outage">P6Outage</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#jsp">The 
     JSP application</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#jboss">Installation 
@@ -31,7 +33,7 @@
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#jonas">Installation 
     under JOnAS</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#wlportal">Installation 
-    under WebLogic Portal 6.1</a></font></li>
+    under WebLogic Portal 4.0</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#wlserver">Installation 
     under WebLogic Server 6.1</a></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#weblogic">Installation 
@@ -74,9 +76,9 @@
   * distribution.<br>
   *<br>
   * 3. The end-user documentation included with the redistribution, if<br>
-  * any, must include the following acknowlegement: <br>
+  * any, must include the following acknowledgment: <br>
   * &quot;The original concept and code base for P6Spy was conceived<br>
-  * and developed by Andy Martin, Ph.D. who generously contribued<br>
+  * and developed by Andy Martin, Ph.D. who generously contributed<br>
   * the first complete release to the public under this license.<br>
   * This product was due to the pioneering work of Andy<br>
   * that began in December of 1995 developing applications that could<br>
@@ -84,8 +86,8 @@
   * This code is maintained and extended by Jeff Goke and with the ideas<br>
   * and contributions of other P6Spy contributors.<br>
   * (http://www.p6spy.com)&quot;<br>
-  * Alternately, this acknowlegement may appear in the software itself,<br>
-  * if and wherever such third-party acknowlegements normally appear.<br>
+  * Alternately, this acknowledgment may appear in the software itself,<br>
+  * if and wherever such third-party acknowledgments normally appear.<br>
   *<br>
   * 4. The names &quot;P6Spy&quot;, &quot;Jeff Goke&quot;, and &quot;Andy Martin&quot; 
   must not be used<br>
@@ -113,6 +115,21 @@
 <p></p>
 <p><a name="release"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Release 
   Notes </b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 1.0</b></font></p>
+<ul>
+  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Restructured 
+    code to inherit from a single core wrapper driver.</font></li>
+  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Introduced concepts 
+    of modules and stackable drivers that dynamically load the necessary code 
+    into memory at runtime.</font></li>
+  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Broke code into 
+    logical modules: P6Log and P6Outage.</font></li>
+  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Refactored large 
+    amount of code.</font></li>
+  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Rewrote Junit 
+    tests and added more rigorous tests.</font></li>
+</ul>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.8</b></font></p>
 <ul>
   <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Peter 
     Laird</strong> contributed an Outage Detection module that reports database 
@@ -259,70 +276,136 @@
     log file.</b> &nbsp;The log file contains a list of all of the database statements 
     that are executed.</font></li>
 </ol>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="property"></a>Property 
-  File Settings </b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="g_property"></a>General 
+  Property File Settings </b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Example property 
   file:</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># name of real 
-  jdbc driver to load<br>
+<p>#################################################################<br>
+  # P6Spy Options File #<br>
+  # See documentation for detailed instructions #<br>
+  #################################################################</p>
+<p>#################################################################<br>
+  # MODULES #<br>
+  # #<br>
+  # Modules provide the P6Spy functionality. If a module, such #<br>
+  # as module_log is commented out, that functionality will not #<br>
+  # be available. If it is not commented out (if it is active), #<br>
+  # the functionality will be active. #<br>
+  # #<br>
+  # Values set in Modules cannot be reloaded using the #<br>
+  # reloadproperties variable. Once they are loaded, they remain #<br>
+  # in memory until the application is restarted. #<br>
+  # #<br>
+  #################################################################</p>
+<p>module_log=com.p6spy.engine.logging.P6LogSpyDriver<br>
+  module_outage=com.p6spy.engine.outage.P6OutageSpyDriver</p>
+<p>#################################################################<br>
+  # REALDRIVER(s) #<br>
+  # #<br>
+  # In your application server configuration file you replace the #<br>
+  # &quot;real driver&quot; name with com.p6spy.engine.P6SpyDriver. This is #<br>
+  # where you put the name of your real driver P6Spy can find and #<br>
+  # register your real driver to do the database work. #<br>
+  # #<br>
+  # If your application uses several drivers specify them in #<br>
+  # realdriver2, realdriver3. See the documentation for more #<br>
+  # details. #<br>
+  # #<br>
+  # Values set in REALDRIVER(s) cannot be reloaded using the #<br>
+  # reloadproperties variable. Once they are loaded, they remain #<br>
+  # in memory until the application is restarted. #<br>
+  # #<br>
+  #################################################################</p>
+<p># realdriver = org.gjt.mm.mysql.Driver <br>
   realdriver = oracle.jdbc.driver.OracleDriver<br>
-  # name of second real jdbc driver to load if using multiple datasources<br>
-  realdriver2 = <br>
-  # name of third real jdbc driver to load if using multiple datasources<br>
-  realdriver3 = </font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># turn on filtering<br>
-  filter = false<br>
-  # regex engine to use (gnuregex is the only engine currently implemented - it 
-  is easy to implement your own)<br>
-  stringmatcher=<br>
-  # comma separated list of tables to include<br>
-  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">include =<br>
+  #specifies another driver to use<br>
+  realdriver2=<br>
+  #specifies a third driver to use<br>
+  realdriver3=</p>
+<p>################################################################<br>
+  # P6LOG SPECIFIC PROPERTIES #<br>
+  ################################################################<br>
+  # determines if p6log outputs information<br>
+  trace = true</p>
+<p>################################################################<br>
+  # P6OUTAGE SPECIFIC PROPERTIES #<br>
+  ################################################################<br>
+  # Outage Detection<br>
+  #<br>
+  # This feature detects long-running statements that may be indicative of<br>
+  # a database outage problem. If this feature is turned on, it will log any<br>
+  # statement that surpasses the configurable time boundary during its execution.<br>
+  # When this feature is enabled, no other statements are logged except the long<br>
+  # running statements. The interval property is the boundary time set in seconds.<br>
+  # For example, if this is set to 2, then any statement requiring at least 2 
+  <br>
+  # seconds will be logged. Note that the same statement will continue to be logged<br>
+  # for as long as it executes. So if the interval is set to 2, and the query 
+  takes<br>
+  # 11 seconds, it will be logged 5 times (at the 2, 4, 6, 8, 10 second intervals).<br>
+  #<br>
+  # outagedetection=true|false<br>
+  # outagedetectioninterval=integer time (seconds)<br>
+  #<br>
+  outagedetection=false<br>
+  outagedetectioninterval=</p>
+<p><br>
+  ################################################################<br>
+  # COMMON PROPERTIES #<br>
+  ################################################################</p>
+<p># comma separated list of tables to include<br>
+  include =<br>
   # comma separated list of tables to exclude<br>
-  exclude =<br>
-  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># turn on 
-  tracing<br>
-  trace = true<br>
+  exclude =</p>
+<p># sql expression to evaluate if using regex<br>
+  sqlexpression = </p>
+<p># filter what is logged<br>
+  filter=false </p>
+<p># turn on tracing<br>
   autoflush = true<br>
   # name of logfile if trace is on, use &quot;stdout&quot; for standard output.<br>
   logfile = spy.log<br>
-  # date format of the current time<br>
-  dateformat =</font><br>
-  <font face="Verdana, Arial, Helvetica, sans-serif" size="2"># append to the 
-  log file (false = truncate)<br>
-  append = true</font> <br>
-  <font face="Verdana, Arial, Helvetica, sans-serif" size="2">#sqlexpression is 
-  a regular expression used to select statements of interest. If the sql<br>
-  #matches this expression then it is logged. if this is set both include and 
-  exclude are ignored<br>
-  sqlexpression=<br>
-  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># include 
-  categories<br>
-  includecategories =</font><br>
-  <font face="Verdana, Arial, Helvetica, sans-serif" size="2"># exclude categories 
+  # append to the p6spy log file. if this is set to false the<br>
+  # log file is truncated every time.<br>
+  append=true</p>
+<p># sets the date format using Java's SimpleDateFormat routine<br>
+  dateformat=</p>
+<p>#list of categories to explicitly include<br>
+  includecategories=</p>
+<p>#list of categories to exclude: info, batch, debug, statement,<br>
+  #commit, rollback and result are valid values<br>
+  excludecategories=info,debug,result,batch</p>
+<p>#allows you to use a regex engine or your own matching engine to determine 
   <br>
-  excludecategories = debug,result</font><br>
-  <font face="Verdana, Arial, Helvetica, sans-serif" size="2">#if true, prints 
-  out the stack trace for all statements logged unless stacktraceclass is set<br>
-  #This is very useful to understand where a logged query is being executed in 
-  the application <br>
-  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">stacktrace=false<br>
-  </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">#if stacktraceclass 
-  is set, prints out stack traces that contain the value of this<br>
-  #property. I convert the stack trace to a string and use String.indexOf(stacktraceclass)<br>
-  #This way I can be selective about which stack traces I want.<br>
-  # e.g. com.mycompany.myclass</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
-  stacktraceclass=</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><br>
-  # determines if property file should be reloaded<br>
+  #which statements to log<br>
+  #<br>
+  #stringmatcher=com.p6spy.engine.common.GnuRegexMatcher<br>
+  #stringmatcher=com.p6spy.engine.common.JakartaRegexMatcher<br>
+  stringmatcher=</p>
+<p># prints a stack trace for every statement logged<br>
+  stacktrace=false<br>
+  # if stacktrace=true, specifies the stack trace to print<br>
+  stacktraceclass=</p>
+<p># determines if property file should be reloaded<br>
   reloadproperties=false<br>
   # determines how often should be reloaded in seconds<br>
-  reloadpropertiesinterval=60</font><br>
-  <font face="Verdana, Arial, Helvetica, sans-serif" size="2"># determines if 
-  p6spy: is required in the url, useful for debugging<br>
-  useprefix=false</font></p>
-<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"># Outage Detection<br>
-  # outagedetection=false<br>
-  # outagedetectioninterval=integer time (seconds)</font><br>
-</p>
+  reloadpropertiesinterval=60<br>
+  #if=true then url must be prefixed with p6spy:<br>
+  useprefix=false</p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>module_xxx</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_xxx is the 
+  name of a particular module to be loaded at system startup. A module contains 
+  a group of functionality. If a module line is not commented out, it is loaded 
+  into memory, and will remain in memory until the application is restarted. Modules 
+  can not be changed by using the reloadproperties function. If all modules are 
+  commented out, then nothing except the real database driver is loaded.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Currently the following 
+  modules are supported:</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_log=com.p6spy.engine.logging.P6LogSpyDriver<br>
+  module_outage=com.p6spy.engine.outage.P6OutageSpyDriver</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_log is required 
+  for the logging functionality, see P6Log.<br>
+  module_outage is required for the outage functionality, see P6Outage.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver is where 
   you specify the real database driver that you use.&nbsp;&nbsp;P6Spy wraps around 
@@ -336,7 +419,7 @@
   realdriver3 </b></font></p>
 <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">if you have multiple 
   database drivers then you need a way to specify these drivers. This is where 
-  realdriver2 and realdriver3 are used. To monitor the first databse, you modified 
+  realdriver2 and realdriver3 are used. To monitor the first database, you modified 
   your server settings or application settings to tell your application to use 
   P6Spy as your database driver, which is: com.p6spy.engine.spy.P6SpyDriver &nbsp;&nbsp;&nbsp;For 
   the second database, specify the driver as com.p6spy.engine.spy.P6SpyDriver2 
@@ -366,12 +449,14 @@
   exclude </b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy lets you 
   monitor specific tables or specific statement types.&nbsp;&nbsp;By setting filter=true 
-  P6Spy will perform string matching on each statement to determine if it should be written to 
-  the log file.&nbsp;&nbsp;include accepts a comma separated list of expressions which are required to be appear 
-  in a statement before it can appear in the log, exclude accepts a comma separated list to exclude.  By default string matching is
-  performed using a basic substring match.  However Regex matching can also be used (see Custom Filtering below). Note that 
-  exclusion overrides inclusion, so that a statment matching both an include string and an exclude string will be excluded.
- </font></p>
+  P6Spy will perform string matching on each statement to determine if it should 
+  be written to the log file.&nbsp;&nbsp;include accepts a comma separated list 
+  of expressions which are required to be appear in a statement before it can 
+  appear in the log, exclude accepts a comma separated list to exclude. By default 
+  string matching is performed using a basic substring match. However Regex matching 
+  can also be used (see Custom Filtering below). Note that exclusion overrides 
+  inclusion, so that a statement matching both an include string and an exclude 
+  string will be excluded. </font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">example (capture 
   all select statements except the orders table):</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">filter = true<br>
@@ -411,7 +496,7 @@
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> If you want to 
   apply more intelligence to what is logged or not logged by P6Spy you can specify 
   a custom matching engine. P6Spy comes with support for several regex engines, 
-  though it is trival to introduce another engine by implementing the StringMatcher 
+  though it is trivial to introduce another engine by implementing the StringMatcher 
   interface. If a stringmatcher engine is specified, P6Spy will pass each statement 
   to the class specified to determine if that statement should be logged.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><i>Using GNU RegEx<br>
@@ -420,7 +505,7 @@
   To use this, for example, you would specify:</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># Use GNU Regex 
   Matching for Filtering<br>
-  stringmatcher =com.p6spy.engine.spy.GnuRegexMatcher<br>
+  stringmatcher =com.p6spy.engine.common.GnuRegexMatcher<br>
   <br>
   </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Note that 
   in order to do this you must <a href="http://www.cacas.org/java/gnu/regexp/">download</a> 
@@ -432,22 +517,12 @@
   this, you would specify:</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># Use Apache Jakarta 
   Regex Matching for Filtering<br>
-  stringmatcher =com.p6spy.engine.spy.JakartaRegexMatcher<br>
+  stringmatcher =com.p6spy.engine.common.JakartaRegexMatcher<br>
   <br>
   Note that in order to do this you must <a href="http://jakarta.apache.org/builds/jakarta-regexp/">download</a> 
   the Apache Jarkarta regex library and add it to your classpath so that P6Spy 
   can find it.</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
   </font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>trace</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Trace is a convenience 
-  toggle that lets you turn on and off the logging.&nbsp;&nbsp;When trace is set 
-  to true, P6Spy writes the the log file whenever an appropriate database request 
-  is intercepted. &nbsp;When trace is set to false, P6Spy never writes to the 
-  log file.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># turn</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">on 
-  tracing<br>
-  trace = true</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>autoflush</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">For standard development 
   this value should be set to true. &nbsp;When set to true every time a statement 
@@ -479,7 +554,7 @@
     includes driver startup information and property file information </font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>debug 
     </strong>is only intended for use when you cannot get your driver to work 
-    propertly, it dumps out everything</font></li>
+    properly, it dumps out everything</font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><strong>statement 
     </strong> includes Statements, PreparedStatements, and CallableStatements<strong> 
     </strong></font></li>
@@ -531,26 +606,15 @@
   file would be truncated.</font></p>
 <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Limitations: reloadproperties 
   will not reload any driver information (such as realdriver, realdriver2, and 
-  realdriver3).</font></p>
+  realdriver3) and will not change the modules that are in memory.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>useprefix</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">When set to true 
   requires you to prefix your URLs with p6spy:. The default is false, but may 
   become true in a future release. This helps avoid a common pital when installing 
   p6spy, that your real driver is registered elsewhere and because the URLs are 
   the same, the system does not know which driver to use.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>outagedetection</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font> <font size="2" face="Verdana, Arial, Helvetica, sans-serif">This 
-  feature detects long-running statements that may be indicative of a database 
-  outage problem. If this feature is turned on, it will log any statement that 
-  surpasses the configurable time boundary during its execution. When this feature 
-  is enabled, no other statements are logged except the long running statements. 
-  The interval property is the boundary time set in seconds. For example, if this 
-  is set to 2, then any statement requiring at least 2 seconds will be logged. 
-  Note that the same statement will continue to be logged for as long as it executes. 
-  So if the interval is set to 2, and the query takes 11 seconds, it will be logged 
-  5 times (at the 2, 4, 6, 8, 10 second intervals).</font> </p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Command Line 
-  Options </b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b></b></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Command 
+  Line Options </b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Every parameter 
   specified in the property file can be set and override at the command line using 
   the Java -D flag.</font></p>
@@ -597,6 +661,45 @@
     way to see the actual values being based to the Database.</font></li>
 </ul>
             
+<p><a name="p6log"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>P6Log</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The P6Log module 
+  is enabled by default. This module logs all database statements. Comment out 
+  the following line to disable the module (the line must be uncommented for the 
+  module to function):</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_log=com.p6spy.engine.logging.P6LogSpyDriver</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The following are 
+  the module specific properties:</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>trace</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Trace is a convenience 
+  toggle that lets you turn on and off the logging.&nbsp;&nbsp;When trace is set 
+  to true, P6Spy writes the the log file whenever an appropriate database request 
+  is intercepted. &nbsp;When trace is set to false, P6Spy never writes to the 
+  log file.</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># turn</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">on 
+  tracing<br>
+  trace = true</font></p>
+<p><a name="p6outage"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>P6Outage</b></font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The P6Outage module 
+  is disabled by default. This module reports a possible outage whenever database 
+  statements take longer than a specified interval to return. To enable P6Outage, 
+  uncomment the following line (when it is commented out, it is not available):</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_outage=com.p6spy.engine.outage.P6OutageSpyDriver</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The following are 
+  the module specific properties:</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>outagedetection</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font> <font size="2" face="Verdana, Arial, Helvetica, sans-serif">This 
+  feature detects long-running statements that may be indicative of a database 
+  outage problem. If this feature is turned on, it will log any statement that 
+  surpasses the configurable time boundary during its execution. When this feature 
+  is enabled, no other statements are logged except the long running statements.</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>outagedetectioninterval</strong></font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The interval property 
+  is the boundary time set in seconds. For example, if this is set to 2, then 
+  any statement requiring at least 2 seconds will be logged. Note that the same 
+  statement will continue to be logged for as long as it executes. So if the interval 
+  is set to 2, and the query takes 11 seconds, it will be logged 5 times (at the 
+  2, 4, 6, 8, 10 second intervals).</font> </p>
 <p><a name="jsp"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>The 
   JSP Application</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy now includes 
@@ -814,7 +917,7 @@
     File Settings</a>)</font></li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="wlportal"></a>WebLogic 
-  6.1 Portal Installation</b></font></p>
+  Portal 4.0 Installation</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif"><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
   by Philip Ogren, BEA)</i></font></font> 
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">These instructions 
@@ -895,7 +998,7 @@ this, please drop me a line with updated information.)</font>
 
  
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="wlserver"></a> 
-  WebLogic 6.1 Server Installation</b></font></p>
+  WebLogic Server 6.1 Installation</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><i>(Contributed 
   by Philip Ogren, BEA)</i> </font> 
 <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The instructions 
@@ -1182,6 +1285,12 @@ this, please drop me a line with updated information.)</font>
     as a prefix for your connection URL for the p6spy driver in your application 
     server configuration. This will cause P6Spy to fail if the prefix is not present 
     and will assure the configuration is as expected.</font></li>
+  <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy was 
+    invoked illegally. You probably specified an illegal P6Spy driver in your 
+    application configuration. </font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+    You most likely got this message because you did not specify com.p6spy.engine.spy.SpyDriver 
+    as the driver to register in your application configuration, you specified 
+    another class that extends P6SpyDriver, which is illegal.</font></li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="faq" id="faq"></a>FAQ</b></font></p>
 <ol>
@@ -1222,7 +1331,7 @@ this, please drop me a line with updated information.)</font>
 </ul>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">To run the Junit 
   tests, first you must <a href="http://www.junit.org/index.htm">download</a> 
-  and instal JUnit. Once that is complete you must edit the P6Test.properties 
+  and install JUnit. Once that is complete you must edit the P6Test.properties 
   file and specify two databases. The configuration is setup for Oracle and MySQL 
   (though you will have to change the Oracle URL at a minimum). You must also 
   copy the vendor database JDBC drivers .jar files of the two databases you use 
