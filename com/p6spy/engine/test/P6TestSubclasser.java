@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.2  2003/08/07 19:09:18  aarvesen
+ * modified to reflect the minor changes in the DataSource constructors
+ *
  * Revision 1.1  2003/08/06 19:52:41  aarvesen
  * code to test out the new subclasser
  *
@@ -192,12 +195,20 @@ public class P6TestSubclasser extends TestCase {
     chkException(p, "interface");
 
     sub.setParentClass(com.p6spy.engine.spy.P6DataSource.class);
-    String expected = "" + sub.NEWLINE +
+    String expected = "" + 
+      sub.NEWLINE +
+      sub.INDENT + "public P6P6DataSource (javax.sql.DataSource p0) {" +
+      sub.NEWLINE +
+      sub.INDENT + sub.INDENT + "super( p0);" +
+      sub.NEWLINE +
+      sub.INDENT + "}" +
+      sub.NEWLINE +
       sub.INDENT + "public P6P6DataSource () {" +
       sub.NEWLINE +
       sub.INDENT + sub.INDENT + "super();" +
       sub.NEWLINE +
-      sub.INDENT + "}";
+      sub.INDENT + "}" +
+      "";
     String actual = sub.writeConstructors();
 
     assertEquals(expected, actual);
