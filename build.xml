@@ -109,7 +109,7 @@
 	<target name="compile" depends="init">
 		<echo message="--------- Compiling P6Spy ---------"/>
 		<echo message=""/>
-		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
+		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}" fork="${forkjavac}">
 		    <classpath refid="classpath"/>
 		    <exclude name="**/test/**" />
 		    <include name="com/**"/>
@@ -169,7 +169,7 @@
 	</target>
 
 	<target name="test" depends="compile">
-		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
+		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}" fork="${forkjavac}">
 		    <classpath refid="classpath"/>
 		    <include name="**\test\*.java" />
 		</javac>
@@ -184,7 +184,7 @@
 	</target>
 
 	<target name="perform" depends="compile">
-		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
+		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}" fork="${forkjavac}">
 		    <classpath refid="classpath"/>
 		    <include name="**\test\*.java" />
 		</javac>
