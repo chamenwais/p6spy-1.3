@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2003/01/03 21:19:24  aarvesen
+ * use the new P6Util.forName
+ *
  * Revision 1.3  2002/12/19 23:45:18  aarvesen
  * change to be factory rather than driver
  *
@@ -253,7 +256,7 @@ public class P6TestUtil  {
         String url = props.getProperty("url");
         
         System.err.println("UTIL REGISTERING DRIVER PROPERTY == "+drivernameProperty+" TO REGISTER DRIVER == "+drivername);
-        Class.forName(drivername);
+        P6Util.forName(drivername);
         Driver driver = DriverManager.getDriver(url);
         System.err.println("UTIL USING DRIVER == "+driver.getClass().getName()+" FOR URL "+url);
         Connection connection = DriverManager.getConnection(url, user, password);

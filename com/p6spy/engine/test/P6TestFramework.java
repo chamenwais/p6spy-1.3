@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.5  2003/01/03 21:19:24  aarvesen
+ * use the new P6Util.forName
+ *
  * Revision 1.4  2002/12/19 23:46:54  aarvesen
  * use factory rather than driver
  *
@@ -134,7 +137,7 @@ public abstract class P6TestFramework extends TestCase {
             String password = props.getProperty("password");
             String url = props.getProperty("url");
             
-            Class.forName(drivername);
+	    P6Util.forName(drivername);
             Driver driver = DriverManager.getDriver(url);
             System.err.println("FRAMEWORK USING DRIVER == "+driver.getClass().getName()+" FOR URL "+url);
             connection = DriverManager.getConnection(url, user, password);

@@ -67,6 +67,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2003/01/03 21:17:34  aarvesen
+ * use the new P6Util.forName
+ *
  * Revision 1.1  2002/12/20 00:30:21  aarvesen
  * Added a simple driver manager around the sucker mc
  *
@@ -83,6 +86,7 @@ import javax.sql.*;
 import java.io.PrintWriter;
 import javax.naming.*;
 import com.p6spy.engine.common.P6SpyOptions;
+import com.p6spy.engine.common.P6Util;
 import com.p6spy.engine.spy.P6SpyDriverCore;
 
 public class P6DriverManagerDataSource implements DataSource {
@@ -93,7 +97,7 @@ public class P6DriverManagerDataSource implements DataSource {
 
     public P6DriverManagerDataSource() {
 	try {
-	    Class.forName("com.p6spy.engine.spy.P6SpyDriver");
+	    P6Util.forName("com.p6spy.engine.spy.P6SpyDriver");
 	} catch (Exception e) {
 	}
     }

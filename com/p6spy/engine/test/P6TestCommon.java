@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2003/01/03 21:19:24  aarvesen
+ * use the new P6Util.forName
+ *
  * Revision 1.1  2002/05/24 07:30:46  jeffgoke
  * version 1 rewrite
  *
@@ -369,7 +372,7 @@ public class P6TestCommon extends P6TestFramework {
             String password = props.getProperty("password2");
             String url = props.getProperty("url2");
             
-            Class.forName(drivername);
+            P6Util.forName(drivername);
             System.err.println("REGISTERED: "+drivername);
             printAllDrivers();
             Driver driver = DriverManager.getDriver(url);

@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2003/01/03 21:18:03  aarvesen
+ * use the new P6Util.forName
+ *
  * Revision 1.3  2002/12/20 00:04:09  aarvesen
  * New style of driver!
  *
@@ -179,7 +182,7 @@ public abstract class P6SpyDriverCore implements Driver {
 		}
 
 		className = (String) i.next();
-		Driver realDriver = (Driver)Class.forName(className).newInstance();
+		Driver realDriver = (Driver)P6Util.forName(className).newInstance();
 		// now wrap your realDriver in the spy
 		if (hasModules) {
 		    spy.setPassthru(realDriver);
@@ -193,7 +196,7 @@ public abstract class P6SpyDriverCore implements Driver {
 		i = modules.iterator();
 		while (i.hasNext()) {
 		    className = (String) i.next();
-		    P6Factory factory = (P6Factory)Class.forName(className).newInstance();
+		    P6Factory factory = (P6Factory)P6Util.forName(className).newInstance();
 		    factories.add(factory);
 		}
 	    }

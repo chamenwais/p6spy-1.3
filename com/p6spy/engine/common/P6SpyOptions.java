@@ -304,7 +304,7 @@ public class P6SpyOptions   {
             stringmatcher = "com.p6spy.engine.common.SubstringMatcher";
         }
         try {
-            stringMatcherEngine = (StringMatcher)Class.forName(stringmatcher).newInstance();
+            stringMatcherEngine = (StringMatcher)P6Util.forName(stringmatcher).newInstance();
         } catch (InstantiationException e) {
             P6Util.warn("Could not instantiate string matcher class: " + stringmatcher);
             e.printStackTrace();
