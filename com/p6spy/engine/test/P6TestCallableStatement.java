@@ -69,6 +69,10 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2003/08/06 18:50:59  bradleydot
+ * Added TestCallable to verify that values array size will grow appropriately
+ * when registerOutParameter methods are called.
+ *
  * Revision 1.2  2003/06/03 19:20:26  cheechq
  * removed unused imports
  *
@@ -86,6 +90,8 @@ package com.p6spy.engine.test;
 
 import junit.framework.*;
 import java.sql.*;
+import java.net.*;
+import com.p6spy.engine.spy.P6CallableStatement;
 
 public class P6TestCallableStatement extends P6TestPreparedStatement {
     
@@ -100,6 +106,59 @@ public class P6TestCallableStatement extends P6TestPreparedStatement {
     public static Test suite() {
         TestSuite suite = new TestSuite(P6TestCallableStatement.class);
         return suite;
+    }
+    
+    
+    public void testCallable () throws Exception {
+       int bigParam = 1024;
+       int valuesLen;
+       int setterMax = 32;
+       StringBuffer testproc = new StringBuffer(bigParam);
+       
+       // set 
+       testproc.append("CALL TEST.METHOD (");
+       for (int i = 0; i < bigParam; i++) {
+         testproc.append("?");
+       }
+       testproc.append(")");
+
+       CallableStatement call = connection.prepareCall(testproc.toString());
+       
+       for (int x=1; x<=setterMax;x++){
+        String tmpstring = ("String" +x);
+        call.setString(x, tmpstring);
+        }
+       
+       setterMax++;
+       
+       try {
+       call.registerOutParameter(setterMax,java.sql.Types.INTEGER);
+       // values should be grown after this call since 
+       // setterMax is greater than array length
+       valuesLen = ((P6CallableStatement)call).getValuesLength();
+       assertEquals(setterMax+P6CallableStatement.P6_GROW_MAX, valuesLen);
+       
+       //  try various registerOutParameter methods
+       call.registerOutParameter(1,java.sql.Types.INTEGER);
+       
+       setterMax+=P6CallableStatement.P6_GROW_MAX;
+       call.registerOutParameter(setterMax,java.sql.Types.FLOAT,3);
+       // values should be grown after this call since 
+       // setterMax is greater than array length       
+       valuesLen = ((P6CallableStatement)call).getValuesLength();
+       assertEquals(setterMax+P6CallableStatement.P6_GROW_MAX, valuesLen);
+       
+       call.registerOutParameter(setterMax+3,java.sql.Types.INTEGER);
+       call.registerOutParameter(bigParam,java.sql.Types.INTEGER);
+       } catch (Exception e)  {
+         fail(e.getMessage()+" Failed Registering Out Parameter: " + getStackTrace(e));
+       }
+       
+       // last register out with param of bigParam will cause
+       // values to be grown based on bigParam.  Test follows...       
+       valuesLen = ((P6CallableStatement)call).getValuesLength();
+       assertEquals(bigParam+P6CallableStatement.P6_GROW_MAX, valuesLen);
+       call.close();
     }
     
     protected PreparedStatement getPreparedStatement(String query) throws SQLException {
