@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.9  2003/03/07 22:09:05  aarvesen
+ * added isDebugOn convenience method
+ *
  * Revision 1.8  2003/01/10 21:39:43  jeffgoke
  * removed p6util.warn and moved warn handling to logging.  this gives a consistent log file.
  *
@@ -458,7 +461,7 @@ public class P6LogQuery {
     static public void logElapsed(int connectionId, long startTime, long endTime, String category, String prepared, String sql) {
     	if (logger != null && isLoggable(sql) && isCategoryOk(category)) {
 		doLogElapsed(connectionId, startTime, endTime, category, prepared, sql);
-	} else if (isCategoryOk("debug")) {
+	} else if (isDebugOn()) {
 		logDebug("P6Spy intentionally did not log category: "+category+", statement: "+sql+"  Reason: logger="+logger+", isLoggable="+isLoggable(sql)+", isCategoryOk="+isCategoryOk(category));
 	}
     }
@@ -469,8 +472,11 @@ public class P6LogQuery {
         }
     }
     
+    static public boolean isDebugOn() {
+	return isCategoryOk("debug");
+    }
     static public void logDebug(String sql) {
-        if (isCategoryOk("debug")) {
+        if (isDebugOn()) {
             if (logger != null) {
                 doLog(-1, "debug", "", sql);
             } else {
