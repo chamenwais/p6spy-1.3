@@ -68,6 +68,11 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.2  2002/12/06 22:40:50  aarvesen
+ * Extend P6Base.
+ * New factory registration in the constructor.
+ * Some jdk 1.4. hacks
+ *
  * Revision 1.1  2002/05/24 07:31:13  jeffgoke
  * version 1 rewrite
  *
@@ -113,17 +118,15 @@ package com.p6spy.engine.spy;
 import java.sql.*;
 import java.util.*;
 
-public class P6Connection implements java.sql.Connection {
+public class P6Connection extends P6Base implements java.sql.Connection {
 
-    protected P6Factory getP6Factory() {
-        return new P6CoreFactory();
-    }
         
     protected static int counter=0;
     protected int id = counter++;
     protected Connection passthru;
     
-    public P6Connection(Connection conn) throws SQLException {
+    public P6Connection(P6Factory factory, Connection conn) throws SQLException {
+	setP6Factory(factory);
         this.passthru = conn;
     }
     
@@ -227,5 +230,65 @@ public class P6Connection implements java.sql.Connection {
     
     public void setTypeMap(java.util.Map p0) throws SQLException {
         passthru.setTypeMap(p0);
+    }
+
+    // Since JDK 1.4
+    public void setHoldability(int p0) throws SQLException {
+        passthru.setHoldability(p0);
+    }
+
+    // Since JDK 1.4
+    public int getHoldability() throws SQLException {
+        return(passthru.getHoldability());
+    }
+
+    // Since JDK 1.4
+    public Savepoint setSavepoint() throws SQLException {
+        return(passthru.setSavepoint());
+    }
+
+    // Since JDK 1.4
+    public Savepoint setSavepoint(String p0) throws SQLException {
+        return(passthru.setSavepoint(p0));
+    }
+
+    // Since JDK 1.4
+    public void rollback(Savepoint p0) throws SQLException {
+        passthru.rollback(p0);
+    }
+
+    // Since JDK 1.4
+    public void releaseSavepoint(Savepoint p0) throws SQLException {
+        passthru.releaseSavepoint(p0);
+    }
+
+    // Since JDK 1.4
+    public Statement createStatement(int p0, int p1, int p2) throws SQLException {
+        return getP6Factory().getStatement(passthru.createStatement(p0, p1, p2), this);
+    }
+
+    // Since JDK 1.4
+    public PreparedStatement prepareStatement(String p0, int p1, int p2, int p3) throws SQLException {
+        return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1, p2, p3), this, p0));
+    }
+
+    // Since JDK 1.4
+    public CallableStatement prepareCall(String p0, int p1, int p2, int p3) throws SQLException {
+        return (getP6Factory().getCallableStatement(passthru.prepareCall(p0, p1, p2, p3), this, p0));
+    }
+
+    // Since JDK 1.4
+    public PreparedStatement prepareStatement(String p0, int p1) throws SQLException {
+        return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1), this, p0));
+    }
+
+    // Since JDK 1.4
+    public PreparedStatement prepareStatement(String p0, int p1[]) throws SQLException {
+        return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1), this, p0));
+    }
+
+    // Since JDK 1.4
+    public PreparedStatement prepareStatement(String p0, String p1[]) throws SQLException {
+        return (getP6Factory().getPreparedStatement(passthru.prepareStatement(p0, p1), this, p0));
     }
 }
