@@ -150,14 +150,14 @@
 			<fileset dir="${docs}" />
 		</jar>
 		<zip zipfile="${dist}/p6spy-src.zip">
-			<zipfileset dir="${src}" includes="**/*.java,**/*.xml,**/*.txt,**/*.properties" />
+			<zipfileset dir="${src}" includes="**/*.java,**/*.xml,**/*.txt,**/*.jsp,**/*.properties" />
 			<zipfileset dir="${javadocs}" prefix="javadocs" />
 			<zipfileset dir="${docs}" prefix="documentation" />
 		</zip>
 		<jar jarfile="${dist}/p6spy-src.jar">
-			<zipfileset dir="${src}" includes="**/*.java,**/*.xml,**/*.txt,**/*.properties" />
+			<zipfileset dir="${src}" includes="**/*.java,**/*.xml,**/*.txt,**/*.jsp,**/*.properties" />
 			<zipfileset dir="${javadocs}" prefix="javadocs" />
-			<zipfileset dir="${docs}" prefix="documentation" />
+			<zipfileset dir="${docs}" prefix="documentation" excludes="**/*.xml" />
 		</jar>
 	</target>
 

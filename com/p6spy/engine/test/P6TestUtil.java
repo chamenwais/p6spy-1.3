@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/12 01:39:01  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/10/06 18:24:04  jeffgoke
  * no message
  *
@@ -148,13 +151,6 @@ public class P6TestUtil  {
         out.close();
     }
     
-    protected static ArrayList getDefaultSpyForms() {
-        ArrayList formsLog = new ArrayList();
-        formsLog.add("5 seconds; select count(*) from cache_test");
-        formsLog.add("5 seconds; select col2 from cache_test where col1 != ? and col1 != ? and col1 like ?");
-        return formsLog;
-    }
-    
     protected static HashMap getDefaultPropertyFile() {
         
         Properties props = loadProperties("P6Test.properties");
@@ -166,7 +162,6 @@ public class P6TestUtil  {
         HashMap tp = new HashMap();
         tp.put("module_outage","com.p6spy.engine.outage.P6OutageSpyDriver");
         tp.put("module_log","com.p6spy.engine.logging.P6LogSpyDriver");
-        tp.put("module_cache","com.p6spy.engine.cache.P6CacheDriver");
         tp.put("realdriver",realdrivername);
         tp.put("realdriver2",realdrivername2);
         tp.put("filter","false");
@@ -187,9 +182,6 @@ public class P6TestUtil  {
         tp.put("useprefix","false");
         tp.put("outagedetection", "false");
         tp.put("outagedetectioninterval", "");
-        tp.put("cache","true");
-        tp.put("cachetrace","false");
-        tp.put("clearcache","");
         tp.put("entries","");
         tp.put("forms","");
         tp.put("formsfile","testspy.forms");

@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/12 01:39:01  jeffgoke
+ * no message
+ *
  * Revision 1.1  2002/10/06 18:24:04  jeffgoke
  * no message
  *
@@ -131,9 +134,6 @@ public class P6TestBasics extends TestCase {
     public void testSpy() {
         try {
             // load the p6log driver
-            ArrayList forms = P6TestUtil.getDefaultSpyForms();
-            P6TestUtil.writeFile("testspy.forms", forms);
-            
             HashMap properties = P6TestUtil.getDefaultPropertyFile();
             P6TestUtil.reloadProperty(properties);
             
