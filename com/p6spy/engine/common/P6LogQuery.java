@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2002/12/06 22:47:06  aarvesen
+ * Use the logger rather than good old qlog
+ *
  * Revision 1.2  2002/10/06 18:21:37  jeffgoke
  * no message
  *
@@ -139,6 +142,7 @@ import java.sql.*;
 import java.util.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import com.p6spy.engine.logging.appender.*;
 
 public class P6LogQuery {
     protected static PrintStream qlog;
@@ -146,14 +150,28 @@ public class P6LogQuery {
     protected static String[] excludeTables;
     protected static String[] includeCategories;
     protected static String[] excludeCategories;
-    protected static String lastEntry;
+    //protected static String lastEntry;
     protected static String lastStack;
+    protected static P6Logger logger;
     
     static {
         initMethod();
     }
     
     public synchronized static void initMethod() {
+	String appender = P6SpyOptions.getAppender();
+
+	if (appender == null) {
+	    appender = "com.p6spy.engine.logging.appender.FileLogger";
+	}
+
+	try {
+	    logger = (P6Logger) Class.forName(appender).newInstance();
+	} catch (Exception e) {
+	    System.err.println("Cannot instantiate com.p6spy.engine.common.LoggingStream, logging to file log4jaux.log: " + e);
+	}
+	
+	/*
         String log = P6SpyOptions.getLogfile();
         if (log == null || log.equals("stdout")) {
             qlog = System.out;
@@ -175,6 +193,7 @@ public class P6LogQuery {
         } else {
             qlog = logPrintStream(log);
         }
+	*/
         if (P6SpyOptions.getFilter()) {
             includeTables = parseCSVList(P6SpyOptions.getInclude());
             excludeTables = parseCSVList(P6SpyOptions.getExclude());
@@ -233,14 +252,52 @@ public class P6LogQuery {
     
     // this is an internal procedure used to actually write the log information
     static protected synchronized void doLog(int connectionId, long elapsed, String category, String prepared, String sql) {
-        java.util.Date now = P6Util.timeNow();
-        SimpleDateFormat sdf = P6SpyOptions.getDateformatter();
-        String logEntry;
-        if (sdf == null) {
-            logEntry = Long.toString(now.getTime());
-        } else {
-            logEntry = sdf.format(new java.util.Date(now.getTime())).trim();
-        }
+	if (logger != null) {
+	    java.util.Date now = P6Util.timeNow();
+	    SimpleDateFormat sdf = P6SpyOptions.getDateformatter();
+	    String stringNow;
+	    if (sdf == null) {
+		stringNow = Long.toString(now.getTime());
+	    } else {
+		stringNow = sdf.format(new java.util.Date(now.getTime())).trim();
+	    }
+
+	    logger.logSQL(connectionId, stringNow, elapsed, category, prepared, sql);
+
+
+	    boolean stackTrace = P6SpyOptions.getStackTrace();
+	    String stackTraceClass = P6SpyOptions.getStackTraceClass();
+	    if(stackTrace) {
+		Exception e = new Exception();
+		if(stackTraceClass != null) {
+		    StringWriter sw = new StringWriter();
+		    PrintWriter pw  = new PrintWriter(sw);
+		    e.printStackTrace(pw);
+		    String stack = sw.toString();
+		    if(stack.indexOf(stackTraceClass) != -1) {
+			lastStack = stack;
+		    } else {
+			e = null;
+		    }
+		}
+		if (e != null) {
+		    logger.logException(e);
+		}
+	    }
+        
+	    //lastEntry = logEntry;
+	}
+
+	/*
+	java.util.Date now = P6Util.timeNow();
+	SimpleDateFormat sdf = P6SpyOptions.getDateformatter();
+	String logEntry;
+	if (sdf == null) {
+	    logEntry = Long.toString(now.getTime());
+	} else {
+	    logEntry = sdf.format(new java.util.Date(now.getTime())).trim();
+	}
+
         logEntry += "|"+elapsed+"|"+(connectionId==-1 ? "" : String.valueOf(connectionId))+"|"+category+"|"+prepared+"|"+sql;
         qlog.println(logEntry);
         boolean stackTrace = P6SpyOptions.getStackTrace();
@@ -264,7 +321,7 @@ public class P6LogQuery {
         }
         
         lastEntry = logEntry;
-        
+	*/
     }
     
     static boolean isLoggable(String sql) {
@@ -337,7 +394,8 @@ public class P6LogQuery {
     }
     
     static public String getLastEntry() {
-        return lastEntry;
+        //return lastEntry;
+	return logger.getLastEntry();
     }
     
     static public String getLastStack() {
@@ -371,11 +429,13 @@ public class P6LogQuery {
     // this a way for an external to dump an unrestricted line of text into the log
     // useful for the JSP demarcation tool
     static public void logText(String text) {
-        qlog.println(text);
+	logger.logText(text);
+        //qlog.println(text);
     }
     
     static public void log(String category, String prepared, String sql) {
-        if (qlog != null) {
+        //if (qlog != null) {
+        if (logger != null) {
             doLog(-1, category, prepared, sql);
         }
     }
@@ -385,7 +445,8 @@ public class P6LogQuery {
     }
     
     static public void logElapsed(int connectionId, long startTime, long endTime, String category, String prepared, String sql) {
-        if (qlog != null && isLoggable(sql) && isCategoryOk(category)) {
+        //if (qlog != null && isLoggable(sql) && isCategoryOk(category)) {
+        if (logger != null && isLoggable(sql) && isCategoryOk(category)) {
             doLogElapsed(connectionId, startTime, endTime, category, prepared, sql);
         } else if (isCategoryOk("debug")) {
             logDebug("P6Spy intentionally did not log category: "+category+", statement: "+sql+"  Reason: Qlog="+qlog+", isLoggable="+isLoggable(sql)+", isCategoryOk="+isCategoryOk(category));
@@ -393,14 +454,16 @@ public class P6LogQuery {
     }
     
     static public void logInfo(String sql) {
-        if (qlog != null && isCategoryOk("info")) {
+        //if (qlog != null && isCategoryOk("info")) {
+        if (logger != null && isCategoryOk("info")) {
             doLog(-1, "info", "", sql);
         }
     }
     
     static public void logDebug(String sql) {
         if (isCategoryOk("debug")) {
-            if (qlog != null) {
+            //if (qlog != null) {
+            if (logger != null) {
                 doLog(-1, "debug", "", sql);
             } else {
                 System.err.println(sql);
