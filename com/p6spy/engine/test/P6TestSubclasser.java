@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2003/12/01 00:40:54  aarvesen
+ * test both the String as well as the Class constructor
+ *
  * Revision 1.2  2003/08/07 19:09:18  aarvesen
  * modified to reflect the minor changes in the DataSource constructors
  *
@@ -271,12 +274,22 @@ public class P6TestSubclasser extends TestCase {
   public void testClassCreation() throws Exception {
     Subclasser sub = null;
     
-    compareFiles(com.p6spy.engine.spy.P6DataSource.class);
-    compareFiles(oracle.jdbc.pool.OracleDataSource.class);
+    createSubclasser(com.p6spy.engine.spy.P6DataSource.class);
+    createSubclasser(oracle.jdbc.pool.OracleDataSource.class);
+
+    createSubclasser("com.p6spy.engine.spy.P6DataSource");
+    createSubclasser("oracle.jdbc.pool.OracleDataSource");
   }
 
-  protected void compareFiles(Class pc) throws Exception {
-    Subclasser sub = new Subclasser(pc);
+  protected void createSubclasser(String name) throws Exception {
+    compareFiles(new Subclasser(name));
+  }
+
+  protected void createSubclasser(Class pc) throws Exception {
+    compareFiles(new Subclasser(pc));
+  }
+
+  protected void compareFiles(Subclasser sub) throws Exception {
     sub.createSubClass();
     String name = sub.getOutputName();
 
