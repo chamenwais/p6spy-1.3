@@ -126,5 +126,9 @@ public class OptionReloader implements Runnable {
             options.reload(properties);
         }
     }
+
+    public static Iterator iterator() {
+	return options.iterator();
+    }
     
 }
