@@ -1233,16 +1233,16 @@
     <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Move 
       the <b>p6spy.jar</b> and <b>spy.properties</b> files to the lib directory 
       of your web application. An example of the path to your lib directory is 
-      C:\resin-2.1.6\webapps\&lt;your_app_name&gt;\WEB-INF\lib.</font></div>
+      C:\resin-2.1.6\webapps\<i>your_app_name</i>\WEB-INF\lib, where <i>your_app_name</i> 
+      is the name of your application.</font></div>
   </li>
   <li> 
     <div align="left"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Modify 
       Resin to use P6SpyDriver. Resin applications obtain their JDBC connection 
       in a variety of ways. Most applications have the database driver name externalized 
       as a configuration parameter. For example, in your <b>web.xml</b> file (which 
-      may reside in C:\resin-2.1.6\webapps\<i>your_app_name</i>\WEB-INF, where 
-      <i>your_app_name</i> is the name of your application) you may have something 
-      similar to the following:<br>
+      may reside in C:\resin-2.1.6\webapps\<i>your_app_name</i>\WEB-INF) you may 
+      have something similar to the following:<br>
       </font></div>
     <blockquote>
       <div align="left"></div>
@@ -1317,7 +1317,7 @@
   <blockquote> 
     <blockquote> 
       <div align="left"><font face="Courier New, Courier, mono" size="2">C:\resin-2.1.6\bin\httpd<br>
-        - -Dp6.home=C:\resin-2.1.6\webapps\&lt;your_app_name&gt;\WEB-INF\lib</font></div>
+        - -Dp6.home=C:\resin-2.1.6\webapps\<i>your_app_name</i>\WEB-INF\lib</font></div>
     </blockquote>
   </blockquote>
 </blockquote>
