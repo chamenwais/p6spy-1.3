@@ -1,63 +1,63 @@
 /*
-*
-* ====================================================================
-* 
-* The P6Spy Software License, Version 1.1
-*
-* This license is derived and fully compatible with the Apache Software
-* license, see http://www.apache.org/LICENSE.txt
-*
-* Copyright (c) 2001-2002 Andy Martin, Ph.D. and Jeff Goke
-* All rights reserved. 
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions
-* are met:
-*
-* 1. Redistributions of source code must retain the above copyright
-* notice, this list of conditions and the following disclaimer. 
-*
-* 2. Redistributions in binary form must reproduce the above copyright
-* notice, this list of conditions and the following disclaimer in
-* the documentation and/or other materials provided with the
-* distribution.
-*
-* 3. The end-user documentation included with the redistribution, if
-* any, must include the following acknowlegement: 
-* "The original concept and code base for P6Spy was conceived
-* and developed by Andy Martin, Ph.D. who generously contribued
-* the first complete release to the public under this license.
-* This product was due to the pioneering work of Andy
-* that began in December of 1995 developing applications that could
-* seamlessly be deployed with minimal effort but with dramatic results.
-* This code is maintained and extended by Jeff Goke and with the ideas
-* and contributions of other P6Spy contributors.
-* (http://www.p6spy.com)"
-* Alternately, this acknowlegement may appear in the software itself,
-* if and wherever such third-party acknowlegements normally appear.
-*
-* 4. The names "P6Spy", "Jeff Goke", and "Andy Martin" must not be used
-* to endorse or promote products derived from this software without
-* prior written permission. For written permission, please contact
-* license@p6spy.com.
-*
-* 5. Products derived from this software may not be called "P6Spy"
-* nor may "P6Spy" appear in their names without prior written
-* permission of Jeff Goke and Andy Martin.
-*
-* THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
-* WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
-* ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-* SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-* LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
-* USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-* ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
-* OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-* SUCH DAMAGE.
-*/ 
+ *
+ * ====================================================================
+ *
+ * The P6Spy Software License, Version 1.1
+ *
+ * This license is derived and fully compatible with the Apache Software
+ * license, see http://www.apache.org/LICENSE.txt
+ *
+ * Copyright (c) 2001-2002 Andy Martin, Ph.D. and Jeff Goke
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in
+ * the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * 3. The end-user documentation included with the redistribution, if
+ * any, must include the following acknowlegement:
+ * "The original concept and code base for P6Spy was conceived
+ * and developed by Andy Martin, Ph.D. who generously contribued
+ * the first complete release to the public under this license.
+ * This product was due to the pioneering work of Andy
+ * that began in December of 1995 developing applications that could
+ * seamlessly be deployed with minimal effort but with dramatic results.
+ * This code is maintained and extended by Jeff Goke and with the ideas
+ * and contributions of other P6Spy contributors.
+ * (http://www.p6spy.com)"
+ * Alternately, this acknowlegement may appear in the software itself,
+ * if and wherever such third-party acknowlegements normally appear.
+ *
+ * 4. The names "P6Spy", "Jeff Goke", and "Andy Martin" must not be used
+ * to endorse or promote products derived from this software without
+ * prior written permission. For written permission, please contact
+ * license@p6spy.com.
+ *
+ * 5. Products derived from this software may not be called "P6Spy"
+ * nor may "P6Spy" appear in their names without prior written
+ * permission of Jeff Goke and Andy Martin.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
 
 /**
  * Description: Some Utility routines ...
@@ -68,8 +68,13 @@
  *
  * $Id$
  * $Log$
- * Revision 1.1  2002/04/07 04:52:25  jeffgoke
- * Initial revision
+ * Revision 1.2  2002/04/07 20:43:59  jeffgoke
+ * fixed bug that caused null connection to return an empty connection instead of null.
+ * added an option allowing the user to truncate.
+ * added a release target to the build to create the release files.
+ *
+ * Revision 1.1.1.1  2002/04/07 04:52:25  jeffgoke
+ * no message
  *
  * Revision 1.3  2001-08-05 09:16:03-05  andy
  * final version on the website
@@ -95,20 +100,14 @@ public class P6LogQuery {
     private static PrintStream qlog;
     private static String[] includeTables;
     private static String[] excludeTables;
-
+    
     static {
         if (P6SpyOptions.getTrace()) {
             String log = P6SpyOptions.getLogfile();
             if (log == null || log.equals("stdout")) {
                 qlog = System.out;
             } else {
-                String path = P6Util.classPathFile(log);
-                try {
-                    log = (path == null) ? log : path;
-                    qlog = P6Util.getPrintStream(log, true);
-                } catch (IOException io) {
-                    P6Util.warn("Error opening " + log + ", " + io.getMessage());
-                }
+                qlog = logPrintStream(log);
             }
             if (P6SpyOptions.getFilter()) {
                 includeTables = loadTables(P6SpyOptions.getInclude());
@@ -116,7 +115,21 @@ public class P6LogQuery {
             }
         }
     }
-
+     
+    static PrintStream logPrintStream(String file) {
+        PrintStream ps = null;
+        try {
+            String path = P6Util.classPathFile(file);
+            file = (path == null) ? file : path;
+            ps = P6Util.getPrintStream(file, P6SpyOptions.getAppend());
+        } catch (IOException io) {
+            P6Util.warn("Error opening " + file + ", " + io.getMessage());
+            ps = null;
+        }
+     
+        return ps;
+    }
+    
     static final String[] loadTables(String tables) {
         String array[] = null;
         if (tables != null) {
@@ -127,7 +140,7 @@ public class P6LogQuery {
                 table = tok.nextToken();
                 list.add(table.toLowerCase().trim());
             }
-
+            
             int max = list.size();
             Iterator it = list.iterator();
             array = new String[max];
@@ -136,32 +149,31 @@ public class P6LogQuery {
                 array[i] = (String) it.next();
             }
         }
-
+        
         return array;
     }
-
+    
     static final void log(String sql) {
         if (qlog != null && isLoggable(sql)) {
             doLog(sql);
         }
     }
-
+    
     static final synchronized void doLog(String sql) {
         java.util.Date now = P6Util.timeNow();
         qlog.print(now.getTime());
         qlog.print("|");
         qlog.println(sql);
-        qlog.flush();
     }
-
+    
     static final boolean isLoggable(String sql) {
         return(!P6SpyOptions.getFilter() || queryOk(sql.toLowerCase()));
     }
-
+    
     static final boolean queryOk(String sql) {
         return foundTable(sql, includeTables) && !foundTable(sql, excludeTables);
     }
-
+    
     static final boolean foundTable(String sql, String tables[]) {
         boolean ok = false;
         int i;
@@ -170,11 +182,11 @@ public class P6LogQuery {
                 ok = tableOk(sql, tables[i]);
             }
         }
-
+        
         return ok;
     }
-
+    
     static final boolean tableOk(String sql, String table) {
         return (sql.indexOf(table) >= 0);
     }
-} 
+}

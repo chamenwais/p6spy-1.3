@@ -1,63 +1,63 @@
 /*
-*
-* ====================================================================
-* 
-* The P6Spy Software License, Version 1.1
-*
-* This license is derived and fully compatible with the Apache Software
-* license, see http://www.apache.org/LICENSE.txt
-*
-* Copyright (c) 2001-2002 Andy Martin, Ph.D. and Jeff Goke
-* All rights reserved. 
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions
-* are met:
-*
-* 1. Redistributions of source code must retain the above copyright
-* notice, this list of conditions and the following disclaimer. 
-*
-* 2. Redistributions in binary form must reproduce the above copyright
-* notice, this list of conditions and the following disclaimer in
-* the documentation and/or other materials provided with the
-* distribution.
-*
-* 3. The end-user documentation included with the redistribution, if
-* any, must include the following acknowlegement: 
-* "The original concept and code base for P6Spy was conceived
-* and developed by Andy Martin, Ph.D. who generously contribued
-* the first complete release to the public under this license.
-* This product was due to the pioneering work of Andy
-* that began in December of 1995 developing applications that could
-* seamlessly be deployed with minimal effort but with dramatic results.
-* This code is maintained and extended by Jeff Goke and with the ideas
-* and contributions of other P6Spy contributors.
-* (http://www.p6spy.com)"
-* Alternately, this acknowlegement may appear in the software itself,
-* if and wherever such third-party acknowlegements normally appear.
-*
-* 4. The names "P6Spy", "Jeff Goke", and "Andy Martin" must not be used
-* to endorse or promote products derived from this software without
-* prior written permission. For written permission, please contact
-* license@p6spy.com.
-*
-* 5. Products derived from this software may not be called "P6Spy"
-* nor may "P6Spy" appear in their names without prior written
-* permission of Jeff Goke and Andy Martin.
-*
-* THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
-* WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
-* ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-* SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-* LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
-* USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-* ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
-* OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-* SUCH DAMAGE.
-*/ 
+ *
+ * ====================================================================
+ *
+ * The P6Spy Software License, Version 1.1
+ *
+ * This license is derived and fully compatible with the Apache Software
+ * license, see http://www.apache.org/LICENSE.txt
+ *
+ * Copyright (c) 2001-2002 Andy Martin, Ph.D. and Jeff Goke
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in
+ * the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * 3. The end-user documentation included with the redistribution, if
+ * any, must include the following acknowlegement:
+ * "The original concept and code base for P6Spy was conceived
+ * and developed by Andy Martin, Ph.D. who generously contribued
+ * the first complete release to the public under this license.
+ * This product was due to the pioneering work of Andy
+ * that began in December of 1995 developing applications that could
+ * seamlessly be deployed with minimal effort but with dramatic results.
+ * This code is maintained and extended by Jeff Goke and with the ideas
+ * and contributions of other P6Spy contributors.
+ * (http://www.p6spy.com)"
+ * Alternately, this acknowlegement may appear in the software itself,
+ * if and wherever such third-party acknowlegements normally appear.
+ *
+ * 4. The names "P6Spy", "Jeff Goke", and "Andy Martin" must not be used
+ * to endorse or promote products derived from this software without
+ * prior written permission. For written permission, please contact
+ * license@p6spy.com.
+ *
+ * 5. Products derived from this software may not be called "P6Spy"
+ * nor may "P6Spy" appear in their names without prior written
+ * permission of Jeff Goke and Andy Martin.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE APACHE SOFTWARE FOUNDATION OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
 
 // Description: Class file for options
 
@@ -67,9 +67,9 @@ import java.util.*;
 
 public class P6SpyOptions   {
     static {initMethod();}
-
+    
     public P6SpyOptions() {}
-
+    
     private static boolean autoflush;
     private static String exclude;
     private static boolean filter;
@@ -79,8 +79,9 @@ public class P6SpyOptions   {
     private static String realdriver;
     private static String spydriver;
     private static boolean trace;
+    private static boolean append;
     private static String properties;
-
+    
     public static void setAutoflush(boolean _autoflush) {
         autoflush = _autoflush;
     }
@@ -123,6 +124,12 @@ public class P6SpyOptions   {
     public static String getRealdriver() {
         return realdriver;
     }
+    public static void setAppend(boolean _append) {
+        append = _append;
+    }
+    public static boolean getAppend() {
+        return append;
+    }
     public static void setSpydriver(String _spydriver) {
         spydriver = _spydriver;
     }
@@ -141,7 +148,7 @@ public class P6SpyOptions   {
     public static String getProperties() {
         return properties;
     }
-
+    
     public static void testP6SpyOptions() {
         new P6SpyOptions();
         help();
@@ -161,10 +168,11 @@ public class P6SpyOptions   {
         setLogfile(getLogfile());
         setRealdriver(getRealdriver());
         setSpydriver(getSpydriver());
+        setAppend(getAppend());
         setTrace(getTrace());
         setProperties(getProperties());
     }
-
+    
     public static void help() {
         System.out.println("\nEngine:");
         System.out.println("    autoflush [true]                          - turn on autoflush");
@@ -176,10 +184,11 @@ public class P6SpyOptions   {
         System.out.println("    realdriver []                             - name of real jdbc driver to load");
         System.out.println("    spydriver [com.p6.engine.spy.P6SpyDriver] - name of SPY Driver");
         System.out.println("    trace [false]                             - turn on tracing");
+        System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");
         System.out.println("\nGlobal:");
         System.out.println("    properties [spy.properties]               - name of file that stores the properties info");
     }
-
+    
     public static void help(String category) {
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("\nEngine:");            System.out.println("    autoflush [true]                          - turn on autoflush");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    exclude []                                - comma separated list of tables to exclude");        }
@@ -190,9 +199,10 @@ public class P6SpyOptions   {
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    realdriver []                             - name of real jdbc driver to load");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    spydriver [com.p6.engine.spy.P6SpyDriver] - name of SPY Driver");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    trace [false]                             - turn on tracing");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");        }
         if (category.equalsIgnoreCase("Global")) {            System.out.println("\nGlobal:");            System.out.println("    properties [spy.properties]               - name of file that stores the properties info");        }
     }
-
+    
     public static void initMethod() {
         Properties props  = P6Util.loadProperties("spy.properties");
         String value;
@@ -223,8 +233,11 @@ public class P6SpyOptions   {
         value = props.getProperty("properties");
         if (value == null) value = "spy.properties";
         setProperties(value);
+        value = props.getProperty("append");
+        if (value == null) value = "true";
+        setAppend(P6Util.isTrue(value));
     }
-
+    
     public static boolean set(String name, String value) {
         boolean ret = true;
         String lc = name == null ? null : name.toLowerCase();
@@ -237,12 +250,13 @@ public class P6SpyOptions   {
         else if (lc.equals("logfile")) setLogfile(value);
         else if (lc.equals("realdriver")) setRealdriver(value);
         else if (lc.equals("spydriver")) setSpydriver(value);
+        else if (lc.equals("append")) setAppend(P6Util.isTrue(value));
         else if (lc.equals("trace")) setTrace(P6Util.isTrue(value));
         else if (lc.equals("properties")) setProperties(value);
         else ret = false;
         return ret;
     }
-
+    
     public static String get(String name) {
         String lc = name == null ? null : name.toLowerCase();
         if (name == null) return null;// do nothing
@@ -254,11 +268,12 @@ public class P6SpyOptions   {
         else if (lc.equals("logfile")) return getLogfile();
         else if (lc.equals("realdriver")) return getRealdriver();
         else if (lc.equals("spydriver")) return getSpydriver();
+        else if (lc.equals("append")) return getAppend() ? "true" : "false";
         else if (lc.equals("trace")) return getTrace() ? "true" : "false";
         else if (lc.equals("properties")) return getProperties();
         else return null;    }
-
-    public static Map getKeysMap () {
+    
+    public static Map getKeysMap() {
         HashMap keys = new HashMap();
         keys.put("autoflush", getAutoflush() ? "true" : "false");
         keys.put("exclude", getExclude());
@@ -268,12 +283,13 @@ public class P6SpyOptions   {
         keys.put("logfile", getLogfile());
         keys.put("realdriver", getRealdriver());
         keys.put("spydriver", getSpydriver());
+        keys.put("append", getAppend() ? "true" : "false");
         keys.put("trace", getTrace() ? "true" : "false");
         keys.put("properties", getProperties());
-       return keys;
-   }
-
-    public static Map getValuesMap () {
+        return keys;
+    }
+    
+    public static Map getValuesMap() {
         HashMap values = new HashMap();
         values.put(getAutoflush() ? "true" : "false","autoflush");
         values.put(getExclude(),"exclude");
@@ -283,11 +299,12 @@ public class P6SpyOptions   {
         values.put(getLogfile(),"logfile");
         values.put(getRealdriver(),"realdriver");
         values.put(getSpydriver(),"spydriver");
+        values.put(getAppend() ? "true" : "false","append");
         values.put(getTrace() ? "true" : "false","trace");
         values.put(getProperties(),"properties");
-       return values;
-   }
-
+        return values;
+    }
+    
     public static Collection getOptions() {
         ArrayList list = new ArrayList();
         list.add("autoflush");
@@ -298,6 +315,7 @@ public class P6SpyOptions   {
         list.add("logfile");
         list.add("realdriver");
         list.add("spydriver");
+        list.add("append");
         list.add("trace");
         list.add("properties");
         return list;
