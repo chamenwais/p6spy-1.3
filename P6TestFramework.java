@@ -69,6 +69,11 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/05/16 04:58:40  jeffgoke
+ * Viktor Szathmary added multi-driver support.
+ * Rewrote P6SpyOptions to be easier to manage.
+ * Fixed several bugs.
+ *
  * Revision 1.2  2002/05/05 00:43:00  jeffgoke
  * Added Philip's reload code.
  *
@@ -83,8 +88,8 @@ package com.p6spy.engine.spy;
 
 import junit.framework.*;
 import java.sql.*;
-import java.util.Properties;
 import java.io.*;
+import java.util.*;
 
 public abstract class P6TestFramework extends TestCase {
     
@@ -104,15 +109,23 @@ public abstract class P6TestFramework extends TestCase {
             String url = props.getProperty("url");
             
             Class.forName(drivername);
+            System.err.println("Registering driver: "+drivername);
+            Driver driver = DriverManager.getDriver(url);
+            System.err.println("FRAMEWORK USING DRIVER == "+driver.getClass().getName()+" FOR URL "+url);
             connection = DriverManager.getConnection(url, user, password);
+            
+            for (Enumeration e = DriverManager.getDrivers() ; e.hasMoreElements() ;) {
+                System.err.println("DRIVER FOUND == "+e.nextElement());
+            }            
+            
         } catch (Exception e) {
             fail(e.getMessage());
         }
         
-        P6SpyOptions.SPY_PROPERTIES_FILE = "spy.properties";
-        P6SpyOptions.initMethod();
-        P6SpyDriver.initMethod();
-        P6LogQuery.initMethod();
+        //P6SpyOptions.SPY_PROPERTIES_FILE = "spy.properties";
+        //P6SpyOptions.initMethod();
+        //P6SpyDriver.initMethod();
+        //P6LogQuery.initMethod();
     }
     
     protected void tearDown() {

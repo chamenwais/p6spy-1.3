@@ -142,7 +142,12 @@
 		</jar>
 	</target>
 
-	<target name="test" depends="compile">
+	<target name="test_prepare" depends="compile">
+		<!-- <copy file="spy.properties.bak" tofile="spy.properties" overwrite="true" />
+		<copy file="spy.properties" tofile="spy.properties.bak" overwrite="true" /> -->
+	</target>
+
+	<target name="test" depends="test_prepare">
 		<javac srcdir="${src}" destdir="${build}" debug="${debug}" deprecation="{$depreciation}" optimize="${optimize}" fork="${forkjavac}">
 		    <classpath>
 			<fileset dir="${lib}">
@@ -151,7 +156,6 @@
 		    </classpath>
 		    <include name="P6Test*.*" />
 		</javac>
-
 		<java classname="junit.textui.TestRunner" fork="yes">
 		    <arg value="-noloading" />
 		    <arg value="com.p6spy.engine.spy.P6Test" />

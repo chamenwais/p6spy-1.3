@@ -69,6 +69,11 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.6  2002/05/16 04:58:40  jeffgoke
+ * Viktor Szathmary added multi-driver support.
+ * Rewrote P6SpyOptions to be easier to manage.
+ * Fixed several bugs.
+ *
  * Revision 1.5  2002/05/05 00:43:00  jeffgoke
  * Added Philip's reload code.
  *
@@ -111,10 +116,42 @@ package com.p6spy.engine.spy;
 import java.sql.*;
 import java.io.*;
 import java.util.*;
+import java.lang.reflect.*;
+import java.beans.*;
 
 public class P6Util {
-    public final static boolean isTrue(String s) {
-        return(s != null && (s.equals("1") || s.trim().equalsIgnoreCase("true")));
+    
+    public final static int parseInt(String i, int defaultValue) {
+        if (i == null) {
+            return defaultValue;
+        }
+        try {
+            return (Integer.parseInt(i));
+        }
+        catch(NumberFormatException nfe) {
+            P6Util.warn("NumberFormatException occured parsing value "+i);
+            return defaultValue;
+        }
+    }
+    
+    public final static long parseLong(String l, long defaultValue) {
+        if (l == null) {
+            return defaultValue;
+        }
+        try {
+            return (Long.parseLong(l));
+        }
+        catch(NumberFormatException nfe) {
+            P6Util.warn("NumberFormatException occured parsing value "+l);
+            return defaultValue;
+        }
+    }
+    
+    public final static boolean isTrue(String s, boolean defaultValue) {
+        if (s == null) {
+            return defaultValue;
+        }
+        return(s.equals("1") || s.trim().equalsIgnoreCase("true"));
     }
     
     public final static int atoi(Object s) {
@@ -189,7 +226,7 @@ public class P6Util {
     }
     
     public static final void checkJavaProperties() {
-        Collection list = P6SpyOptions.getOptions();
+        Collection list = P6SpyOptions.dynamicGetOptions();
         Iterator it = list.iterator();
         
         while (it.hasNext()) {
@@ -198,9 +235,9 @@ public class P6Util {
             
             if (value != null) {
                 P6LogQuery.logInfo("Found value in environment: "+opt+", setting to value: "+value);
-                P6SpyOptions.set(opt,value);
+                P6SpyOptions.dynamicSet(opt,value);
             } else {
-                P6LogQuery.logInfo("No value in environment for: "+opt+", using: "+P6SpyOptions.get(opt));
+                P6LogQuery.logInfo("No value in environment for: "+opt+", using: "+P6SpyOptions.dynamicGet(opt));
             }
         }
     }
@@ -223,5 +260,30 @@ public class P6Util {
     
     public static long elapsed(java.util.Date start) {
         return(start == null) ? 0 : (timeNow().getTime() - start.getTime());
+    }
+    
+    public static ArrayList findAllMethods(Class klass) throws IntrospectionException {
+        ArrayList list = new ArrayList();
+        
+        Method[] methods = klass.getDeclaredMethods();
+        
+        for(int i=0; methods != null && i < methods.length; i++) {
+            Method method = methods[i];
+            String methodName = method.getName();
+            if (methodName.startsWith("get")) {
+                list.add(methodName);
+            }
+        }
+        return list;
+    }
+    
+    public static void set(Class klass, String method, Object[] args) throws IntrospectionException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Method m = klass.getDeclaredMethod(method, new Class[] {String.class});
+        m.invoke(null,args);
+    }
+    
+    public static Object get(Class klass, String method) throws IntrospectionException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Method m = klass.getDeclaredMethod(method, null);
+        return (m.invoke(null,null));
     }
 }

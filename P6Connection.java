@@ -68,6 +68,11 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.6  2002/05/16 04:58:40  jeffgoke
+ * Viktor Szathmary added multi-driver support.
+ * Rewrote P6SpyOptions to be easier to manage.
+ * Fixed several bugs.
+ *
  * Revision 1.5  2002/04/27 20:24:01  jeffgoke
  * added logging of commit statements and rollback statements
  *
@@ -102,6 +107,9 @@ import java.sql.*;
 import java.util.*;
 
 public class P6Connection implements java.sql.Connection {
+	private static int counter=0;
+	private int id = counter++;
+	
     private Connection passthru;
     
     public P6Connection(Connection conn) throws SQLException {
@@ -114,6 +122,10 @@ public class P6Connection implements java.sql.Connection {
     
     public final void close() throws SQLException {
         passthru.close();
+    }
+    
+    public final int getId() {
+    	return this.id;	
     }
     
     public final boolean isClosed() throws SQLException {
@@ -167,7 +179,7 @@ public class P6Connection implements java.sql.Connection {
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "commit", "", "");
+                P6LogQuery.logElapsed(this, startTime, "commit", "", "");
             }
         }
     }
@@ -179,7 +191,7 @@ public class P6Connection implements java.sql.Connection {
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "rollback", "", "");
+                P6LogQuery.logElapsed(this, startTime, "rollback", "", "");
             }
         }
     }

@@ -69,6 +69,11 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.6  2002/05/16 04:58:40  jeffgoke
+ * Viktor Szathmary added multi-driver support.
+ * Rewrote P6SpyOptions to be easier to manage.
+ * Fixed several bugs.
+ *
  * Revision 1.5  2002/05/05 00:43:00  jeffgoke
  * Added Philip's reload code.
  *
@@ -169,7 +174,7 @@ public class P6TestStatement extends P6TestFramework {
             P6SpyOptions.setStringmatcher("");
             
             // first should match
-            P6SpyOptions.setFilter(true);
+            P6SpyOptions.setFilter("true");
             P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
             Statement statement = connection.createStatement();
@@ -178,7 +183,7 @@ public class P6TestStatement extends P6TestFramework {
             assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
             
             // now it should fail due to filter = false
-            P6SpyOptions.setFilter(false);
+            P6SpyOptions.setFilter("false");
             P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
             query = "select 'w' from stmt_test";
@@ -186,7 +191,7 @@ public class P6TestStatement extends P6TestFramework {
             assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
             
             // now match should still fail because table is excluded
-            P6SpyOptions.setFilter(true);
+            P6SpyOptions.setFilter("true");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.excludeTables = P6LogQuery.parseCSVList("stmt_test");
             query = "select 'x' from stmt_test";
@@ -209,7 +214,7 @@ public class P6TestStatement extends P6TestFramework {
         Statement statement = connection.createStatement();
         
         // should match (basic)
-        P6SpyOptions.setFilter(true);
+        P6SpyOptions.setFilter("true");
         P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
         P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
         String query = "select 'y' from stmt_test";
@@ -217,7 +222,7 @@ public class P6TestStatement extends P6TestFramework {
         assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
         
         // now match should match (test regex)
-        P6SpyOptions.setFilter(true);
+        P6SpyOptions.setFilter("true");
         P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
         P6LogQuery.excludeTables = P6LogQuery.parseCSVList("[a-z]tmt_test");
         query = "select 'x' from stmt_test";
@@ -225,7 +230,7 @@ public class P6TestStatement extends P6TestFramework {
         assertTrue(P6LogQuery.getLastEntry().indexOf(query) == -1);
         
         // now match should fail (test regex again)
-        P6SpyOptions.setFilter(true);
+        P6SpyOptions.setFilter("true");
         P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
         P6LogQuery.excludeTables = P6LogQuery.parseCSVList("[0-9]tmt_test");
         query = "select 'z' from stmt_test";
@@ -239,7 +244,7 @@ public class P6TestStatement extends P6TestFramework {
             Statement statement = connection.createStatement();
             
             // test rollback logging
-            P6SpyOptions.setFilter(true);
+            P6SpyOptions.setFilter("true");
             P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.excludeCategories = P6LogQuery.parseCSVList("");
@@ -251,7 +256,7 @@ public class P6TestStatement extends P6TestFramework {
             assertTrue(P6LogQuery.getLastEntry().indexOf("rollback") != -1);
             
             // test commit logging
-            P6SpyOptions.setFilter(true);
+            P6SpyOptions.setFilter("true");
             P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.excludeCategories = P6LogQuery.parseCSVList("");
@@ -263,7 +268,7 @@ public class P6TestStatement extends P6TestFramework {
             assertTrue(P6LogQuery.getLastEntry().indexOf("commit") != -1);
             
             // test debug logging
-            P6SpyOptions.setFilter(true);
+            P6SpyOptions.setFilter("true");
             P6LogQuery.excludeTables = P6LogQuery.parseCSVList("stmt_test");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.excludeCategories = P6LogQuery.parseCSVList("");
@@ -281,10 +286,10 @@ public class P6TestStatement extends P6TestFramework {
         try {
             // get a statement
             Statement statement = connection.createStatement();
-            P6SpyOptions.setStackTrace(true);
+            P6SpyOptions.setStackTrace("true");
             
             // perform a query & make sure we get the stack trace
-            P6SpyOptions.setFilter(true);
+            P6SpyOptions.setFilter("true");
             P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
             String query = "select 'y' from stmt_test";
@@ -295,7 +300,7 @@ public class P6TestStatement extends P6TestFramework {
             // filter on stack trace that will not match
             P6LogQuery.lastStack = null;
             P6SpyOptions.setStackTraceClass("com.dont.match");
-            P6SpyOptions.setFilter(true);
+            P6SpyOptions.setFilter("true");
             P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
             query = "select 'a' from stmt_test";
@@ -306,7 +311,7 @@ public class P6TestStatement extends P6TestFramework {
             
             P6LogQuery.lastStack = null;
             P6SpyOptions.setStackTraceClass("com.p6spy.engine.spy");
-            P6SpyOptions.setFilter(true);
+            P6SpyOptions.setFilter("true");
             P6LogQuery.excludeTables = P6LogQuery.parseCSVList("");
             P6LogQuery.includeTables = P6LogQuery.parseCSVList("");
             query = "select 'b' from stmt_test";
@@ -340,13 +345,12 @@ public class P6TestStatement extends P6TestFramework {
             tp.put("stacktraceclass","");
             tp.put("reloadproperties","true");
             tp.put("reloadpropertiesinterval","1");
+            tp.put("useprefix","false");
             
-            writeProperty(tp);
+            writeProperty("reloadtest.properties", tp);
             
             P6SpyOptions.SPY_PROPERTIES_FILE = "reloadtest.properties";
             P6SpyOptions.initMethod();
-            P6SpyDriver.initMethod();
-            P6LogQuery.initMethod();
             
             Thread.sleep(2000);
             
@@ -370,10 +374,14 @@ public class P6TestStatement extends P6TestFramework {
             tp.put("stacktraceclass","dummy");
             tp.put("reloadproperties","true");
             tp.put("reloadpropertiesinterval","1");
-            writeProperty(tp);
+            writeProperty("reloadtest.properties", tp);
+            
+            P6SpyOptions.SPY_PROPERTIES_FILE = "reloadtest.properties";
+            P6SpyOptions.initMethod();
+            
             Thread.sleep(2000);
             query = "select 'c' from stmt_test";
-            statement.executeQuery(query);            
+            statement.executeQuery(query);
             assertEquals(P6SpyOptions.getFilter(), true);
             assertEquals(P6SpyOptions.getInclude(), "bob");
             assertEquals(P6SpyOptions.getExclude(), "barb");
@@ -407,15 +415,104 @@ public class P6TestStatement extends P6TestFramework {
             tp.put("stacktraceclass","");
             tp.put("reloadproperties","true");
             tp.put("reloadpropertiesinterval","1");
+            writeProperty("reloadtest.properties", tp);
             
         } catch (Exception e) {
             fail(e.getMessage()+getStackTrace(e));
         }
     }
     
-    protected void writeProperty(HashMap props) {
+    
+    public void testMultiDriver() {
+        Statement statement2 = null;
+        
         try {
-            File reload = new File("reloadtest.properties");
+            // rebuild the properties so it can find the second connection
+            
+            HashMap tp = new HashMap();
+            tp.put("realdriver","oracle.jdbc.driver.OracleDriver");
+            tp.put("realdriver2","oracle.jdbc.driver.OracleDriver2");
+            tp.put("filter","false");
+            tp.put("include","");
+            tp.put("exclude","");
+            tp.put("trace","true");
+            tp.put("autoflush","true");
+            tp.put("logfile","spy.log");
+            tp.put("append","true");
+            tp.put("dateformat","");
+            tp.put("includecategories","");
+            tp.put("excludecategories","result,batch");
+            tp.put("stringmatcher","");
+            tp.put("stacktrace","false");
+            tp.put("stacktraceclass","");
+            tp.put("reloadproperties","true");
+            tp.put("reloadpropertiesinterval","1");
+            tp.put("useprefix","false");
+            
+            P6SpyOptions.SPY_PROPERTIES_FILE = "reloadtest.properties";
+            P6SpyOptions.initMethod();
+            
+            writeProperty("reloadtest.properties", tp);
+            
+            Thread.sleep(2000);
+            
+            // rebuild a second connection for the multi-driver test
+            Properties props = loadProperties("P6Test.properties");
+            String drivername = props.getProperty("p6driver2");
+            String user = props.getProperty("user2");
+            String password = props.getProperty("password2");
+            String url = props.getProperty("url");
+            
+            Driver driver = DriverManager.getDriver(url);
+            Connection conn2 = DriverManager.getConnection(url, user, password);
+            statement2 = conn2.createStatement();
+            
+            // the original
+            Statement statement = connection.createStatement();
+            
+            // rebuild the tables
+            dropStatement("drop table stmt_test2", statement2);
+            statement2.execute("create table stmt_test2 (col1 varchar2(255), col2 number(5))");
+            
+            // this should be fine
+            String query = "select 'q1' from stmt_test";
+            statement.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            
+            // this table should not exist
+            try {
+                query = "select 'q2' from stmt_test2";
+                statement.executeQuery(query);
+                fail("Exception should have occured");
+            } catch (Exception e) {
+            }
+            
+            // this should be fine for the second connection
+            query = "select 'b' from stmt_test2";
+            statement2.executeQuery(query);
+            assertTrue(P6LogQuery.getLastEntry().indexOf(query) != -1);
+            
+            // this table should not exist
+            try {
+                query = "select 'q3' from stmt_test";
+                statement2.executeQuery(query);
+                fail("Exception should have occured");
+            } catch (Exception e) {
+            }
+            
+        } catch (Exception e) {
+            fail(e.getMessage()+getStackTrace(e));
+        } finally {
+            try {
+                dropStatement("drop table stmt_test2", statement2);
+                statement2.close();
+            } catch (Exception e) { }
+        }
+    }
+    
+    protected void writeProperty(String filename, HashMap props) {
+        try {
+            File reload = new File(filename);
             reload.delete();
             
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(reload)));
@@ -445,6 +542,7 @@ public class P6TestStatement extends P6TestFramework {
     }
     
     protected void drop(Statement statement) {
+        if (statement == null) { return; }
         dropStatement("drop table stmt_test", statement);
     }
     

@@ -70,18 +70,18 @@ import java.sql.*;
 import java.io.*;
 import java.util.*;
 
-public class P6SpyDriver extends P6SpyDriverCore {
+public class P6SpyDriver2 extends P6SpyDriverCore {
     
     static {
         initMethod();
     }
     
     public static void initMethod() {
-        P6SpyDriverCore.initMethod (P6SpyDriver.class.getName());
+        P6SpyDriverCore.initMethod(P6SpyDriver2.class.getName());
     }
     
-    public P6SpyDriver() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        super(P6SpyOptions.getRealdriver());
+    public P6SpyDriver2() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        super(P6SpyOptions.getRealdriver2());
     }
     
 }

@@ -69,6 +69,11 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.7  2002/05/16 04:58:40  jeffgoke
+ * Viktor Szathmary added multi-driver support.
+ * Rewrote P6SpyOptions to be easier to manage.
+ * Fixed several bugs.
+ *
  * Revision 1.6  2002/04/21 06:15:34  jeffgoke
  * added test cases, fixed batch bugs
  *
@@ -141,7 +146,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "batch", preparedQuery, getQueryFromPreparedStatement());
+                P6LogQuery.logElapsed(this.connection, startTime, "batch", preparedQuery, getQueryFromPreparedStatement());
             }
         }
     }
@@ -157,7 +162,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
+                P6LogQuery.logElapsed(this.connection, startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
             }
         }
     }
@@ -170,7 +175,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
+                P6LogQuery.logElapsed(this.connection, startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
             }
         }
     }
@@ -183,7 +188,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
+                P6LogQuery.logElapsed(this.connection, startTime, "statement", preparedQuery, getQueryFromPreparedStatement());
             }
         }
     }

@@ -68,6 +68,11 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.7  2002/05/16 04:58:40  jeffgoke
+ * Viktor Szathmary added multi-driver support.
+ * Rewrote P6SpyOptions to be easier to manage.
+ * Fixed several bugs.
+ *
  * Revision 1.6  2002/04/21 06:15:35  jeffgoke
  * added test cases, fixed batch bugs
  *
@@ -141,7 +146,7 @@ public class P6Statement implements Statement {
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", "", p0);
+                P6LogQuery.logElapsed(this.connection, startTime, "statement", "", p0);
             }
         }
     }
@@ -154,7 +159,7 @@ public class P6Statement implements Statement {
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", "", p0);
+                P6LogQuery.logElapsed(this.connection, startTime, "statement", "", p0);
             }
         }
     }
@@ -167,7 +172,7 @@ public class P6Statement implements Statement {
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", "", p0);
+                P6LogQuery.logElapsed(this.connection, startTime, "statement", "", p0);
             }
         }
     }
@@ -260,7 +265,7 @@ public class P6Statement implements Statement {
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "batch", "", p0);
+                P6LogQuery.logElapsed(this.connection, startTime, "batch", "", p0);
             }
         }
     }
@@ -276,7 +281,7 @@ public class P6Statement implements Statement {
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "statement", prepared, statementQuery);
+                P6LogQuery.logElapsed(this.connection, startTime, "statement", prepared, statementQuery);
             }
         }
     }

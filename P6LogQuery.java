@@ -68,6 +68,11 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.10  2002/05/16 04:58:40  jeffgoke
+ * Viktor Szathmary added multi-driver support.
+ * Rewrote P6SpyOptions to be easier to manage.
+ * Fixed several bugs.
+ *
  * Revision 1.9  2002/05/05 00:43:00  jeffgoke
  * Added Philip's reload code.
  *
@@ -207,10 +212,14 @@ public class P6LogQuery {
             System.err.println(sql);
         }
     }
+
+    static protected final synchronized void doLog(long elapsed, String category, String prepared, String sql) {
+    	doLog(null, elapsed, category, prepared, sql);
+    }
     
     // this is an internal procedure used to actually write the log information
-    static protected final synchronized void doLog(long elapsed, String category, String prepared, String sql) {
-        
+    static protected final synchronized void doLog(P6Connection connection, long elapsed, String category, String prepared, String sql) {
+     
         java.util.Date now = P6Util.timeNow();
         SimpleDateFormat sdf = P6SpyOptions.getDateformatter();
         String logEntry;
@@ -219,7 +228,7 @@ public class P6LogQuery {
         } else {
             logEntry = sdf.format(new java.util.Date(now.getTime())).trim();
         }
-        logEntry += "|"+elapsed+"|"+category+"|"+prepared+"|"+sql;
+        logEntry += "|"+elapsed+"|"+(connection==null ? "" : String.valueOf(connection.getId()))+"|"+category+"|"+prepared+"|"+sql;
         qlog.println(logEntry);
         boolean stackTrace = P6SpyOptions.getStackTrace();
         String stackTraceClass = P6SpyOptions.getStackTraceClass();
@@ -306,21 +315,21 @@ public class P6LogQuery {
         }
     }
     
-    static final void logElapsed(long startTime, String category, String prepared, String sql) {
-        logElapsed(startTime,System.currentTimeMillis(), category, prepared, sql);
+    static final void logElapsed(P6Connection connection, long startTime, String category, String prepared, String sql) {
+        logElapsed(connection, startTime, System.currentTimeMillis(), category, prepared, sql);
     }
     
-    static final void logElapsed(long startTime, long endTime, String category, String prepared, String sql) {
+    static final void logElapsed(P6Connection connection, long startTime, long endTime, String category, String prepared, String sql) {
         if (qlog != null && isLoggable(sql) && isCategoryOk(category)) {
-            doLogElapsed(startTime, endTime, category, prepared, sql);
+            doLogElapsed(connection, startTime, endTime, category, prepared, sql);
         } else if (isCategoryOk("debug")) {
             logDebug("P6Spy intentionally did not log category: "+category+", statement: "+sql+"  Reason: Qlog="+qlog+", isLoggable="+isLoggable(sql)+", isCategoryOk="+isCategoryOk(category));
         }
     }
     
     // this is an internal method called by logElapsed
-    static protected final synchronized void doLogElapsed(long startTime, long endTime, String category, String prepared, String sql) {
-        doLog((endTime - startTime), category, prepared, sql);
+    static protected final synchronized void doLogElapsed(P6Connection connection, long startTime, long endTime, String category, String prepared, String sql) {
+        doLog(connection, (endTime - startTime), category, prepared, sql);
     }
     
     static final String getLastEntry() {

@@ -69,6 +69,11 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/05/16 04:58:40  jeffgoke
+ * Viktor Szathmary added multi-driver support.
+ * Rewrote P6SpyOptions to be easier to manage.
+ * Fixed several bugs.
+ *
  * Revision 1.2  2002/04/15 05:13:32  jeffgoke
  * Simon Sadedin added timing support.  Fixed bug where batch execute was not
  * getting logged.  Added result set timing.  Updated the log format to include
@@ -111,7 +116,7 @@ public final class P6ResultSet implements ResultSet {
         }
         finally {
             if (P6SpyOptions.getTrace()) {
-                P6LogQuery.logElapsed(startTime, "result", preparedQuery, query);
+                P6LogQuery.logElapsed(this.statement.connection, startTime, "result", preparedQuery, query);
             }
         }
     }

@@ -109,7 +109,24 @@
 <p></p>
 <p><a name="release"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Release 
   Notes </b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.72</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.8</b></font></p>
+<ul>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Viktor Szathmary 
+    added support for multiple datasources. This feature has been requested quite 
+    often. Currently supported is limited to 3 datasources, but can easily be 
+    expanded. If you need more than 3, drop me a line and I'll increase that number.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Viktor Szathmary 
+    also added the logging of a connection id, and enabled urls to be prefixed 
+    with p6spy: to aid in debugging. A common mistake people make when installing 
+    is have the real driver registered elsewhere, this avoids that problem. The 
+    default is not to require this value, but in the future it may be made mandatory 
+    to easy the install process.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Rewrote P6SpyOptions 
+    to allow new options to quickly and easily be added.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Additional JUnit 
+    tests have been added</font></li>
+</ul>
+            <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 0.72</b></font></p>
 <ul>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Philip Ogren 
     contributed the ability to dynamically reload the property file after a specified 
@@ -235,7 +252,11 @@
   file:</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># name of real 
   jdbc driver to load<br>
-  realdriver = oracle.jdbc.driver.OracleDriver</font></p>
+  realdriver = oracle.jdbc.driver.OracleDriver<br>
+  # name of second real jdbc driver to load if using multiple datasources<br>
+  realdriver2 = <br>
+  # name of third real jdbc driver to load if using multiple datasources<br>
+  realdriver3 = </font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># turn on filtering<br>
   filter = false<br>
   # regex engine to use (gnuregex is the only engine currently implemented - it 
@@ -281,7 +302,10 @@
   # determines if property file should be reloaded<br>
   reloadproperties=false<br>
   # determines how often should be reloaded in seconds<br>
-  reloadpropertiesinterval=60 </font></p>
+  reloadpropertiesinterval=60</font><br>
+  <font face="Verdana, Arial, Helvetica, sans-serif" size="2"># determines if 
+  p6spy: is required in the url, useful for debugging<br>
+  useprefix=false</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver</b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver is where 
   you specify the real database driver that you use.&nbsp;&nbsp;P6Spy wraps around 
@@ -291,6 +315,36 @@
   then intercepts and logs the requests, and passes the request to the realdriver 
   where it is processed as usual.&nbsp;&nbsp;Example:</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver = oracle.jdbc.driver.OracleDriver</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver2, 
+  realdriver3 </b></font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">if you have multiple 
+  database drivers then you need a way to specify these drivers. This is where 
+  realdriver2 and realdriver3 are used. To monitor the first databse, you modified 
+  your server settings or application settings to tell your application to use 
+  P6Spy as your database driver, which is: com.p6spy.engine.spy.P6SpyDriver &nbsp;&nbsp;&nbsp;For 
+  the second database, specify the driver as com.p6spy.engine.spy.P6SpyDriver2 
+  and set realdriver2 to the real driver. For the third database, specify the 
+  driver as com.p6spy.engine.spy.P6SpyDriver3 and set realdriver3 to the real 
+  driver.</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Note that if you 
+  are using the same database driver with multiple connection strings, you should 
+  use the same driver. E.g. say you have two MySQL databses: mydb and testdb. 
+  You want to connect to both databases and log their activity. You have two datasources 
+  defined. You should specify com.p6spy.engine.spy.P6SpyDriver as the database 
+  driver for both of these and you should set the realdriver= the real mysql JDBC 
+  driver name. realdriver2, realdriver3 are only intended for use when you are 
+  connecting with two different drivers, for example Oracle versus MySQL.</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">To understand why 
+  this is the case, remember that Java uses the DriverManager to register all 
+  of the drivers. As each class is loaded, it registers itself with the DriverManager. 
+  When a connection is requested for a specific URL, the driver manager goes through 
+  the list of registered drivers and asks each in turn if it will handle that 
+  url (via the acceptURL method). The first driver that says yes becomes the driver 
+  that is used. Since an Oracle driver can handle any valid Oracle URL, registering 
+  the driver twice will just cause only one of the drivers (the first one that 
+  was registered) to handle the request. The second will be ignored. Therefore, 
+  if you specify the same driver in realdriver and realdriver2 you won't have 
+  any problems, but you will have the same driver registered multiple times.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>filter, include, 
   exclude </b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy lets you 
@@ -457,8 +511,17 @@
   have append=true the log will be suddenly truncated if you change your properties. 
   This is because using reloadproperties is intended to be the equivalent of restarting 
   your application server, and in the case of an application server restart your 
-  file would be truncated.</font><br>
-  <br>
+  file would be truncated.</font></p>
+<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Limitations: reloadproperties 
+  will not reload any driver information (such as realdriver, realdriver2, and 
+  realdriver3).</font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>useprefix</b></font></p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">When set to true 
+  requires you to prefix your URLs with p6spy:. The default is false, but may 
+  become true in a future release. This helps avoid a common pital when installing 
+  p6spy, that your real driver is registered elsewhere and because the URLs are 
+  the same, the system does not know which driver to use.<br>
+  </font><br>
   <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Command Line 
   Options </b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Every parameter 
@@ -1029,13 +1092,7 @@ why the Cloudscape/WebLogic combination is not working).</font>
     that driver specific method. There are ways to get around this limitation, 
     for example by using Dynamic Proxies instead of our current technique. However, 
     these come at a performance cost, that while maybe slight, we have decided 
-    to avoid at this time.<br>
-    </font></li>
-  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Multiple 
-    drivers are not supported.&nbsp;&nbsp;</b>Currently P6Spy does not work against 
-    multiple database drivers being used within a single application. If you have 
-    two database drivers at work (or more), you can only use P6Spy to log one 
-    of them at a time.</font></li>
+    to avoid at this time.</font></li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="trouble"></a>Troubleshooting</b></font></p>
 <ol>
@@ -1069,10 +1126,15 @@ why the Cloudscape/WebLogic combination is not working).</font>
     location using the spy.properties property file.</font><br>
   </li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>The spy.log 
-    file is written, but nothing is being logged.&nbsp; </b>P6Spy was the ability 
+    file is written, but nothing is being logged.&nbsp; </b>P6Spy has the ability 
     to print debug statements that are very useful in determining why the driver 
     is not working. To turn on these statements, remove the debug category and 
-    the info category from the excludecategories list in your spy.options file.</font></li>
+    the info category from the excludecategories list in your spy.options file. 
+    Also, a very common mistake is to have your real driver registered elsewhere. 
+    To avoid this, set useprefix=true in your spy.properties file and put p6spy: 
+    as a prefix for your connection URL for the p6spy driver in your application 
+    server configuration. This will cause P6Spy to fail if the prefix is not present 
+    and will assure the configuration is as expected.</font></li>
 </ol>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="faq" id="faq"></a>FAQ</b></font></p>
 <ol>
@@ -1084,6 +1146,9 @@ why the Cloudscape/WebLogic combination is not working).</font>
     application is running, can I change the properties and enable the system 
     to use the new properties?&nbsp;&nbsp;</b>Yes. Please see the <a href="#property">Property</a> 
     section and look at the reloadproperties section.</font></li>
+  <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can I use 
+    multiple datasources?&nbsp;&nbsp;</b>Yes. Please see the <a href="#property">Property</a> 
+    section and look at the realdriver2, realdriver3 section.</font></li>
 </ol>
 </body>
 </html>
