@@ -23,7 +23,7 @@
   <tr>
     <td bgcolor="#FFFFFF"> <!-- #BeginEditable "body" --> 
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>P6Spy 
-        Documentation<br>
+        Documentation (1.0.3)<br>
         </b><font size="2">For the latest software and documentation visit <a href="http://www.p6spy.com">http://www.p6spy.com</a></font></font></p>
       <ul>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="#license">License 
@@ -36,7 +36,7 @@
         <li><a href="install.htm#install"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">General 
           installation &amp; upgrade instructions</font></a></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="install.htm#jboss">Installation 
-          under JBoss</a></font></li>
+          under JBoss 2.x</a></font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="install.htm#orion">Installation 
           under Orion</a></font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><a href="install.htm#tomcat">Installation 
@@ -141,7 +141,37 @@
       <p><a name="release"></a><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b>Release 
         Notes </b></font></p>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
-        1.0 beta</b></font></p>
+        1.0 beta 3</b></font></p>
+      <ul>
+        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Alan 
+          Arvesen of IronGrid</strong> added a call to each P6 class called getJDBC() 
+          that returns the native driver. This enables a workaround for using 
+          non-standard JDBC calls included with some JDBC drivers. See <a href="issues">issues</a> 
+          for more information. Thanks to Ralph Harnden for the suggestion.</font></li>
+        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Alan 
+          Arvesen of IronGrid</strong> added an appender architecture which supports 
+          customizable logging.</font></li>
+        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Alan 
+          Arvesen of IronGrid</strong> changed the reloading code to work as a 
+          separate thread, making it more efficient.</font></li>
+        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Alan 
+          Arvesen of IronGrid</strong> enhanced module support making it much 
+          easier to create a new module. Now the only required files for a new 
+          module are the factory, the driver, and just the classes you want to 
+          change. That is, if you want to intercept the Statement class only, 
+          that is the only class you need to create (in the past you had to create 
+          an instance of every class, even if you did not want to override that 
+          class). The code to support driver loading has also been simplified. 
+          </font></li>
+        <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Matthew 
+          Wakeling</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+          added JDK 1.4 support.</font></li>
+        <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Ralph 
+          Harnden</strong> contributed JBoss MBean support, allowing P6Spy to 
+          be remotely managed.</font></li>
+      </ul>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Version 
+        1.0 beta 1 &amp; 2</b></font></p>
       <ul>
         <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Rafael 
           Alvarez</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 

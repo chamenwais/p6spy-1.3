@@ -51,28 +51,16 @@
     # in memory until the application is restarted. #<br>
     # #<br>
     #################################################################</p>
-  <p>module_log=com.p6spy.engine.logging.P6LogSpyDriver<br>
-    #module_outage=com.p6spy.engine.outage.P6OutageSpyDriver</p>
+        <p>module.log=com.p6spy.engine.logging.P6LogSpyDriver<br>
+          #module.outage=com.p6spy.engine.outage.P6OutageSpyDriver</p>
 </blockquote>
-<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">You can also set 
-  the following properties in spy.properties for P6Log:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>trace</b></font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Trace is a convenience 
-  toggle that lets you turn on and off the logging.&nbsp;&nbsp;When trace is set 
-  to true, P6Spy writes the the log file whenever an appropriate database request 
-  is intercepted. &nbsp;When trace is set to false, P6Spy never writes to the 
-  log file.</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
-<p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># turn</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
-  on tracing<br>
-  trace = true</font></p>
-<p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">P6Log also shares 
-  some common property file settings that let you specify which tables you want 
-  to log, the file and location of the log file, if you want to show the stacktrace 
-  (where the JDBC statement is being executed), and more. See the <a href="other.htm#common">common 
-  property file settings</a> for details.</font></p>
-
-      <!-- #EndEditable -->
+      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">P6Log shares 
+        some common property file settings that let you specify which tables you 
+        want to log, the file and location of the log file, if you want to show 
+        the stacktrace (where the JDBC statement is being executed), and more. 
+        See the <a href="other.htm#common">common property file settings</a> for 
+        details.</font></p>
+<!-- #EndEditable -->
 	  </td>
   </tr>
 </table>

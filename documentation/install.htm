@@ -62,7 +62,13 @@
             it to the java directory.&nbsp;&nbsp;Unlike jar files, you do not 
             directly reference your property file in the classpath.</font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
-            your application or server to use the P6Spy database driver.</b> Modify 
+            your application or server to use the P6Spy database driver.</b> P6Spy 
+            support applications that use DriverManager or a Datasource to obtain 
+            a database connection. If you are unsure which method your application 
+            uses to obtain a connection, look for specific instructions for your 
+            application server below, or try the DriverManager instructions first.<br>
+            <strong> <br>
+            If you use the DriverManager to manage your driver:</strong> Modify 
             your server settings or application settings to tell your application 
             to use P6Spy as your database driver, which is: com.p6spy.engine.spy.P6SpyDriver 
             &nbsp;&nbsp;&nbsp;This does not impact your application, it simply 
@@ -70,7 +76,10 @@
             your database driver.&nbsp;&nbsp;Since the P6Spy driver passes through 
             all requests to your real driver, you leave all of the other configuration 
             information, such as the connection address, user, password, etc. 
-            the same.</font></li>
+            the same.<br>
+            <strong> <br>
+            If you use a Datasource to manage your driver:</strong> <br>
+            </font></li>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Tell 
             P6Spy about your real database driver.</b> &nbsp;Modify the spy.properties 
             file and change the realdriver line to reflect your real database 
@@ -85,7 +94,7 @@
             database statements that are executed.</font></li>
         </ol>
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="jboss"></a>JBoss 
-          Installation</b></font></p>
+          2.x Installation</b></font></p>
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">These instructions 
           have been tested with various Jboss versions ranging from Jboss 2.2.2-2.4.4 
           with Tomcat 3.2.2-4.0.1 integration.</font></p>
@@ -629,18 +638,29 @@
           Issues </b></font></p>
         <ol>
           <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Non-standard 
-            (driver specific) JDBC methods are not supported.&nbsp;&nbsp;</b>Many 
+            (driver specific) JDBC methods are not supported without using a workaround.&nbsp;&nbsp;</b>Many 
             drivers provide methods that expose driver specific, non-standard 
             functionality. Most developers do not use these features, but in the 
-            event that you do, they are not supported by P6Spy. For example, the 
-            MySQL JDBC drivers allow you to call the auto-increment function like 
-            so: ((org.gjt.mm.mysql.PreparedStatement)stmt).getLastInsertId(); 
-            that cast will fail when the P6SpyDriver is in place, since the class 
+            event that an application does use these features they are not natively 
+            supported by P6Spy. For example, the MySQL JDBC drivers allow you 
+            to call the auto-increment function like so: ((org.gjt.mm.mysql.PreparedStatement)stmt).getLastInsertId(); 
+            That cast will fail when the P6SpyDriver is in place, since the class 
             it will be trying to cast against is the P6Spy Driver itself, which 
-            does not expose that driver specific method. There are ways to get 
-            around this limitation, for example by using Dynamic Proxies instead 
-            of our current technique. However, these come at a performance cost, 
-            that while maybe slight, we have decided to avoid at this time.</font></li>
+            does not expose that driver specific method and the P6Spy prepared 
+            statement class is not a subclass of &quot;org.gjt.mm.mysql.PreparedStatement&quot;. 
+            Currently there is one workaround available but it requires code changes 
+            in the application. Each P6Spy class exposes a method called &quot;getJDBC()&quot; 
+            that will return the real JDBC driver. With this method an application 
+            can cast a class such as PreapredStatement to P6PreparedStatement, 
+            invoke getJDBC(), and then cast the returned value to the native driver 
+            class (such as OraclePreparedStatement). In this scenario the non-JDBC 
+            statement will not be logged but the application will continue to 
+            function. Long-term it would be ideal to provide a native solution. 
+            One idea under consideration is to provide vendor specific versions 
+            (Oracle or MySQL for example) of P6Spy that would subclass the vendor 
+            driver, so that a cast could be successfully executed, and they would 
+            expose the vendor specific methods. However, this is not yet under 
+            development, and other suggestions are welcome.</font></li>
         </ol>
         <p><font face="Verdana, Arial, Helvetica, sans-serif" size="4"><b><a name="trouble"></a>Troubleshooting</b></font></p>
         <ol>
@@ -686,7 +706,8 @@
             in your spy.properties file and put p6spy: as a prefix for your connection 
             URL for the p6spy driver in your application server configuration. 
             This will cause P6Spy to fail if the prefix is not present and will 
-            assure the configuration is as expected.</font></li>
+            assure the configuration is as expected.</font><br>
+          </li>
           <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy 
             was invoked illegally. You probably specified an illegal P6Spy driver 
             in your application configuration. </font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 

@@ -43,8 +43,8 @@
         # in memory until the application is restarted. #<br>
         # #<br>
         #################################################################</p>
-      <p>module_log=com.p6spy.engine.logging.P6LogSpyDriver<br>
-        module_outage=com.p6spy.engine.outage.P6OutageSpyDriver</p>
+      <p>module.log=com.p6spy.engine.logging.P6LogFactory<br>
+        #module.outage=com.p6spy.engine.outage.P6OutageFactory</p>
       <p>#################################################################<br>
         # REALDRIVER(s) #<br>
         # #<br>
@@ -63,8 +63,8 @@
         # in memory until the application is restarted. #<br>
         # #<br>
         #################################################################</p>
-      <p># realdriver = org.gjt.mm.mysql.Driver <br>
-        realdriver = oracle.jdbc.driver.OracleDriver<br>
+      <p># realdriver=org.gjt.mm.mysql.Driver <br>
+        realdriver=org.gjt.mm.mysql.Driver<br>
         #specifies another driver to use<br>
         realdriver2=<br>
         #specifies a third driver to use<br>
@@ -72,8 +72,7 @@
       <p>################################################################<br>
         # P6LOG SPECIFIC PROPERTIES #<br>
         ################################################################<br>
-        # determines if p6log outputs information<br>
-        trace = true</p>
+        # no properties currently available</p>
       <p>################################################################<br>
         # P6OUTAGE SPECIFIC PROPERTIES #<br>
         ################################################################<br>
@@ -102,8 +101,7 @@
         #<br>
         outagedetection=false<br>
         outagedetectioninterval=</p>
-      <p><br>
-        ################################################################<br>
+      <p>################################################################<br>
         # COMMON PROPERTIES #<br>
         ################################################################</p>
       <p># comma separated list of tables to include<br>
@@ -115,13 +113,7 @@
       <p># filter what is logged<br>
         filter=false </p>
       <p># turn on tracing<br>
-        autoflush = true<br>
-        # name of logfile if trace is on, use &quot;stdout&quot; for standard 
-        output.<br>
-        logfile = spy.log<br>
-        # append to the p6spy log file. if this is set to false the<br>
-        # log file is truncated every time.<br>
-        append=true</p>
+        autoflush = true</p>
       <p># sets the date format using Java's SimpleDateFormat routine<br>
         dateformat=</p>
       <p>#list of categories to explicitly include<br>
@@ -143,10 +135,20 @@
       <p># determines if property file should be reloaded<br>
         reloadproperties=false<br>
         # determines how often should be reloaded in seconds<br>
-        reloadpropertiesinterval=60<br>
-        #if=true then url must be prefixed with p6spy:<br>
+        reloadpropertiesinterval=60</p>
+      <p>#if=true then url must be prefixed with p6spy:<br>
         useprefix=false</p>
-      <p>#For log4j logging<br>
+      <p>#specifies the appender to use for logging<br>
+        #appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
+        #appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
+        appender=com.p6spy.engine.logging.appender.FileLogger</p>
+      <p># name of logfile, note that Windows users should make sure to use forward 
+        slashes in their pathname (used for file logger only)<br>
+        logfile = spy.log</p>
+      <p># append to the p6spy log file. if this is set to false the<br>
+        # log file is truncated every time. (file logger only)<br>
+        append=true</p>
+      <p>#The following are for log4j logging only<br>
         log4j.appender.STDOUT=org.apache.log4j.ConsoleAppender<br>
         log4j.appender.STDOUT.layout=org.apache.log4j.PatternLayout<br>
         log4j.appender.STDOUT.layout.ConversionPattern=p6spy - %m%n</p>
@@ -154,9 +156,10 @@
         #log4j.appender.CHAINSAW_CLIENT.RemoteHost=localhost<br>
         #log4j.appender.CHAINSAW_CLIENT.Port=4445<br>
         #log4j.appender.CHAINSAW_CLIENT.LocationInfo=true</p>
-      <p>log4j.logger.p6spy=INFO,STDOUT</p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>module_xxx</b></font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_xxx 
+      <p>log4j.logger.p6spy=INFO,STDOUT<br>
+        <b><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br>
+        </font></b> <font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>module.xxx</b></font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module.xxx 
         is the name of a particular module to be loaded at system startup. A module 
         contains a group of functionality. If a module line is not commented out, 
         it is loaded into memory, and will remain in memory until the application 
@@ -165,11 +168,11 @@
         database driver is loaded.</font></p>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Currently 
         the following modules are supported:</font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_log=com.p6spy.engine.logging.P6LogSpyDriver<br>
-        module_outage=com.p6spy.engine.outage.P6OutageSpyDriver</font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module_log 
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module.log=com.p6spy.engine.logging.P6LogSpyDriver<br>
+        module.outage=com.p6spy.engine.outage.P6OutageSpyDriver</font></p>
+      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">module.log 
         is required for the logging functionality, see P6Log.<br>
-        module_outage is required for the outage functionality, see P6Outage.</font></p>
+        module.outage is required for the outage functionality, see P6Outage.</font></p>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>realdriver</b></font></p>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver 
         is where you specify the real database driver that you use.&nbsp;&nbsp;P6Spy 
@@ -184,34 +187,16 @@
         realdriver3 </b></font></p>
       <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">if you have 
         multiple database drivers then you need a way to specify these drivers. 
-        This is where realdriver2 and realdriver3 are used. To monitor the first 
-        database, you modified your server settings or application settings to 
-        tell your application to use P6Spy as your database driver, which is: 
-        com.p6spy.engine.spy.P6SpyDriver &nbsp;&nbsp;&nbsp;For the second database, 
-        specify the driver as com.p6spy.engine.spy.P6SpyDriver2 and set realdriver2 
-        to the real driver. For the third database, specify the driver as com.p6spy.engine.spy.P6SpyDriver3 
-        and set realdriver3 to the real driver.</font></p>
+        This is where realdriver2 and realdriver3 are used.</font></p>
       <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Note that 
         if you are using the same database driver with multiple connection strings, 
-        you should use the same driver. E.g. say you have two MySQL databses: 
-        mydb and testdb. You want to connect to both databases and log their activity. 
-        You have two datasources defined. You should specify com.p6spy.engine.spy.P6SpyDriver 
+        you only need to specify the driver once. E.g. say you have two MySQL 
+        databses: mydb and testdb. You want to connect to both databases and log 
+        their activity. You have two datasources defined. You should specify com.p6spy.engine.spy.P6SpyDriver 
         as the database driver for both of these and you should set the realdriver= 
         the real mysql JDBC driver name. realdriver2, realdriver3 are only intended 
         for use when you are connecting with two different drivers, for example 
         Oracle versus MySQL.</font></p>
-      <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">To understand 
-        why this is the case, remember that Java uses the DriverManager to register 
-        all of the drivers. As each class is loaded, it registers itself with 
-        the DriverManager. When a connection is requested for a specific URL, 
-        the driver manager goes through the list of registered drivers and asks 
-        each in turn if it will handle that url (via the acceptURL method). The 
-        first driver that says yes becomes the driver that is used. Since an Oracle 
-        driver can handle any valid Oracle URL, registering the driver twice will 
-        just cause only one of the drivers (the first one that was registered) 
-        to handle the request. The second will be ignored. Therefore, if you specify 
-        the same driver in realdriver and realdriver2 you won't have any problems, 
-        but you will have the same driver registered multiple times.</font></p>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>filter, 
         include, exclude </b></font></p>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">P6Spy lets 
@@ -286,8 +271,8 @@
         that in order to do this you must <a href="http://www.cacas.org/java/gnu/regexp/">download</a> 
         the GNU Java regex library and add it to your classpath so that P6Spy 
         can find it. <br>
-        <br>
-        <i>Using Jakarta RegEx<br>
+        <i><br>
+        </i> <i>Using Jakarta RegEx<br>
         </i>P6Spy also includes support for the Apache Jakarta Regex library. 
         To use this, you would specify:</font></p>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"># Use Apache 
@@ -308,29 +293,54 @@
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">autoflush 
         = true<br>
         <b><br>
-        </b> </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><a name="logfile"></a>logfile</b></font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Specifies 
-        the name of the file to generate.&nbsp;&nbsp;Use &quot;stdout&quot; for 
-        standard output. Note, if you are in Windows and are specifying a pathname, 
-        make sure to use forward slashes (e.g. c:/mylog/spy.log)</font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Example:</font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">logfile = 
-        spy.log<br>
-        </font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">you can also 
-        use log4j for your logging</font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">1.- Set the 
-        logfile property to &quot;log4j&quot;<br>
-        2.- Put the configuration of the logger and all appenders in the spy.properties 
-        file</font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If for some 
-        reason log4j cannot be initialized, the logging will go to a file called 
-        log4jaux.log</font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>append</b></font></p>
-      <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">Setting append=true 
-        causes p6spy to continue to append to the logfile, if it exists. Setting 
-        append=false causes the logfile to be truncated each time p6spy is restarted 
-        (typically when your application or application server is restarted).</font></p>
+        </b> </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><a name="appender"></a>appender</b></font></p>
+      <p><font face="Arial, Helvetica, sans-serif" size="2">Appenders allow you 
+        to specify where and how log information is output. Appenders are a flexible 
+        architecture allowing anyone to write their own output class for P6Spy. 
+        To use an appender, specify the classname of the appender to use. The 
+        current release comes with three optionswhich are log4j, stdout, and logging 
+        to a csv text file (default).</font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif"><em>Using CSV File 
+        (default)</em></font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif">To output to a file, 
+        uncomment the FileLogger appender and specify a logfile and whether or 
+        not to append to the file or clear the file each time: </font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif">#appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
+        #appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
+        appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif"># name of logfile 
+        to use, note Windows users should make sure to use forward slashes in 
+        their pathname(e:/test/spy.log) (used for file logger only)<br>
+        logfile = spy.log</font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif"># append to the p6spy 
+        log file. if this is set to false the<br>
+        # log file is truncated every time. (file logger only)<br>
+        append=true</font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif"><em>Using StdOut</em></font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif">Uncomment the StdoutLogger 
+        as follows and all output will be sent to stdout in a CSV format:</font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif">#appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
+        appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
+        #appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
+      <p><font face="Arial, Helvetica, sans-serif" size="2"><em>Using Log4J</em></font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif">To output to log4j, 
+        make sure log4j is in your path, uncomment the log4j appender, and specify 
+        the desired log4j settings:</font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif">appender=com.p6spy.engine.logging.appender.Log4jLogger<br>
+        #appender=com.p6spy.engine.logging.appender.StdoutLogger<br>
+        # appender=com.p6spy.engine.logging.appender.FileLogger</font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif">#The following are 
+        for log4j logging only<br>
+        log4j.appender.STDOUT=org.apache.log4j.ConsoleAppender<br>
+        log4j.appender.STDOUT.layout=org.apache.log4j.PatternLayout<br>
+        log4j.appender.STDOUT.layout.ConversionPattern=p6spy - %m%n</font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif">#log4j.appender.CHAINSAW_CLIENT=org.apache.log4j.net.SocketAppender<br>
+        #log4j.appender.CHAINSAW_CLIENT.RemoteHost=localhost<br>
+        #log4j.appender.CHAINSAW_CLIENT.Port=4445<br>
+        #log4j.appender.CHAINSAW_CLIENT.LocationInfo=true</font></p>
+      <p><font size="2" face="Arial, Helvetica, sans-serif">log4j.logger.p6spy=INFO,STDOUT</font></p>
+      <p><font face="Arial, Helvetica, sans-serif" size="2">If for some reason 
+        log4j cannot be initialized, the logging will go to a file called log4jaux.log</font></p>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>excludecategories</b></font></p>
       <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">The log includes 
         category information that describes the type of statement. This property 
@@ -512,8 +522,9 @@
           <a href="#property">Property</a> section and look at the reloadproperties 
           section.</font></li>
         <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>Can 
-          I use multiple datasources?&nbsp;&nbsp;</b>Yes. Please see the <a href="#property">Property</a> 
-          section and look at the realdriver2, realdriver3 section.</font></li>
+          I use multiple database drivers?&nbsp;&nbsp;</b>Yes. Please see the 
+          <a href="#property">Property</a> section and look at the realdriver2, 
+          realdriver3 section.</font></li>
       </ol>
       <div align="left"></div>
       <!-- #EndEditable --> </td>
