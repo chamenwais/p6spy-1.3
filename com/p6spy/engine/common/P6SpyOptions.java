@@ -87,7 +87,10 @@ public class P6SpyOptions   {
      *
      */
     
-    public static String SPY_PROPERTIES_FILE = "spy.properties";
+    public static final String OPTIONS_FILE_PROPERTY = "spy.properties";
+    public static final String DFLT_OPTIONS_FILE     = "spy.properties";
+    public static String SPY_PROPERTIES_FILE = System.getProperty(OPTIONS_FILE_PROPERTY, DFLT_OPTIONS_FILE);
+
     protected static Thread reloadThread         = null;
     protected static OptionReloader reloader     = null;
     
@@ -95,7 +98,10 @@ public class P6SpyOptions   {
     
     public P6SpyOptions() {}
     
+    public static final String DRIVER_PREFIX = "realdriver";
+    public static final String MODULE_PREFIX = "module_";
     private static ArrayList modules;
+    private static ArrayList driverNames;
     private static boolean usePrefix;
     private static boolean autoflush;
     private static String exclude;
@@ -514,14 +520,9 @@ public class P6SpyOptions   {
                 dynamicSet("set"+methodName, value == null ? null : value.trim());
             }
             
-            ArrayList moduleList = P6Util.reverseArrayList(P6Util.loadProperties(filename, "module_"));
-            modules = new ArrayList();
-            Iterator j = moduleList.iterator();
-            while (j.hasNext()) {
-                KeyValue moduleKV = (KeyValue)j.next();
-                String value = (String)moduleKV.getValue();
-                modules.add(value.trim());
-            }
+	    modules = reverseLoadPropertyList(filename, MODULE_PREFIX);
+	    driverNames = reverseLoadPropertyList(filename, DRIVER_PREFIX);
+
         } catch (IntrospectionException e) {
             P6Util.warn("Could not set property values due to IntrospectionException");
         }
@@ -529,11 +530,27 @@ public class P6SpyOptions   {
 	// now set the P6SpyOptions options
 	configure();
     }
+
+    protected static ArrayList reverseLoadPropertyList(String filename, String prefix) {
+	ArrayList output = new ArrayList();
+	ArrayList moduleList = P6Util.reverseArrayList(P6Util.loadProperties(filename, prefix));
+	Iterator j = moduleList.iterator();
+	while (j.hasNext()) {
+	    KeyValue moduleKV = (KeyValue)j.next();
+	    String value = (String)moduleKV.getValue();
+	    output.add(value.trim());
+	}
+	return output;
+    }
     
     // this should actually be getAllModules but to make it easier for others to add
     // methods we'll just use allMethods
     public static ArrayList allModules() {
         return modules;
+    }
+
+    public static ArrayList allDriverNames() {
+	return driverNames;
     }
     
     public static void dynamicSet(String property, String value) {
