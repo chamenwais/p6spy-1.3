@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.7  2003/01/23 01:40:45  jeffgoke
+ * added code to try to use the classpath loader first, and if that fails, try our manual method
+ *
  * Revision 1.6  2003/01/15 22:09:41  aarvesen
  * Don't crap out if you can't find a context loader, press on
  *
@@ -141,6 +144,7 @@ import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
 import java.beans.*;
+import java.net.*;
 
 public class P6Util {
     
@@ -202,50 +206,63 @@ public class P6Util {
         try {
             String path = classPathFile(file);
             if (path == null) {
-                P6LogQuery.logError("Can't find " + file + ", java.class.path = <" + System.getProperty("java.class.path") + ">");
+                P6LogQuery.logError("Can't find " + file + ". "+getCheckedPath());
             } else {
                 FileInputStream in = new FileInputStream(path);
                 props.load(in);
-		//removeDots(props);
+                //removeDots(props);
                 in.close();
             }
         } catch (FileNotFoundException e1) {
-            P6LogQuery.logError("Can't find find " + file + " " + e1);
+            P6LogQuery.logError("File not found " + file + " " + e1);
         } catch (IOException e2) {
             P6LogQuery.logError("IO Error reading file " + file + " " + e2);
         }
         
         return props;
     }
-
+    
     protected static void removeDots(Properties props) {
-	Enumeration keys = props.keys();
-	HashMap hash     = new HashMap();
-	boolean done     = false;
-
-	for (; keys.hasMoreElements();) {
-	    String key = (String) keys.nextElement();
-	    if (key.indexOf('.') != -1) {
-		int len    = key.length();
-		int newLen = 0;
-		char[] car = new char[len];
-		for (int i = 0; i < len; i++) {
-		    char c = key.charAt(i);
-		    if (c != '.') {
-			car[newLen++] = c;
-		    }
-		}
-
-		String out = new String(car, 0, newLen);
-		hash.put(out, props.getProperty(key));
-	    }
-	}
-
-	if (done) {
-	    props.putAll(hash);
-	}
+        Enumeration keys = props.keys();
+        HashMap hash     = new HashMap();
+        boolean done     = false;
+        
+        for (; keys.hasMoreElements();) {
+            String key = (String) keys.nextElement();
+            if (key.indexOf('.') != -1) {
+                int len    = key.length();
+                int newLen = 0;
+                char[] car = new char[len];
+                for (int i = 0; i < len; i++) {
+                    char c = key.charAt(i);
+                    if (c != '.') {
+                        car[newLen++] = c;
+                    }
+                }
+                
+                String out = new String(car, 0, newLen);
+                hash.put(out, props.getProperty(key));
+            }
+        }
+        
+        if (done) {
+            props.putAll(hash);
+        }
     }
-
+    
+    protected static String getCheckedPath() {
+        String checkedPath = "Explicitly checked for file in classpath: <"+System.getProperty("java.class.path")+">, tried to load using classloader path: <";
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        try {
+            URL[] urls = ((URLClassLoader)classLoader).getURLs();
+            for(int i=0; i< urls.length; i++) {
+                checkedPath += ";" + urls[i].toString();
+            }
+        } catch(ClassCastException e) {
+        }
+        checkedPath += ">";
+        return checkedPath;
+    }
     
     // this is our own version, which we need to do to ensure the order is kept
     // in the property file
@@ -253,10 +270,12 @@ public class P6Util {
         ArrayList props = new ArrayList();
         FileReader in = null;
         BufferedReader reader = null;
+        
         try {
             String path = classPathFile(file);
+            
             if (path == null) {
-                P6LogQuery.logError("Can't find " + file + ", java.class.path = <" + System.getProperty("java.class.path") + ">");
+                P6LogQuery.logError("Can't find " + file + ". "+getCheckedPath());
             } else {
                 in = new FileReader(path);
                 // read the file
@@ -265,21 +284,21 @@ public class P6Util {
                 while ((line = reader.readLine()) != null) {
                     if (line.startsWith(prefix)) {
                         StringTokenizer st = new StringTokenizer(line, "=");
-			try {
-			    String name = st.nextToken();
-			    String value = st.nextToken();
-			    KeyValue kv = new KeyValue(name, value);
-			    props.add(kv);
-			} catch (NoSuchElementException e) {
-			    // ignore; means that you have 
-			    // something like:
-			    // realdriver2=
-			}
+                        try {
+                            String name = st.nextToken();
+                            String value = st.nextToken();
+                            KeyValue kv = new KeyValue(name, value);
+                            props.add(kv);
+                        } catch (NoSuchElementException e) {
+                            // ignore; means that you have
+                            // something like:
+                            // realdriver2=
+                        }
                     }
                 }
             }
         } catch (FileNotFoundException e1) {
-            P6LogQuery.logError("Can't find find " + file + " " + e1);
+            P6LogQuery.logError("File not found " + file + " " + e1);
         } catch (IOException e2) {
             P6LogQuery.logError("IO Error reading file " + file + " " + e2);
         } finally {
@@ -312,9 +331,27 @@ public class P6Util {
         String classpath    = "." + separator + System.getProperty("java.class.path");
         String local        = System.getProperty("p6.home");
         
-        if (local != null) {
-            classpath = local + separator + classpath;
+        // first try to load options via the classloader
+        try {
+            // If p6.home is specified, just look there
+            if (local != null) {
+                fp = new File(local, file);
+            } else {
+                java.net.URL purl =
+                P6Util.class.getClassLoader().getResource(file);
+                
+                if (purl != null) {
+                    fp = new File(purl.getPath());
+                }
+            }
+            
+            if (fp.exists()) {
+                return fp.getCanonicalPath();
+            }
+        } catch (Exception exc) {
         }
+        
+        // if that failed, see what we can do on our own
         StringTokenizer tok = new StringTokenizer(classpath, separator);
         
         do {
@@ -389,8 +426,8 @@ public class P6Util {
         Method m = klass.getDeclaredMethod(method, null);
         return (m.invoke(null,null));
     }
-
-
+    
+    
     /**
      * A utiltity for using the current class loader (rather than the
      * system class loader) when instantiating a new class.
@@ -404,18 +441,18 @@ public class P6Util {
      * @param name class name to load
      * @return the newly loaded class
      */
-    public static Class forName(String name) throws ClassNotFoundException { 
-	ClassLoader ctxLoader = null; 
-	try { 
-	    ctxLoader = Thread.currentThread().getContextClassLoader(); 
-	    return Class.forName(name, true, ctxLoader); 
-
-	} catch(ClassNotFoundException ex) { 
-	    // try to fall through and use the default
-	    // Class.forName
-	    //if(ctxLoader == null) { throw ex; } 
-	} catch(SecurityException ex) { 
-	} 
-	return Class.forName(name); 
-    } 
+    public static Class forName(String name) throws ClassNotFoundException {
+        ClassLoader ctxLoader = null;
+        try {
+            ctxLoader = Thread.currentThread().getContextClassLoader();
+            return Class.forName(name, true, ctxLoader);
+            
+        } catch(ClassNotFoundException ex) {
+            // try to fall through and use the default
+            // Class.forName
+            //if(ctxLoader == null) { throw ex; }
+        } catch(SecurityException ex) {
+        }
+        return Class.forName(name);
+    }
 }
