@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.7  2003/01/16 00:50:03  jeffgoke
+ * changed Error call to use syntax compatible prior to 1.4
+ *
  * Revision 1.6  2003/01/15 22:11:52  aarvesen
  * do some stronger error trapping and die on error
  *
@@ -212,9 +215,9 @@ public abstract class P6SpyDriverCore implements Driver {
 
 	    initialized = true;
 	} catch (Exception e) {
-	    String err = "Error registering " + classType + "  " + className + " " + e;
+	    String err = "Error registering " + classType + "  [" + className + "]\nCaused By: " + e.toString();
 	    P6LogQuery.logError(err);
-	    throw new Error(err, e);
+	    throw new P6DriverNotFoundError(err);
 	}
 	
     }
