@@ -261,12 +261,12 @@
   module.outage is required for the outage functionality, see <a href="other.htm#p6outage">P6Outage</a>.</font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b><font size="3">realdriver</font></b></font></p>
 <p><font face="Verdana, Arial, Helvetica, sans-serif" size="2">realdriver is where 
-  you specify the wrapped database driver.&nbsp;&nbsp;P6Spy wraps around your 
-  existing driver, intercepts the incoming database requests, and outputs them 
-  to a log file.&nbsp;To achieve this without requiring any code changes, the 
-  P6Spy driver is listed with your application as the primary driver.&nbsp;P6Spy 
-  then intercepts and logs the requests, and passes the requests to realdriver, 
-  where it is processed as usual.&nbsp;An example follows:</font></p>
+  you specify the wrapped database driver.&nbsp;P6Spy wraps around your existing 
+  driver, intercepts the incoming database requests, and outputs them to a log 
+  file.&nbsp;To achieve this without requiring any code changes, the P6Spy driver 
+  is listed with your application as the primary driver.&nbsp;P6Spy then intercepts 
+  and logs the requests, and passes the requests to realdriver, where it is processed 
+  as usual.&nbsp;An example follows:</font></p>
 <blockquote> 
   <p><font face="Courier New, Courier, mono" size="2">realdriver = oracle.jdbc.driver.OracleDriver</font></p>
 </blockquote>
@@ -532,8 +532,8 @@
     current time is obtained through System.getCurrentTimeMillis() and represents 
     the number of milliseconds that have passed since January 1, 1970 00:00:00.000 
     GMT. (Refer to the J2SE documentation for further details on System.getCurrentTimeMillis().) 
-    <font color="#000000">This can be changed to a different format using the 
-    dateformat property described in <a href="other.htm">Common Property File 
+    <font color="#000000">To change the format, </font><font color="#000000">use 
+    the dateformat property described in <a href="other.htm">Common Property File 
     Settings</a>.</font></font></li>
   <li><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">execution 
     time</font></b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&#151;The 
@@ -549,12 +549,12 @@
     Property File Settings</a></font></font><font color="#000000">. </font></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>statement 
     SQL string</b>&#151;This is the SQL string passed to the statement object. 
-    If it is a prepared statement, it will be the prepared statement as it was 
-    prior to the parameters being set. To see the complete statement, refer to 
-    effective SQL string<font face="Verdana, Arial, Helvetica, sans-serif">.</font></font></li>
+    If it is a prepared statement, it is the prepared statement that existed prior 
+    to the parameters being set. To see the complete statement, refer to effective 
+    SQL string<font face="Verdana, Arial, Helvetica, sans-serif">.</font></font></li>
   <li><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><b>effective 
     SQL string</b></font><font face="Courier New, Courier, mono" size="2">&#151;</font><font face="Verdana, Arial, Helvetica, sans-serif" size="2">If 
-    you are not using a prepared statement, this will contains no value. Otherwise, 
+    you are not using a prepared statement, this contains no value. Otherwise, 
     it fills in the values of the Prepared Statement so you can see the effective 
     SQL statement that is passed to the database. Of course, the database still 
     sees the prepared statement, but this string is a convenient way to see the 
