@@ -69,6 +69,10 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/06 22:39:43  aarvesen
+ * Extend P6Base.
+ * New factory registration in the constructor.
+ *
  * Revision 1.1  2002/05/24 07:31:13  jeffgoke
  * version 1 rewrite
  *
@@ -90,18 +94,16 @@ package com.p6spy.engine.spy;
 import java.io.*;
 import java.sql.*;
 
-public class P6Array implements java.sql.Array{
+public class P6Array extends P6Base implements java.sql.Array{
     
-    protected P6Factory getP6Factory() {
-        return new P6CoreFactory();
-    }
     
     protected Array passthru;
     protected P6Statement statement;
     protected String query;
     protected String preparedQuery;
     
-    public P6Array(Array array, P6Statement statement, String preparedQuery, String query) {
+    public P6Array(P6Factory factory, Array array, P6Statement statement, String preparedQuery, String query) {
+	setP6Factory(factory);
         this.passthru = array;
         this.statement = statement;
         this.query = query;

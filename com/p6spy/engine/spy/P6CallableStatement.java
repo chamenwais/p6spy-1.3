@@ -69,6 +69,10 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/12/06 22:40:13  aarvesen
+ * Extend P6Base.
+ * New factory registration in the constructor.
+ *
  * Revision 1.1  2002/05/24 07:31:13  jeffgoke
  * version 1 rewrite
  *
@@ -109,15 +113,12 @@ import java.sql.*;
 
 public class P6CallableStatement extends P6PreparedStatement implements java.sql.CallableStatement {
     
-    protected P6Factory getP6Factory() {
-        return new P6CoreFactory();
-    }
     
     protected CallableStatement callStmtPassthru;
     protected String callableQuery;
     
-    public P6CallableStatement(CallableStatement statement, P6Connection conn, String query) {
-        super(statement, conn, query);
+    public P6CallableStatement(P6Factory factory, CallableStatement statement, P6Connection conn, String query) {
+        super(factory, statement, conn, query);
         this.callableQuery = query;
         this.callStmtPassthru = statement;
     }
@@ -229,4 +230,265 @@ public class P6CallableStatement extends P6PreparedStatement implements java.sql
     public java.sql.Timestamp getTimestamp(int p0, java.util.Calendar p1) throws java.sql.SQLException {
         return callStmtPassthru.getTimestamp(p0,p1);
     }
+
+    // Since JDK 1.4
+    public void registerOutParameter(String p0, int p1) throws java.sql.SQLException {
+        callStmtPassthru.registerOutParameter(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void registerOutParameter(String p0, int p1, int p2) throws java.sql.SQLException {
+        callStmtPassthru.registerOutParameter(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public void registerOutParameter(String p0, int p1, String p2) throws java.sql.SQLException {
+        callStmtPassthru.registerOutParameter(p0, p1, p2);
+    }
+    
+    // Since JDK 1.4
+    public java.net.URL getURL(int p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getURL(p0));
+    }
+
+    // Since JDK 1.4
+    public void setURL(String p0, java.net.URL p1) throws java.sql.SQLException {
+        callStmtPassthru.setURL(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setNull(String p0, int p1) throws java.sql.SQLException {
+        callStmtPassthru.setNull(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setBoolean(String p0, boolean p1) throws java.sql.SQLException {
+        callStmtPassthru.setBoolean(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setByte(String p0, byte p1) throws java.sql.SQLException {
+        callStmtPassthru.setByte(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setShort(String p0, short p1) throws java.sql.SQLException {
+        callStmtPassthru.setShort(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setInt(String p0, int p1) throws java.sql.SQLException {
+        callStmtPassthru.setInt(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setLong(String p0, long p1) throws java.sql.SQLException {
+        callStmtPassthru.setLong(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setFloat(String p0, float p1) throws java.sql.SQLException {
+        callStmtPassthru.setFloat(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setDouble(String p0, double p1) throws java.sql.SQLException {
+        callStmtPassthru.setDouble(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setBigDecimal(String p0, java.math.BigDecimal p1) throws java.sql.SQLException {
+        callStmtPassthru.setBigDecimal(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setString(String p0, String p1) throws java.sql.SQLException {
+        callStmtPassthru.setString(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setBytes(String p0, byte p1[]) throws java.sql.SQLException {
+        callStmtPassthru.setBytes(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setDate(String p0, java.sql.Date p1) throws java.sql.SQLException {
+        callStmtPassthru.setDate(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setTime(String p0, java.sql.Time p1) throws java.sql.SQLException {
+        callStmtPassthru.setTime(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setTimestamp(String p0, java.sql.Timestamp p1) throws java.sql.SQLException {
+        callStmtPassthru.setTimestamp(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setAsciiStream(String p0, java.io.InputStream p1, int p2) throws java.sql.SQLException {
+        callStmtPassthru.setAsciiStream(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public void setBinaryStream(String p0, java.io.InputStream p1, int p2) throws java.sql.SQLException {
+        callStmtPassthru.setBinaryStream(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public void setObject(String p0, Object p1, int p2, int p3) throws java.sql.SQLException {
+        callStmtPassthru.setObject(p0, p1, p2, p3);
+    }
+
+    // Since JDK 1.4
+    public void setObject(String p0, Object p1, int p2) throws java.sql.SQLException {
+        callStmtPassthru.setObject(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public void setObject(String p0, Object p1) throws java.sql.SQLException {
+        callStmtPassthru.setObject(p0, p1);
+    }
+
+    // Since JDK 1.4
+    public void setCharacterStream(String p0, java.io.Reader p1, int p2) throws java.sql.SQLException {
+        callStmtPassthru.setCharacterStream(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public void setDate(String p0, java.sql.Date p1, java.util.Calendar p2) throws java.sql.SQLException {
+        callStmtPassthru.setDate(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public void setTime(String p0, java.sql.Time p1, java.util.Calendar p2) throws java.sql.SQLException {
+        callStmtPassthru.setTime(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public void setTimestamp(String p0, java.sql.Timestamp p1, java.util.Calendar p2) throws java.sql.SQLException {
+        callStmtPassthru.setTimestamp(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public void setNull(String p0, int p1, String p2) throws java.sql.SQLException {
+        callStmtPassthru.setNull(p0, p1, p2);
+    }
+
+    // Since JDK 1.4
+    public String getString(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getString(p0));
+    }
+
+    // Since JDK 1.4
+    public boolean getBoolean(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getBoolean(p0));
+    }
+
+    // Since JDK 1.4
+    public byte getByte(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getByte(p0));
+    }
+
+    // Since JDK 1.4
+    public short getShort(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getShort(p0));
+    }
+
+    // Since JDK 1.4
+    public int getInt(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getInt(p0));
+    }
+
+    // Since JDK 1.4
+    public long getLong(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getLong(p0));
+    }
+
+    // Since JDK 1.4
+    public float getFloat(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getFloat(p0));
+    }
+
+    // Since JDK 1.4
+    public double getDouble(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getDouble(p0));
+    }
+
+    // Since JDK 1.4
+    public byte[] getBytes(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getBytes(p0));
+    }
+
+    // Since JDK 1.4
+    public java.sql.Date getDate(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getDate(p0));
+    }
+
+    // Since JDK 1.4
+    public java.sql.Time getTime(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getTime(p0));
+    }
+
+    // Since JDK 1.4
+    public java.sql.Timestamp getTimestamp(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getTimestamp(p0));
+    }
+
+    // Since JDK 1.4
+    public Object getObject(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getObject(p0));
+    }
+
+    // Since JDK 1.4
+    public java.math.BigDecimal getBigDecimal(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getBigDecimal(p0));
+    }
+
+    // Since JDK 1.4
+    public Object getObject(String p0, java.util.Map p1) throws java.sql.SQLException {
+        return(callStmtPassthru.getObject(p0, p1));
+    }
+
+    // Since JDK 1.4
+    public java.sql.Ref getRef(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getRef(p0));
+    }
+
+    // Since JDK 1.4
+    public java.sql.Blob getBlob(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getBlob(p0));
+    }
+
+    // Since JDK 1.4
+    public java.sql.Clob getClob(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getClob(p0));
+    }
+
+    // Since JDK 1.4
+    public java.sql.Array getArray(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getArray(p0));
+    }
+
+    // Since JDK 1.4
+    public java.sql.Date getDate(String p0, java.util.Calendar p1) throws java.sql.SQLException {
+        return(callStmtPassthru.getDate(p0, p1));
+    }
+
+    // Since JDK 1.4
+    public java.sql.Time getTime(String p0, java.util.Calendar p1) throws java.sql.SQLException {
+        return(callStmtPassthru.getTime(p0, p1));
+    }
+
+    // Since JDK 1.4
+    public java.sql.Timestamp getTimestamp(String p0, java.util.Calendar p1) throws java.sql.SQLException {
+        return(callStmtPassthru.getTimestamp(p0, p1));
+    }
+
+    // Since JDK 1.4
+    public java.net.URL getURL(String p0) throws java.sql.SQLException {
+        return(callStmtPassthru.getURL(p0));
+    }
+
 }
