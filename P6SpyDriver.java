@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2002/04/10 06:49:26  jeffgoke
+ * added more debug information and a new property for setting the log's date format
+ *
  * Revision 1.3  2002/04/10 05:22:09  jeffgoke
  * included debug option and a message at driver initialization time
  *
@@ -109,6 +112,9 @@ public class P6SpyDriver implements Driver {
     public synchronized static void initMethod() {
         String driver = P6SpyOptions.getSpydriver();
         P6Util.checkJavaProperties();
+        if (P6SpyOptions.getDebug()) {
+            P6LogQuery.doLog("P6Spy trace is on: "+P6SpyOptions.getTrace());
+        }        
         try {
             DriverManager.registerDriver(new P6SpyDriver());
         } catch (ClassNotFoundException e1) {

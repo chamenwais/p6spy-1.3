@@ -64,6 +64,7 @@
 package com.p6spy.engine.spy;
 
 import java.util.*;
+import java.text.SimpleDateFormat;
 
 public class P6SpyOptions   {
     static {initMethod();}
@@ -82,6 +83,8 @@ public class P6SpyOptions   {
     private static boolean append;
     private static String properties;
     private static boolean debug;
+    private static String dateformat;
+    private static SimpleDateFormat dateformatter;
     
     public static void setAutoflush(boolean _autoflush) {
         autoflush = _autoflush;
@@ -155,6 +158,20 @@ public class P6SpyOptions   {
     public static String getProperties() {
         return properties;
     }
+    public static void setDateformat(String _dateformat) {
+        dateformat = _dateformat;
+        if (_dateformat == null) {
+            dateformatter = null;
+        } else {
+            dateformatter = new SimpleDateFormat(_dateformat);
+        }
+    }
+    public static String getDateformat() {
+        return dateformat;
+    }
+    public static SimpleDateFormat getDateformatter() {
+        return dateformatter;
+    }
     
     public static void testP6SpyOptions() {
         new P6SpyOptions();
@@ -179,6 +196,7 @@ public class P6SpyOptions   {
         setTrace(getTrace());
         setProperties(getProperties());
         setDebug(getDebug());
+        setDateformat(getDateformat());
     }
     
     public static void help() {
@@ -194,6 +212,7 @@ public class P6SpyOptions   {
         System.out.println("    trace [false]                             - turn on tracing");
         System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");
         System.out.println("    debug [false]                             - outputs P6Spy debug statements");
+        System.out.println("    dateformat []                             - simple date format for log file");
         System.out.println("\nGlobal:");
         System.out.println("    properties [spy.properties]               - name of file that stores the properties info");
     }
@@ -210,6 +229,7 @@ public class P6SpyOptions   {
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    trace [false]                             - turn on tracing");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    debug [false]                             - output P6Spy debug statements");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    dateformat []                             - simple date format for log file");        }
         if (category.equalsIgnoreCase("Global")) {            System.out.println("\nGlobal:");            System.out.println("    properties [spy.properties]               - name of file that stores the properties info");        }
     }
     
@@ -249,6 +269,8 @@ public class P6SpyOptions   {
         value = props.getProperty("debug");
         if (value == null) value = "true";
         setDebug(P6Util.isTrue(value));
+        value = props.getProperty("dateformat");
+        setDateformat(value);
     }
     
     public static boolean set(String name, String value) {
@@ -267,6 +289,8 @@ public class P6SpyOptions   {
         else if (lc.equals("trace")) setTrace(P6Util.isTrue(value));
         else if (lc.equals("properties")) setProperties(value);
         else if (lc.equals("debug")) setDebug(P6Util.isTrue(value));
+        else if (lc.equals("properties")) setProperties(value);
+        else if (lc.equals("dateformat")) setDateformat(value);
         else ret = false;
         return ret;
     }
@@ -286,7 +310,8 @@ public class P6SpyOptions   {
         else if (lc.equals("trace")) return getTrace() ? "true" : "false";
         else if (lc.equals("properties")) return getProperties();
         else if (lc.equals("debug")) return getDebug() ? "true" : "false";
-        else return null;    
+        else if (lc.equals("dateformat")) return getDateformat();
+        else return null;
     }
     
     public static Map getKeysMap() {
@@ -303,6 +328,7 @@ public class P6SpyOptions   {
         keys.put("trace", getTrace() ? "true" : "false");
         keys.put("properties", getProperties());
         keys.put("debug", getDebug() ? "true" : "false");
+        keys.put("dateformat", getDateformat());
         return keys;
     }
     
@@ -320,6 +346,7 @@ public class P6SpyOptions   {
         values.put(getTrace() ? "true" : "false","trace");
         values.put(getProperties(),"properties");
         values.put(getDebug() ? "true" : "false","debug");
+        values.put(getDateformat(),"dateformat");
         return values;
     }
     
@@ -337,6 +364,7 @@ public class P6SpyOptions   {
         list.add("trace");
         list.add("properties");
         list.add("debug");
+        list.add("dateformat");
         return list;
     }
 }

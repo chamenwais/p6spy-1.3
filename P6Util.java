@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2002/04/10 06:49:26  jeffgoke
+ * added more debug information and a new property for setting the log's date format
+ *
  * Revision 1.2  2002/04/07 20:43:59  jeffgoke
  * fixed bug that caused null connection to return an empty connection instead of null.
  * added an option allowing the user to truncate.
@@ -184,7 +187,10 @@ public class P6Util {
             String value = System.getProperty("p6" + opt);
             
             if (value != null) {
+                P6LogQuery.doLog("Found value in environment: "+opt+", setting to value: "+value);
                 P6SpyOptions.set(opt,value);
+            } else {
+                P6LogQuery.doLog("No value in environment for: "+opt+", using: "+P6SpyOptions.get(opt));
             }
         }
     }

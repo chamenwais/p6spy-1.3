@@ -68,6 +68,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.3  2002/04/10 06:49:26  jeffgoke
+ * added more debug information and a new property for setting the log's date format
+ *
  * Revision 1.2  2002/04/07 20:43:59  jeffgoke
  * fixed bug that caused null connection to return an empty connection instead of null.
  * added an option allowing the user to truncate.
@@ -95,6 +98,7 @@ package com.p6spy.engine.spy;
 import java.sql.*;
 import java.util.*;
 import java.io.*;
+import java.text.SimpleDateFormat;
 
 public class P6LogQuery {
     private static PrintStream qlog;
@@ -115,7 +119,7 @@ public class P6LogQuery {
             }
         }
     }
-     
+    
     static PrintStream logPrintStream(String file) {
         PrintStream ps = null;
         try {
@@ -126,7 +130,7 @@ public class P6LogQuery {
             P6Util.warn("Error opening " + file + ", " + io.getMessage());
             ps = null;
         }
-     
+        
         return ps;
     }
     
@@ -161,7 +165,12 @@ public class P6LogQuery {
     
     static final synchronized void doLog(String sql) {
         java.util.Date now = P6Util.timeNow();
-        qlog.print(now.getTime());
+        SimpleDateFormat sdf = P6SpyOptions.getDateformatter();
+        if (sdf == null) {
+            qlog.print(now.getTime());
+        } else {
+            qlog.print(sdf.format(new java.util.Date (now.getTime())).trim());
+        }
         qlog.print("|");
         qlog.println(sql);
     }
