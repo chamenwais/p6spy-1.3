@@ -64,6 +64,9 @@
  * Support for PooledConnection interface 
  *
  * $Log$
+ * Revision 1.3  2003/08/04 19:34:02  aarvesen
+ * radically changed this class to simply wrap a pooledconnection rather than maintain its own kludgy connection pool
+ *
  * Revision 1.2  2003/06/03 19:20:25  cheechq
  * removed unused imports
  *
@@ -97,152 +100,31 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import javax.sql.*;
 
-/***
- * This class is used to manage pooled connections. Instances are 
- * created by the P6ConnectionPoolDataSource factory class, and 
- * have a physical Connection. Instances of this class are usable
- * for as long as the physical connections is open. Calls to 
- * getConnection on this class produce instances of the P6ProxyConnection
- * class. 
- *
- * @see javax.sql.PooledConnection
- * @see javax.sql.ConnectionPoolDataSource
- * @see com.p6spy.engine.spy.P6ConnectionPoolDataSource
- * @see com.p6spy.engine.spy.P6ProxyConnection
- *
- */
 
 public class P6PooledConnection implements PooledConnection {
     
-    // a Hashtable is a cheap way to get a set with no duplicates
-    private Hashtable eventTargets;
-    protected Connection proxyConnection;
-    protected Connection realConnection;
+    protected PooledConnection passthru;
 
-    public final static int EVENT_TYPE_CLOSE = 1;
-    public final static int EVENT_TYPE_ERROR = 2;
-
-    /** 
-     *
-     * P6ConnectionPoolDataSource creates a realConnection (a P6 wrapper
-     * for the realDriver Connection) and then constructs this to contain it.
-     *
-     * @param connection the "real" or "physical" connection, i.e. the type of 
-     *                   object that would result from a call to P6SpyDriver.connect()
-     */
-    public P6PooledConnection(Connection connection) {
-        proxyConnection = null;
-        realConnection = connection;
-        eventTargets = new Hashtable(5);
+    public P6PooledConnection(PooledConnection connection) {
+      passthru = connection;
     }
 
 
-    /**
-    * Creates a new P6ProxyConnection, associates it with the real connection, and returns it.
-    * The specified behavior of this method is to return a new Connection (P6ProxyConnection)
-    * one each call. The specified behavior of the PooledConnection class is that at most 
-    * one Connection is associated with the PooledConnection at any time, so any existing 
-    * Connection is closed. If the real connection has been closed, then SQLException 
-    * will be thrown. Other SQLExceptions may be thrown from the close call to the real connection.
-    *
-    * @exception java.sql.SQLException
-    */
-    public synchronized Connection getConnection() throws SQLException {
-
-        if(realConnection == null) {
-            SQLException sqlException = 
-		new SQLException("Pooled Connection has no real connection, must have been closed");
-            deliverEvent(EVENT_TYPE_ERROR, sqlException);
-            return null;
-        }
-        try {
-	    // There is already a proxy, so tell it to buzz off 
-            if(proxyConnection != null) {
-                proxyConnection.close();
-            }
-	    // Make a new proxy, giving it the real connection to proxy.
-            proxyConnection = new P6ProxyConnection(this, realConnection);
-
-        } catch(SQLException sqlException) {
-            deliverEvent(EVENT_TYPE_ERROR, sqlException);
-            return null;
-        }
-        return proxyConnection;
-    }
-    
-    /**
-     * Connection Pool managers such as EJB containers call this when they want to 
-     * close the real connections, as during shutdown or reconfiguration, or when
-     * this instance has delivered a connectionErrorOccured event. After this call,
-     * the instance can no longer be used.
-     * @exception java.sql.SQLException from underlying real connection close
-     */
-    
-    public synchronized void close() throws SQLException {
-        realConnection.close();
-        realConnection = null;
-        deliverEvent(EVENT_TYPE_ERROR, null);
-    }
-    
-    /**
-    * Registers submitted ConnectionEventListener as a target for delivery of events 
-    * of the ConnectionEvents type, either close or error events.
-    * 
-    * @param eventTarget listener to be notified with ConnectionEvents
-    */
-    
-
-    public synchronized void addConnectionEventListener(ConnectionEventListener eventTarget) {
-	// synchronized to prevent possible failfast on Hashtable during event delivery
-
-	// By putting the eventTarget in as both the key and the value, we get a uniqified
-	// set for cheap. Also makes it dead simple to remove. This call should be rare.
-        if(eventTargets != null) {
-            eventTargets.put(eventTarget, eventTarget);
-        }    
+    public Connection getConnection() throws SQLException {
+      return P6SpyDriverCore.wrapConnection(passthru.getConnection());
     }
 
-    /**
-    * Removes ConnectionEventListeners from the list of targets for event delivery. 
-    *
-    * @param eventTarget listener to be removed
-    */
-    
-    public synchronized void removeConnectionEventListener(ConnectionEventListener eventTarget) {
-	// synchronized to prevent possible failfast on Hashtable during event delivery
-
-        if(eventTargets != null) {
-            eventTargets.remove(eventTarget);
-        }    
+    public void close() throws SQLException  {
+      passthru.close();
     }
-    /**
-     * Creates and delivers a ConnectionEvent to all registered (as registered in 
-     * addConnectionEventListener) event targets. The newly created ConnectionEvent
-     * instance contains the provided sqlException.
-     *
-     * @param type indicating connectionClosed (P6PooledConnection.EVENT_TYPE_CLOSE) 
-     *         or connectionErrorOccurred (P6PooledConnection.EVENT_TYPE_ERROR) 
-     * @exception java.sql.SQLException
-    */
-    
-    protected synchronized void deliverEvent(int type, SQLException sqlException) {
-	// synchronized to prevent related methods from causeing on Hashtable
-        if(eventTargets == null) {
-            return;
-        }
-	// If the event is a close event, then the sqlException will be null
-        ConnectionEvent event = new ConnectionEvent(this, sqlException);
 
-	// Find all the target listeners, and delivery the event
-        Enumeration enumeration = eventTargets.elements();
-        while(enumeration.hasMoreElements()) {
-            ConnectionEventListener eventTarget = (ConnectionEventListener)enumeration.nextElement();
-            if (type == EVENT_TYPE_CLOSE) {
-                eventTarget.connectionClosed(event);
-            } else if (type == EVENT_TYPE_ERROR) {
-                eventTarget.connectionErrorOccurred(event);
-            }    
-        }
+    public void addConnectionEventListener(ConnectionEventListener eventTarget) {
+      passthru.addConnectionEventListener(eventTarget);
+    }
+
+    
+    public void removeConnectionEventListener(ConnectionEventListener eventTarget) {
+      passthru.removeConnectionEventListener(eventTarget);
     }
 
 }
