@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.10  2003/01/29 05:38:42  jeffgoke
+ * added fix to not close reader if it is null
+ *
  * Revision 1.9  2003/01/28 17:00:58  jeffgoke
  * rewrote options to the ability for a module to have its own option set
  *
@@ -317,8 +320,12 @@ public class P6Util {
             P6LogQuery.logError("IO Error reading file " + file + " " + e2);
         } finally {
             try {
-                reader.close();
-                in.close();
+		if (reader != null) {
+	                reader.close();
+		}
+		if (in != null) {
+	                in.close();
+		}
             } catch (IOException e) {
             }
         }
