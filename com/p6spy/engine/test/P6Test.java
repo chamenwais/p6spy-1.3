@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.11  2003/08/06 19:53:33  aarvesen
+ * added in the subclass tester
+ *
  * Revision 1.10  2003/08/04 19:35:08  aarvesen
  * Added in the pooled test
  *
@@ -131,6 +134,7 @@ public class P6Test extends TestCase {
         suite.addTestSuite(P6TestOptions.class);
         suite.addTestSuite(P6TestUnloading.class);
         suite.addTestSuite(P6TestPooled.class);
+        suite.addTestSuite(P6TestSubclasser.class);
         return suite;
     }
 }
