@@ -69,6 +69,12 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.4  2002/04/15 05:13:32  jeffgoke
+ * Simon Sadedin added timing support.  Fixed bug where batch execute was not
+ * getting logged.  Added result set timing.  Updated the log format to include
+ * categories, and updated options to control the categories.  Updated
+ * documentation.
+ *
  * Revision 1.3  2002/04/11 04:18:03  jeffgoke
  * fixed bug where callable & prepared were not passing their ancestors the correct constructor information
  *
@@ -97,7 +103,7 @@ import java.sql.*;
 import java.math.*;
 
 public class P6PreparedStatement extends P6Statement implements PreparedStatement {
-    private final static int P6_MAX_FIELDS = 256;
+    private  static int P6_MAX_FIELDS = 256;
     protected PreparedStatement prepStmtPassthru;
     private String query;
     private Object values[];
@@ -124,37 +130,53 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         prepStmtPassthru.addBatch();
     }
     
-    public final void clearParameters() throws SQLException {
+    public void clearParameters() throws SQLException {
         prepStmtPassthru.clearParameters();
     }
     
-    public final boolean execute() throws SQLException {
-        if (P6SpyOptions.getTrace()) {
-            P6LogQuery.log(query + "|" + getQueryFromPreparedStatement());
+    public boolean execute() throws SQLException {
+        long startTime = System.currentTimeMillis();
+        try {
+            return prepStmtPassthru.execute();
         }
-        return prepStmtPassthru.execute();
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "statement", query, getQueryFromPreparedStatement());
+            }
+        }
     }
     
-    public final ResultSet executeQuery() throws SQLException {
-        if (P6SpyOptions.getTrace()) {
-            P6LogQuery.log(query + "|" + getQueryFromPreparedStatement());
+    public ResultSet executeQuery() throws SQLException {
+        long startTime = System.currentTimeMillis();
+        try {
+            ResultSet resultSet = prepStmtPassthru.executeQuery();
+            return (new P6ResultSet(resultSet, this, query, getQueryFromPreparedStatement()));
         }
-        ResultSet resultSet = prepStmtPassthru.executeQuery();
-        return (new P6ResultSet(resultSet, this));
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "statement", query, getQueryFromPreparedStatement());
+            }
+        }
     }
     
-    public final int executeUpdate() throws SQLException {
-        if (P6SpyOptions.getTrace()) {
-            P6LogQuery.log(query + "|" + getQueryFromPreparedStatement());
+    public int executeUpdate() throws SQLException {
+        
+        long startTime = System.currentTimeMillis();
+        try {
+            return prepStmtPassthru.executeUpdate();
         }
-        return prepStmtPassthru.executeUpdate();
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "statement", query, getQueryFromPreparedStatement());
+            }
+        }
     }
     
-    public final ResultSetMetaData getMetaData() throws SQLException {
+    public ResultSetMetaData getMetaData() throws SQLException {
         return prepStmtPassthru.getMetaData();
     }
     
-    public final void setArray(int p0, Array p1) throws SQLException {
+    public void setArray(int p0, Array p1) throws SQLException {
         setObjectAsString(p0, p1);
         // we need to make sure we get the real object in this case
         if (p1 instanceof P6Array) {
@@ -164,150 +186,156 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         }
     }
     
-    public final void setAsciiStream(int p0, InputStream p1, int p2) throws SQLException {
+    public void setAsciiStream(int p0, InputStream p1, int p2) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setAsciiStream(p0,p1,p2);
     }
     
-    public final void setBigDecimal(int p0, BigDecimal p1) throws SQLException {
+    public void setBigDecimal(int p0, BigDecimal p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setBigDecimal(p0,p1);
     }
     
-    public final void setBinaryStream(int p0, InputStream p1, int p2) throws SQLException {
+    public void setBinaryStream(int p0, InputStream p1, int p2) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setBinaryStream(p0,p1,p2);
     }
     
-    public final void setBlob(int p0, Blob p1) throws SQLException {
+    public void setBlob(int p0, Blob p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setBlob(p0,p1);
     }
     
-    public final void setBoolean(int p0, boolean p1) throws SQLException {
+    public void setBoolean(int p0, boolean p1) throws SQLException {
         setObjectAsString(p0, new Boolean(p1));
         prepStmtPassthru.setBoolean(p0,p1);
     }
     
-    public final void setByte(int p0, byte p1) throws SQLException {
+    public void setByte(int p0, byte p1) throws SQLException {
         setObjectAsString(p0, new Byte(p1));
         prepStmtPassthru.setByte(p0,p1);
     }
     
-    public final void setBytes(int p0, byte[] p1) throws SQLException {
+    public void setBytes(int p0, byte[] p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setBytes(p0,p1);
     }
     
-    public final void setCharacterStream(int p0, Reader p1, int p2) throws SQLException {
+    public void setCharacterStream(int p0, Reader p1, int p2) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setCharacterStream(p0,p1,p2);
     }
     
-    public final void setClob(int p0, Clob p1) throws SQLException {
+    public void setClob(int p0, Clob p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setClob(p0,p1);
     }
     
-    public final void setDate(int p0, Date p1) throws SQLException {
+    public void setDate(int p0, Date p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setDate(p0,p1);
     }
     
-    public final void setDate(int p0, Date p1, java.util.Calendar p2) throws SQLException {
+    public void setDate(int p0, Date p1, java.util.Calendar p2) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setDate(p0,p1,p2);
     }
     
-    public final void setDouble(int p0, double p1) throws SQLException {
+    public void setDouble(int p0, double p1) throws SQLException {
         setObjectAsInt(p0, new Double(p1));
         prepStmtPassthru.setDouble(p0,p1);
     }
     
-    public final void setFloat(int p0, float p1) throws SQLException {
+    public void setFloat(int p0, float p1) throws SQLException {
         setObjectAsInt(p0, new Float(p1));
         prepStmtPassthru.setFloat(p0,p1);
     }
     
-    public final void setInt(int p0, int p1) throws SQLException {
+    public void setInt(int p0, int p1) throws SQLException {
         setObjectAsInt(p0, new Integer(p1));
         prepStmtPassthru.setInt(p0,p1);
     }
     
-    public final void setLong(int p0, long p1) throws SQLException {
+    public void setLong(int p0, long p1) throws SQLException {
         setObjectAsInt(p0, new Long(p1));
         prepStmtPassthru.setLong(p0,p1);
     }
     
-    public final void setNull(int p0, int p1, String p2) throws SQLException {
+    public void setNull(int p0, int p1, String p2) throws SQLException {
         setObjectAsString(p0, null);
         prepStmtPassthru.setNull(p0,p1,p2);
     }
     
-    public final void setNull(int p0, int p1) throws SQLException {
+    public void setNull(int p0, int p1) throws SQLException {
         setObjectAsString(p0, null);
         prepStmtPassthru.setNull(p0,p1);
     }
     
-    public final void setObject(int p0, Object p1, int p2, int p3) throws SQLException {
+    public void setObject(int p0, Object p1, int p2, int p3) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setObject(p0,p1,p2,p3);
     }
     
-    public final void setObject(int p0, Object p1, int p2) throws SQLException {
+    public void setObject(int p0, Object p1, int p2) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setObject(p0,p1,p2);
     }
     
-    public final void setObject(int p0, Object p1) throws SQLException {
+    public void setObject(int p0, Object p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setObject(p0,p1);
     }
     
-    public final void setRef(int p0, Ref p1) throws SQLException {
+    public void setRef(int p0, Ref p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setRef(p0,p1);
     }
     
-    public final void setShort(int p0, short p1) throws SQLException {
+    public void setShort(int p0, short p1) throws SQLException {
         setObjectAsString(p0, new Short(p1));
         prepStmtPassthru.setShort(p0,p1);
     }
     
-    public final void setString(int p0, String p1) throws SQLException {
+    public void setString(int p0, String p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setString(p0,p1);
     }
     
-    public final void setTime(int p0, Time p1, java.util.Calendar p2) throws SQLException {
+    public void setTime(int p0, Time p1, java.util.Calendar p2) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setTime(p0,p1,p2);
     }
     
-    public final void setTime(int p0, Time p1) throws SQLException {
+    public void setTime(int p0, Time p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setTime(p0,p1);
     }
     
-    public final void setTimestamp(int p0, Timestamp p1, java.util.Calendar p2) throws SQLException {
+    public void setTimestamp(int p0, Timestamp p1, java.util.Calendar p2) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setTimestamp(p0,p1,p2);
     }
     
-    public final void setTimestamp(int p0, Timestamp p1) throws SQLException {
+    public void setTimestamp(int p0, Timestamp p1) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setTimestamp(p0,p1);
     }
     
-    public final void setUnicodeStream(int p0, InputStream p1, int p2) throws SQLException {
+    public void setUnicodeStream(int p0, InputStream p1, int p2) throws SQLException {
         setObjectAsString(p0, p1);
         prepStmtPassthru.setUnicodeStream(p0,p1,p2);
     }
+
+    /* we override this because the p6statement version will not be able to return
+     * the accurate prepared statement or query information */
+    public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
+        return (new P6ResultSet(passthru.getResultSet(), this, query, getQueryFromPreparedStatement()));
+    }
     
     /*
-     * Extras
+     * P6Spy specific functionality
      */
-    public final String getQueryFromPreparedStatement() {
+    public String getQueryFromPreparedStatement() {
         String t = new String(query);
         
         if (values != null) {
@@ -326,7 +354,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         return(t);
     }
     
-    protected final void setObjectAsString(int i, Object o) {
+    protected  void setObjectAsString(int i, Object o) {
         if (values != null) {
             if (i >= 0 && i <= P6_MAX_FIELDS) {
                 values[i] = (o == null) ? "" : o.toString();
@@ -335,7 +363,7 @@ public class P6PreparedStatement extends P6Statement implements PreparedStatemen
         }
     }
     
-    protected final void setObjectAsInt(int i, Object o) {
+    protected  void setObjectAsInt(int i, Object o) {
         if (values != null) {
             if (i >= 0 && i <= P6_MAX_FIELDS) {
                 values[i] = (o == null) ? "" : o.toString();

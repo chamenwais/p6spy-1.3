@@ -69,6 +69,12 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/04/15 05:13:32  jeffgoke
+ * Simon Sadedin added timing support.  Fixed bug where batch execute was not
+ * getting logged.  Added result set timing.  Updated the log format to include
+ * categories, and updated options to control the categories.  Updated
+ * documentation.
+ *
  * Revision 1.1  2002/04/10 04:24:26  jeffgoke
  * added support for callable statements and fixed numerous bugs that allowed the real class to be returned
  *
@@ -87,15 +93,27 @@ import java.text.*;
 public final class P6ResultSet implements ResultSet {
     protected ResultSet passthru;
     protected P6Statement statement;
+    protected String query;
+    protected String preparedQuery;
     
-    public P6ResultSet(ResultSet resultSet, P6Statement statement) {
+    public P6ResultSet(ResultSet resultSet, P6Statement statement, String preparedQuery, String query) {
         this.passthru = resultSet;
         this.statement = statement;
+        this.query = query;
+        this.preparedQuery = preparedQuery;;
     }
     
     // we should be logging this for timing purposes
     public final boolean next() throws SQLException {
-        return passthru.next();
+        long startTime = System.currentTimeMillis();
+        try {
+            return passthru.next();
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "result", preparedQuery, query);
+            }
+        }
     }
     
     public final int getRow() throws SQLException {
@@ -603,11 +621,11 @@ public final class P6ResultSet implements ResultSet {
     }
     
     public final Array getArray(int p0) throws SQLException {
-        return new P6Array (passthru.getArray(p0),statement);
+        return new P6Array(passthru.getArray(p0),statement,preparedQuery,query);
     }
     
     public final Array getArray(String p0) throws SQLException {
-        return new P6Array (passthru.getArray(p0),statement);
+        return new P6Array(passthru.getArray(p0),statement,preparedQuery,query);
     }
     
 }

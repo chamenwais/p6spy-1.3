@@ -68,6 +68,12 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2002/04/15 05:13:32  jeffgoke
+ * Simon Sadedin added timing support.  Fixed bug where batch execute was not
+ * getting logged.  Added result set timing.  Updated the log format to include
+ * categories, and updated options to control the categories.  Updated
+ * documentation.
+ *
  * Revision 1.3  2002/04/10 06:49:26  jeffgoke
  * added more debug information and a new property for setting the log's date format
  *
@@ -104,6 +110,8 @@ public class P6LogQuery {
     private static PrintStream qlog;
     private static String[] includeTables;
     private static String[] excludeTables;
+    private static String[] includeCategories;
+    private static String[] excludeCategories;
     
     static {
         if (P6SpyOptions.getTrace()) {
@@ -114,9 +122,11 @@ public class P6LogQuery {
                 qlog = logPrintStream(log);
             }
             if (P6SpyOptions.getFilter()) {
-                includeTables = loadTables(P6SpyOptions.getInclude());
-                excludeTables = loadTables(P6SpyOptions.getExclude());
+                includeTables = parseCSVList(P6SpyOptions.getInclude());
+                excludeTables = parseCSVList(P6SpyOptions.getExclude());
             }
+            includeCategories = parseCSVList(P6SpyOptions.getIncludecategories());
+            excludeCategories = parseCSVList(P6SpyOptions.getExcludecategories());
         }
     }
     
@@ -134,15 +144,17 @@ public class P6LogQuery {
         return ps;
     }
     
-    static final String[] loadTables(String tables) {
+    static final String[] parseCSVList(String csvList) {
         String array[] = null;
-        if (tables != null) {
-            StringTokenizer tok = new StringTokenizer(tables, ",");
-            String table;
+        if (csvList != null) {
+            StringTokenizer tok = new StringTokenizer(csvList, ",");
+            String item;
             ArrayList list = new ArrayList();
             while (tok.hasMoreTokens()) {
-                table = tok.nextToken();
-                list.add(table.toLowerCase().trim());
+                item = tok.nextToken().toLowerCase().trim();
+                if (item != "") {
+                    list.add(item.toLowerCase().trim());
+                }
             }
             
             int max = list.size();
@@ -157,30 +169,45 @@ public class P6LogQuery {
         return array;
     }
     
-    static final void log(String sql) {
-        if (qlog != null && isLoggable(sql)) {
-            doLog(sql);
+    static final void logDebug(String sql) {
+        if (qlog != null && isCategoryOk("debug")) {
+            doLog(-1, "debug", "", sql);
         }
     }
     
-    static final synchronized void doLog(String sql) {
+    static final synchronized void doLog(long elapsed, String category, String prepared, String sql) {
         java.util.Date now = P6Util.timeNow();
         SimpleDateFormat sdf = P6SpyOptions.getDateformatter();
         if (sdf == null) {
             qlog.print(now.getTime());
         } else {
-            qlog.print(sdf.format(new java.util.Date (now.getTime())).trim());
+            qlog.print(sdf.format(new java.util.Date(now.getTime())).trim());
         }
-        qlog.print("|");
+        qlog.print("|"+elapsed+"|"+category+"|"+prepared+"|");
         qlog.println(sql);
     }
     
     static final boolean isLoggable(String sql) {
-        return(!P6SpyOptions.getFilter() || queryOk(sql.toLowerCase()));
+        return(P6SpyOptions.getFilter() == false || queryOk(sql.toLowerCase()));
+    }
+    
+    static final boolean isCategoryOk(String category) {
+        return (includeCategories == null || includeCategories.length == 0 || foundCategory(category,includeCategories)) && !foundCategory(category,excludeCategories);
+    }
+    
+    static final boolean foundCategory(String category, String categories[]) {
+        if (categories != null) {
+            for (int i = 0; i < categories.length; i++) {
+                if (category.equals(categories[i])) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     static final boolean queryOk(String sql) {
-        return foundTable(sql, includeTables) && !foundTable(sql, excludeTables);
+        return (includeTables == null || includeTables.length == 0 || foundTable(sql, includeTables)) && !foundTable(sql, excludeTables);
     }
     
     static final boolean foundTable(String sql, String tables[]) {
@@ -197,5 +224,19 @@ public class P6LogQuery {
     
     static final boolean tableOk(String sql, String table) {
         return (sql.indexOf(table) >= 0);
+    }
+    
+    static final void logElapsed(long startTime, String category, String prepared, String sql) {
+        logElapsed(startTime,System.currentTimeMillis(), category, prepared, sql);
+    }
+    
+    static final void logElapsed(long startTime, long endTime, String category, String prepared, String sql) {
+        if (qlog != null && isLoggable(sql) && isCategoryOk(category)) {
+            doLogElapsed(startTime, endTime, category, prepared, sql);
+        }
+    }
+    
+    static final synchronized void doLogElapsed(long startTime, long endTime, String category, String prepared, String sql) {
+        doLog((endTime - startTime), category, prepared, sql);
     }
 }

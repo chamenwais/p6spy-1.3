@@ -69,6 +69,12 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.2  2002/04/15 05:13:32  jeffgoke
+ * Simon Sadedin added timing support.  Fixed bug where batch execute was not
+ * getting logged.  Added result set timing.  Updated the log format to include
+ * categories, and updated options to control the categories.  Updated
+ * documentation.
+ *
  * Revision 1.1  2002/04/10 04:24:26  jeffgoke
  * added support for callable statements and fixed numerous bugs that allowed the real class to be returned
  *
@@ -85,10 +91,14 @@ public class P6Array implements java.sql.Array{
     
     protected Array passthru;
     protected P6Statement statement;
+    protected String query;
+    protected String preparedQuery;
     
-    public P6Array(Array array, P6Statement statement) {
+    public P6Array(Array array, P6Statement statement, String preparedQuery, String query) {
         this.passthru = array;
         this.statement = statement;
+        this.query = query;
+        this.preparedQuery = preparedQuery;
     }
     
     public final Object getArray() throws java.sql.SQLException {
@@ -116,19 +126,19 @@ public class P6Array implements java.sql.Array{
     }
     
     public final java.sql.ResultSet getResultSet() throws java.sql.SQLException {
-        return new P6ResultSet(passthru.getResultSet(),statement);
-    }    
+        return new P6ResultSet(passthru.getResultSet(),statement,preparedQuery,query);
+    }
     
     public final java.sql.ResultSet getResultSet(java.util.Map p0) throws java.sql.SQLException {
-        return new P6ResultSet(passthru.getResultSet(p0),statement);
+        return new P6ResultSet(passthru.getResultSet(p0),statement,preparedQuery,query);
     }
     
     public final java.sql.ResultSet getResultSet(long p0, int p1) throws java.sql.SQLException {
-        return new P6ResultSet(passthru.getResultSet(p0,p1),statement);
+        return new P6ResultSet(passthru.getResultSet(p0,p1),statement,preparedQuery,query);
     }
     
     public final java.sql.ResultSet getResultSet(long p0, int p1, java.util.Map p2) throws java.sql.SQLException {
-        return new P6ResultSet(passthru.getResultSet(p0,p1,p2),statement);
+        return new P6ResultSet(passthru.getResultSet(p0,p1,p2),statement,preparedQuery,query);
     }
     
 }

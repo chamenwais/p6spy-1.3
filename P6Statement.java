@@ -68,6 +68,12 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2002/04/15 05:13:32  jeffgoke
+ * Simon Sadedin added timing support.  Fixed bug where batch execute was not
+ * getting logged.  Added result set timing.  Updated the log format to include
+ * categories, and updated options to control the categories.  Updated
+ * documentation.
+ *
  * Revision 1.3  2002/04/11 04:18:03  jeffgoke
  * fixed bug where callable & prepared were not passing their ancestors the correct constructor information
  *
@@ -99,133 +105,161 @@ import java.sql.*;
 public class P6Statement implements Statement {
     protected Statement passthru;
     protected P6Connection connection;
+    protected String query;
     
     public P6Statement() {}
-       
+    
     P6Statement(Statement statement, P6Connection conn) {
         passthru = statement;
         connection = conn;
     }
     
-    public final void close() throws java.sql.SQLException {
+    public void close() throws java.sql.SQLException {
         passthru.close();
     }
     
     public boolean execute(String p0) throws java.sql.SQLException {
-        if (P6SpyOptions.getTrace()) {
-            P6LogQuery.log(p0);
+        query = p0;
+        long startTime = System.currentTimeMillis();
+        try {
+            return passthru.execute(p0);
         }
-        return(passthru.execute(p0));
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "statement", "", p0);
+            }
+        }
     }
     
     public ResultSet executeQuery(String p0) throws java.sql.SQLException {
-        if (P6SpyOptions.getTrace()) {
-            P6LogQuery.log(p0);
+        query = p0;
+        long startTime = System.currentTimeMillis();
+        try {
+            return (new P6ResultSet(passthru.executeQuery(p0), this, "", p0));
         }
-        return (new P6ResultSet(passthru.executeQuery(p0), this));
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "statement", "", p0);
+            }
+        }
     }
     
     public int executeUpdate(String p0) throws java.sql.SQLException {
-        if (P6SpyOptions.getTrace()) {
-            P6LogQuery.log(p0);
+        query = p0;
+        long startTime = System.currentTimeMillis();
+        try {
+            return(passthru.executeUpdate(p0));
         }
-        return(passthru.executeUpdate(p0));
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "statement", "", p0);
+            }
+        }
     }
     
-    public final int getMaxFieldSize() throws java.sql.SQLException {
+    public int getMaxFieldSize() throws java.sql.SQLException {
         return(passthru.getMaxFieldSize());
     }
     
-    public final void setMaxFieldSize(int p0) throws java.sql.SQLException {
+    public void setMaxFieldSize(int p0) throws java.sql.SQLException {
         passthru.setMaxFieldSize(p0);
     }
     
-    public final int getMaxRows() throws java.sql.SQLException {
+    public int getMaxRows() throws java.sql.SQLException {
         return(passthru.getMaxRows());
     }
     
-    public final void setMaxRows(int p0) throws java.sql.SQLException {
+    public void setMaxRows(int p0) throws java.sql.SQLException {
         passthru.setMaxRows(p0);
     }
     
-    public final void setEscapeProcessing(boolean p0) throws java.sql.SQLException {
+    public void setEscapeProcessing(boolean p0) throws java.sql.SQLException {
         passthru.setEscapeProcessing(p0);
     }
     
-    public final int getQueryTimeout() throws java.sql.SQLException {
+    public int getQueryTimeout() throws java.sql.SQLException {
         return(passthru.getQueryTimeout());
     }
     
-    public final void setQueryTimeout(int p0) throws java.sql.SQLException {
+    public void setQueryTimeout(int p0) throws java.sql.SQLException {
         passthru.setQueryTimeout(p0);
     }
     
-    public final void cancel() throws java.sql.SQLException {
+    public void cancel() throws java.sql.SQLException {
         passthru.cancel();
     }
     
-    public final java.sql.SQLWarning getWarnings() throws java.sql.SQLException {
+    public java.sql.SQLWarning getWarnings() throws java.sql.SQLException {
         return(passthru.getWarnings());
     }
     
-    public final void clearWarnings() throws java.sql.SQLException {
+    public void clearWarnings() throws java.sql.SQLException {
         passthru.clearWarnings();
     }
     
-    public final void setCursorName(String p0) throws java.sql.SQLException {
+    public void setCursorName(String p0) throws java.sql.SQLException {
         passthru.setCursorName(p0);
     }
     
-    public final java.sql.ResultSet getResultSet() throws java.sql.SQLException {
-        return (new P6ResultSet(passthru.getResultSet(), this));
+    public java.sql.ResultSet getResultSet() throws java.sql.SQLException {
+        return (new P6ResultSet(passthru.getResultSet(), this, "", query));
     }
     
-    public final int getUpdateCount() throws java.sql.SQLException {
+    public int getUpdateCount() throws java.sql.SQLException {
         return(passthru.getUpdateCount());
     }
     
-    public final boolean getMoreResults() throws java.sql.SQLException {
+    public boolean getMoreResults() throws java.sql.SQLException {
         return(passthru.getMoreResults());
     }
     
-    public final void setFetchDirection(int p0) throws java.sql.SQLException {
+    public void setFetchDirection(int p0) throws java.sql.SQLException {
         passthru.setFetchDirection(p0);
     }
     
-    public final int getFetchDirection() throws java.sql.SQLException {
+    public int getFetchDirection() throws java.sql.SQLException {
         return(passthru.getFetchDirection());
     }
     
-    public final void setFetchSize(int p0) throws java.sql.SQLException {
+    public void setFetchSize(int p0) throws java.sql.SQLException {
         passthru.setFetchSize(p0);
     }
     
-    public final int getFetchSize() throws java.sql.SQLException {
+    public int getFetchSize() throws java.sql.SQLException {
         return(passthru.getFetchSize());
     }
     
-    public final int getResultSetConcurrency() throws java.sql.SQLException {
+    public int getResultSetConcurrency() throws java.sql.SQLException {
         return(passthru.getResultSetConcurrency());
     }
     
-    public final int getResultSetType() throws java.sql.SQLException {
+    public int getResultSetType() throws java.sql.SQLException {
         return(passthru.getResultSetType());
     }
     
-    public final void addBatch(String p0) throws java.sql.SQLException {
+    public void addBatch(String p0) throws java.sql.SQLException {
+        query = p0;
         passthru.addBatch(p0);
     }
     
-    public final void clearBatch() throws java.sql.SQLException {
+    public void clearBatch() throws java.sql.SQLException {
         passthru.clearBatch();
     }
     
-    public final int[] executeBatch() throws java.sql.SQLException {
-        return(passthru.executeBatch());
+    public int[] executeBatch() throws java.sql.SQLException {
+        long startTime = System.currentTimeMillis();
+        try {
+            return(passthru.executeBatch());
+        }
+        finally {
+            if (P6SpyOptions.getTrace()) {
+                P6LogQuery.logElapsed(startTime, "statement", "", query);
+            }
+        }
     }
     
     // returns the p6connection
-    public final java.sql.Connection getConnection() throws java.sql.SQLException {
+    public java.sql.Connection getConnection() throws java.sql.SQLException {
         return connection;
     }
 }

@@ -82,9 +82,10 @@ public class P6SpyOptions   {
     private static boolean trace;
     private static boolean append;
     private static String properties;
-    private static boolean debug;
     private static String dateformat;
     private static SimpleDateFormat dateformatter;
+    private static String includecategories;
+    private static String excludecategories;
     
     public static void setAutoflush(boolean _autoflush) {
         autoflush = _autoflush;
@@ -97,6 +98,12 @@ public class P6SpyOptions   {
     }
     public static String getExclude() {
         return exclude;
+    }
+    public static void setExcludecategories(String _excludecategories) {
+        excludecategories = _excludecategories;
+    }
+    public static String getExcludecategories() {
+        return excludecategories;
     }
     public static void setFilter(boolean _filter) {
         filter = _filter;
@@ -115,6 +122,12 @@ public class P6SpyOptions   {
     }
     public static String getInclude() {
         return include;
+    }
+    public static void setIncludecategories(String _includecategories) {
+        includecategories = _includecategories;
+    }
+    public static String getIncludecategories() {
+        return includecategories;
     }
     public static void setLogfile(String _logfile) {
         logfile = _logfile;
@@ -145,12 +158,6 @@ public class P6SpyOptions   {
     }
     public static boolean getTrace() {
         return trace;
-    }
-    public static void setDebug(boolean _debug) {
-        debug = _debug;
-    }
-    public static boolean getDebug() {
-        return debug;
     }
     public static void setProperties(String _properties) {
         properties = _properties;
@@ -186,16 +193,17 @@ public class P6SpyOptions   {
         getValuesMap();
         setAutoflush(getAutoflush());
         setExclude(getExclude());
+        setExcludecategories(getExcludecategories());
         setFilter(getFilter());
         setHelp(getHelp());
         setInclude(getInclude());
+        setIncludecategories(getIncludecategories());
         setLogfile(getLogfile());
         setRealdriver(getRealdriver());
         setSpydriver(getSpydriver());
         setAppend(getAppend());
         setTrace(getTrace());
         setProperties(getProperties());
-        setDebug(getDebug());
         setDateformat(getDateformat());
     }
     
@@ -203,15 +211,16 @@ public class P6SpyOptions   {
         System.out.println("\nEngine:");
         System.out.println("    autoflush [true]                          - turn on autoflush");
         System.out.println("    exclude []                                - comma separated list of tables to exclude");
+        System.out.println("    excludecategories []                      - comma separated list of categories to exclude");
         System.out.println("    filter [false]                            - turn on filtering");
         System.out.println("    help [false]                              - print help message or not");
         System.out.println("    include []                                - comma separated list of tables to include");
+        System.out.println("    includecategories []                      - comma separated list of categories to include");
         System.out.println("    logfile [spy.log]                         - name of logfile if trace is on");
         System.out.println("    realdriver []                             - name of real jdbc driver to load");
         System.out.println("    spydriver [com.p6.engine.spy.P6SpyDriver] - name of SPY Driver");
         System.out.println("    trace [false]                             - turn on tracing");
         System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");
-        System.out.println("    debug [false]                             - outputs P6Spy debug statements");
         System.out.println("    dateformat []                             - simple date format for log file");
         System.out.println("\nGlobal:");
         System.out.println("    properties [spy.properties]               - name of file that stores the properties info");
@@ -219,6 +228,7 @@ public class P6SpyOptions   {
     
     public static void help(String category) {
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("\nEngine:");            System.out.println("    autoflush [true]                          - turn on autoflush");        }
+        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    excludecategories []                      - comma separated list of categories to exclude");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    exclude []                                - comma separated list of tables to exclude");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    filter [false]                            - turn on filtering");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    help [false]                              - print help message or not");        }
@@ -228,7 +238,6 @@ public class P6SpyOptions   {
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    spydriver [com.p6.engine.spy.P6SpyDriver] - name of SPY Driver");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    trace [false]                             - turn on tracing");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    append [true]                             - append to the P6Spy log file (false = truncate)");        }
-        if (category.equalsIgnoreCase("Engine")) {            System.out.println("    debug [false]                             - output P6Spy debug statements");        }
         if (category.equalsIgnoreCase("Engine")) {            System.out.println("    dateformat []                             - simple date format for log file");        }
         if (category.equalsIgnoreCase("Global")) {            System.out.println("\nGlobal:");            System.out.println("    properties [spy.properties]               - name of file that stores the properties info");        }
     }
@@ -241,6 +250,8 @@ public class P6SpyOptions   {
         setAutoflush(P6Util.isTrue(value));
         value = props.getProperty("exclude");
         setExclude(value);
+        value = props.getProperty("excludecategories");
+        setExcludecategories(value);
         value = props.getProperty("filter");
         if (value == null) value = "false";
         setFilter(P6Util.isTrue(value));
@@ -249,6 +260,8 @@ public class P6SpyOptions   {
         setHelp(P6Util.isTrue(value));
         value = props.getProperty("include");
         setInclude(value);
+        value = props.getProperty("includecategories");
+        setIncludecategories(value);
         value = props.getProperty("logfile");
         if (value == null) value = "spy.log";
         setLogfile(value);
@@ -266,9 +279,6 @@ public class P6SpyOptions   {
         value = props.getProperty("append");
         if (value == null) value = "true";
         setAppend(P6Util.isTrue(value));
-        value = props.getProperty("debug");
-        if (value == null) value = "true";
-        setDebug(P6Util.isTrue(value));
         value = props.getProperty("dateformat");
         setDateformat(value);
     }
@@ -279,16 +289,17 @@ public class P6SpyOptions   {
         if (name == null) ;// do nothing
         else if (lc.equals("autoflush")) setAutoflush(P6Util.isTrue(value));
         else if (lc.equals("exclude")) setExclude(value);
+        else if (lc.equals("excludecategories")) setExcludecategories(value);
         else if (lc.equals("filter")) setFilter(P6Util.isTrue(value));
         else if (lc.equals("help")) setHelp(P6Util.isTrue(value));
         else if (lc.equals("include")) setInclude(value);
+        else if (lc.equals("includecategories")) setIncludecategories(value);
         else if (lc.equals("logfile")) setLogfile(value);
         else if (lc.equals("realdriver")) setRealdriver(value);
         else if (lc.equals("spydriver")) setSpydriver(value);
         else if (lc.equals("append")) setAppend(P6Util.isTrue(value));
         else if (lc.equals("trace")) setTrace(P6Util.isTrue(value));
         else if (lc.equals("properties")) setProperties(value);
-        else if (lc.equals("debug")) setDebug(P6Util.isTrue(value));
         else if (lc.equals("properties")) setProperties(value);
         else if (lc.equals("dateformat")) setDateformat(value);
         else ret = false;
@@ -300,16 +311,17 @@ public class P6SpyOptions   {
         if (name == null) return null;// do nothing
         else if (lc.equals("autoflush")) return getAutoflush() ? "true" : "false";
         else if (lc.equals("exclude")) return getExclude();
+        else if (lc.equals("excludecategories")) return getExcludecategories();
         else if (lc.equals("filter")) return getFilter() ? "true" : "false";
         else if (lc.equals("help")) return getHelp() ? "true" : "false";
         else if (lc.equals("include")) return getInclude();
+        else if (lc.equals("includecategories")) return getIncludecategories();
         else if (lc.equals("logfile")) return getLogfile();
         else if (lc.equals("realdriver")) return getRealdriver();
         else if (lc.equals("spydriver")) return getSpydriver();
         else if (lc.equals("append")) return getAppend() ? "true" : "false";
         else if (lc.equals("trace")) return getTrace() ? "true" : "false";
         else if (lc.equals("properties")) return getProperties();
-        else if (lc.equals("debug")) return getDebug() ? "true" : "false";
         else if (lc.equals("dateformat")) return getDateformat();
         else return null;
     }
@@ -317,17 +329,18 @@ public class P6SpyOptions   {
     public static Map getKeysMap() {
         HashMap keys = new HashMap();
         keys.put("autoflush", getAutoflush() ? "true" : "false");
+        keys.put("excludecategories", getExcludecategories());
         keys.put("exclude", getExclude());
         keys.put("filter", getFilter() ? "true" : "false");
         keys.put("help", getHelp() ? "true" : "false");
         keys.put("include", getInclude());
+        keys.put("includecategories", getIncludecategories());
         keys.put("logfile", getLogfile());
         keys.put("realdriver", getRealdriver());
         keys.put("spydriver", getSpydriver());
         keys.put("append", getAppend() ? "true" : "false");
         keys.put("trace", getTrace() ? "true" : "false");
         keys.put("properties", getProperties());
-        keys.put("debug", getDebug() ? "true" : "false");
         keys.put("dateformat", getDateformat());
         return keys;
     }
@@ -335,17 +348,18 @@ public class P6SpyOptions   {
     public static Map getValuesMap() {
         HashMap values = new HashMap();
         values.put(getAutoflush() ? "true" : "false","autoflush");
+        values.put(getExcludecategories(),"excludecategories");
         values.put(getExclude(),"exclude");
         values.put(getFilter() ? "true" : "false","filter");
         values.put(getHelp() ? "true" : "false","help");
         values.put(getInclude(),"include");
+        values.put(getIncludecategories(),"includecategories");
         values.put(getLogfile(),"logfile");
         values.put(getRealdriver(),"realdriver");
         values.put(getSpydriver(),"spydriver");
         values.put(getAppend() ? "true" : "false","append");
         values.put(getTrace() ? "true" : "false","trace");
         values.put(getProperties(),"properties");
-        values.put(getDebug() ? "true" : "false","debug");
         values.put(getDateformat(),"dateformat");
         return values;
     }
@@ -353,17 +367,18 @@ public class P6SpyOptions   {
     public static Collection getOptions() {
         ArrayList list = new ArrayList();
         list.add("autoflush");
+        list.add("excludecategories");
         list.add("exclude");
         list.add("filter");
         list.add("help");
         list.add("include");
+        list.add("includecategories");
         list.add("logfile");
         list.add("realdriver");
         list.add("spydriver");
         list.add("append");
         list.add("trace");
         list.add("properties");
-        list.add("debug");
         list.add("dateformat");
         return list;
     }

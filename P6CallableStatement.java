@@ -69,6 +69,12 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.3  2002/04/15 05:13:32  jeffgoke
+ * Simon Sadedin added timing support.  Fixed bug where batch execute was not
+ * getting logged.  Added result set timing.  Updated the log format to include
+ * categories, and updated options to control the categories.  Updated
+ * documentation.
+ *
  * Revision 1.2  2002/04/11 04:18:03  jeffgoke
  * fixed bug where callable & prepared were not passing their ancestors the correct constructor information
  *
@@ -106,111 +112,111 @@ public class P6CallableStatement extends P6PreparedStatement implements java.sql
         this.callStmtPassthru = statement;
     }
     
-    public final String getString(int p0) throws SQLException {
+    public String getString(int p0) throws SQLException {
         return callStmtPassthru.getString(p0);
     }
     
-    public final void registerOutParameter(int p0, int p1) throws SQLException {
+    public void registerOutParameter(int p0, int p1) throws SQLException {
         callStmtPassthru.registerOutParameter(p0, p1);
     }
     
-    public final void registerOutParameter(int p0, int p1, int p2) throws SQLException {
+    public void registerOutParameter(int p0, int p1, int p2) throws SQLException {
         callStmtPassthru.registerOutParameter(p0, p1, p2);
     }
     
-    public final void registerOutParameter(int p0, int p1, String p2) throws SQLException {
+    public void registerOutParameter(int p0, int p1, String p2) throws SQLException {
         callStmtPassthru.registerOutParameter(p0, p1, p2);
     }
     
-    public final boolean wasNull() throws SQLException {
+    public boolean wasNull() throws SQLException {
         return callStmtPassthru.wasNull();
     }
     
-    public final java.sql.Array getArray(int p0) throws java.sql.SQLException {
-        return new P6Array(callStmtPassthru.getArray(p0),this);
+    public java.sql.Array getArray(int p0) throws java.sql.SQLException {
+        return new P6Array(callStmtPassthru.getArray(p0),this,query,getQueryFromPreparedStatement());
     }
     
-    public final java.math.BigDecimal getBigDecimal(int p0) throws java.sql.SQLException {
+    public java.math.BigDecimal getBigDecimal(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getBigDecimal(p0);
     }
     
-    public final java.math.BigDecimal getBigDecimal(int p0, int p1) throws java.sql.SQLException {
+    public java.math.BigDecimal getBigDecimal(int p0, int p1) throws java.sql.SQLException {
         return callStmtPassthru.getBigDecimal(p0,p1);
     }
     
-    public final java.sql.Blob getBlob(int p0) throws java.sql.SQLException {
+    public java.sql.Blob getBlob(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getBlob(p0);
     }
     
-    public final boolean getBoolean(int p0) throws java.sql.SQLException {
+    public boolean getBoolean(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getBoolean(p0);
     }
     
-    public final byte getByte(int p0) throws java.sql.SQLException {
+    public byte getByte(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getByte(p0);
     }
     
-    public final byte[] getBytes(int p0) throws java.sql.SQLException {
+    public byte[] getBytes(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getBytes(p0);
     }
     
-    public final java.sql.Clob getClob(int p0) throws java.sql.SQLException {
+    public java.sql.Clob getClob(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getClob(p0);
     }
     
-    public final java.sql.Date getDate(int p0) throws java.sql.SQLException {
+    public java.sql.Date getDate(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getDate(p0);
     }
     
-    public final java.sql.Date getDate(int p0, java.util.Calendar calendar) throws java.sql.SQLException {
+    public java.sql.Date getDate(int p0, java.util.Calendar calendar) throws java.sql.SQLException {
         return callStmtPassthru.getDate(p0,calendar);
     }
     
-    public final double getDouble(int p0) throws java.sql.SQLException {
+    public double getDouble(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getDouble(p0);
     }
     
-    public final float getFloat(int p0) throws java.sql.SQLException {
+    public float getFloat(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getFloat(p0);
     }
     
-    public final int getInt(int p0) throws java.sql.SQLException {
+    public int getInt(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getInt(p0);
     }
     
-    public final long getLong(int p0) throws java.sql.SQLException {
+    public long getLong(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getLong(p0);
     }
     
-    public final Object getObject(int p0) throws java.sql.SQLException {
+    public Object getObject(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getObject(p0);
     }
     
-    public final Object getObject(int p0, java.util.Map p1) throws java.sql.SQLException {
+    public Object getObject(int p0, java.util.Map p1) throws java.sql.SQLException {
         return callStmtPassthru.getObject(p0, p1);
     }
     
-    public final java.sql.Ref getRef(int p0) throws java.sql.SQLException {
+    public java.sql.Ref getRef(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getRef(p0);
     }
     
-    public final short getShort(int p0) throws java.sql.SQLException {
+    public short getShort(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getShort(p0);
     }
     
-    public final java.sql.Time getTime(int p0) throws java.sql.SQLException {
+    public java.sql.Time getTime(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getTime(p0);
     }
     
-    public final java.sql.Time getTime(int p0, java.util.Calendar p1) throws java.sql.SQLException {
+    public java.sql.Time getTime(int p0, java.util.Calendar p1) throws java.sql.SQLException {
         return callStmtPassthru.getTime(p0,p1);
     }
     
-    public final java.sql.Timestamp getTimestamp(int p0) throws java.sql.SQLException {
+    public java.sql.Timestamp getTimestamp(int p0) throws java.sql.SQLException {
         return callStmtPassthru.getTimestamp(p0);
     }
     
-    public final java.sql.Timestamp getTimestamp(int p0, java.util.Calendar p1) throws java.sql.SQLException {
+    public java.sql.Timestamp getTimestamp(int p0, java.util.Calendar p1) throws java.sql.SQLException {
         return callStmtPassthru.getTimestamp(p0,p1);
     }
 }

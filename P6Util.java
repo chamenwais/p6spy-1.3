@@ -69,6 +69,12 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.4  2002/04/15 05:13:32  jeffgoke
+ * Simon Sadedin added timing support.  Fixed bug where batch execute was not
+ * getting logged.  Added result set timing.  Updated the log format to include
+ * categories, and updated options to control the categories.  Updated
+ * documentation.
+ *
  * Revision 1.3  2002/04/10 06:49:26  jeffgoke
  * added more debug information and a new property for setting the log's date format
  *
@@ -187,10 +193,10 @@ public class P6Util {
             String value = System.getProperty("p6" + opt);
             
             if (value != null) {
-                P6LogQuery.doLog("Found value in environment: "+opt+", setting to value: "+value);
+                P6LogQuery.logDebug("Found value in environment: "+opt+", setting to value: "+value);
                 P6SpyOptions.set(opt,value);
             } else {
-                P6LogQuery.doLog("No value in environment for: "+opt+", using: "+P6SpyOptions.get(opt));
+                P6LogQuery.logDebug("No value in environment for: "+opt+", using: "+P6SpyOptions.get(opt));
             }
         }
     }

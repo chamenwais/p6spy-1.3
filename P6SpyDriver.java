@@ -68,6 +68,12 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.5  2002/04/15 05:13:32  jeffgoke
+ * Simon Sadedin added timing support.  Fixed bug where batch execute was not
+ * getting logged.  Added result set timing.  Updated the log format to include
+ * categories, and updated options to control the categories.  Updated
+ * documentation.
+ *
  * Revision 1.4  2002/04/10 06:49:26  jeffgoke
  * added more debug information and a new property for setting the log's date format
  *
@@ -112,9 +118,7 @@ public class P6SpyDriver implements Driver {
     public synchronized static void initMethod() {
         String driver = P6SpyOptions.getSpydriver();
         P6Util.checkJavaProperties();
-        if (P6SpyOptions.getDebug()) {
-            P6LogQuery.doLog("P6Spy trace is on: "+P6SpyOptions.getTrace());
-        }        
+        P6LogQuery.logDebug("P6Spy trace is on: "+P6SpyOptions.getTrace());
         try {
             DriverManager.registerDriver(new P6SpyDriver());
         } catch (ClassNotFoundException e1) {
@@ -168,9 +172,7 @@ public class P6SpyDriver implements Driver {
                 }
                 Class driverClass = Class.forName(driver);
                 passthru = (Driver) driverClass.newInstance();
-                if (P6SpyOptions.getDebug()) {
-                    P6LogQuery.doLog("P6Spy successfully registered driver "+driver);
-                }
+                P6LogQuery.logDebug("P6Spy successfully registered driver "+driver);
             } catch (ClassNotFoundException e1) {
                 throw new SQLException("Error registering Driver <" + driver + "> ClassNotFoundException " + driver);
             } catch (InstantiationException e2) {
