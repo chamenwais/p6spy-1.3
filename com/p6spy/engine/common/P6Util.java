@@ -69,6 +69,9 @@
  *
  * $Id$
  * $Log$
+ * Revision 1.8  2003/01/23 23:43:51  jeffgoke
+ * try the thread and classloader system resources if we can't find the class loader
+ *
  * Revision 1.7  2003/01/23 01:40:45  jeffgoke
  * added code to try to use the classpath loader first, and if that fails, try our manual method
  *
@@ -251,17 +254,25 @@ public class P6Util {
     }
     
     protected static String getCheckedPath() {
-        String checkedPath = "Explicitly checked for file in classpath: <"+System.getProperty("java.class.path")+">, tried to load using classloader path: <";
-        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        String checkedPath = "\n\nClassloader via thread: <"+getClassPathAsString(Thread.currentThread().getContextClassLoader())+">\n\n";
+        checkedPath += "Classloader via Class: <"+getClassPathAsString(P6Util.class.getClassLoader())+">\n\n";
+        checkedPath += "java.class.path: <"+System.getProperty("java.class.path")+">\n\n";
+        return checkedPath;
+    }
+    
+    protected static String getClassPathAsString(ClassLoader classLoader) {
+        String path = "";
         try {
             URL[] urls = ((URLClassLoader)classLoader).getURLs();
             for(int i=0; i< urls.length; i++) {
-                checkedPath += ";" + urls[i].toString();
+                if (path != "") {
+                    path += ";";
+                }
+                path += urls[i].toString();
             }
         } catch(ClassCastException e) {
         }
-        checkedPath += ">";
-        return checkedPath;
+        return path;
     }
     
     // this is our own version, which we need to do to ensure the order is kept
@@ -337,11 +348,17 @@ public class P6Util {
             if (local != null) {
                 fp = new File(local, file);
             } else {
-                java.net.URL purl =
-                P6Util.class.getClassLoader().getResource(file);
+                // try to get the classloader via the current thread
+                fp = classLoadPropertyFile(Thread.currentThread().getContextClassLoader().getResource(file));
                 
-                if (purl != null) {
-                    fp = new File(purl.getPath());
+                if (fp == null) {
+                    // next try the current class
+                    fp = classLoadPropertyFile(P6Util.class.getClassLoader().getResource(file));
+                }
+                
+                if (fp == null) {
+                    // now the ClassLoader system resource
+                    classLoadPropertyFile(ClassLoader.getSystemResource(file));
                 }
             }
             
@@ -361,6 +378,13 @@ public class P6Util {
         } while (!fp.exists() && tok.hasMoreTokens());
         
         return fp.exists() ? path : null;
+    }
+    
+    public static File classLoadPropertyFile(java.net.URL purl) {
+        if (purl != null) {
+            return new File(purl.getPath());
+        }
+        return null;
     }
     
     public static void checkJavaProperties() {
