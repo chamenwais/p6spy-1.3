@@ -69,6 +69,9 @@
  * $Id$
  * $Source$
  * $Log$
+ * Revision 1.10  2003/08/04 19:35:08  aarvesen
+ * Added in the pooled test
+ *
  * Revision 1.9  2003/06/03 19:20:26  cheechq
  * removed unused imports
  *
@@ -127,6 +130,7 @@ public class P6Test extends TestCase {
         suite.addTestSuite(P6TestDriver.class);
         suite.addTestSuite(P6TestOptions.class);
         suite.addTestSuite(P6TestUnloading.class);
+        suite.addTestSuite(P6TestPooled.class);
         return suite;
     }
 }
